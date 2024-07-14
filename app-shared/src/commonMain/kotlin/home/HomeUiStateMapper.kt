@@ -9,7 +9,6 @@ object HomeUiStateMapper: Mapper<HomeUiState, HomeScreenState> {
         return HomeScreenState(
             false,
             null,
-            emptyList()
         )
     }
 }

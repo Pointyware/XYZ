@@ -10,7 +10,6 @@ import org.pointyware.xyz.core.navigation.di.coreNavigationModule
 import org.pointyware.xyz.core.remote.di.coreRemoteModule
 import org.pointyware.xyz.core.ui.di.coreUiModule
 import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
-import org.pointyware.xyz.feature.funds.di.featureFundsModule
 
 
 fun appModule(): Module = module {
@@ -36,8 +35,6 @@ fun coreModule() = module {
 
 fun featureModule() = module {
     includes(
-        featureFundsModule(),
-//        featureProfilesModule(),
-//        featurePaymentsModule(),
+
     )
 }
