@@ -3,6 +3,7 @@ package org.pointyware.xyz.core.viewmodels
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 interface AuthorizationViewModel {
     val loadingState: StateFlow<LoadingUiState>
@@ -12,6 +13,7 @@ interface AuthorizationViewModel {
     fun onPasswordConfirmationChange(passwordConfirmation: String)
     fun onSubmit()
     fun onSwitch()
+    fun onDismissError()
 }
 
 /**
@@ -48,6 +50,10 @@ class AuthorizationViewModelImpl(
 
     override fun onSwitch() {
         TODO("Not yet implemented")
+    }
+
+    override fun onDismissError() {
+        mutableLoadingState.value = LoadingUiState.Idle
     }
 }
 
