@@ -26,7 +26,7 @@ val SimpleDateFormatter = object : XPDateFormatter {
 }
 val DateFormat = compositionLocalOf<XPDateFormatter> { throw IllegalStateException("DateFormat not provided") }
 
-val Resources = compositionLocalOf<UiDependencies> { throw IllegalStateException("UiResources not provided") }
+val ComposeResources = compositionLocalOf<UiDependencies> { throw IllegalStateException("UiResources not provided") }
 
 /**
  * Extends the Material3 Theme with an [XPDateFormatter].
@@ -38,7 +38,7 @@ fun XyzTheme(
 ) {
     CompositionLocalProvider(
         DateFormat provides SimpleDateFormatter,
-        Resources provides KoinUiDependencies(),
+        ComposeResources provides KoinUiDependencies(),
     ) {
         MaterialTheme(
             colorScheme = if (isDark) darkColors else lightColors,
