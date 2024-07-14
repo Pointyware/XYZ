@@ -13,6 +13,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.pointyware.xyz.core.ui.di.KoinUiDependencies
+import org.pointyware.xyz.core.ui.di.UiDependencies
 
 interface XPDateFormatter {
     fun format(date: Instant): String
@@ -24,6 +26,8 @@ val SimpleDateFormatter = object : XPDateFormatter {
 }
 val DateFormat = compositionLocalOf<XPDateFormatter> { throw IllegalStateException("DateFormat not provided") }
 
+val Resources = compositionLocalOf<UiDependencies> { throw IllegalStateException("UiResources not provided") }
+
 /**
  * Extends the Material3 Theme with an [XPDateFormatter].
  */
@@ -33,7 +37,8 @@ fun XyzTheme(
     content: @Composable ()->Unit,
 ) {
     CompositionLocalProvider(
-        DateFormat provides SimpleDateFormatter
+        DateFormat provides SimpleDateFormatter,
+        Resources provides KoinUiDependencies(),
     ) {
         MaterialTheme(
             colorScheme = if (isDark) darkColors else lightColors,
