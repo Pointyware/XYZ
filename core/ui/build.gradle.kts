@@ -43,6 +43,7 @@ kotlin {
 
                 implementation(compose.ui)
                 implementation(compose.material3)
+                implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview) // fleet support
 
                 implementation(libs.kotlinx.dateTime)
