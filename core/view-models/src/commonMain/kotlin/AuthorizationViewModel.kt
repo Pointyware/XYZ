@@ -49,7 +49,9 @@ class AuthorizationViewModelImpl(
     }
 
     override fun onSwitch() {
-        TODO("Not yet implemented")
+        mutableState.update {
+            it.copy(isLogin = !it.isLogin)
+        }
     }
 
     override fun onDismissError() {
