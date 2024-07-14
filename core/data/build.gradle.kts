@@ -37,6 +37,9 @@ kotlin {
             dependencies {
                 implementation(project(":core:common"))
                 implementation(project(":core:entities"))
+                implementation(project(":core:local"))
+                implementation(project(":core:remote"))
+
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.koin.core)
             }

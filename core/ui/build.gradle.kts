@@ -39,6 +39,7 @@ kotlin {
             dependencies {
                 implementation(project(":core:common"))
                 implementation(project(":core:entities"))
+                implementation(project(":core:view-models"))
 
                 implementation(compose.ui)
                 implementation(compose.material3)
