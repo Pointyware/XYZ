@@ -73,6 +73,7 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.common)
                 implementation(libs.kotlinx.coroutinesSwing)
+                implementation(libs.ktor.client.okhttp)
             }
         }
     }

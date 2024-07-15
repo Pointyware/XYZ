@@ -34,6 +34,8 @@ dependencies {
     implementation(compose.material3)
     implementation(compose.components.resources)
 
+    implementation(libs.ktor.client.okhttp)
+
     testImplementation(libs.kotlin.test)
     testImplementation(libs.koin.test)
 }
