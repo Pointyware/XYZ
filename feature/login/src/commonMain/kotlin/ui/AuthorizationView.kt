@@ -1,6 +1,7 @@
 package org.pointyware.xyz.feature.login.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -25,39 +26,41 @@ fun AuthorizationView(
     onSubmit: () -> Unit,
     onSwitch: () -> Unit,
 ) {
-    OutlinedTextField(
-        value = state.email,
-        onValueChange = onEmailChange,
-        label = { Text("Email") },
-        modifier = modifier
-    )
-    OutlinedTextField(
-        value = state.password,
-        onValueChange = onPasswordChange,
-        label = { Text("Password") },
-        modifier = modifier
-    )
-    AnimatedVisibility(
-        visible = state.isLogin.not()
-    ) {
+    Column {
         OutlinedTextField(
-            value = state.passwordConfirmation,
-            onValueChange = onPasswordConfirmationChange,
-            label = { Text("Password Confirmation") },
+            value = state.email,
+            onValueChange = onEmailChange,
+            label = { Text("Email") },
             modifier = modifier
         )
-    }
+        OutlinedTextField(
+            value = state.password,
+            onValueChange = onPasswordChange,
+            label = { Text("Password") },
+            modifier = modifier
+        )
+        AnimatedVisibility(
+            visible = state.isLogin.not()
+        ) {
+            OutlinedTextField(
+                value = state.passwordConfirmation,
+                onValueChange = onPasswordConfirmationChange,
+                label = { Text("Password Confirmation") },
+                modifier = modifier
+            )
+        }
 
-    Button(
-        onClick = onSubmit,
-        enabled = state.isSubmitEnabled,
-    ) {
-        Text("Submit")
-    }
-    Button(onClick = onSwitch) {
-        when (state.isLogin) {
-            true -> Text("New Account")
-            false -> Text("Existing Account")
+        Button(
+            onClick = onSubmit,
+            enabled = state.isSubmitEnabled,
+        ) {
+            Text("Submit")
+        }
+        Button(onClick = onSwitch) {
+            when (state.isLogin) {
+                true -> Text("New Account")
+                false -> Text("Existing Account")
+            }
         }
     }
 }
