@@ -10,20 +10,20 @@ java {
 }
 
 dependencies {
-    implementation(project(":core:data"))
-    implementation(project(":core:entities"))
-    implementation(project(":core:interactors"))
-    implementation(project(":core:local"))
-    implementation(project(":core:navigation"))
-    implementation(project(":core:remote"))
-    implementation(project(":core:ui"))
-    implementation(project(":core:view-models"))
+    implementation(projects.core.data)
+    implementation(projects.core.entities)
+    implementation(projects.core.interactors)
+    implementation(projects.core.local)
+    implementation(projects.core.navigation)
+    implementation(projects.core.remote)
+    implementation(projects.core.ui)
+    implementation(projects.core.viewModels)
 
-    implementation(project(":feature:drive"))
-    implementation(project(":feature:login"))
-    implementation(project(":feature:ride"))
+    implementation(projects.feature.drive)
+    implementation(projects.feature.login)
+    implementation(projects.feature.ride)
 
-    implementation(project(":app-shared"))
+    implementation(projects.appShared)
 
     implementation(libs.kotlinx.dateTime)
     implementation(libs.koin.core)
