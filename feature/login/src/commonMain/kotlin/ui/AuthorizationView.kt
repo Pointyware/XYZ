@@ -54,7 +54,10 @@ fun AuthorizationView(
             onClick = onSubmit,
             enabled = state.isSubmitEnabled,
         ) {
-            Text("Submit")
+            when (state.isLogin) {
+                true -> Text("Login")
+                false -> Text("Submit")
+            }
         }
         Button(onClick = onSwitch) {
             when (state.isLogin) {
