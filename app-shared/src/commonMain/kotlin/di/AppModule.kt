@@ -2,7 +2,7 @@ package org.pointyware.xyz.shared.di
 
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.pointyware.xyz.core.data.di.dataModule
+import org.pointyware.xyz.core.data.di.coreDataModule
 import org.pointyware.xyz.core.entities.di.coreEntitiesModule
 import org.pointyware.xyz.core.interactors.di.coreInteractorsModule
 import org.pointyware.xyz.core.local.di.coreLocalModule
@@ -25,7 +25,7 @@ fun coreModule() = module {
         coreEntitiesModule(),
         coreInteractorsModule(),
         coreViewModelsModule(),
-        dataModule(),
+        coreDataModule(),
         coreLocalModule(),
         coreRemoteModule(),
         coreNavigationModule(),

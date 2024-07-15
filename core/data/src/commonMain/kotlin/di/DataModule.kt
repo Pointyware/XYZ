@@ -12,7 +12,7 @@ val dataQualifier = named("data-scope")
 /**
  * Collects all individual :core:data dependency bindings into a single module.
  */
-fun dataModule() = module {
+fun coreDataModule() = module {
     single<DataDependencies> { KoinDataDependencies() }
     single<CoroutineScope>(qualifier = dataQualifier) { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
     includes(
