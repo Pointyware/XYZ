@@ -29,6 +29,7 @@ include(":core:ui")
 include(":core:view-models")
 
 include(":feature:drive")
+include(":feature:login")
 include(":feature:ride")
 
 include(":api")
