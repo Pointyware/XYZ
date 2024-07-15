@@ -38,10 +38,10 @@ dependencies {
     implementation(project(":core:entities"))
     implementation(project(":core:ui"))
 
-    implementation(project(":feature:drive"))
-    implementation(project(":feature:login"))
-    implementation(project(":feature:ride"))
-    implementation(project(":app-shared"))
+    implementation(projects.feature.drive)
+    implementation(projects.feature.login)
+    implementation(projects.feature.ride)
+    implementation(projects.appShared)
 
     implementation(libs.androidx.activityCompose)
     implementation(libs.androidx.composeMaterial3)
