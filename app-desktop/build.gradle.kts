@@ -35,6 +35,7 @@ dependencies {
     implementation(compose.components.resources)
 
     testImplementation(libs.kotlin.test)
+    testImplementation(libs.koin.test)
 }
 
 compose.resources {
