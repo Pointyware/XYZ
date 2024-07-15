@@ -27,24 +27,25 @@ class AuthorizationViewModelImpl(
      */
 ): AuthorizationViewModel {
 
-    private val mutableLoadingState = MutableStateFlow(LoadingUiState.Idle)
+    private val mutableLoadingState = MutableStateFlow<LoadingUiState>(LoadingUiState.Idle)
     override val loadingState: StateFlow<LoadingUiState> get() = mutableLoadingState.asStateFlow()
     private val mutableState = MutableStateFlow(AuthorizationUiState.Empty)
     override val state: StateFlow<AuthorizationUiState> get() = mutableState.asStateFlow()
 
     override fun onEmailChange(email: String) {
-        TODO("Not yet implemented")
+        mutableState.update { it.copy(email = email)}
     }
 
     override fun onPasswordChange(password: String) {
-        TODO("Not yet implemented")
+        mutableState.update { it.copy(password = password)}
     }
 
     override fun onPasswordConfirmationChange(passwordConfirmation: String) {
-        TODO("Not yet implemented")
+        mutableState.update { it.copy(passwordConfirmation = passwordConfirmation)}
     }
 
     override fun onSubmit() {
+        mutableLoadingState.value = LoadingUiState.Loading
         TODO("Not yet implemented")
     }
 
