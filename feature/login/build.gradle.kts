@@ -56,6 +56,9 @@ kotlin {
                 implementation(projects.core.navigation)
                 implementation(projects.core.ui)
 
+                implementation(projects.feature.ride)
+                implementation(projects.feature.drive)
+
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.koin.core)
