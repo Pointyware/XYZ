@@ -1,4 +1,4 @@
-package org.pointyware.xyz.core.ui.ui
+package org.pointyware.xyz.feature.login.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material3.Button

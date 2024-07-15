@@ -1,4 +1,4 @@
-package org.pointyware.xyz.core.viewmodels
+package org.pointyware.xyz.feature.login.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
