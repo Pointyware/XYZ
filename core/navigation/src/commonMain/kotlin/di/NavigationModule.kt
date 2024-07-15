@@ -12,6 +12,6 @@ fun coreNavigationModule() = module {
     single<NavigationDependencies> { KoinNavigationDependencies() }
 
     single<StackNavigationController<Any, Any>> {
-        StackNavigationControllerImpl(get<Any>(qualifier = named("home")))
+        StackNavigationControllerImpl(get<Any>(qualifier = named("login")))
     }
 }
