@@ -21,5 +21,4 @@ fun coreDataModule() = module {
 }
 
 private fun repositoryModule() = module {
-//    single<FundsRepository> { TestFundsRepository() }
 }
