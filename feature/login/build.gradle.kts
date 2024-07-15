@@ -60,6 +60,8 @@ kotlin {
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.koin.core)
 
+                implementation(libs.ktor.client.core)
+
                 implementation(compose.runtime)
                 implementation(compose.material3)
                 implementation(compose.components.uiToolingPreview) // fleet support
