@@ -50,6 +50,7 @@ kotlin {
                 implementation(project(":core:view-models"))
 
                 implementation(project(":feature:drive"))
+                implementation(project(":feature:login"))
                 implementation(project(":feature:ride"))
 
                 implementation(compose.ui)

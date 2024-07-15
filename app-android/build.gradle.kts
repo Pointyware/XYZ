@@ -38,6 +38,9 @@ dependencies {
     implementation(project(":core:entities"))
     implementation(project(":core:ui"))
 
+    implementation(project(":feature:driver"))
+    implementation(project(":feature:login"))
+    implementation(project(":feature:ride"))
     implementation(project(":app-shared"))
 
     implementation(libs.androidx.activityCompose)
