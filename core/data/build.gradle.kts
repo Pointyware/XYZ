@@ -35,10 +35,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":core:common"))
-                implementation(project(":core:entities"))
-                implementation(project(":core:local"))
-                implementation(project(":core:remote"))
+                implementation(projects.core.common)
+                implementation(projects.core.entities)
+                implementation(projects.core.local)
+                implementation(projects.core.remote)
 
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.koin.core)

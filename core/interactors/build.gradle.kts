@@ -35,8 +35,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":core:common"))
-                implementation(project(":core:data"))
+                implementation(projects.core.common)
+                implementation(projects.core.data)
 
                 implementation(libs.koin.core)
             }

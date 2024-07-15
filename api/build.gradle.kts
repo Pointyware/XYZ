@@ -18,7 +18,7 @@ version = libs.versions.xyz.get()
 
 kotlin {
     dependencies {
-        implementation(project(":core:entities"))
+        implementation(projects.core.entities)
 
         implementation(libs.koin.ktor)
 

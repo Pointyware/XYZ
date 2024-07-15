@@ -35,8 +35,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:entities"))
-    implementation(project(":core:ui"))
+    implementation(projects.core.entities)
+    implementation(projects.core.ui)
 
     implementation(projects.feature.drive)
     implementation(projects.feature.login)

@@ -46,15 +46,15 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":core:common"))
-                implementation(project(":core:entities"))
-                implementation(project(":core:interactors"))
-                implementation(project(":core:data"))
-                implementation(project(":core:local"))
-                implementation(project(":core:remote"))
-                implementation(project(":core:view-models"))
-                implementation(project(":core:navigation"))
-                implementation(project(":core:ui"))
+                implementation(projects.core.common)
+                implementation(projects.core.entities)
+                implementation(projects.core.interactors)
+                implementation(projects.core.data)
+                implementation(projects.core.local)
+                implementation(projects.core.remote)
+                implementation(projects.core.viewModels)
+                implementation(projects.core.navigation)
+                implementation(projects.core.ui)
 
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.coroutines)
