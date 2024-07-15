@@ -1,6 +1,7 @@
 package org.pointyware.xyz.feature.login.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -31,13 +32,13 @@ fun AuthorizationView(
             value = state.email,
             onValueChange = onEmailChange,
             label = { Text("Email") },
-            modifier = modifier
+            singleLine = true,
         )
         OutlinedTextField(
             value = state.password,
             onValueChange = onPasswordChange,
             label = { Text("Password") },
-            modifier = modifier
+            singleLine = true,
         )
         AnimatedVisibility(
             visible = state.isLogin.not()
@@ -46,7 +47,7 @@ fun AuthorizationView(
                 value = state.passwordConfirmation,
                 onValueChange = onPasswordConfirmationChange,
                 label = { Text("Password Confirmation") },
-                modifier = modifier
+                singleLine = true,
             )
         }
 
