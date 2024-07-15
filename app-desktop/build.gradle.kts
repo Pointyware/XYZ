@@ -33,6 +33,8 @@ dependencies {
     implementation(compose.preview)
     implementation(compose.material3)
     implementation(compose.components.resources)
+
+    testImplementation(libs.kotlin.test)
 }
 
 compose.resources {
