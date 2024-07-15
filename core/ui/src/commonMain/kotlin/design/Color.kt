@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2024 Pointyware
+ */
+
 package org.pointyware.xyz.core.ui.design
 
 import androidx.compose.material3.darkColorScheme

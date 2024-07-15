@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2024 Pointyware
+ */
+
 package org.pointyware.xyz.feature.login.ui
 
 import androidx.compose.foundation.layout.Box

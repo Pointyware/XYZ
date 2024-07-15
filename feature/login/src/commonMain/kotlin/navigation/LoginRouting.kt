@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2024 Pointyware
+ */
+
 package navigation
 
 import androidx.compose.foundation.layout.fillMaxSize

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2024 Pointyware
+ */
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     includeBuild("build-logic")

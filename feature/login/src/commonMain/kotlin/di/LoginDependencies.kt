@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2024 Pointyware
+ */
+
 package org.pointyware.xyz.feature.login.di
 
 import org.koin.core.component.KoinComponent

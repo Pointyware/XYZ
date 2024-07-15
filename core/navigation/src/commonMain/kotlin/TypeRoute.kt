@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2024 Pointyware
+ */
+
 package org.pointyware.xyz.core.navigation
 
 import kotlin.reflect.KClass

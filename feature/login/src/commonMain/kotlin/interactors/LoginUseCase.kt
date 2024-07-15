@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2024 Pointyware
+ */
+
 package org.pointyware.xyz.feature.login.interactors
 
 import org.pointyware.xyz.core.entities.User

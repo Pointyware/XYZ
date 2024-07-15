@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2024 Pointyware
+ */
+
 package org.pointyware.xyz.core.navigation.di
 
 import org.koin.core.qualifier.named

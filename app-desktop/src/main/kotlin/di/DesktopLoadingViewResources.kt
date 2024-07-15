@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2024 Pointyware
+ */
+
 package org.pointyware.xyz.desktop.di
 
 import org.jetbrains.compose.resources.DrawableResource
