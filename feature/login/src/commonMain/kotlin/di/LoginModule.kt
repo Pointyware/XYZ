@@ -10,6 +10,8 @@ import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModelImpl
  *
  */
 fun featureLoginModule() = module {
+    single<LoginDependencies> { KoinLoginDependencies() }
+
     single<Any>(qualifier = named("login")) { loginRoute }
 
     single<AuthorizationViewModel> { AuthorizationViewModelImpl() }

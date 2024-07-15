@@ -5,7 +5,7 @@ import org.koin.core.component.get
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModel
 
 /**
- * TODO: describe purpose/intent of LoginDependencies
+ * Defines dependencies needed by all Login locations
  */
 interface LoginDependencies {
     fun getAuthorizationViewModel(): AuthorizationViewModel
