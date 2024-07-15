@@ -13,10 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import navigation.loginRouting
 import org.pointyware.xyz.core.navigation.LocationRoot
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.shared.di.AppDependencies
-import org.pointyware.xyz.shared.home.homeRouting
 
 /**
  * The main entry point for the XYZ app.
@@ -93,9 +93,7 @@ fun XyzApp(
                 navController = navController,
                 modifier = Modifier.padding(paddingValues),
             ) {
-                homeRouting()
-
-                // Add more routing here
+                loginRouting()
             }
         }
     }

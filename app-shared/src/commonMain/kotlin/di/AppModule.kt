@@ -10,13 +10,13 @@ import org.pointyware.xyz.core.navigation.di.coreNavigationModule
 import org.pointyware.xyz.core.remote.di.coreRemoteModule
 import org.pointyware.xyz.core.ui.di.coreUiModule
 import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
+import org.pointyware.xyz.feature.login.di.featureLoginModule
 
 
 fun appModule(): Module = module {
     includes(
         coreModule(),
         featureModule(),
-        homeModule()
     )
 }
 
@@ -35,6 +35,6 @@ fun coreModule() = module {
 
 fun featureModule() = module {
     includes(
-
+        featureLoginModule()
     )
 }
