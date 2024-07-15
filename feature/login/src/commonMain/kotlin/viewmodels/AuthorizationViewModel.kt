@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import org.pointyware.xyz.feature.login.interactors.LoginUseCase
 
 interface AuthorizationViewModel {
     val loadingState: StateFlow<LoadingUiState>
@@ -20,11 +21,7 @@ interface AuthorizationViewModel {
  *
  */
 class AuthorizationViewModelImpl(
-    /*
-    Interactors:
-    - RegisterUser
-    - LoginUser
-     */
+    private val loginUseCase: LoginUseCase
 ): AuthorizationViewModel {
 
     private val mutableLoadingState = MutableStateFlow<LoadingUiState>(LoadingUiState.Idle)
