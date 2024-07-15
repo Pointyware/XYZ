@@ -68,6 +68,7 @@ object AuthorizationUiStateMapper {
             email = uiState.email,
             password = uiState.password,
             passwordConfirmation = uiState.passwordConfirmation,
+            isSubmitEnabled = uiState.isSubmitEnabled,
             isLogin = uiState.isLogin,
         )
     }

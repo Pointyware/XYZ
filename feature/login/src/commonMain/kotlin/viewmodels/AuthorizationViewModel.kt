@@ -33,15 +33,43 @@ class AuthorizationViewModelImpl(
     override val state: StateFlow<AuthorizationUiState> get() = mutableState.asStateFlow()
 
     override fun onEmailChange(email: String) {
-        mutableState.update { it.copy(email = email)}
+        mutableState.update {
+            it.copy(
+                email = email,
+                isSubmitEnabled = isSubmitOrLoginEnabled(it.isLogin, email, it.password, it.passwordConfirmation)
+            )
+        }
     }
 
     override fun onPasswordChange(password: String) {
-        mutableState.update { it.copy(password = password)}
+        mutableState.update {
+            it.copy(
+                password = password,
+                isSubmitEnabled = isSubmitOrLoginEnabled(it.isLogin, it.email, password, it.passwordConfirmation)
+            )
+        }
     }
 
     override fun onPasswordConfirmationChange(passwordConfirmation: String) {
-        mutableState.update { it.copy(passwordConfirmation = passwordConfirmation)}
+        mutableState.update {
+            it.copy(
+                passwordConfirmation = passwordConfirmation,
+                isSubmitEnabled = isSubmitEnabled(it.email, it.password, passwordConfirmation)
+            )
+        }
+    }
+
+    private fun isSubmitOrLoginEnabled(isLogin: Boolean, email: String, password: String, passwordConfirmation: String): Boolean {
+        return if (isLogin) { isLoginEnabled(email, password) }
+        else { isSubmitEnabled(email, password, passwordConfirmation) }
+    }
+
+    private fun isLoginEnabled(email: String, password: String): Boolean {
+        return email.isNotEmpty() && password.isNotEmpty()
+    }
+
+    private fun isSubmitEnabled(email: String, password: String, passwordConfirmation: String): Boolean {
+        return email.isNotEmpty() && password.isNotEmpty() && password == passwordConfirmation
     }
 
     override fun onSubmit() {
@@ -64,6 +92,7 @@ data class AuthorizationUiState(
     val email: String = "",
     val password: String = "",
     val passwordConfirmation: String = "",
+    val isSubmitEnabled: Boolean = false,
     val isLogin: Boolean = true,
 ) {
     companion object {
