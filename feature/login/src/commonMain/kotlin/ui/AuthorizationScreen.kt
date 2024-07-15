@@ -24,7 +24,6 @@ fun AuthorizationScreen(
 ) {
     val authorizationState by authorizationViewModel.state.collectAsState()
     val loadingState by authorizationViewModel.loadingState.collectAsState()
-    val isEnabled = loadingState == LoadingUiState.Idle // disable input when loading
 
     Box(
         modifier = modifier,
