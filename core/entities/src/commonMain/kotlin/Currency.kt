@@ -21,6 +21,10 @@ interface Currency {
     val amount: Long
     val form: Form
 
+    fun format(): String {
+        return form.format(amount)
+    }
+
     sealed class Form(
         val prefix: String,
         val postfix: String,
@@ -73,4 +77,11 @@ interface Currency {
             )
         }
     }
+}
+internal class SimpleCurrency(
+    override val amount: Long,
+    override val form: Currency.Form,
+): Currency
+fun Currency(amount: Long, form: Currency.Form): Currency {
+    return SimpleCurrency(amount, form)
 }
