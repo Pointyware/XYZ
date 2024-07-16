@@ -10,6 +10,8 @@ package org.pointyware.xyz.core.entities
  * References:
  * 1. https://aafa.org/asthma/living-with-asthma/asthma-allergies-and-the-american-with-disabilities-act/
  * 2. https://www.ada.gov/regs2010/service_animal_qa.html
+ *
+ * @see Accommodation
  */
 sealed class Disability {
     data object Blind : Disability()
