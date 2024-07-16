@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.pointyware.xyz.core.viewmodels.ViewModel
+import org.pointyware.xyz.feature.login.interactors.CreateUserUseCase
 import org.pointyware.xyz.feature.login.interactors.LoginUseCase
 
 interface AuthorizationViewModel {
@@ -25,8 +28,9 @@ interface AuthorizationViewModel {
  *
  */
 class AuthorizationViewModelImpl(
-    private val loginUseCase: LoginUseCase
-): AuthorizationViewModel {
+    private val loginUseCase: LoginUseCase,
+    private val createUserUseCase: CreateUserUseCase
+): ViewModel(), AuthorizationViewModel {
 
     private val mutableLoadingState = MutableStateFlow<LoadingUiState>(LoadingUiState.Idle)
     override val loadingState: StateFlow<LoadingUiState> get() = mutableLoadingState.asStateFlow()
@@ -75,7 +79,19 @@ class AuthorizationViewModelImpl(
 
     override fun onSubmit() {
         mutableLoadingState.value = LoadingUiState.Loading
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            try {
+                val state = mutableState.value
+                if (state.isLogin) {
+                    loginUseCase.invoke(state.email, state.password)
+                } else {
+                    createUserUseCase.invoke(state.email, state.password)
+                }
+                mutableLoadingState.value = LoadingUiState.Success
+            } catch (e: Exception) {
+                mutableLoadingState.value = LoadingUiState.Error(e.message ?: "An error occurred")
+            }
+        }
     }
 
     override fun onSwitch() {
