@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 data class AuthorizationViewState(
     val isLogin: Boolean = true,
@@ -46,6 +47,7 @@ fun AuthorizationView(
             value = state.password,
             onValueChange = onPasswordChange,
             label = { Text("Password") },
+            visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
         )
         AnimatedVisibility(
@@ -56,6 +58,7 @@ fun AuthorizationView(
                 onValueChange = onPasswordConfirmationChange,
                 label = { Text("Password Confirmation") },
                 singleLine = true,
+                visualTransformation = PasswordVisualTransformation(),
             )
         }
 
