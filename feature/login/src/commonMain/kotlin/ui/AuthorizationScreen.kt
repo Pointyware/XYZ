@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.ui.ui.ErrorDialog
 import org.pointyware.xyz.core.ui.ui.ErrorState
@@ -34,7 +35,7 @@ fun AuthorizationScreen(
     ) {
         AuthorizationView(
             state = AuthorizationUiStateMapper.map(authorizationState),
-            modifier = Modifier,
+            modifier = Modifier.align(Alignment.Center),
             onEmailChange = authorizationViewModel::onEmailChange,
             onPasswordChange = authorizationViewModel::onPasswordChange,
             onPasswordConfirmationChange = authorizationViewModel::onPasswordConfirmationChange,
