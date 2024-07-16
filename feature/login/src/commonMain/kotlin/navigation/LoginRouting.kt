@@ -12,9 +12,12 @@ import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.navigation.LocationRootScope
 import org.pointyware.xyz.core.navigation.StaticRoute
 import org.pointyware.xyz.feature.login.di.LoginDependencies
+import org.pointyware.xyz.feature.login.ui.AccountCreationScreen
 import org.pointyware.xyz.feature.login.ui.AuthorizationScreen
 
 val loginRoute = StaticRoute("login", Unit)
+val profileRoute = StaticRoute("profile", Unit)
+val accountCreationRoute = StaticRoute("profile", Unit).variable<Unit>("create")
 
 /**
  * Sets up all routes for home navigation.
@@ -29,6 +32,11 @@ fun LocationRootScope<Any, Any>.loginRouting() {
 
         AuthorizationScreen(
             authorizationViewModel = authorizationViewModel,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+    location(accountCreationRoute) {
+        AccountCreationScreen(
             modifier = Modifier.fillMaxSize()
         )
     }
