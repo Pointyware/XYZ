@@ -10,6 +10,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import kotlin.coroutines.CoroutineContext
 
 val dataQualifier = named("data-scope")
 
@@ -18,7 +19,10 @@ val dataQualifier = named("data-scope")
  */
 fun coreDataModule() = module {
     single<DataDependencies> { KoinDataDependencies() }
-    single<CoroutineScope>(qualifier = dataQualifier) { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
+    single<CoroutineContext>(qualifier = dataQualifier) { Dispatchers.IO }
+    single<CoroutineScope>(qualifier = dataQualifier) { CoroutineScope(
+        get<CoroutineContext>(dataQualifier) + SupervisorJob()
+    ) }
     includes(
         repositoryModule()
     )

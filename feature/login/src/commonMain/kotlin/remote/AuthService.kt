@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.feature.login.remote
 
+import io.ktor.client.HttpClient
 import org.pointyware.xyz.feature.login.data.Authorization
 import kotlin.random.Random
 
@@ -25,7 +26,7 @@ interface AuthService {
 }
 
 class SimpleAuthService(
-
+    private val client: HttpClient
 ): AuthService {
 
     override fun login(email: String, password: String): Result<Authorization> {
