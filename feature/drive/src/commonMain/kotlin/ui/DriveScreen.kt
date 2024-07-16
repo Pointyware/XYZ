@@ -17,17 +17,17 @@ import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 
 sealed interface DriveScreenState {
-    class Idle : DriveScreenState
+    data object Idle : DriveScreenState
     class NewRequest(
         val requestUiState: RideRequestUiState
     ): DriveScreenState
-    class Accepted : DriveScreenState
-    class RiderCanceled : DriveScreenState
-    class Pickup : DriveScreenState
-    class InProgress : DriveScreenState
-    class RiderCanceledLate : DriveScreenState
-    class DriverCanceled : DriveScreenState
-    class Completed : DriveScreenState
+    data object Accepted : DriveScreenState
+    data object RiderCanceled : DriveScreenState
+    data object Pickup : DriveScreenState
+    data object InProgress : DriveScreenState
+    data object RiderCanceledLate : DriveScreenState
+    data object DriverCanceled : DriveScreenState
+    data object Completed : DriveScreenState
 
 }
 
