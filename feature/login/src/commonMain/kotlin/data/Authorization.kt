@@ -17,4 +17,7 @@ interface Authorization {
      * User token.
      */
     val token: String
+
+    class InUseException(val email: String): Exception("Email ($email) is already in use.")
+    class InvalidCredentialsException: Exception("Invalid email or password.")
 }
