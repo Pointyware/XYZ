@@ -17,7 +17,7 @@ import org.pointyware.xyz.feature.login.ui.AuthorizationScreen
 
 val loginRoute = StaticRoute("login", Unit)
 val profileRoute = StaticRoute("profile", Unit)
-val accountCreationRoute = StaticRoute("profile", Unit).variable<Unit>("create")
+val accountCreationRoute = profileRoute.fixed("create")
 
 /**
  * Sets up all routes for home navigation.
