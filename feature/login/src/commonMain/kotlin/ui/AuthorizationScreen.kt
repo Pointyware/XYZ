@@ -43,10 +43,10 @@ fun AuthorizationScreen(
             onSwitch = authorizationViewModel::onSwitch,
         )
         when (val capture = loadingState) {
-            LoadingUiState.Loading -> {
+            is LoadingUiState.Loading -> {
                 LoadingView(modifier = Modifier.fillMaxSize())
             }
-            LoadingUiState.Success -> {
+            is LoadingUiState.Success -> {
                 // show success message
                 TODO("navigate to next screen")
             }
@@ -60,7 +60,7 @@ fun AuthorizationScreen(
                     onDismiss = authorizationViewModel::onDismissError
                 )
             }
-            else -> {
+            LoadingUiState.Idle -> {
                 // show nothing
             }
         }
