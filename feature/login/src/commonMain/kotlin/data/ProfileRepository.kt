@@ -15,7 +15,8 @@ interface ProfileRepository {
     suspend fun createUser(email: String, password: String): Result<Profile>
     suspend fun createProfile(profile: Profile): Result<Profile>
     suspend fun updateProfile(profile: Profile): Result<Profile>
-
+    suspend fun removeUser(email: String): Result<Unit>
+    suspend fun getProfile(email: String): Result<Profile>
     suspend fun login(email: String, password: String): Result<Profile>
 
 }
@@ -33,6 +34,14 @@ class ProfileRepositoryImpl(
     }
 
     override suspend fun updateProfile(profile: Profile): Result<Profile> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun removeUser(email: String): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getProfile(email: String): Result<Profile> {
         TODO("Not yet implemented")
     }
 
