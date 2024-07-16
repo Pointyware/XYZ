@@ -13,6 +13,6 @@ class CreateUserUseCase(
     private val profileRepository: ProfileRepository
 ) {
     suspend operator fun invoke(email: String, password: String): Result<Unit> {
-        return profileRepository.createUser(email, password)
+        return profileRepository.createUser(email, password).map { }
     }
 }

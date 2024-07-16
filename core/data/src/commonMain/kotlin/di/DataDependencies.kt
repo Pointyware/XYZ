@@ -5,13 +5,16 @@
 package org.pointyware.xyz.core.data.di
 
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
+import kotlin.coroutines.CoroutineContext
 
 /**
  */
 interface DataDependencies {
-//    fun provideFundsRepository(): FundsRepository
+    val ioCoroutineContext: CoroutineContext
 }
 
 class KoinDataDependencies: DataDependencies, KoinComponent {
-//    override fun provideFundsRepository(): FundsRepository = get()
+    override val ioCoroutineContext: CoroutineContext
+        get() = get()
 }
