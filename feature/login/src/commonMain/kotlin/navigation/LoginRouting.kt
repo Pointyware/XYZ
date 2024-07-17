@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.xyz.core.navigation.LocationRootScope
 import org.pointyware.xyz.core.navigation.StaticRoute
+import org.pointyware.xyz.core.navigation.XyzRootScope
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
 import org.pointyware.xyz.feature.login.di.LoginDependencies
 import org.pointyware.xyz.feature.login.ui.AccountCreationScreen
@@ -24,7 +24,7 @@ val accountCreationRoute = profileRoute.fixed("create")
  * Sets up all routes for home navigation.
  */
 @Composable
-fun LocationRootScope<Any, Any>.loginRouting() {
+fun XyzRootScope.loginRouting() {
     val di = remember { getKoin() }
     val loginDependencies = remember { di.get<LoginDependencies>() }
     val navigationDependencies = remember { di.get<NavigationDependencies>() }

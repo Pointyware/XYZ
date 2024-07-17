@@ -150,4 +150,5 @@ fun <K, A> StackNavigationController(
     return StackNavigationControllerImpl(initialLocation)
 }
 
-typealias XyzNavController = StackNavigationController<String, Any?>
+typealias XyzNavController = StackNavigationController<Any, Any?>
+typealias XyzRootScope = LocationRootScope<Any, Any?>
