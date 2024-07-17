@@ -21,7 +21,7 @@ interface ProfileRepository {
     suspend fun updateProfile(profile: Profile): Result<Profile>
     suspend fun removeUser(email: String): Result<Unit>
     suspend fun getProfile(email: String): Result<Profile>
-    suspend fun login(email: String, password: String): Result<Authorization>
+    suspend fun login(email: String, password: String): Result<Login>
 
 }
 
@@ -58,10 +58,22 @@ class ProfileRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun login(email: String, password: String): Result<Authorization> {
-        return authService.login(email, password)
-            .onSuccess {
-                authCache.setAuth(it)
+    override suspend fun login(email: String, password: String): Result<Login> {
+        authService.login(email, password)
+            .onSuccess { auth ->
+                authCache.setAuth(auth)
+                profileService.getProfile(auth.userId)
+                    .onSuccess { profile ->
+                        profileCache.saveProfile(profile)
+                        return Result.success(Login(auth, profile))
+                    }
+                    .onFailure { error ->
+                        return Result.failure(error)
+                    }
             }
+            .onFailure {
+                return Result.failure(it)
+            }
+        return Result.failure(IllegalStateException("This should never happen"))
     }
 }
