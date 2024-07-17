@@ -4,6 +4,8 @@
 
 package org.pointyware.xyz.feature.login.data
 
+import org.pointyware.xyz.core.entities.Uuid
+
 /**
  * Separates authorization information from the profile entity.
  */
@@ -11,7 +13,7 @@ interface Authorization {
     /**
      * User email.
      */
-    val email: String
+    val userId: Uuid
 
     /**
      * User token.
