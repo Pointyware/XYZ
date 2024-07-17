@@ -4,6 +4,8 @@
 
 package org.pointyware.xyz.core.viewmodels
 
+import kotlinx.coroutines.flow.MutableStateFlow
+
 /**
  * A generic loading UI state.
  */
@@ -12,4 +14,8 @@ sealed class LoadingUiState<T> {
     class Loading<T> : LoadingUiState<T>()
     data class Success<T>(val value: T): LoadingUiState<T>()
     data class Error<T>(val message: String) : LoadingUiState<T>()
+}
+
+fun <T> MutableStateFlow<LoadingUiState<T>>.postError(error: Throwable) {
+    value = LoadingUiState.Error(error.message ?: error.stackTraceToString())
 }
