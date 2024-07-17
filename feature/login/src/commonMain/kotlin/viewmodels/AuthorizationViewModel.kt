@@ -9,12 +9,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.pointyware.xyz.core.entities.DriverProfile
+import org.pointyware.xyz.core.entities.RiderProfile
+import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.ViewModel
+import org.pointyware.xyz.core.viewmodels.postError
 import org.pointyware.xyz.feature.login.interactors.CreateUserUseCase
 import org.pointyware.xyz.feature.login.interactors.LoginUseCase
 
 interface AuthorizationViewModel {
-    val loadingState: StateFlow<LoadingUiState>
+    val loadingState: StateFlow<LoadingUiState<AuthorizationEvent>>
     val state: StateFlow<AuthorizationUiState>
     fun onEmailChange(email: String)
     fun onPasswordChange(password: String)
@@ -32,8 +36,8 @@ class AuthorizationViewModelImpl(
     private val createUserUseCase: CreateUserUseCase
 ): ViewModel(), AuthorizationViewModel {
 
-    private val mutableLoadingState = MutableStateFlow<LoadingUiState>(LoadingUiState.Idle)
-    override val loadingState: StateFlow<LoadingUiState> get() = mutableLoadingState.asStateFlow()
+    private val mutableLoadingState = MutableStateFlow<LoadingUiState<AuthorizationEvent>>(LoadingUiState.Idle())
+    override val loadingState: StateFlow<LoadingUiState<AuthorizationEvent>> get() = mutableLoadingState.asStateFlow()
     private val mutableState = MutableStateFlow(AuthorizationUiState.Empty)
     override val state: StateFlow<AuthorizationUiState> get() = mutableState.asStateFlow()
 
@@ -78,19 +82,28 @@ class AuthorizationViewModelImpl(
     }
 
     override fun onSubmit() {
-        mutableLoadingState.value = LoadingUiState.Loading
+        mutableLoadingState.value = LoadingUiState.Loading()
         viewModelScope.launch {
             try {
                 val state = mutableState.value
                 if (state.isLogin) {
                     loginUseCase.invoke(state.email, state.password)
+                        .onSuccess {
+                            when (it.profile) {
+                                is DriverProfile -> mutableLoadingState.value = LoadingUiState.Success(AuthorizationEvent.Driver)
+                                is RiderProfile -> mutableLoadingState.value = LoadingUiState.Success(AuthorizationEvent.Ride)
+                            }
+                            mutableLoadingState.value = LoadingUiState.Success(AuthorizationEvent.NewUser)
+                        }
+                        .onFailure { mutableLoadingState.postError(it) }
                 } else {
                     createUserUseCase.invoke(state.email, state.password)
+                        .onSuccess {
+                            mutableLoadingState.value = LoadingUiState.Success(AuthorizationEvent.NewUser)
+                        }
+                        .onFailure { mutableLoadingState.postError(it) }
                 }
-                mutableLoadingState.value = LoadingUiState.Success
-            } catch (e: Exception) {
-                mutableLoadingState.value = LoadingUiState.Error(e.message ?: "An error occurred")
-            }
+            } catch (e: Exception) { mutableLoadingState.postError(e) }
         }
     }
 
@@ -101,7 +114,7 @@ class AuthorizationViewModelImpl(
     }
 
     override fun onDismissError() {
-        mutableLoadingState.value = LoadingUiState.Idle
+        mutableLoadingState.value = LoadingUiState.Idle()
     }
 }
 
@@ -117,9 +130,8 @@ data class AuthorizationUiState(
     }
 }
 
-sealed class LoadingUiState {
-    data object Idle : LoadingUiState()
-    data object Loading : LoadingUiState()
-    data object Success : LoadingUiState()
-    data class Error(val message: String) : LoadingUiState()
+enum class AuthorizationEvent {
+    NewUser,
+    Driver,
+    Ride
 }
