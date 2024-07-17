@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.core.ui.ui
+package org.pointyware.xyz.core.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
