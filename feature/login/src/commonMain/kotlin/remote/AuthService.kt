@@ -48,10 +48,10 @@ class TestAuthService(
     ): Authorization
 
     fun login(email: String, password: String): Result<Authorization> {
-        if (users[email] == password) {
-            return Result.success(TestAuthorization(email, entropy.nextInt().toString()))
+        return if (users[email] == password) {
+            Result.success(TestAuthorization(email, entropy.nextInt().toString()))
         } else {
-            return Result.failure(Authorization.InvalidCredentialsException())
+            Result.failure(Authorization.InvalidCredentialsException())
         }
     }
 
