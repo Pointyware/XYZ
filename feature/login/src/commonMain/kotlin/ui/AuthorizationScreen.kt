@@ -16,9 +16,9 @@ import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.ui.ErrorDialog
 import org.pointyware.xyz.core.ui.ui.ErrorState
 import org.pointyware.xyz.core.ui.ui.LoadingView
+import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationUiState
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModel
-import org.pointyware.xyz.feature.login.viewmodels.LoadingUiState
 
 /**
  * Displays a typical login/registration screen that allows the user to switch between the two.
@@ -46,7 +46,7 @@ fun AuthorizationScreen(
             onSwitch = authorizationViewModel::onSwitch,
         )
         when (val capture = loadingState) {
-            LoadingUiState.Idle -> {
+            is LoadingUiState.Idle -> {
                 // show nothing
             }
             is LoadingUiState.Loading -> {
