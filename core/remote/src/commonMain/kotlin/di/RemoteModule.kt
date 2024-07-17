@@ -13,6 +13,4 @@ import org.pointyware.xyz.core.remote.getClient
  */
 fun coreRemoteModule() = module {
     single<HttpClient> { getClient() }
-//    single { RemoteInteractor(get()) }
-//    single { RemoteViewModel(get()) }
 }
