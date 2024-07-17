@@ -8,6 +8,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.login.data.Authorization
 import kotlin.random.Random
 
@@ -60,28 +61,31 @@ class SimpleAuthService(
 }
 
 class TestAuthService(
-    private val users: MutableMap<String, String> = mutableMapOf()
+    private val users: MutableMap<String, UserEntry> = mutableMapOf(),
 ): AuthService {
     private val entropy = Random.Default
     data class TestAuthorization(
-        override val email: String,
+        override val userId: Uuid,
         override val token: String
     ): Authorization
 
+    data class UserEntry(
+        val password: String,
+        val id: Uuid
+    )
+
     override suspend fun login(email: String, password: String): Result<Authorization> {
-        return if (users[email] == password) {
-            Result.success(TestAuthorization(email, entropy.nextInt().toString()))
-        } else {
-            Result.failure(Authorization.InvalidCredentialsException())
-        }
+        return users[email]?.takeIf { it.password == password }?.let {
+            Result.success(TestAuthorization(it.id, entropy.nextInt().toString()))
+        } ?: Result.failure(Authorization.InvalidCredentialsException())
     }
 
     override suspend fun createUser(email: String, password: String): Result<Authorization> {
         if (users.containsKey(email)) {
             return Result.failure(Authorization.InUseException(email))
         } else {
-            users[email] = password
-            return Result.success(TestAuthorization(email, entropy.nextInt().toString()))
+            val newUser = UserEntry(password, Uuid.v4()).also { users[email] = it }
+            return Result.success(TestAuthorization(newUser.id, entropy.nextInt().toString()))
         }
     }
 }

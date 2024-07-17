@@ -4,12 +4,13 @@
 
 package org.pointyware.xyz.feature.login.remote
 
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.login.data.Authorization
 
 /**
  *
  */
 data class AuthorizationDto(
-    override val email: String,
+    override val userId: Uuid,
     override val token: String,
 ): Authorization
