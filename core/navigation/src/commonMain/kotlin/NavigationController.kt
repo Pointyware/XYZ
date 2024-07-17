@@ -149,3 +149,5 @@ fun <K, A> StackNavigationController(
 ): StackNavigationController<K, A> {
     return StackNavigationControllerImpl(initialLocation)
 }
+
+typealias XyzNavController = StackNavigationController<String, Any?>

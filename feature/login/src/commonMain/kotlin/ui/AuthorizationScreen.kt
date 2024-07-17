@@ -11,6 +11,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import org.pointyware.xyz.core.navigation.StackNavigationController
+import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.ui.ErrorDialog
 import org.pointyware.xyz.core.ui.ui.ErrorState
 import org.pointyware.xyz.core.ui.ui.LoadingView
@@ -25,6 +27,7 @@ import org.pointyware.xyz.feature.login.viewmodels.LoadingUiState
 @Composable
 fun AuthorizationScreen(
     authorizationViewModel: AuthorizationViewModel,
+    navController: XyzNavController,
     modifier: Modifier = Modifier,
 ) {
     val authorizationState by authorizationViewModel.state.collectAsState()
