@@ -11,7 +11,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.navigation.StackNavigationController
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.ui.ErrorDialog
 import org.pointyware.xyz.core.ui.ui.ErrorState
