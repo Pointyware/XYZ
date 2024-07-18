@@ -14,15 +14,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.entities.LatLong
+import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.core.viewmodels.PointOfInterest
+import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
 
 /**
  * Displays a map with controls for starting, monitoring, and canceling a ride.
  */
 @Composable
 fun RideScreen(
+    viewModel: RideViewModel,
+    navController: XyzNavController,
     modifier: Modifier = Modifier,
 ) {
     Box(

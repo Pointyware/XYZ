@@ -10,10 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.viewmodels.MapUiState
+import org.pointyware.xyz.drive.viewmodels.DriveViewModel
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 
 sealed interface DriveScreenState {
@@ -36,10 +40,13 @@ sealed interface DriveScreenState {
  */
 @Composable
 fun DriveScreen(
-    state: DriveScreenState,
-    mapState: MapUiState,
+    viewModel: DriveViewModel,
+    navController: XyzNavController,
     modifier: Modifier = Modifier,
 ) {
+    val state: DriveScreenState by viewModel.state.collectAsState()
+    val mapState: MapUiState by viewModel.mapState.collectAsState()
+
     Box(
         modifier = modifier
     ) {
@@ -54,13 +61,13 @@ fun DriveScreen(
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
         ) {
-            when (state) {
+            when (val capture = state) {
                 is DriveScreenState.Idle -> {
 
                 }
                 is DriveScreenState.NewRequest -> {
                     RideRequestView(
-                        state = state.requestUiState
+                        state = capture.requestUiState
                     )
                 }
                 is DriveScreenState.Accepted -> {
