@@ -23,16 +23,175 @@ enum class EndReason {
  * 4. After a ride has been completed successfully.
  * 5. After a ride has been canceled by the rider or driver.
  */
-interface Ride {
+sealed interface Ride {
 
+    /**
+     * The time the ride was posted to the system.
+     */
     val timePosted: Instant?
+
+    /**
+     * The time the ride is scheduled to start.
+     */
     val timeToStart: Instant?
+
+    /**
+     * The time the ride was accepted by a driver.
+     */
     val timeAccepted: Instant?
+
+    /**
+     * The time the driver arrived at the pickup location.
+     */
+    val timeArrived: Instant?
+
+    /**
+     * The time the rider was picked up by a driver.
+     */
+    val timeStarted: Instant?
+
+    /**
+     * The time the ride was completed or canceled.
+     */
     val timeEnded: Instant?
+
+    /**
+     * The duration of the ride, from [timeStarted] to [timeEnded].
+     */
     val duration: Duration?
+        get() = timeStarted?.let { start ->
+            timeEnded?.minus(start)
+        }
+
+    /**
+     * The reason the ride ended: completion or cancellation.
+     */
     val endReason: EndReason?
 
-    interface Criteria {
+    /**
+     * The planned route of the ride.
+     */
+    val route: Route?
 
+    /**
+     * The actual route taken during the ride.
+     */
+    val path: Route?
+
+    val driver: DriverProfile?
+    val rider: RiderProfile?
+
+    /**
+     * Filter criteria for searching for rides.
+     */
+    interface Criteria {
+        val serviceArea: Area
+        val timeRange: ClosedRange<Instant>
+        val distanceRange: ClosedRange<Length>
+        val priceRange: ClosedRange<Currency>
+        val rateRange: ClosedRange<Currency>
     }
+
+    data class Draft(
+        override val timeToStart: Instant,
+        override val route: Route,
+    ): Ride {
+        override val timePosted: Instant?
+            get() = null
+        override val timeAccepted: Instant?
+            get() = null
+        override val timeEnded: Instant?
+            get() = null
+        override val endReason: EndReason?
+            get() = null
+        override val timeArrived: Instant?
+            get() = null
+        override val timeStarted: Instant?
+            get() = null
+        override val path: Route?
+            get() = null
+        override val driver: DriverProfile?
+            get() = null
+        override val rider: RiderProfile?
+            get() = null
+    }
+
+    data class Immediate(
+        override val rider: RiderProfile?,
+        override val route: Route,
+        override val timePosted: Instant,
+    ): Ride {
+        override val path: Route?
+            get() = null
+        override val timeAccepted: Instant?
+            get() = null
+        override val timeEnded: Instant?
+            get() = null
+        override val endReason: EndReason?
+            get() = null
+        override val timeArrived: Instant?
+            get() = null
+        override val timeToStart: Instant?
+            get() = null
+        override val timeStarted: Instant?
+            get() = null
+        override val driver: DriverProfile?
+            get() = null
+    }
+
+    data class Scheduled(
+        override val rider: RiderProfile,
+        override val route: Route,
+        override val timeToStart: Instant,
+        override val timePosted: Instant,
+    ): Ride {
+        override val timeAccepted: Instant?
+            get() = null
+        override val timeEnded: Instant?
+            get() = null
+        override val endReason: EndReason?
+            get() = null
+        override val timeArrived: Instant?
+            get() = null
+        override val timeStarted: Instant?
+            get() = null
+        override val path: Route?
+            get() = null
+        override val driver: DriverProfile?
+            get() = null
+    }
+
+    data class Accepted(
+        override val rider: RiderProfile,
+        override val driver: DriverProfile,
+        override val route: Route,
+        override val timeToStart: Instant,
+        override val timePosted: Instant,
+        override val timeAccepted: Instant,
+    ): Ride {
+        override val timeEnded: Instant?
+            get() = null
+        override val endReason: EndReason?
+            get() = null
+        override val timeArrived: Instant?
+            get() = null
+        override val timeStarted: Instant?
+            get() = null
+        override val path: Route?
+            get() = null
+    }
+
+    data class Ended(
+        override val rider: RiderProfile,
+        override val driver: DriverProfile,
+        override val route: Route,
+        override val timeToStart: Instant,
+        override val timePosted: Instant,
+        override val timeAccepted: Instant,
+        override val timeArrived: Instant,
+        override val timeStarted: Instant,
+        override val timeEnded: Instant,
+        override val path: Route,
+        override val endReason: EndReason,
+    ): Ride
 }
