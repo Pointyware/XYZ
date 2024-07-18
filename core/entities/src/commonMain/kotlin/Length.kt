@@ -11,6 +11,8 @@ interface Length: Comparable<Length> {
 
 }
 
+// TODO: add kilometers/meters/feet
+
 internal data class Miles(val value: Double): Length {
     override fun compareTo(other: Length): Int {
         return when (other) {
