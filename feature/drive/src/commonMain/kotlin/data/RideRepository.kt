@@ -6,6 +6,7 @@ package org.pointyware.xyz.drive.data
 
 import kotlinx.coroutines.flow.Flow
 import org.pointyware.xyz.core.entities.Ride
+import org.pointyware.xyz.drive.local.RideCache
 import org.pointyware.xyz.drive.local.RideDao
 import org.pointyware.xyz.drive.remote.RideService
 
@@ -15,7 +16,7 @@ import org.pointyware.xyz.drive.remote.RideService
  * and a remote service.
  */
 interface RideRepository {
-    suspend fun searchDestinations(query: String): List<String>
+    suspend fun searchDestinations(query: String): Result<RideSearchResult>
     suspend fun postRide(ride: Ride): Result<Ride>
     suspend fun cancelRide(ride: Ride): Result<Ride>
     suspend fun createRideFilter(criteria: Ride.Criteria): Result<Flow<Ride>>
@@ -23,10 +24,17 @@ interface RideRepository {
 
 class RideRepositoryImpl(
     private val rideService: RideService,
-    private val rideDao: RideDao,
+    private val rideCache: RideCache,
 ): RideRepository {
-    override suspend fun searchDestinations(query: String): List<String> {
-        TODO("Not yet implemented")
+
+    override suspend fun searchDestinations(query: String): Result<RideSearchResult> {
+        return rideService.searchDestinations(query)
+            .onSuccess {
+                rideCache.saveDestinations(query, it)
+            }
+            .onFailure {
+                rideCache.getDestinations(query)
+            }
     }
 
     override suspend fun postRide(ride: Ride): Result<Ride> {

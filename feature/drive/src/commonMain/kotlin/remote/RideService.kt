@@ -4,8 +4,11 @@
 
 package org.pointyware.xyz.drive.remote
 
+import org.pointyware.xyz.drive.data.RideSearchResult
+
 /**
  *
  */
 interface RideService {
+    fun searchDestinations(query: String): Result<RideSearchResult>
 }
