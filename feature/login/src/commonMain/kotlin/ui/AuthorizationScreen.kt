@@ -12,9 +12,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.XyzNavController
-import org.pointyware.xyz.core.ui.ui.ErrorDialog
-import org.pointyware.xyz.core.ui.ui.ErrorState
-import org.pointyware.xyz.core.ui.ui.LoadingView
+import org.pointyware.xyz.core.ui.components.ErrorDialog
+import org.pointyware.xyz.core.ui.components.ErrorState
+import org.pointyware.xyz.core.ui.components.LoadingView
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationUiState
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModel
