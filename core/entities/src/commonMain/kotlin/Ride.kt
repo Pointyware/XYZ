@@ -71,12 +71,12 @@ sealed interface Ride {
     /**
      * The planned route of the ride.
      */
-    val route: Route?
+    val plannedRoute: Route?
 
     /**
      * The actual route taken during the ride.
      */
-    val path: Route?
+    val actualRoute: Route?
 
     val driver: DriverProfile?
     val rider: RiderProfile?
@@ -94,7 +94,7 @@ sealed interface Ride {
 
     data class Draft(
         override val timeToStart: Instant,
-        override val route: Route,
+        override val plannedRoute: Route,
     ): Ride {
         override val timePosted: Instant?
             get() = null
@@ -108,7 +108,7 @@ sealed interface Ride {
             get() = null
         override val timeStarted: Instant?
             get() = null
-        override val path: Route?
+        override val actualRoute: Route?
             get() = null
         override val driver: DriverProfile?
             get() = null
@@ -118,10 +118,10 @@ sealed interface Ride {
 
     data class Immediate(
         override val rider: RiderProfile?,
-        override val route: Route,
+        override val plannedRoute: Route,
         override val timePosted: Instant,
     ): Ride {
-        override val path: Route?
+        override val actualRoute: Route?
             get() = null
         override val timeAccepted: Instant?
             get() = null
@@ -141,7 +141,7 @@ sealed interface Ride {
 
     data class Scheduled(
         override val rider: RiderProfile,
-        override val route: Route,
+        override val plannedRoute: Route,
         override val timeToStart: Instant,
         override val timePosted: Instant,
     ): Ride {
@@ -155,7 +155,7 @@ sealed interface Ride {
             get() = null
         override val timeStarted: Instant?
             get() = null
-        override val path: Route?
+        override val actualRoute: Route?
             get() = null
         override val driver: DriverProfile?
             get() = null
@@ -164,7 +164,7 @@ sealed interface Ride {
     data class Accepted(
         override val rider: RiderProfile,
         override val driver: DriverProfile,
-        override val route: Route,
+        override val plannedRoute: Route,
         override val timeToStart: Instant,
         override val timePosted: Instant,
         override val timeAccepted: Instant,
@@ -177,21 +177,21 @@ sealed interface Ride {
             get() = null
         override val timeStarted: Instant?
             get() = null
-        override val path: Route?
+        override val actualRoute: Route?
             get() = null
     }
 
     data class Ended(
         override val rider: RiderProfile,
         override val driver: DriverProfile,
-        override val route: Route,
+        override val plannedRoute: Route,
         override val timeToStart: Instant,
         override val timePosted: Instant,
         override val timeAccepted: Instant,
         override val timeArrived: Instant,
         override val timeStarted: Instant,
         override val timeEnded: Instant,
-        override val path: Route,
+        override val actualRoute: Route,
         override val endReason: EndReason,
     ): Ride
 }
