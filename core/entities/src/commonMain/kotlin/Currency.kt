@@ -17,7 +17,7 @@ internal infix fun Long.pow(exponent: Int): Long {
 /**
  *
  */
-interface Currency {
+interface Currency: Comparable<Currency> {
     val amount: Long
     val form: Form
 
@@ -81,7 +81,14 @@ interface Currency {
 internal class SimpleCurrency(
     override val amount: Long,
     override val form: Currency.Form,
-): Currency
+): Currency {
+    override fun compareTo(other: Currency): Int {
+        if (form != other.form) {
+            throw IllegalArgumentException("Cannot compare different currency forms") // TODO: support conversion
+        }
+        return amount.compareTo(other.amount)
+    }
+}
 fun Currency(amount: Long, form: Currency.Form): Currency {
     return SimpleCurrency(amount, form)
 }
