@@ -14,7 +14,9 @@ import org.pointyware.xyz.core.navigation.di.coreNavigationModule
 import org.pointyware.xyz.core.remote.di.coreRemoteModule
 import org.pointyware.xyz.core.ui.di.coreUiModule
 import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
+import org.pointyware.xyz.drive.di.featureDriveModule
 import org.pointyware.xyz.feature.login.di.featureLoginModule
+import org.pointyware.xyz.feature.ride.di.featureRideModule
 
 
 fun appModule(): Module = module {
@@ -39,6 +41,8 @@ fun coreModule() = module {
 
 fun featureModule() = module {
     includes(
-        featureLoginModule()
+        featureLoginModule(),
+        featureDriveModule(),
+        featureRideModule(),
     )
 }
