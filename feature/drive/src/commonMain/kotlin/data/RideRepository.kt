@@ -38,14 +38,20 @@ class RideRepositoryImpl(
     }
 
     override suspend fun postRide(ride: Ride): Result<Ride> {
-        TODO("Not yet implemented")
+        return rideService.postRide(ride)
+            .onSuccess {
+                rideCache.saveRide(ride)
+            }
     }
 
     override suspend fun cancelRide(ride: Ride): Result<Ride> {
-        TODO("Not yet implemented")
+        return rideService.cancelRide(ride)
+            .onSuccess {
+                rideCache.dropRide(ride)
+            }
     }
 
     override suspend fun createRideFilter(criteria: Ride.Criteria): Result<Flow<Ride>> {
-        TODO("Not yet implemented")
+        return rideService.createRideFilter(criteria)
     }
 }
