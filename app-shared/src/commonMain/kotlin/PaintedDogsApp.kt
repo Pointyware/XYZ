@@ -20,6 +20,9 @@ import androidx.compose.ui.Modifier
 import navigation.loginRouting
 import org.pointyware.xyz.core.navigation.LocationRoot
 import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.drive.navigation.driveRouting
+import org.pointyware.xyz.feature.login.navigation.profileRouting
+import org.pointyware.xyz.feature.ride.navigation.rideRouting
 import org.pointyware.xyz.shared.di.AppDependencies
 
 /**
@@ -98,6 +101,10 @@ fun XyzApp(
                 modifier = Modifier.padding(paddingValues),
             ) {
                 loginRouting()
+                profileRouting()
+
+                driveRouting()
+                rideRouting()
             }
         }
     }
