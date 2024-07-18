@@ -48,6 +48,7 @@ kotlin {
                 api(libs.ktor.client.contentNegotiation)
                 api(libs.ktor.client.resources)
                 api(libs.ktor.client.serialization)
+                api(libs.ktor.serialization.json)
             }
         }
         val commonTest by getting {
