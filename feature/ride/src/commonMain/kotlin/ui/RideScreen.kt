@@ -7,6 +7,7 @@ package org.pointyware.xyz.feature.ride.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,6 +21,11 @@ import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.core.viewmodels.PointOfInterest
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
 
+data class RideScreenState(
+    val search: RideSearchViewState,
+    val mapState: MapUiState
+)
+
 /**
  * Displays a map with controls for starting, monitoring, and canceling a ride.
  */
@@ -29,30 +35,22 @@ fun RideScreen(
     navController: XyzNavController,
     modifier: Modifier = Modifier,
 ) {
+    val state = viewModel.state.collectAsState()
+    val mapState = viewModel.mapState.collectAsState()
+
+    val rideScreenState = RideUiStateMapper.map(state.value to mapState.value)
     Box(
         modifier = modifier
     ) {
         MapView(
-            state = MapUiState(
-                location = LatLong(0.0, 0.0),
-                pointsOfInterest = listOf(
-                    PointOfInterest.Rider(LatLong(0.0, 0.0)),
-                    PointOfInterest.Origin(LatLong(0.0, 0.0)),
-                    PointOfInterest.Destination(LatLong(0.0, 0.0)),
-                    PointOfInterest.Driver(LatLong(0.0, 0.0)),
-                ),
-            ),
+            state = rideScreenState.mapState,
             modifier = modifier.fillMaxSize(),
         )
 
         // TODO: hoist state
         var isExpanded by remember { mutableStateOf(false) }
         RideSearchView(
-            state = RideSearchViewState(
-                isExpanded = isExpanded,
-                query = "",
-                results = emptyList(),
-            ),
+            state = rideScreenState.search,
             modifier = Modifier.align(Alignment.BottomEnd),
             onCollapse = { isExpanded = false },
             onExpand = { isExpanded = true },
