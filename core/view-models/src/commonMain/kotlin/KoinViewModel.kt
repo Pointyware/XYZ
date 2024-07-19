@@ -7,12 +7,11 @@ package org.pointyware.xyz.core.viewmodels
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.newScope
 import org.koin.core.scope.Scope
-import org.koin.core.scope.ScopeCallback
 
 /**
  * Extends basic ViewModel concepts to enable koin dependency injection in a scoped context.
  */
-class KoinViewModel(): ViewModel(), KoinScopeComponent {
+abstract class KoinViewModel(): ViewModel(), KoinScopeComponent {
 
     override val scope: Scope by newScope()
 

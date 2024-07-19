@@ -18,7 +18,7 @@ interface MapViewModel {
  */
 open class MapViewModelImpl(
 
-) : MapViewModel {
+): KoinViewModel(), MapViewModel {
 
     private val mutableMapState = MutableStateFlow(MapUiState(LatLong(0.0, 0.0)))
     override val mapState: StateFlow<MapUiState> get() = mutableMapState.asStateFlow()
