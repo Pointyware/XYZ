@@ -21,13 +21,12 @@ val rideRoute = StaticRoute("ride", Unit)
  *
  */
 @Composable
-fun XyzRootScope.rideRouting() {
-    val di = remember { KoinPlatform.getKoin() }
-    val rideDependencies = remember { di.get<RideDependencies>() }
-    val navigationDependencies = remember { di.get<NavigationDependencies>() }
-
+fun XyzRootScope.rideRouting(
+    dependencies: RideDependencies,
+    navigationDependencies: NavigationDependencies
+) {
     location(rideRoute) {
-        val rideViewModel = remember { rideDependencies.getRideViewModel() }
+        val rideViewModel = remember { dependencies.getRideViewModel() }
         val navController = remember { navigationDependencies.getNavController() }
 
         RideScreen(

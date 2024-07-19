@@ -24,10 +24,10 @@ val userProfileRoute = profileRoute.variable<Uuid>("userId")
  * Sets up all routes for home navigation.
  */
 @Composable
-fun XyzRootScope.profileRouting() {
-    val di = remember { getKoin() }
-    val loginDependencies = remember { di.get<LoginDependencies>() }
-    val navigationDependencies = remember { di.get<NavigationDependencies>() }
+fun XyzRootScope.profileRouting(
+    loginDependencies: LoginDependencies,
+    navigationDependencies: NavigationDependencies
+) {
 
     location(accountCreationRoute) {
         val authorizationViewModel = remember { loginDependencies.getAuthorizationViewModel() }

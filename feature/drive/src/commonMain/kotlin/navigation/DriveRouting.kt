@@ -21,14 +21,12 @@ val driveRoute = StaticRoute("drive", Unit)
  *
  */
 @Composable
-fun XyzRootScope.driveRouting() {
-
-    val di = remember { KoinPlatform.getKoin() }
-    val driveDependencies = remember { di.get<DriveDependencies>() }
-    val navigationDependencies = remember { di.get<NavigationDependencies>() }
-
+fun XyzRootScope.driveRouting(
+    dependencies: DriveDependencies,
+    navigationDependencies: NavigationDependencies
+) {
     location(driveRoute) {
-        val driveViewModel = remember { driveDependencies.getDriveViewModel() }
+        val driveViewModel = remember { dependencies.getDriveViewModel() }
         val navController = remember { navigationDependencies.getNavController() }
 
         DriveScreen(

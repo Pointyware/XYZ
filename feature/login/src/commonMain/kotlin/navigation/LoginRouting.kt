@@ -21,13 +21,13 @@ val loginRoute = StaticRoute("login", Unit)
  * Sets up all routes for home navigation.
  */
 @Composable
-fun XyzRootScope.loginRouting() {
-    val di = remember { getKoin() }
-    val loginDependencies = remember { di.get<LoginDependencies>() }
-    val navigationDependencies = remember { di.get<NavigationDependencies>() }
+fun XyzRootScope.loginRouting(
+    dependencies: LoginDependencies,
+    navigationDependencies: NavigationDependencies
+) {
 
     location(loginRoute) {
-        val authorizationViewModel = remember { loginDependencies.getAuthorizationViewModel() }
+        val authorizationViewModel = remember { dependencies.getAuthorizationViewModel() }
         val navController = remember { navigationDependencies.getNavController() }
 
         AuthorizationScreen(

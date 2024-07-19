@@ -100,11 +100,11 @@ fun XyzApp(
                 navController = navController,
                 modifier = Modifier.padding(paddingValues),
             ) {
-                loginRouting()
-                profileRouting()
+                loginRouting(dependencies.getLoginDependencies(), dependencies.getNavigationDependencies())
+                profileRouting(dependencies.getLoginDependencies(), dependencies.getNavigationDependencies())
 
-                driveRouting()
-                rideRouting()
+                driveRouting(dependencies.getDriveDependencies(), dependencies.getNavigationDependencies())
+                rideRouting(dependencies.getRideDependencies(), dependencies.getNavigationDependencies())
             }
         }
     }
