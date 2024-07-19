@@ -21,7 +21,7 @@ abstract class ViewModel {
         CoroutineScope(Dispatchers.Main + SupervisorJob())
     }
 
-    fun dispose() {
+    open fun dispose() {
         viewModelScope.coroutineContext.cancel()
     }
 }

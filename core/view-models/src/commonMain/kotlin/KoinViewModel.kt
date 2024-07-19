@@ -16,11 +16,8 @@ class KoinViewModel(): ViewModel(), KoinScopeComponent {
 
     override val scope: Scope by newScope()
 
-    init {
-        scope.registerCallback(object : ScopeCallback {
-            override fun onScopeClose(scope: Scope) {
-                dispose()
-            }
-        })
+    override fun dispose() {
+        super.dispose()
+        scope.close()
     }
 }
