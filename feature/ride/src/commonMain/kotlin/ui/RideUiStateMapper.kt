@@ -12,16 +12,16 @@ import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 /**
  *
  */
-object RideUiStateMapper: Mapper<Pair<RideUiState, MapUiState>, RideScreenState> {
-    override fun map(input: Pair<RideUiState, MapUiState>): RideScreenState {
+object RideUiStateMapper: Mapper<Pair<RideUiState, MapUiState>, RideViewState> {
+    override fun map(input: Pair<RideUiState, MapUiState>): RideViewState {
         val (state, mapState) = input
-        return RideScreenState(
+        return RideViewState(
             search = RideSearchViewState(
                 query = "",
                 results = emptyList(),
                 isExpanded = false // TODO: map state
             ),
-            mapState = mapState
+            map = mapState
         )
     }
 }
