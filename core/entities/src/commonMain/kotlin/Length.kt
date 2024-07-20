@@ -8,77 +8,37 @@ package org.pointyware.xyz.core.entities
  *
  */
 interface Length: Comparable<Length> {
-    // TODO: add conversion methods
+    val value: Double
+    val unit: LengthUnit
+
+    fun to(unit: LengthUnit): Length
 }
 
-internal data class Miles(val value: Double): Length {
+enum class LengthUnit(
+    val metersPerUnit: Double
+) {
+    MILES(1609.34),
+    KILOMETERS(1000.0),
+    METERS(1.0),
+    FEET(0.3048),
+}
+
+data class LengthValue(
+    override val value: Double,
+    override val unit: LengthUnit
+): Length {
     override fun compareTo(other: Length): Int {
-        return when (other) {
-            is Miles -> value.compareTo(other.value)
-            else -> throw IllegalArgumentException("Cannot compare Miles to $other")
-        }
+        val otherToThis = other.to(unit)
+        return value.compareTo(otherToThis.value)
     }
 
-    companion object {
-        fun of(value: Double): Miles {
-            if (value < 0) throw IllegalArgumentException("Miles must be non-negative")
-            return Miles(value)
-        }
+    override fun to(otherUnit: LengthUnit): Length {
+        val newValue = value * unit.metersPerUnit / otherUnit.metersPerUnit
+        return LengthValue(newValue, otherUnit)
     }
 }
 
-fun Double.miles(): Length = Miles.of(this)
-
-internal data class Kilometers(val value: Double): Length {
-    override fun compareTo(other: Length): Int {
-        return when (other) {
-            is Kilometers -> value.compareTo(other.value)
-            else -> throw IllegalArgumentException("Cannot compare Kilometers to $other")
-        }
-    }
-
-    companion object {
-        fun of(value: Double): Kilometers {
-            if (value < 0) throw IllegalArgumentException("Kilometers must be non-negative")
-            return Kilometers(value)
-        }
-    }
-}
-
-fun Double.kilometers(): Length = Kilometers.of(this)
-
-internal data class Meters(val value: Double): Length {
-    override fun compareTo(other: Length): Int {
-        return when (other) {
-            is Meters -> value.compareTo(other.value)
-            else -> throw IllegalArgumentException("Cannot compare Meters to $other")
-        }
-    }
-
-    companion object {
-        fun of(value: Double): Meters {
-            if (value < 0) throw IllegalArgumentException("Meters must be non-negative")
-            return Meters(value)
-        }
-    }
-}
-
-fun Double.meters(): Length = Meters.of(this)
-
-internal data class Feet(val value: Double): Length {
-    override fun compareTo(other: Length): Int {
-        return when (other) {
-            is Feet -> value.compareTo(other.value)
-            else -> throw IllegalArgumentException("Cannot compare Feet to $other")
-        }
-    }
-
-    companion object {
-        fun of(value: Double): Feet {
-            if (value < 0) throw IllegalArgumentException("Feet must be non-negative")
-            return Feet(value)
-        }
-    }
-}
-
-fun Double.feet(): Length = Feet.of(this)
+fun Double.miles(): LengthValue = LengthValue(this, LengthUnit.MILES)
+fun Double.kilometers(): LengthValue = LengthValue(this, LengthUnit.KILOMETERS)
+fun Double.meters(): LengthValue = LengthValue(this, LengthUnit.METERS)
+fun Double.feet(): LengthValue = LengthValue(this, LengthUnit.FEET)
