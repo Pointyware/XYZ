@@ -56,9 +56,12 @@ fun AuthorizationScreen(
                 LoadingView(modifier = Modifier.fillMaxSize())
             }
             is LoadingUiState.Success -> {
-                // show nothing
+                // remove login location
+                navController.goBack()
+                // add new location
                 val event = capture.value
                 when (event) {
+
                     AuthorizationEvent.NewUser -> {
                         navController.navigateTo(accountCreationRoute)
                     }
