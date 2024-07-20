@@ -9,7 +9,9 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.resources.Resources
+import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 
 /**
@@ -22,6 +24,7 @@ actual fun getClient(): HttpClient {
         defaultRequest {
             host = "api.xyz.pointyware.org"
             url { protocol = URLProtocol.HTTPS }
+            contentType(ContentType.Application.Json)
         }
         engine {
             config {
