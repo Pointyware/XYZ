@@ -51,6 +51,7 @@ kotlin {
                 implementation(compose.components.uiToolingPreview) // fleet support
 
                 implementation(libs.coil.core)
+                implementation(libs.coil.compose)
                 implementation(libs.coil.networkKtor)
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.coroutines)
