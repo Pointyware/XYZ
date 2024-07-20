@@ -16,8 +16,12 @@ import org.pointyware.xyz.core.ui.components.ErrorDialog
 import org.pointyware.xyz.core.ui.components.ErrorState
 import org.pointyware.xyz.core.ui.components.LoadingView
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
+import org.pointyware.xyz.drive.navigation.driveRoute
+import org.pointyware.xyz.feature.login.navigation.accountCreationRoute
+import org.pointyware.xyz.feature.login.viewmodels.AuthorizationEvent
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationUiState
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModel
+import org.pointyware.xyz.feature.ride.navigation.rideRoute
 
 /**
  * Displays a typical login/registration screen that allows the user to switch between the two.
@@ -53,6 +57,18 @@ fun AuthorizationScreen(
             }
             is LoadingUiState.Success -> {
                 // show nothing
+                val event = capture.value
+                when (event) {
+                    AuthorizationEvent.NewUser -> {
+                        navController.navigateTo(accountCreationRoute)
+                    }
+                    AuthorizationEvent.Ride -> {
+                        navController.navigateTo(rideRoute)
+                    }
+                    AuthorizationEvent.Driver -> {
+                        navController.navigateTo(driveRoute)
+                    }
+                }
             }
             is LoadingUiState.Error -> {
                 // show error message
