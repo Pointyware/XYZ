@@ -109,8 +109,3 @@ fun XyzApp(
         }
     }
 }
-
-fun logout() {
-    println("Logging out")
-    println("Logged out")
-}
