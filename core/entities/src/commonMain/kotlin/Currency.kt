@@ -30,6 +30,7 @@ interface Currency: Comparable<Currency> {
         val postfix: String,
         val name: String,
         val code: String,
+        val centsPerUnit: Long,
     ) {
 
         abstract fun format(amount: Long): String
@@ -39,7 +40,8 @@ interface Currency: Comparable<Currency> {
             postfix: String,
             name: String,
             code: String,
-        ): Form(prefix, postfix, name, code) {
+            centsPerUnit: Long
+        ): Form(prefix, postfix, name, code, centsPerUnit) {
             override fun format(amount: Long): String {
                 return "$prefix$amount$postfix"
             }
@@ -50,8 +52,9 @@ interface Currency: Comparable<Currency> {
             postfix: String,
             name: String,
             code: String,
+            centsPerUnit: Long,
             val decimalPlaces: Int,
-        ): Form(prefix, postfix, name, code) {
+        ): Form(prefix, postfix, name, code, centsPerUnit) {
             override fun format(amount: Long): String {
                 val fractions = 10L pow decimalPlaces
                 val whole = amount / fractions
@@ -67,6 +70,7 @@ interface Currency: Comparable<Currency> {
                 postfix = "",
                 name = "US Dollars",
                 code = "USD",
+                centsPerUnit = 100,
             )
             val usDollarCents = DecimalForm(
                 prefix = "$",
@@ -74,6 +78,7 @@ interface Currency: Comparable<Currency> {
                 name = "US Dollars and Cents",
                 code = "USD.CENTS",
                 decimalPlaces = 2,
+                centsPerUnit = 1,
             )
         }
     }
@@ -83,10 +88,8 @@ internal class SimpleCurrency(
     override val form: Currency.Form,
 ): Currency {
     override fun compareTo(other: Currency): Int {
-        if (form != other.form) {
-            throw IllegalArgumentException("Cannot compare different currency forms") // TODO: support conversion
-        }
-        return amount.compareTo(other.amount)
+        val otherValue = other.amount * form.centsPerUnit / other.form.centsPerUnit
+        return amount.compareTo(otherValue)
     }
 }
 fun Currency(amount: Long, form: Currency.Form): Currency {
