@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.desktop
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
@@ -35,7 +36,7 @@ fun main() = application {
     ) {
         XyzApp(
             dependencies = appDependencies,
-            isDarkTheme = false
+            isDarkTheme = isSystemInDarkTheme()
         )
     }
 

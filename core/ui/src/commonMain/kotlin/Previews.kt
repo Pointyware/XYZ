@@ -107,7 +107,6 @@ fun DevicePreview(
     device: DeviceConfig,
     content: @Composable () -> Unit,
 ) {
-    // TODO: provide a way to switch between light and dark mode; add actual implementation for androidx `isSystemInDarkTheme()`?
     Column(
         modifier = Modifier.border(1.dp, Color.White)
     ) {
