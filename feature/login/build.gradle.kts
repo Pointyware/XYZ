@@ -64,6 +64,8 @@ kotlin {
                 implementation(projects.feature.ride)
                 implementation(projects.feature.drive)
 
+                implementation(libs.coil.core)
+                implementation(libs.coil.networkKtor)
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.koin.core)
