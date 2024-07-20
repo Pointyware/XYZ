@@ -17,11 +17,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import navigation.loginRoute
 import navigation.loginRouting
 import org.pointyware.xyz.core.navigation.LocationRoot
 import org.pointyware.xyz.core.navigation.NamedLocation
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.drive.navigation.driveRouting
+import org.pointyware.xyz.feature.login.navigation.accountCreationRoute
+import org.pointyware.xyz.feature.login.navigation.profileRoute
 import org.pointyware.xyz.feature.login.navigation.profileRouting
 import org.pointyware.xyz.feature.ride.navigation.rideRouting
 import org.pointyware.xyz.shared.di.AppDependencies
@@ -38,6 +41,11 @@ fun XyzApp(
 ) {
     val navController = dependencies.getNavigationDependencies().getNavController()
 
+    val titleMap = mapOf(
+        loginRoute to "Login",
+        accountCreationRoute to "New Account",
+        profileRoute to "Profile",
+    )
     XyzTheme(
         isDark = isDarkTheme
     ) {
@@ -62,9 +70,14 @@ fun XyzApp(
                         }
                     },
                     title = {
-                        val name = when(val location = currentLocation.value) {
+                        val location = currentLocation.value
+                        val mappedTitle = titleMap[location]
+                        val name = when(location) {
                             is NamedLocation -> {
                                 location.name
+                            }
+                            (mappedTitle != null) -> {
+                                mappedTitle!!
                             }
                             else -> location.toString()
                         }
