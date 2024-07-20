@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import org.pointyware.xyz.core.navigation.NavOptions
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.components.ErrorDialog
 import org.pointyware.xyz.core.ui.components.ErrorState
@@ -56,22 +57,19 @@ fun AuthorizationScreen(
                 LoadingView(modifier = Modifier.fillMaxSize())
             }
             is LoadingUiState.Success -> {
-                // remove login location
-                navController.goBack()
-                // add new location
                 val event = capture.value
-                when (event) {
-
+                val location = when (event) {
                     AuthorizationEvent.NewUser -> {
-                        navController.navigateTo(accountCreationRoute)
+                        accountCreationRoute
                     }
                     AuthorizationEvent.Ride -> {
-                        navController.navigateTo(rideRoute)
+                        rideRoute
                     }
                     AuthorizationEvent.Driver -> {
-                        navController.navigateTo(driveRoute)
+                        driveRoute
                     }
                 }
+                navController.navigateTo(location, navOptions = NavOptions(clearBackStack = true))
             }
             is LoadingUiState.Error -> {
                 // show error message
