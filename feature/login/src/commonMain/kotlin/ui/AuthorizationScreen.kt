@@ -5,7 +5,6 @@
 package org.pointyware.xyz.feature.login.ui
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -13,10 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.NavOptions
 import org.pointyware.xyz.core.navigation.XyzNavController
-import org.pointyware.xyz.core.ui.components.ErrorDialog
-import org.pointyware.xyz.core.ui.components.ErrorState
-import org.pointyware.xyz.core.ui.components.LoadingView
-import org.pointyware.xyz.core.viewmodels.LoadingUiState
+import org.pointyware.xyz.core.ui.LoadingResultView
 import org.pointyware.xyz.drive.navigation.driveRoute
 import org.pointyware.xyz.feature.login.navigation.accountCreationRoute
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationEvent
@@ -49,15 +45,10 @@ fun AuthorizationScreen(
             onSubmit = authorizationViewModel::onSubmit,
             onSwitch = authorizationViewModel::onSwitch,
         )
-        when (val capture = loadingState) {
-            is LoadingUiState.Idle -> {
-                // show nothing
-            }
-            is LoadingUiState.Loading -> {
-                LoadingView(modifier = Modifier.fillMaxSize())
-            }
-            is LoadingUiState.Success -> {
-                val event = capture.value
+        LoadingResultView(
+            state = loadingState,
+            onSuccess = {
+                val event = it
                 val location = when (event) {
                     AuthorizationEvent.NewUser -> {
                         accountCreationRoute
@@ -70,18 +61,9 @@ fun AuthorizationScreen(
                     }
                 }
                 navController.navigateTo(location, navOptions = NavOptions(clearBackStack = true))
-            }
-            is LoadingUiState.Error -> {
-                // show error message
-                ErrorDialog(
-                    state = ErrorState(
-                        message = capture.message,
-                        dismissLabel = "Dismiss"
-                    ),
-                    onDismiss = authorizationViewModel::onDismissError
-                )
-            }
-        }
+            },
+            onDismiss = authorizationViewModel::onDismissError
+        )
     }
 }
 
