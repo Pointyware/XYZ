@@ -15,6 +15,7 @@ import org.pointyware.xyz.core.navigation.XyzRootScope
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
 import org.pointyware.xyz.feature.login.di.LoginDependencies
 import org.pointyware.xyz.feature.login.ui.AccountCreationScreen
+import org.pointyware.xyz.feature.login.ui.UserProfileScreen
 
 val profileRoute = StaticRoute("profile", Unit)
 val accountCreationRoute = profileRoute.fixed("create")
@@ -25,24 +26,26 @@ val userProfileRoute = profileRoute.variable<Uuid>("userId")
  */
 @Composable
 fun XyzRootScope.profileRouting(
-    loginDependencies: LoginDependencies,
+    profileDependencies: LoginDependencies,
     navigationDependencies: NavigationDependencies
 ) {
 
     location(accountCreationRoute) {
-        val authorizationViewModel = remember { loginDependencies.getAuthorizationViewModel() }
+        val accountCreationViewModel = remember { profileDependencies.getAccountCreationViewModel() }
         val navController = remember { navigationDependencies.getNavController() }
 
         AccountCreationScreen(
-            modifier = Modifier.fillMaxSize()
+            viewModel = accountCreationViewModel,
+            navController = navController,
         )
     }
     location(userProfileRoute) {
-        val profileViewModel = remember { TODO("Implement profile view model") }
+        val profileViewModel = remember { profileDependencies.getProfileViewModel() }
         val navController = remember { navigationDependencies.getNavController() }
 
-//        UserProfileScreen(
-//
-//        )
+        UserProfileScreen(
+            viewModel = profileViewModel,
+            navController = navController,
+        )
     }
 }

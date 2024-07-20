@@ -4,9 +4,14 @@
 
 package org.pointyware.xyz.feature.login.ui
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.drive.ui.DriverProfileCreationView
+import org.pointyware.xyz.feature.login.viewmodels.AccountCreationStep
+import org.pointyware.xyz.feature.login.viewmodels.AccountCreationViewModel
 import org.pointyware.xyz.feature.ride.ui.RiderProfileCreationView
 
 /**
@@ -15,12 +20,22 @@ import org.pointyware.xyz.feature.ride.ui.RiderProfileCreationView
  */
 @Composable
 fun AccountCreationScreen(
+    viewModel: AccountCreationViewModel,
+    navController: XyzNavController,
     modifier: Modifier = Modifier,
 ) {
-    // TODO: Setup animation/navigation between the different views
-    RoleSelectionView()
-    DriverProfileCreationView()
-    RiderProfileCreationView()
+    val creationStep = viewModel.creationStep.value
+    AnimatedContent(
+        targetState = creationStep,
+        modifier = modifier.fillMaxSize(),
+    ) {
+        when (creationStep) {
+            AccountCreationStep.Role -> RoleSelectionView()
+            AccountCreationStep.Rider -> DriverProfileCreationView()
+            AccountCreationStep.Driver -> RiderProfileCreationView()
+            AccountCreationStep.Confirm -> TODO("Not yet implemented")
+        }
+    }
 }
 
 @Composable
