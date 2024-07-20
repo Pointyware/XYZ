@@ -13,6 +13,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
+data class NavOptions(
+    val clearBackStack: Boolean = false,
+)
 
 /**
  * Gives the ability to navigate amongst locations within a space, back to previous locations, and forward to locations that have been navigated back from.
@@ -32,7 +35,7 @@ interface StackNavigationController<K, A> {
      *
      * TODO: add navOptions/arguments to modify stack frame behavior
      */
-    fun navigateTo(location: @UnsafeVariance K, arguments: A? = null)
+    fun navigateTo(location: @UnsafeVariance K, arguments: A? = null, navOptions: NavOptions = NavOptions())
 
     /**
      * The current location in the space.
@@ -135,13 +138,23 @@ class StackNavigationControllerImpl<K: Any?, A: Any?>(
                 .stateIn(stateScope, SharingStarted.WhileSubscribed(), currentValue)
         }
 
-    override fun navigateTo(location: K, arguments: A?) {
-        mutableState.update {
-            it.copy(
-                backList = it.backList + it.frame,
-                forwardList = emptyList(),
-                frame = StackNavigationController.Frame(location, arguments),
-            )
+    override fun navigateTo(location: K, arguments: A?, navOptions: NavOptions) {
+        if (navOptions.clearBackStack) {
+            mutableState.update {
+                State(
+                    backList = emptyList(),
+                    forwardList = emptyList(),
+                    frame = StackNavigationController.Frame(location, arguments),
+                )
+            }
+        } else {
+            mutableState.update {
+                it.copy(
+                    backList = it.backList + it.frame,
+                    forwardList = emptyList(),
+                    frame = StackNavigationController.Frame(location, arguments),
+                )
+            }
         }
     }
 }
