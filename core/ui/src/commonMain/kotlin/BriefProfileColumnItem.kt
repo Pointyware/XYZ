@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import coil3.compose.AsyncImage
 import org.pointyware.xyz.core.viewmodels.BriefProfileUiState
 
 /**
@@ -22,7 +23,10 @@ fun BriefProfileColumnItem(
     Column(
         modifier = modifier,
     ) {
-        Text("Image placeholder: ${state.image}") // TODO: replace with actual image
+        AsyncImage(
+            model = state.image.value,
+            contentDescription = "Profile Image"
+        )
         Text("Name: ${state.name}")
         Text(text = "Rating: ${state.rating}")
     }
