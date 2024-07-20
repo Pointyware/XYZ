@@ -8,6 +8,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
+import kotlinx.coroutines.delay
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.login.data.Authorization
 import kotlin.random.Random
@@ -62,6 +63,7 @@ class SimpleAuthService(
 
 class TestAuthService(
     private val users: MutableMap<String, UserEntry> = mutableMapOf(),
+    private val defaultDelay: Long = 500
 ): AuthService {
     private val entropy = Random.Default
     data class TestAuthorization(
@@ -75,12 +77,14 @@ class TestAuthService(
     )
 
     override suspend fun login(email: String, password: String): Result<Authorization> {
+        delay(defaultDelay)
         return users[email]?.takeIf { it.password == password }?.let {
             Result.success(TestAuthorization(it.id, entropy.nextInt().toString()))
         } ?: Result.failure(Authorization.InvalidCredentialsException())
     }
 
     override suspend fun createUser(email: String, password: String): Result<Authorization> {
+        delay(defaultDelay)
         if (users.containsKey(email)) {
             return Result.failure(Authorization.InUseException(email))
         } else {
