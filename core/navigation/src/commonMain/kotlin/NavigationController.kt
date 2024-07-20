@@ -29,6 +29,8 @@ interface StackNavigationController<K, A> {
 
     /**
      * Navigate to a new location in the space, passing the given arguments.
+     *
+     * TODO: add navOptions/arguments to modify stack frame behavior
      */
     fun navigateTo(location: @UnsafeVariance K, arguments: A? = null)
 
