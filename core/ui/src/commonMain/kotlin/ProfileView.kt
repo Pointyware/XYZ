@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import coil3.compose.AsyncImage
 import org.pointyware.xyz.core.viewmodels.ProfileUiState
 
 /**
@@ -19,7 +20,10 @@ fun ProfileView(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        Text("Image placeholder: ${state.image}") // TODO: replace with actual image
+        AsyncImage(
+            model = state.image.value,
+            contentDescription = "Profile Image"
+        )
         Text("Name: ${state.fullName.given}")
         Text(text = "Rating: ${state.rating}")
         Text(text = "Gender: ${state.gender}")
