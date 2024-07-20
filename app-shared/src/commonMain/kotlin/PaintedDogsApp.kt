@@ -71,15 +71,13 @@ fun XyzApp(
                     },
                     title = {
                         val location = currentLocation.value
-                        val mappedTitle = titleMap[location]
                         val name = when(location) {
                             is NamedLocation -> {
                                 location.name
                             }
-                            (mappedTitle != null) -> {
-                                mappedTitle!!
+                            else -> {
+                                titleMap[location] ?: location.toString()
                             }
-                            else -> location.toString()
                         }
                         Text(text = name)
                     },

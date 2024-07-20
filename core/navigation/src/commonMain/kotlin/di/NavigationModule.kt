@@ -9,6 +9,7 @@ import org.koin.dsl.module
 import org.pointyware.xyz.core.navigation.StackNavigationController
 import org.pointyware.xyz.core.navigation.StackNavigationControllerImpl
 
+val homeQualifier = named("home")
 /**
  *
  */
@@ -16,6 +17,6 @@ fun coreNavigationModule() = module {
     single<NavigationDependencies> { KoinNavigationDependencies() }
 
     single<StackNavigationController<Any, Any>> {
-        StackNavigationControllerImpl(get<Any>(qualifier = named("login")))
+        StackNavigationControllerImpl(get<Any>(qualifier = homeQualifier))
     }
 }

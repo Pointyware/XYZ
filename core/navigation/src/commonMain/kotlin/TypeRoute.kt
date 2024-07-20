@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 /**
  * The final value built from a template used to direct a router to specific content.
  */
-class Path(
+data class Path(
     val segment: String,
     val parent: Path? = null
 ) {
@@ -32,7 +32,7 @@ const val pathParameterDefault = "id"
  * V: value type
  * P: parent type
  */
-class DynamicRoute<V, P>(
+data class DynamicRoute<V, P>(
     /**
      * The segment is the template that will be used to build a path.
      */
@@ -68,7 +68,7 @@ class DynamicRoute<V, P>(
 /**
  * P: parent type
  */
-class StaticRoute<P>(
+data class StaticRoute<P>(
     val segment: String,
     val parent: P
 ) {
