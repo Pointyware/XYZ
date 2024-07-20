@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import navigation.loginRouting
 import org.pointyware.xyz.core.navigation.LocationRoot
+import org.pointyware.xyz.core.navigation.NamedLocation
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.drive.navigation.driveRouting
 import org.pointyware.xyz.feature.login.navigation.profileRouting
@@ -61,7 +62,13 @@ fun XyzApp(
                         }
                     },
                     title = {
-                        Text(currentLocation.value.toString() ?: "XYZ")
+                        val name = when(val location = currentLocation.value) {
+                            is NamedLocation -> {
+                                location.name
+                            }
+                            else -> location.toString()
+                        }
+                        Text(text = name)
                     },
                     actions = {
                     },

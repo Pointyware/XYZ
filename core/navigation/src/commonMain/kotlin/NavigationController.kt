@@ -17,6 +17,10 @@ data class NavOptions(
     val clearBackStack: Boolean = false,
 )
 
+interface NamedLocation {
+    val name: String
+}
+
 /**
  * Gives the ability to navigate amongst locations within a space, back to previous locations, and forward to locations that have been navigated back from.
  *
