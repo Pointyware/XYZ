@@ -26,6 +26,11 @@ enum class EndReason {
 sealed interface Ride {
 
     /**
+     * The unique identifier of the ride.
+     */
+    val id: Uuid
+
+    /**
      * The time the ride was posted to the system.
      */
     val timePosted: Instant?
@@ -93,6 +98,7 @@ sealed interface Ride {
     }
 
     data class Draft(
+        override val id: Uuid,
         override val timeToStart: Instant,
         override val plannedRoute: Route,
     ): Ride {
@@ -117,6 +123,7 @@ sealed interface Ride {
     }
 
     data class Immediate(
+        override val id: Uuid,
         override val rider: RiderProfile?,
         override val plannedRoute: Route,
         override val timePosted: Instant,
@@ -140,6 +147,7 @@ sealed interface Ride {
     }
 
     data class Scheduled(
+        override val id: Uuid,
         override val rider: RiderProfile,
         override val plannedRoute: Route,
         override val timeToStart: Instant,
@@ -162,6 +170,7 @@ sealed interface Ride {
     }
 
     data class Accepted(
+        override val id: Uuid,
         override val rider: RiderProfile,
         override val driver: DriverProfile,
         override val plannedRoute: Route,
@@ -182,6 +191,7 @@ sealed interface Ride {
     }
 
     data class Ended(
+        override val id: Uuid,
         override val rider: RiderProfile,
         override val driver: DriverProfile,
         override val plannedRoute: Route,
@@ -193,5 +203,7 @@ sealed interface Ride {
         override val timeEnded: Instant,
         override val actualRoute: Route,
         override val endReason: EndReason,
-    ): Ride
+    ): Ride {
+
+    }
 }
