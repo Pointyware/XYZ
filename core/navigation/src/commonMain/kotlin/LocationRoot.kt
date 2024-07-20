@@ -20,14 +20,12 @@ fun <K, V> LocationRoot(
     modifier: Modifier = Modifier,
     content: @Composable LocationRootScope<K, V>.() -> Unit,
 ) {
-    // TODO: remove navigation callbacks in "routing" functions when type-safe navigation is implemented
     val locationRootScope = LocationRootScopeImpl<K, V>()
     locationRootScope.content()
 
     val currentLocation by navController.currentLocation.collectAsState()
     Box(modifier = modifier) {
         val currentContent = locationRootScope.locations[currentLocation]
-        // TODO: replace with "routing" function when type-safe navigation is implemented; location(route(...)) allows variables in paths, while navigating to a route requires matching variables (or defaults) in the route
         currentContent?.invoke(navController) ?: throw IllegalArgumentException("No content for location $currentLocation")
     }
 }
