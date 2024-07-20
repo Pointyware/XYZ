@@ -4,8 +4,10 @@
 
 package org.pointyware.xyz.feature.login.data
 
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import org.pointyware.xyz.core.entities.Profile
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.login.local.AuthCache
 import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.remote.AuthService
@@ -20,7 +22,7 @@ interface ProfileRepository {
     suspend fun createProfile(profile: Profile): Result<Profile>
     suspend fun updateProfile(profile: Profile): Result<Profile>
     suspend fun removeUser(email: String): Result<Unit>
-    suspend fun getProfile(email: String): Result<Profile>
+    suspend fun getProfile(email: String): Result<Profile?>
     suspend fun login(email: String, password: String): Result<Login>
 }
 
@@ -41,38 +43,73 @@ class ProfileRepositoryImpl(
         }
     }
 
+    private suspend fun getCurrentUserId(): Uuid {
+        return authCache.currentAuth.first()?.userId ?: throw IllegalStateException("currentAuth is null")
+    }
+
     override suspend fun createProfile(profile: Profile): Result<Profile> {
-        TODO("Not yet implemented")
+        return withContext(ioContext) {
+            try {
+                profileService.createProfile(getCurrentUserId(), profile)
+                    .onSuccess { profileCache.saveProfile(it) }
+                    .onFailure { profileCache.dropProfile(profile.email) }
+            } catch(error: Throwable) {
+                Result.failure(error)
+            }
+        }
     }
 
     override suspend fun updateProfile(profile: Profile): Result<Profile> {
-        TODO("Not yet implemented")
+        return withContext(ioContext) {
+            try {
+                profileService.updateProfile(getCurrentUserId(), profile)
+                    .onSuccess { profileCache.saveProfile(it) }
+            } catch(error: Throwable) {
+                Result.failure(error)
+            }
+        }
     }
 
     override suspend fun removeUser(email: String): Result<Unit> {
-        TODO("Not yet implemented")
+        return withContext(ioContext) {
+            try {
+                profileService.deleteProfile(getCurrentUserId())
+                    .onSuccess { profileCache.dropProfile(email) }
+            } catch(error: Throwable) {
+                Result.failure(error)
+            }
+        }
     }
 
-    override suspend fun getProfile(email: String): Result<Profile> {
-        TODO("Not yet implemented")
+    override suspend fun getProfile(email: String): Result<Profile?> {
+        return withContext(ioContext) {
+            try {
+                profileCache.getProfile(email)
+                    .onFailure { profileService.getProfile(getCurrentUserId()) }
+            } catch(error: Throwable) {
+                Result.failure(error)
+            }
+        }
     }
 
     override suspend fun login(email: String, password: String): Result<Login> {
-        authService.login(email, password)
-            .onSuccess { auth ->
-                authCache.setAuth(auth)
-                profileService.getProfile(auth.userId)
-                    .onSuccess { profile ->
-                        profile?.let { profileCache.saveProfile(profile) }
-                        return Result.success(Login(auth, profile))
-                    }
-                    .onFailure { error ->
-                        return Result.failure(error)
-                    }
-            }
-            .onFailure {
-                return Result.failure(it)
-            }
-        return Result.failure(IllegalStateException("This should never happen"))
+        return withContext(ioContext) {
+            authService.login(email, password)
+                .onSuccess { auth ->
+                    authCache.setAuth(auth)
+                    profileService.getProfile(auth.userId)
+                        .onSuccess { profile ->
+                            profile?.let { profileCache.saveProfile(profile) }
+                            return@withContext Result.success(Login(auth, profile))
+                        }
+                        .onFailure { error ->
+                            return@withContext Result.failure(error)
+                        }
+                }
+                .onFailure {
+                    return@withContext Result.failure(it)
+                }
+            return@withContext Result.failure(IllegalStateException("This should never happen"))
+        }
     }
 }

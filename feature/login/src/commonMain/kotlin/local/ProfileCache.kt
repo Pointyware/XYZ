@@ -11,6 +11,7 @@ import org.pointyware.xyz.core.entities.Profile
  */
 interface ProfileCache {
     fun saveProfile(it: Profile)
+    fun getProfile(email: String): Result<Profile>
     fun dropProfile(email: String)
 }
 
@@ -22,6 +23,10 @@ class ProfileCacheImpl(
 
     override fun saveProfile(it: Profile) {
         cache[it.email] = it
+    }
+
+    override fun getProfile(email: String): Result<Profile> {
+        TODO("Not yet implemented")
     }
 
     override fun dropProfile(email: String) {
