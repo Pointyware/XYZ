@@ -22,7 +22,6 @@ interface ProfileRepository {
     suspend fun removeUser(email: String): Result<Unit>
     suspend fun getProfile(email: String): Result<Profile>
     suspend fun login(email: String, password: String): Result<Login>
-
 }
 
 class ProfileRepositoryImpl(
@@ -64,7 +63,7 @@ class ProfileRepositoryImpl(
                 authCache.setAuth(auth)
                 profileService.getProfile(auth.userId)
                     .onSuccess { profile ->
-                        profileCache.saveProfile(profile)
+                        profile?.let { profileCache.saveProfile(profile) }
                         return Result.success(Login(auth, profile))
                     }
                     .onFailure { error ->

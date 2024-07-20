@@ -95,7 +95,6 @@ class AuthorizationViewModelImpl(
                             }
                             mutableLoadingState.value = LoadingUiState.Success(AuthorizationEvent.NewUser)
                         }
-                        .onFailure { mutableLoadingState.postError(it) }
                 } else {
                     createUserUseCase.invoke(state.email, state.password)
                         .onSuccess {

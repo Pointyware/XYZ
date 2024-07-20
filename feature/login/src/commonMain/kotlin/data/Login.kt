@@ -12,5 +12,5 @@ import org.pointyware.xyz.feature.login.data.Authorization
  */
 data class Login(
     val authorization: Authorization,
-    val profile: Profile
+    val profile: Profile?
 )

@@ -19,7 +19,7 @@ import org.pointyware.xyz.core.entities.Profile as ProfileEntity
  */
 interface ProfileService {
     suspend fun createProfile(userId: Uuid, profile: ProfileEntity): Result<ProfileEntity>
-    suspend fun getProfile(userId: Uuid): Result<ProfileEntity>
+    suspend fun getProfile(userId: Uuid): Result<ProfileEntity?>
     suspend fun updateProfile(userId: Uuid, profile: ProfileEntity): Result<ProfileEntity>
     suspend fun deleteProfile(userId: Uuid): Result<Unit>
 }
@@ -38,7 +38,7 @@ class KtorProfileService(
         }
     }
 
-    override suspend fun getProfile(userId: Uuid): Result<ProfileEntity> {
+    override suspend fun getProfile(userId: Uuid): Result<ProfileEntity?> {
         try {
             val response = client.get(Profile.Id(userId.toString()))
             return Result.success(response.body<ProfileEntity>())
@@ -77,11 +77,9 @@ class TestProfileService(
         return Result.success(profile)
     }
 
-    override suspend fun getProfile(userId: Uuid): Result<ProfileEntity> {
-        profiles[userId]?.let {
+    override suspend fun getProfile(userId: Uuid): Result<ProfileEntity?> {
+        profiles[userId].let {
             return Result.success(it)
-        } ?: run {
-            return Result.failure(Exception("Profile not found"))
         }
     }
 
