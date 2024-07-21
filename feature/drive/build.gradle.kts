@@ -62,6 +62,7 @@ kotlin {
 
                 implementation(libs.coil.core)
                 implementation(libs.coil.compose)
+                implementation(libs.coil.networkKtor)
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.koin.core)
