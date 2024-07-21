@@ -63,7 +63,7 @@ fun XyzRootScope.profileRouting(
             onGivenNameChange = TODO(),
             onMiddleNameChange = TODO(),
             onFamilyNameChange = TODO(),
-            onBirthdateChange = TODO(),
+            onBirthdateSelected = TODO(),
             onGenderSelected = TODO(),
             onCompanySelected = TODO(),
             onSubmit = TODO(),
@@ -71,7 +71,17 @@ fun XyzRootScope.profileRouting(
     }
     location(riderCreationRoute) {
         RiderProfileCreationView(
-
+            state = TODO(),
+            modifier = Modifier.fillMaxSize(),
+            onProfileImageSelected = TODO(),
+            onGivenNameChange = TODO(),
+            onMiddleNameChange = TODO(),
+            onFamilyNameChange = TODO(),
+            onBirthdateSelected = TODO(),
+            onGenderSelected = TODO(),
+            onDisabilitiesSelected = TODO(),
+            onPreferencesChange = TODO(),
+            onSubmit = TODO(),
         )
     }
     location(userProfileRoute) {
