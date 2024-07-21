@@ -4,7 +4,7 @@
 
 package org.pointyware.xyz.core.navigation
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,7 +24,10 @@ fun <K, V> LocationRoot(
     locationRootScope.content()
 
     val currentLocation by navController.currentLocation.collectAsState()
-    Box(modifier = modifier) {
+    AnimatedContent(
+        targetState = currentLocation,
+        modifier = modifier,
+    ) {
         val currentContent = locationRootScope.locations[currentLocation]
         currentContent?.invoke(navController) ?: throw IllegalArgumentException("No content for location $currentLocation")
     }
