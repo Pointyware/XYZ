@@ -11,6 +11,7 @@ import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.PhoneNumber
 import org.pointyware.xyz.core.entities.Rating
 import org.pointyware.xyz.core.entities.Uri
+import org.pointyware.xyz.core.entities.Uuid
 
 /**
  * A detailed profile UI state. For less detail see [BriefProfileUiState].
@@ -31,6 +32,7 @@ interface RiderProfileUiState: ProfileUiState {
 
 
 interface CompanyProfileUiState {
+    val id: Uuid
     val banner: Uri
     val logo: Uri
     val name: String
