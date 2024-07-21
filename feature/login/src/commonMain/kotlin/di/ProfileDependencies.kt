@@ -11,6 +11,7 @@ import org.pointyware.xyz.feature.login.viewmodels.ProfileViewModel
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 
 /**
+ * A set of dependencies for the profile feature.
  */
 interface ProfileDependencies {
     fun getProfileViewModel(): ProfileViewModel
