@@ -6,15 +6,18 @@ package org.pointyware.xyz.core.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import org.pointyware.xyz.core.entities.Company
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.viewmodels.CompanyProfileUiState
 
 /**
  * A search bar that allows the user to search for a company that shows up in a list or register a new company.
  */
 @Composable
 fun CompanyPicker(
+    value: CompanyProfileUiState,
     modifier: Modifier = Modifier,
-    onCompanySelected: (Uuid) -> Unit
+    onSelectCompany: (Uuid) -> Unit
 ) {
     TODO("Not yet Implemented" +
             "")

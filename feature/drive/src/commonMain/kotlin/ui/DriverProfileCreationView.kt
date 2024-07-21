@@ -16,6 +16,7 @@ import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.Gender
 import org.pointyware.xyz.core.entities.Uri
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.ui.CompanyPicker
 import org.pointyware.xyz.core.ui.ProfileCreationView
 import org.pointyware.xyz.core.viewmodels.DriverProfileUiState
 
@@ -49,10 +50,10 @@ fun DriverProfileCreationView(
             onGenderSelected = onGenderSelected,
         )
 
-//        CompanyPicker( // TODO: implement
-//            state = state.company,
-//            onSelectCompany = { onCompanySelected(state.company.id) }
-//        )
+        CompanyPicker(
+            value = state.company,
+            onSelectCompany = { onCompanySelected(state.company.id) }
+        )
 
         LazyColumn {
             items(state.accommodations.toList()) { accommodation ->
