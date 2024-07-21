@@ -4,26 +4,58 @@
 
 package org.pointyware.xyz.feature.ride.ui
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import kotlinx.datetime.Instant
+import org.pointyware.xyz.core.entities.Disability
+import org.pointyware.xyz.core.entities.Gender
+import org.pointyware.xyz.core.entities.Uri
+import org.pointyware.xyz.core.ui.ProfileCreationView
+import org.pointyware.xyz.core.viewmodels.RiderProfileUiState
 
 /**
  * Presents the user with a form to create their rider profile.
  */
 @Composable
 fun RiderProfileCreationView(
+    state: RiderProfileUiState,
     modifier: Modifier = Modifier,
+    onProfileImageSelected: (Uri)->Unit,
+    onGivenNameChange: (String)->Unit,
+    onMiddleNameChange: (String)->Unit,
+    onFamilyNameChange: (String)->Unit,
+    onBirthdateSelected: (Instant?)->Unit,
+    onGenderSelected: (Gender)->Unit,
+    onDisabilitiesSelected: (List<Disability>)->Unit,
+    onPreferencesChange: (String)->Unit,
+    onSubmit: ()->Unit,
 ) {
-    /*
-    TODO: Implement RiderProfileView. This view should display the rider profile.
-      1. Profile image
-      2. Given name
-      3. Middle name
-      4. Family name
-      5. Birthday
-      6. Gender
-      7. Bio
-      8. Disabilities
-      9. Preferences
-     */
+    Column(
+        modifier = modifier,
+    ) {
+        ProfileCreationView(
+            state = state,
+            onProfileImageSelected = onProfileImageSelected,
+            onGivenNameChange = onGivenNameChange,
+            onMiddleNameChange = onMiddleNameChange,
+            onFamilyNameChange = onFamilyNameChange,
+            onBirthdateSelected = onBirthdateSelected,
+            onGenderSelected = onGenderSelected,
+        )
+
+        // TODO: disabilities
+        TextField(
+            value = state.preferences,
+            label = { Text("Phone Number") },
+            onValueChange = onPreferencesChange
+        )
+
+        Button(onClick = onSubmit) {
+            Text(text = "Submit")
+        }
+    }
 }
