@@ -17,6 +17,7 @@ interface InjectionController {
 
     /**
      * Returns an instance of the object based on the current environment setting. If a factory is not found for the current environment, the next environment in the list is used. In order: dev, stage, prod.
+     * @throws IllegalStateException if no factory is found for the current environment or any of the subsequent environments.
      */
     fun <T> inject(factoryMap: Map<Environment, ()->T>): T
 }
