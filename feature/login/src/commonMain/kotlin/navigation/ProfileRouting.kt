@@ -6,6 +6,8 @@ package org.pointyware.xyz.feature.login.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.entities.profile.Role
@@ -56,8 +58,10 @@ fun XyzRootScope.profileRouting(
         )
     }
     location(driverCreationRoute) {
+        val driverProfileViewModel = remember { profileDependencies.getDriverProfileCreationViewModel() }
+        val state by driverProfileViewModel.state.collectAsState()
         DriverProfileCreationView(
-            state = TODO(),
+            state = state,
             modifier = Modifier.fillMaxSize(),
             onProfileImageSelected = TODO(),
             onGivenNameChange = TODO(),
@@ -70,8 +74,10 @@ fun XyzRootScope.profileRouting(
         )
     }
     location(riderCreationRoute) {
+        val riderProfileViewModel = remember { profileDependencies.getRiderProfileCreationViewModel() }
+        val state by riderProfileViewModel.state.collectAsState()
         RiderProfileCreationView(
-            state = TODO(),
+            state = state,
             modifier = Modifier.fillMaxSize(),
             onProfileImageSelected = TODO(),
             onGivenNameChange = TODO(),
