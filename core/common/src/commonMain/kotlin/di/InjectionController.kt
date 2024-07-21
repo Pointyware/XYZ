@@ -21,7 +21,7 @@ interface InjectionController {
     fun <T> inject(factoryMap: Map<Environment, ()->T>): T
 }
 
-class InjectionControllerImpl: InjectionController {
+internal class InjectionControllerImpl: InjectionController {
 
     override var environment: Environment = Environment.DEV
 
