@@ -32,7 +32,7 @@ fun DriverProfileCreationView(
     onGivenNameChange: (String)->Unit,
     onMiddleNameChange: (String)->Unit,
     onFamilyNameChange: (String)->Unit,
-    onBirthdateSelected: (Instant?)->Unit, // TODO: solve date picker lacking callback
+    onBirthdateSelected: (Instant?)->Unit,
     onCompanySelected: (Uuid)->Unit,
     onGenderSelected: (Gender)->Unit,
     onSubmit: ()->Unit
