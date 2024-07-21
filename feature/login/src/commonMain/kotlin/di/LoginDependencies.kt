@@ -15,17 +15,8 @@ import org.pointyware.xyz.feature.login.viewmodels.ProfileViewModel
  */
 interface LoginDependencies {
     fun getAuthorizationViewModel(): AuthorizationViewModel
-    fun getProfileViewModel(): ProfileViewModel
-    fun getAccountCreationViewModel(): AccountCreationViewModel
 }
 
 class KoinLoginDependencies : LoginDependencies, KoinComponent {
     override fun getAuthorizationViewModel(): AuthorizationViewModel = get()
-    override fun getProfileViewModel(): ProfileViewModel {
-        return get()
-    }
-
-    override fun getAccountCreationViewModel(): AccountCreationViewModel {
-        return get()
-    }
 }

@@ -14,6 +14,7 @@ import org.pointyware.xyz.core.navigation.StaticRoute
 import org.pointyware.xyz.core.navigation.XyzRootScope
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
 import org.pointyware.xyz.feature.login.di.LoginDependencies
+import org.pointyware.xyz.feature.login.di.ProfileDependencies
 import org.pointyware.xyz.feature.login.ui.AccountCreationScreen
 import org.pointyware.xyz.feature.login.ui.UserProfileScreen
 
@@ -26,7 +27,7 @@ val userProfileRoute = profileRoute.variable<Uuid>("userId")
  */
 @Composable
 fun XyzRootScope.profileRouting(
-    profileDependencies: LoginDependencies,
+    profileDependencies: ProfileDependencies,
     navigationDependencies: NavigationDependencies
 ) {
 

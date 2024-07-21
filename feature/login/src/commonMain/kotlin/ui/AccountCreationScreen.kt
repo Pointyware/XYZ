@@ -30,10 +30,20 @@ fun AccountCreationScreen(
         modifier = modifier.fillMaxSize(),
     ) {
         when (creationStep) {
-            AccountCreationStep.Role -> RoleSelectionView()
-            AccountCreationStep.Rider -> DriverProfileCreationView()
-            AccountCreationStep.Driver -> RiderProfileCreationView()
-            AccountCreationStep.Confirm -> TODO("Not yet implemented")
+            AccountCreationStep.Role -> {
+                RoleSelectionView()
+            }
+            AccountCreationStep.Rider -> {
+                DriverProfileCreationView(
+
+                )
+            }
+            AccountCreationStep.Driver -> {
+                RiderProfileCreationView()
+            }
+            AccountCreationStep.Confirm -> {
+                TODO("Not yet implemented")
+            }
         }
     }
 }
