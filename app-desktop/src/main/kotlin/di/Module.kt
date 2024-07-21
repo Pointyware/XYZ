@@ -6,6 +6,7 @@ package org.pointyware.xyz.desktop.di
 
 import org.koin.dsl.module
 import org.pointyware.xyz.core.ui.components.LoadingViewResources
+import org.pointyware.xyz.core.ui.design.Resources
 import org.pointyware.xyz.shared.di.appModule
 import org.pointyware.xyz.shared.entities.SharedFileResources
 import org.pointyware.xyz.shared.entities.SharedStringResources
@@ -28,6 +29,7 @@ fun desktopModule() = module {
     single<SharedDrawableResources> { DesktopDrawableResources() }
     single<SharedFileResources> { DesktopFileResources() }
 
+    single<Resources> { DesktopResources(get()) }
     // loading view resources
 
     factory<LoadingViewResources> { DesktopLoadingViewResources() }

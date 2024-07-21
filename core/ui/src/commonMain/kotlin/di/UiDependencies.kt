@@ -7,14 +7,14 @@ package org.pointyware.xyz.core.ui.di
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.pointyware.xyz.core.ui.components.LoadingViewResources
+import org.pointyware.xyz.core.ui.design.Resources
 
 /**
  */
 interface UiDependencies {
-    val loadingViewResources: LoadingViewResources
+    val resources: Resources
 }
 
 class KoinUiDependencies : UiDependencies, KoinComponent {
-    override val loadingViewResources: LoadingViewResources
-        get() = get()
+    override val resources: Resources = get()
 }

@@ -14,35 +14,49 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.unit.Dp
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.pointyware.xyz.core.ui.di.KoinUiDependencies
 import org.pointyware.xyz.core.ui.di.UiDependencies
 
-interface XPDateFormatter {
-    fun format(date: Instant): String
-}
-val SimpleDateFormatter = object : XPDateFormatter {
-    override fun format(date: Instant): String {
-        return date.toString()
-    }
-}
-val DateFormat = compositionLocalOf<XPDateFormatter> { throw IllegalStateException("DateFormat not provided") }
+val LocalDateFormatter = compositionLocalOf<DateFormatter> { throw IllegalStateException("DateFormat not provided") }
 
-val ComposeResources = compositionLocalOf<UiDependencies> { throw IllegalStateException("UiResources not provided") }
+val LocalResources = compositionLocalOf<Resources> { throw IllegalStateException("UiResources not provided") }
+
+val LocalDimensions = compositionLocalOf<Dimensions> { throw IllegalStateException("LocalDimensions not provided") }
+
+object XyzTheme {
+    val dateFormatter: DateFormatter
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalDateFormatter.current
+    val resources: Resources
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalResources.current
+    val dimensions: Dimensions
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalDimensions.current
+}
 
 /**
- * Extends the Material3 Theme with an [XPDateFormatter].
+ * Extends the Material3 Theme with an [DateFormatter].
  */
 @Composable
 fun XyzTheme(
+    uiDependencies: UiDependencies = remember { KoinUiDependencies() },
     isDark: Boolean = false,
     content: @Composable ()->Unit,
 ) {
     CompositionLocalProvider(
-        DateFormat provides SimpleDateFormatter,
-        ComposeResources provides KoinUiDependencies(),
+        LocalDateFormatter provides SimpleDateFormatter,
+        LocalResources provides uiDependencies.resources,
+        LocalDimensions provides MultiplatformDimensions,
     ) {
         MaterialTheme(
             colorScheme = if (isDark) darkColors else lightColors,

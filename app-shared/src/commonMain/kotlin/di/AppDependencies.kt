@@ -7,6 +7,7 @@ package org.pointyware.xyz.shared.di
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
+import org.pointyware.xyz.core.ui.di.UiDependencies
 import org.pointyware.xyz.drive.di.DriveDependencies
 import org.pointyware.xyz.feature.login.di.LoginDependencies
 import org.pointyware.xyz.feature.login.di.ProfileDependencies
@@ -16,31 +17,25 @@ import org.pointyware.xyz.feature.ride.di.RideDependencies
  * Top level dependencies for the app
  */
 interface AppDependencies {
-    fun getLoginDependencies(): LoginDependencies
 
     fun getNavigationDependencies(): NavigationDependencies
+    fun getUiDependencies(): UiDependencies
+
+    fun getLoginDependencies(): LoginDependencies
+    fun getProfileDependencies(): ProfileDependencies
     fun getDriveDependencies(): DriveDependencies
     fun getRideDependencies(): RideDependencies
-    fun getProfileDependencies(): ProfileDependencies
 }
 
 fun getDependencies(): AppDependencies = KoinAppDependencies()
 
 class KoinAppDependencies: AppDependencies, KoinComponent {
-    override fun getLoginDependencies(): LoginDependencies {
-        return get()
-    }
 
     override fun getNavigationDependencies(): NavigationDependencies = get()
-    override fun getDriveDependencies(): DriveDependencies {
-        return get()
-    }
+    override fun getUiDependencies(): UiDependencies = get()
 
-    override fun getRideDependencies(): RideDependencies {
-        return get()
-    }
-
-    override fun getProfileDependencies(): ProfileDependencies {
-        return get()
-    }
+    override fun getLoginDependencies(): LoginDependencies = get()
+    override fun getDriveDependencies(): DriveDependencies = get()
+    override fun getRideDependencies(): RideDependencies = get()
+    override fun getProfileDependencies(): ProfileDependencies = get()
 }
