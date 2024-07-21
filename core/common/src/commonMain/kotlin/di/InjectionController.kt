@@ -21,16 +21,22 @@ interface InjectionController {
     fun <T> inject(factoryMap: Map<Environment, ()->T>): T
 }
 
-object SingletonInjectionController: InjectionController {
+class InjectionControllerImpl: InjectionController {
 
     override var environment: Environment = Environment.DEV
 
     override fun <T> inject(factoryMap: Map<Environment, () -> T>): T {
-        val factoryIndex = Environment.entries.indexOf(environment).takeIf { it >= 0 } ?: Environment.DEV
-
-        val factory = factoryMap[environment] ?: throw IllegalStateException("No factory found for environment: $environment")
-        return factory.invoke()
+        for (index in environment.ordinal until Environment.entries.size) {
+            val environment = Environment.entries[index]
+            val factory = factoryMap[environment]
+            if (factory != null) {
+                return factory.invoke()
+            }
+        }
+        throw IllegalStateException("No factory found for environment: $environment")
     }
 }
 
-fun <T> inject(factoryMap: Map<Environment, ()->T>): T = SingletonInjectionController.inject(factoryMap)
+val singletonInjectionController: InjectionController = InjectionControllerImpl()
+
+fun <T> inject(factoryMap: Map<Environment, ()->T>): T = singletonInjectionController.inject(factoryMap)

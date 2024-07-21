@@ -18,7 +18,7 @@ class SingletonInjectionControllerTest {
 
     @BeforeTest
     fun setUp() {
-        controller = SingletonInjectionController
+        controller = InjectionControllerImpl()
     }
 
     @Test
@@ -115,11 +115,10 @@ class SingletonInjectionControllerTest {
     fun inject_prod_for_stage() {
         // given the current environment is stage
         controller.environment = Environment.STAGE
-        // given a factory is provided for dev, stage, prod environment
+        // given a factory is provided for dev, prod environment
         val dependency = controller.inject(
             mapOf(
                 Environment.DEV to { "dev" },
-                Environment.STAGE to { "stage" },
                 Environment.PROD to { "prod" }
             )
         )
