@@ -4,39 +4,33 @@
 
 package org.pointyware.xyz.core.common.di
 
-const val devEnvironment = "dev"
-const val stageEnvironment = "stage"
-const val prodEnvironment = "prod"
+enum class Environment {
+    DEV, STAGE, PROD
+}
 
 /**
  * Controls the injection of objects based on the current environment setting.
  */
 interface InjectionController {
 
-    var environment: String
+    var environment: Environment
 
     /**
      * Returns an instance of the object based on the current environment setting. If a factory is not found for the current environment, the next environment in the list is used. In order: dev, stage, prod.
      */
-    fun <T> inject(factoryMap: Map<String, ()->T>): T
+    fun <T> inject(factoryMap: Map<Environment, ()->T>): T
 }
 
 object SingletonInjectionController: InjectionController {
 
-    private val environmentList = listOf(devEnvironment, stageEnvironment, prodEnvironment)
+    override var environment: Environment = Environment.DEV
 
-    override var environment: String = devEnvironment
-
-    override fun <T> inject(factoryMap: Map<String, () -> T>): T {
-        require(factoryMap.keys.none { it !in listOf(devEnvironment, stageEnvironment, prodEnvironment) }) {
-            "Factory map keys must be one of the following: $devEnvironment, $stageEnvironment, $prodEnvironment"
-        }
-        //
-        val factoryIndex = environmentList.indexOf(environment).takeIf { it >= 0 } ?: devEnvironment
+    override fun <T> inject(factoryMap: Map<Environment, () -> T>): T {
+        val factoryIndex = Environment.entries.indexOf(environment).takeIf { it >= 0 } ?: Environment.DEV
 
         val factory = factoryMap[environment] ?: throw IllegalStateException("No factory found for environment: $environment")
         return factory.invoke()
     }
 }
 
-fun <T> inject(factoryMap: Map<String, ()->T>): T = SingletonInjectionController.inject(factoryMap)
+fun <T> inject(factoryMap: Map<Environment, ()->T>): T = SingletonInjectionController.inject(factoryMap)
