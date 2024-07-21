@@ -37,6 +37,6 @@ class InjectionControllerImpl: InjectionController {
     }
 }
 
-val singletonInjectionController: InjectionController = InjectionControllerImpl()
+private val singletonInjectionController: InjectionController = InjectionControllerImpl()
 
 fun <T> inject(factoryMap: Map<Environment, ()->T>): T = singletonInjectionController.inject(factoryMap)
