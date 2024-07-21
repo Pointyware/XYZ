@@ -25,15 +25,14 @@ fun RiderProfileCreationScreen(
     val state by viewModel.state.collectAsState()
     RiderProfileCreationView(
         state = state,
-        modifier = Modifier.fillMaxSize(),
-        onProfileImageSelected = TODO(),
-        onGivenNameChange = TODO(),
-        onMiddleNameChange = TODO(),
-        onFamilyNameChange = TODO(),
-        onBirthdateSelected = TODO(),
-        onGenderSelected = TODO(),
-        onDisabilitiesSelected = TODO(),
-        onPreferencesChange = TODO(),
-        onSubmit = TODO(),
+        onProfileImageSelected = viewModel::onProfileImageSelected,
+        onGivenNameChange = viewModel::onGivenNameChange,
+        onMiddleNameChange = viewModel::onMiddleNameChange,
+        onFamilyNameChange = viewModel::onFamilyNameChange,
+        onBirthdateSelected = viewModel::onBirthdateSelected,
+        onGenderSelected = viewModel::onGenderSelected,
+        onDisabilitiesSelected = viewModel::onDisabilitiesSelected,
+        onPreferencesChange = viewModel::onPreferencesChange,
+        onSubmit = viewModel::onSubmit,
     )
 }

@@ -30,8 +30,7 @@ data class DisabilityPickerState(
 fun DisabilityPicker(
     state: DisabilityPickerState,
     modifier: Modifier = Modifier,
-    onAdd: (Disability)->Unit, // or? onUpdateSelected: (List<Disability>)->Unit
-    onRemove: (Disability)->Unit
+    onUpdateSelected: (List<Disability>)->Unit,
 ) {
     Column(
         modifier = modifier
@@ -41,7 +40,7 @@ fun DisabilityPicker(
             state.selected.forEach {
                 DisabilityChip(
                     value = it,
-                    onRemove = { onRemove(it) }
+                    onRemove = { onUpdateSelected(state.selected - it) }
                 )
             }
         }
@@ -53,7 +52,7 @@ fun DisabilityPicker(
             DisabilityPickerDialog(
                 onDismiss = { showDialog = false },
                 onSelectDisability = {
-                    onAdd(it)
+                    onUpdateSelected(state.selected + it)
                     showDialog = false
                 }
             )

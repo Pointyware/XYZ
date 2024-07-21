@@ -4,11 +4,13 @@
 
 package org.pointyware.xyz.feature.login.viewmodels
 
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.datetime.Instant
-import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.data.Uri
-import org.pointyware.xyz.core.viewmodels.DriverProfileUiState
+import org.pointyware.xyz.core.entities.profile.Gender
+import org.pointyware.xyz.core.viewmodels.KoinViewModel
 import org.pointyware.xyz.core.viewmodels.ProfileUiState
 
 /**
@@ -22,11 +24,14 @@ interface ProfileCreationViewModel<out P:ProfileUiState> {
     fun onFamilyNameChange(name: String)
     fun onBirthdateSelected(date: Instant?)
     fun onGenderSelected(gender: Gender)
+    fun onSubmit()
 }
 
-class ProfileCreationViewModelImpl<out P:ProfileUiState>: ProfileCreationViewModel<P> {
-    override val state: StateFlow<P>
-        get() = TODO()
+abstract class ProfileCreationViewModelImpl<P:ProfileUiState>(
+    initialState: P
+): KoinViewModel(), ProfileCreationViewModel<P> {
+    protected val mutableState = MutableStateFlow(initialState)
+    override val state: StateFlow<P> get() = mutableState.asStateFlow()
 
     override fun onProfileImageSelected(uri: Uri) {
         TODO("Not yet implemented")
@@ -50,5 +55,9 @@ class ProfileCreationViewModelImpl<out P:ProfileUiState>: ProfileCreationViewMod
 
     override fun onGenderSelected(gender: Gender) {
         TODO("Not yet implemented")
+    }
+
+    override fun onSubmit() {
+        TODO()
     }
 }

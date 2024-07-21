@@ -25,14 +25,14 @@ fun DriverProfileCreationScreen(
     val state by viewModel.state.collectAsState()
     DriverProfileCreationView(
         state = state,
-        modifier = Modifier.fillMaxSize(),
-        onProfileImageSelected = TODO(),
-        onGivenNameChange = TODO(),
-        onMiddleNameChange = TODO(),
-        onFamilyNameChange = TODO(),
-        onBirthdateSelected = TODO(),
-        onGenderSelected = TODO(),
-        onCompanySelected = TODO(),
-        onSubmit = TODO(),
+        modifier = modifier.fillMaxSize(),
+        onProfileImageSelected = viewModel::onProfileImageSelected,
+        onGivenNameChange = viewModel::onGivenNameChange,
+        onMiddleNameChange = viewModel::onMiddleNameChange,
+        onFamilyNameChange = viewModel::onFamilyNameChange,
+        onBirthdateSelected = viewModel::onBirthdateSelected,
+        onGenderSelected = viewModel::onGenderSelected,
+        onCompanySelected = viewModel::onCompanySelected,
+        onSubmit = viewModel::onSubmit,
     )
 }

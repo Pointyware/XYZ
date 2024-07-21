@@ -14,6 +14,8 @@ import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.profile.Disability
 import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.data.Uri
+import org.pointyware.xyz.core.ui.DisabilityPicker
+import org.pointyware.xyz.core.ui.DisabilityPickerState
 import org.pointyware.xyz.core.ui.ProfileCreationView
 import org.pointyware.xyz.core.viewmodels.RiderProfileUiState
 
@@ -47,7 +49,10 @@ fun RiderProfileCreationView(
             onGenderSelected = onGenderSelected,
         )
 
-        // TODO: disabilities
+        DisabilityPicker(
+            state = DisabilityPickerState(state.disabilities.toList()),
+            onUpdateSelected = onDisabilitiesSelected
+        )
         TextField(
             value = state.preferences,
             label = { Text("Phone Number") },

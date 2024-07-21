@@ -4,18 +4,28 @@
 
 package org.pointyware.xyz.feature.login.viewmodels
 
+import org.pointyware.xyz.core.entities.profile.Disability
 import org.pointyware.xyz.core.viewmodels.KoinViewModel
 import org.pointyware.xyz.core.viewmodels.RiderProfileUiState
+import org.pointyware.xyz.core.viewmodels.emptyRiderProfile
 
 interface RiderProfileCreationViewModel: ProfileCreationViewModel<RiderProfileUiState> {
-
+    fun onDisabilitiesSelected(disabilities: List<Disability>)
+    fun onPreferencesChange(preferences: String)
 }
 
 /**
  * A view model for the rider profile creation view.
  */
 class RiderProfileCreationViewModelImpl(
-    private val delegate: ProfileCreationViewModel<RiderProfileUiState>
-): KoinViewModel(), RiderProfileCreationViewModel, ProfileCreationViewModel<RiderProfileUiState> by delegate {
+    // TODO: interactors
+): ProfileCreationViewModelImpl<RiderProfileUiState>(emptyRiderProfile), RiderProfileCreationViewModel {
 
+    override fun onDisabilitiesSelected(disabilities: List<Disability>) {
+
+    }
+
+    override fun onPreferencesChange(preferences: String) {
+
+    }
 }

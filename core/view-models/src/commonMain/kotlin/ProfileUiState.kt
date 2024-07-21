@@ -39,6 +39,13 @@ interface RiderProfileUiState: ProfileUiState {
     val disabilities: Set<Disability>
 }
 
+data class RiderProfileUiStateImpl(
+    val profileUiState: ProfileUiState,
+    override val preferences: String,
+    override val disabilities: Set<Disability>,
+): RiderProfileUiState, ProfileUiState by profileUiState
+
+val emptyRiderProfile = RiderProfileUiStateImpl(EmptyProfileUiState, "", emptySet())
 
 interface CompanyProfileUiState {
     val id: Uuid
@@ -50,8 +57,25 @@ interface CompanyProfileUiState {
     val phoneNumber: PhoneNumber
     val drivers: List<BriefProfileUiState>
 }
+data class CompanyProfileUiStateImpl(
+    override val id: Uuid,
+    override val banner: Uri,
+    override val logo: Uri,
+    override val name: String,
+    override val tagline: String,
+    override val description: String,
+    override val phoneNumber: PhoneNumber,
+    override val drivers: List<BriefProfileUiState>,
+): CompanyProfileUiState
+val emptyCompanyProfile = CompanyProfileUiStateImpl(Uuid.nil(), Uri(""), Uri(""), "", "", "", PhoneNumber(""), emptyList())
 
 interface DriverProfileUiState: ProfileUiState {
     val accommodations: Set<Accommodation>
     val company: CompanyProfileUiState
 }
+data class DriverProfileUiStateImpl(
+    val profileUiState: ProfileUiState,
+    override val accommodations: Set<Accommodation>,
+    override val company: CompanyProfileUiState,
+): DriverProfileUiState, ProfileUiState by profileUiState
+val emptyDriverProfile = DriverProfileUiStateImpl(EmptyProfileUiState, emptySet(), emptyCompanyProfile)

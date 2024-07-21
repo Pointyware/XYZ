@@ -4,17 +4,26 @@
 
 package org.pointyware.xyz.feature.login.viewmodels
 
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.viewmodels.DriverProfileUiState
+import org.pointyware.xyz.core.viewmodels.emptyDriverProfile
 
 interface DriverProfileCreationViewModel: ProfileCreationViewModel<DriverProfileUiState> {
-
+    fun onCompanySelected(uuid: Uuid)
 }
 
 /**
  * A view model for the rider profile creation view.
  */
 class DriverProfileCreationViewModelImpl(
-    private val delegate: ProfileCreationViewModel<DriverProfileUiState>
-): DriverProfileCreationViewModel, ProfileCreationViewModel<DriverProfileUiState> by delegate {
+    // TODO: interactors
+): ProfileCreationViewModelImpl<DriverProfileUiState>(emptyDriverProfile), DriverProfileCreationViewModel {
 
+    override fun onCompanySelected(uuid: Uuid) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSubmit() {
+        TODO("Not yet implemented")
+    }
 }
