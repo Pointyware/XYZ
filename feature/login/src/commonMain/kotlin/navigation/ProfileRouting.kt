@@ -16,6 +16,8 @@ import org.pointyware.xyz.core.navigation.StaticRoute
 import org.pointyware.xyz.core.navigation.XyzRootScope
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
 import org.pointyware.xyz.drive.ui.DriverProfileCreationView
+import org.pointyware.xyz.feature.login.DriverProfileCreationScreen
+import org.pointyware.xyz.feature.login.RiderProfileCreationScreen
 import org.pointyware.xyz.feature.login.di.ProfileDependencies
 import org.pointyware.xyz.feature.login.ui.RoleSelectionView
 import org.pointyware.xyz.feature.login.ui.UserProfileScreen
@@ -59,40 +61,20 @@ fun XyzRootScope.profileRouting(
     }
     location(driverCreationRoute) {
         val driverProfileViewModel = remember { profileDependencies.getDriverProfileCreationViewModel() }
-        val state by driverProfileViewModel.state.collectAsState()
-        DriverProfileCreationView(
-            state = state,
-            modifier = Modifier.fillMaxSize(),
-            onProfileImageSelected = TODO(),
-            onGivenNameChange = TODO(),
-            onMiddleNameChange = TODO(),
-            onFamilyNameChange = TODO(),
-            onBirthdateSelected = TODO(),
-            onGenderSelected = TODO(),
-            onCompanySelected = TODO(),
-            onSubmit = TODO(),
+        DriverProfileCreationScreen(
+            viewModel = driverProfileViewModel,
+            navController = navController,
         )
     }
     location(riderCreationRoute) {
         val riderProfileViewModel = remember { profileDependencies.getRiderProfileCreationViewModel() }
-        val state by riderProfileViewModel.state.collectAsState()
-        RiderProfileCreationView(
-            state = state,
-            modifier = Modifier.fillMaxSize(),
-            onProfileImageSelected = TODO(),
-            onGivenNameChange = TODO(),
-            onMiddleNameChange = TODO(),
-            onFamilyNameChange = TODO(),
-            onBirthdateSelected = TODO(),
-            onGenderSelected = TODO(),
-            onDisabilitiesSelected = TODO(),
-            onPreferencesChange = TODO(),
-            onSubmit = TODO(),
+        RiderProfileCreationScreen(
+            viewModel = riderProfileViewModel,
+            navController = navController,
         )
     }
     location(userProfileRoute) {
         val profileViewModel = remember { profileDependencies.getProfileViewModel() }
-
         UserProfileScreen(
             viewModel = profileViewModel,
             navController = navController,
