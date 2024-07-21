@@ -19,8 +19,8 @@ import org.pointyware.xyz.feature.login.ui.RoleSelectionView
 import org.pointyware.xyz.feature.login.ui.UserProfileScreen
 import org.pointyware.xyz.feature.ride.ui.RiderProfileCreationView
 
-val profileRoute = StaticRoute("profile", Unit)
-val accountCreationRoute = profileRoute.fixed("create")
+private val profileRoute = StaticRoute("profile", Unit)
+private val accountCreationRoute = profileRoute.fixed("create")
 val roleSelectionRoute = accountCreationRoute.fixed("role")
 val driverCreationRoute = accountCreationRoute.fixed("driver")
 val riderCreationRoute = accountCreationRoute.fixed("rider")

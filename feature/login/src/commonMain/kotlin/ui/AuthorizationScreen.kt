@@ -14,7 +14,7 @@ import org.pointyware.xyz.core.navigation.NavOptions
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.LoadingResultView
 import org.pointyware.xyz.drive.navigation.driveRoute
-import org.pointyware.xyz.feature.login.navigation.accountCreationRoute
+import org.pointyware.xyz.feature.login.navigation.roleSelectionRoute
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationEvent
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationUiState
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModel
@@ -51,7 +51,7 @@ fun AuthorizationScreen(
                 val event = it
                 val location = when (event) {
                     AuthorizationEvent.NewUser -> {
-                        accountCreationRoute
+                        roleSelectionRoute
                     }
                     AuthorizationEvent.Ride -> {
                         rideRoute

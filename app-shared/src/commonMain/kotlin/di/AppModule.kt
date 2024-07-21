@@ -16,6 +16,7 @@ import org.pointyware.xyz.core.ui.di.coreUiModule
 import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
 import org.pointyware.xyz.drive.di.featureDriveModule
 import org.pointyware.xyz.feature.login.di.featureLoginModule
+import org.pointyware.xyz.feature.login.di.featureProfileModule
 import org.pointyware.xyz.feature.ride.di.featureRideModule
 
 
@@ -42,6 +43,7 @@ fun coreModule() = module {
 fun featureModule() = module {
     includes(
         featureLoginModule(),
+        featureProfileModule(),
         featureDriveModule(),
         featureRideModule(),
     )
