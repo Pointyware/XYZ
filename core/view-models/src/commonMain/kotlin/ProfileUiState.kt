@@ -4,13 +4,13 @@
 
 package org.pointyware.xyz.core.viewmodels
 
-import org.pointyware.xyz.core.entities.Accommodation
-import org.pointyware.xyz.core.entities.Disability
-import org.pointyware.xyz.core.entities.Gender
-import org.pointyware.xyz.core.entities.Name
-import org.pointyware.xyz.core.entities.PhoneNumber
-import org.pointyware.xyz.core.entities.Rating
-import org.pointyware.xyz.core.entities.Uri
+import org.pointyware.xyz.core.entities.ride.Accommodation
+import org.pointyware.xyz.core.entities.profile.Disability
+import org.pointyware.xyz.core.entities.profile.Gender
+import org.pointyware.xyz.core.entities.profile.Name
+import org.pointyware.xyz.core.entities.profile.PhoneNumber
+import org.pointyware.xyz.core.entities.ride.Rating
+import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.Uuid
 
 /**

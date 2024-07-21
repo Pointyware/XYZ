@@ -4,7 +4,7 @@
 
 package org.pointyware.xyz.feature.login.local
 
-import org.pointyware.xyz.core.entities.Profile
+import org.pointyware.xyz.core.entities.profile.Profile
 
 /**
  *

@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import coil3.compose.AsyncImage
 import kotlinx.datetime.Instant
-import org.pointyware.xyz.core.entities.Gender
-import org.pointyware.xyz.core.entities.Uri
+import org.pointyware.xyz.core.entities.profile.Gender
+import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.viewmodels.ProfileUiState
 
 /**

@@ -4,8 +4,7 @@
 
 package org.pointyware.xyz.feature.login.data
 
-import org.pointyware.xyz.core.entities.Profile
-import org.pointyware.xyz.feature.login.data.Authorization
+import org.pointyware.xyz.core.entities.profile.Profile
 
 /**
  * Combines the general authorization data with the user profile.

@@ -19,7 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
-import org.pointyware.xyz.core.entities.Uri
+import org.pointyware.xyz.core.entities.data.Uri
 
 /**
  * Previews an image (if one is selected) and allows the user to select a new image.

@@ -7,7 +7,7 @@ package org.pointyware.xyz.core.viewmodels
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.pointyware.xyz.core.entities.LatLong
+import org.pointyware.xyz.core.entities.geo.LatLong
 
 interface MapViewModel {
     val mapState: StateFlow<MapUiState>

@@ -6,8 +6,8 @@ package org.pointyware.xyz.feature.login.viewmodels
 
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.datetime.Instant
-import org.pointyware.xyz.core.entities.Gender
-import org.pointyware.xyz.core.entities.Uri
+import org.pointyware.xyz.core.entities.profile.Gender
+import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.viewmodels.ProfileUiState
 
 /**

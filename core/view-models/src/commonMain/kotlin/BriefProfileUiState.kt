@@ -4,8 +4,8 @@
 
 package org.pointyware.xyz.core.viewmodels
 
-import org.pointyware.xyz.core.entities.Rating
-import org.pointyware.xyz.core.entities.Uri
+import org.pointyware.xyz.core.entities.ride.Rating
+import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.Uuid
 
 /**

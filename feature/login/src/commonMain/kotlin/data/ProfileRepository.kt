@@ -6,7 +6,7 @@ package org.pointyware.xyz.feature.login.data
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
-import org.pointyware.xyz.core.entities.Profile
+import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.login.local.AuthCache
 import org.pointyware.xyz.feature.login.local.ProfileCache

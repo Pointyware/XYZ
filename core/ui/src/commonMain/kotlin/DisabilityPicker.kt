@@ -16,7 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
-import org.pointyware.xyz.core.entities.Disability
+import org.pointyware.xyz.core.entities.profile.Disability
 
 data class DisabilityPickerState(
     val selected: List<Disability>

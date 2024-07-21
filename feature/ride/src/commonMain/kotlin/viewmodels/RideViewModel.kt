@@ -6,7 +6,6 @@ package org.pointyware.xyz.feature.ride.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import org.pointyware.xyz.core.entities.Ride
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 
 /**

@@ -2,7 +2,11 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.core.entities
+package org.pointyware.xyz.core.entities.profile
+
+import org.pointyware.xyz.core.entities.data.Uri
+import org.pointyware.xyz.core.entities.business.Company
+import org.pointyware.xyz.core.entities.ride.Accommodation
 
 /**
  *

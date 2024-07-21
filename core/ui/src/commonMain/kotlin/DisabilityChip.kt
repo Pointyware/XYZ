@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import org.pointyware.xyz.core.entities.Disability
+import org.pointyware.xyz.core.entities.profile.Disability
 
 /**
  * Displays a single disability.

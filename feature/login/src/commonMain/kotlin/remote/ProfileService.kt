@@ -12,7 +12,7 @@ import io.ktor.client.plugins.resources.patch
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
 import org.pointyware.xyz.core.entities.Uuid
-import org.pointyware.xyz.core.entities.Profile as ProfileEntity
+import org.pointyware.xyz.core.entities.profile.Profile as ProfileEntity
 
 /**
  * Exposes profile-related actions to be performed by a remote service.

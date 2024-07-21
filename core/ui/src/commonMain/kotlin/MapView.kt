@@ -6,7 +6,7 @@ package org.pointyware.xyz.core.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.entities.LatLong
+import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.viewmodels.MapUiState
 
 /**

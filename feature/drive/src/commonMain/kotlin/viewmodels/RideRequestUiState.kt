@@ -4,7 +4,7 @@
 
 package org.pointyware.xyz.drive.viewmodels
 
-import org.pointyware.xyz.core.entities.Currency
+import org.pointyware.xyz.core.entities.business.Currency
 
 /**
  * Displays information about a new ride request: distance from driver, distance of route, and rider service rate.

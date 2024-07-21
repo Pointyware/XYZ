@@ -5,7 +5,7 @@
 package org.pointyware.xyz.drive.data
 
 import kotlinx.coroutines.flow.Flow
-import org.pointyware.xyz.core.entities.Ride
+import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.drive.local.RideCache
 import org.pointyware.xyz.drive.remote.RideService
 

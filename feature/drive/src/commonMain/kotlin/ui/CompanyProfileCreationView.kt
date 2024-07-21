@@ -12,7 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.entities.Uri
+import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.ui.BriefProfileCollectionItem
 import org.pointyware.xyz.core.viewmodels.CompanyProfileUiState

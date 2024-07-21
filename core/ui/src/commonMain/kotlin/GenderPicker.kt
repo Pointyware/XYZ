@@ -14,7 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.entities.Gender
+import org.pointyware.xyz.core.entities.profile.Gender
 
 /**
  * Allows a user to select their gender.

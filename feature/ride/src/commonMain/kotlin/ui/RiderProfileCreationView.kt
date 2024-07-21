@@ -11,9 +11,9 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import kotlinx.datetime.Instant
-import org.pointyware.xyz.core.entities.Disability
-import org.pointyware.xyz.core.entities.Gender
-import org.pointyware.xyz.core.entities.Uri
+import org.pointyware.xyz.core.entities.profile.Disability
+import org.pointyware.xyz.core.entities.profile.Gender
+import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.ui.ProfileCreationView
 import org.pointyware.xyz.core.viewmodels.RiderProfileUiState
 

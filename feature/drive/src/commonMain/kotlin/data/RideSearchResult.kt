@@ -4,7 +4,7 @@
 
 package org.pointyware.xyz.drive.data
 
-import org.pointyware.xyz.core.entities.Location
+import org.pointyware.xyz.core.entities.ride.Location
 
 /**
  *

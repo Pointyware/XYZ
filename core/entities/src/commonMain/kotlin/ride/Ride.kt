@@ -2,17 +2,16 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.core.entities
+package org.pointyware.xyz.core.entities.ride
 
 import kotlinx.datetime.Instant
+import org.pointyware.xyz.core.entities.geo.Length
+import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.business.Currency
+import org.pointyware.xyz.core.entities.profile.DriverProfile
+import org.pointyware.xyz.core.entities.profile.RiderProfile
+import ride.EndReason
 import kotlin.time.Duration
-
-enum class EndReason {
-    Completed,
-    RiderCanceled,
-    RiderCanceledLate,
-    DriverCanceled,
-}
 
 /**
  * Describes a ride in one of many possible states.

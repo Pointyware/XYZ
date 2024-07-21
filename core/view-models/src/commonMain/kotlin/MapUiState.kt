@@ -4,7 +4,7 @@
 
 package org.pointyware.xyz.core.viewmodels
 
-import org.pointyware.xyz.core.entities.LatLong
+import org.pointyware.xyz.core.entities.geo.LatLong
 
 /**
  * Represents the state of a map in a implementation-independent way.

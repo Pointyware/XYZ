@@ -6,7 +6,6 @@ package org.pointyware.xyz.core.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.entities.Company
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.viewmodels.CompanyProfileUiState
 

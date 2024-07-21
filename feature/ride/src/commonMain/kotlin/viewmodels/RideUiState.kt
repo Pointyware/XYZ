@@ -4,8 +4,6 @@
 
 package org.pointyware.xyz.feature.ride.viewmodels
 
-import org.pointyware.xyz.core.entities.Ride
-
 /**
  *
  */
