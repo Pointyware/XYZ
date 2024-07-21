@@ -60,6 +60,8 @@ kotlin {
                 implementation(projects.core.navigation)
                 implementation(projects.core.ui)
 
+                implementation(libs.coil.core)
+                implementation(libs.coil.compose)
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.koin.core)

@@ -8,6 +8,7 @@ import org.pointyware.xyz.core.entities.Accommodation
 import org.pointyware.xyz.core.entities.Disability
 import org.pointyware.xyz.core.entities.Gender
 import org.pointyware.xyz.core.entities.Name
+import org.pointyware.xyz.core.entities.PhoneNumber
 import org.pointyware.xyz.core.entities.Rating
 import org.pointyware.xyz.core.entities.Uri
 
@@ -30,7 +31,13 @@ interface RiderProfileUiState: ProfileUiState {
 
 
 interface CompanyProfileUiState {
+    val banner: Uri
+    val logo: Uri
     val name: String
+    val tagline: String
+    val description: String
+    val phoneNumber: PhoneNumber
+    val drivers: List<BriefProfileUiState>
 }
 
 interface DriverProfileUiState: ProfileUiState {
