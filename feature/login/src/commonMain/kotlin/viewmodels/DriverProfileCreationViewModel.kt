@@ -5,10 +5,12 @@
 package org.pointyware.xyz.feature.login.viewmodels
 
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.ride.Accommodation
 import org.pointyware.xyz.core.viewmodels.DriverProfileUiState
 import org.pointyware.xyz.core.viewmodels.emptyDriverProfile
 
 interface DriverProfileCreationViewModel: ProfileCreationViewModel<DriverProfileUiState> {
+    fun onAccommodationsSelected(accommodations: List<Accommodation>)
     fun onCompanySelected(uuid: Uuid)
 }
 
@@ -18,6 +20,10 @@ interface DriverProfileCreationViewModel: ProfileCreationViewModel<DriverProfile
 class DriverProfileCreationViewModelImpl(
     // TODO: interactors
 ): ProfileCreationViewModelImpl<DriverProfileUiState>(emptyDriverProfile), DriverProfileCreationViewModel {
+
+    override fun onAccommodationsSelected(accommodations: List<Accommodation>) {
+        TODO("Not yet implemented")
+    }
 
     override fun onCompanySelected(uuid: Uuid) {
         TODO("Not yet implemented")

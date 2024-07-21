@@ -56,8 +56,4 @@ abstract class ProfileCreationViewModelImpl<P:ProfileUiState>(
     override fun onGenderSelected(gender: Gender) {
         TODO("Not yet implemented")
     }
-
-    override fun onSubmit() {
-        TODO()
-    }
 }

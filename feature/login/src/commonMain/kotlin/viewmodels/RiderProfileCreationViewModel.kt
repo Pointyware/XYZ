@@ -28,4 +28,8 @@ class RiderProfileCreationViewModelImpl(
     override fun onPreferencesChange(preferences: String) {
 
     }
+
+    override fun onSubmit() {
+
+    }
 }
