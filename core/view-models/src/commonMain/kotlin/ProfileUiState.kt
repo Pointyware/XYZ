@@ -25,6 +25,15 @@ interface ProfileUiState {
     val rating: Rating
 }
 
+object EmptyProfileUiState: ProfileUiState {
+    override val image: Uri = Uri("")
+    override val fullName: Name = Name("", "", "")
+    override val gender: Gender = Gender.NotSpecified
+    override val age: Int = 0
+    override val bio: String = ""
+    override val rating: Rating = Rating.FIVE
+}
+
 interface RiderProfileUiState: ProfileUiState {
     val preferences: String
     val disabilities: Set<Disability>
