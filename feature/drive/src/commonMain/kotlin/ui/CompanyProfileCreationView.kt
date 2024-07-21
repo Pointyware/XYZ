@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.entities.Uri
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.ui.BriefProfileCollectionItem
-import org.pointyware.xyz.drive.viewmodels.CompanyProfileCreationUiState
+import org.pointyware.xyz.core.viewmodels.CompanyProfileUiState
 
 /**
  *
@@ -23,7 +23,7 @@ import org.pointyware.xyz.drive.viewmodels.CompanyProfileCreationUiState
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CompanyProfileCreationView(
-    state: CompanyProfileCreationUiState,
+    state: CompanyProfileUiState,
     modifier: Modifier = Modifier,
     onNameChange: (String) -> Unit,
     onBannerSelected: (Uri) -> Unit,
