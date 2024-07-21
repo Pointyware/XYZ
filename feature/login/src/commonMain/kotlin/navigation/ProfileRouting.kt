@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import org.pointyware.xyz.core.entities.Role
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.navigation.StaticRoute
 import org.pointyware.xyz.core.navigation.XyzRootScope
@@ -34,14 +35,24 @@ fun XyzRootScope.profileRouting(
     navigationDependencies: NavigationDependencies
 ) {
 
+    val navController = remember { navigationDependencies.getNavController() }
     companyRouting(
-        navigationDependencies.getNavController()
+        navController
     )
 
     location(roleSelectionRoute) {
         RoleSelectionView(
             modifier = Modifier.fillMaxSize(),
-            onConfirm = TODO()
+            onConfirm = {
+                when (it) {
+                    Role.Rider -> {
+                        navController.navigateTo(riderCreationRoute)
+                    }
+                    Role.Driver -> {
+                        navController.navigateTo(driverCreationRoute)
+                    }
+                }
+            }
         )
     }
     location(driverCreationRoute) {
@@ -65,7 +76,6 @@ fun XyzRootScope.profileRouting(
     }
     location(userProfileRoute) {
         val profileViewModel = remember { profileDependencies.getProfileViewModel() }
-        val navController = remember { navigationDependencies.getNavController() }
 
         UserProfileScreen(
             viewModel = profileViewModel,
