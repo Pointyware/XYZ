@@ -119,7 +119,7 @@ fun XyzApp(
                 modifier = Modifier.padding(paddingValues),
             ) {
                 loginRouting(dependencies.getLoginDependencies(), dependencies.getNavigationDependencies())
-                profileRouting(dependencies.getLoginDependencies(), dependencies.getNavigationDependencies())
+                profileRouting(dependencies.getProfileDependencies(), dependencies.getNavigationDependencies())
 
                 driveRouting(dependencies.getDriveDependencies(), dependencies.getNavigationDependencies())
                 rideRouting(dependencies.getRideDependencies(), dependencies.getNavigationDependencies())

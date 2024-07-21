@@ -9,6 +9,7 @@ import org.koin.core.component.get
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
 import org.pointyware.xyz.drive.di.DriveDependencies
 import org.pointyware.xyz.feature.login.di.LoginDependencies
+import org.pointyware.xyz.feature.login.di.ProfileDependencies
 import org.pointyware.xyz.feature.ride.di.RideDependencies
 
 /**
@@ -20,6 +21,7 @@ interface AppDependencies {
     fun getNavigationDependencies(): NavigationDependencies
     fun getDriveDependencies(): DriveDependencies
     fun getRideDependencies(): RideDependencies
+    fun getProfileDependencies(): ProfileDependencies
 }
 
 fun getDependencies(): AppDependencies = KoinAppDependencies()
@@ -35,6 +37,10 @@ class KoinAppDependencies: AppDependencies, KoinComponent {
     }
 
     override fun getRideDependencies(): RideDependencies {
+        return get()
+    }
+
+    override fun getProfileDependencies(): ProfileDependencies {
         return get()
     }
 }
