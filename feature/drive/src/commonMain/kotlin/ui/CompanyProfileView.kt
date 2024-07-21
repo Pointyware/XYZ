@@ -20,7 +20,14 @@ import org.pointyware.xyz.core.ui.BriefProfileCollectionItem
 import org.pointyware.xyz.core.viewmodels.CompanyProfileUiState
 
 /**
- * Displays a company profile: banner, logo, name, tagline, description, phone number, and drivers list.
+ * Displays a company profile:
+ * - banner
+ * - logo
+ * - name
+ * - tagline
+ * - description
+ * - phone number
+ * - drivers list
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
