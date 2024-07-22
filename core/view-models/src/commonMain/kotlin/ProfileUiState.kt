@@ -23,7 +23,7 @@ data class ProfileUiState(
 ) {
     companion object {
         val empty = ProfileUiState(
-            image = Uri(""),
+            image = Uri.nullDevice,
             fullName = Name("", "", ""),
             gender = Gender.NotSpecified,
             age = 0,

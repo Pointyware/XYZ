@@ -78,7 +78,7 @@ data class ProfileCreationUiState(
 ) {
     companion object {
         val empty = ProfileCreationUiState(
-            image = Uri(""),
+            image = Uri.nullDevice,
             fullName = Name("", "", ""),
             birthdate = null,
             gender = Gender.NotSpecified

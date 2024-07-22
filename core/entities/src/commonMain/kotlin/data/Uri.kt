@@ -39,6 +39,6 @@ class Uri(
     companion object {
         const val protocolDelimiter = "://"
 
-        val nullUri = Uri("file:///dev/null")
+        val nullDevice = Uri("file:///dev/null")
     }
 }

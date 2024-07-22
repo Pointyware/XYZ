@@ -25,8 +25,8 @@ data class CompanyProfileUiState(
     companion object {
         val empty = CompanyProfileUiState(
             Uuid.nil(),
-            Uri(""),
-            Uri(""),
+            Uri.nullDevice,
+            Uri.nullDevice,
             "",
             "",
             "",
