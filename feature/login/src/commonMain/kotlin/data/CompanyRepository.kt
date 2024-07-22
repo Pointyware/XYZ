@@ -25,7 +25,11 @@ class CompanyRepositoryImpl(
     private val companyService: CompanyService,
 ): CompanyRepository {
     override fun getCompany(uuid: Uuid): Result<Company> {
-        return Result.failure(NotImplementedError())
+        return companyCache.getCompany(uuid)
+            .onFailure {
+                companyService.getCompany(uuid)
+                    .onSuccess { companyCache.saveCompany(it) }
+            }
     }
 }
 

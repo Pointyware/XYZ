@@ -4,10 +4,17 @@
 
 package org.pointyware.xyz.feature.login.remote
 
+import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.business.Company
+
 /**
  *
  */
 class CompanyService(
 
 ) {
+    fun getCompany(uuid: Uuid): Result<Company> {
+        TODO("Not yet implemented")
+    }
+
 }

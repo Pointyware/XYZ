@@ -4,11 +4,21 @@
 
 package org.pointyware.xyz.feature.login.local
 
+import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.business.Company
+
 /**
  *
  */
 class CompanyCache(
 
 ) {
+    fun getCompany(uuid: Uuid): Result<Company> {
+        TODO("Not yet implemented")
+    }
+
+    fun saveCompany(company: Company) {
+
+    }
 
 }
