@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.feature.login.local
 
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.profile.Profile
 
 /**
@@ -11,25 +12,25 @@ import org.pointyware.xyz.core.entities.profile.Profile
  */
 interface ProfileCache {
     fun saveProfile(it: Profile)
-    fun getProfile(email: String): Result<Profile?>
-    fun dropProfile(email: String)
+    fun getProfile(userId: Uuid): Result<Profile?>
+    fun dropProfile(userId: Uuid)
 }
 
 class ProfileCacheImpl(
 
 ): ProfileCache {
 
-    private val cache = mutableMapOf<String, Profile>()
+    private val cache = mutableMapOf<Uuid, Profile>()
 
     override fun saveProfile(it: Profile) {
-        cache[it.email] = it
+        cache[it.id] = it
     }
 
-    override fun getProfile(email: String): Result<Profile?> {
-        return cache[email].let { Result.success(it) }
+    override fun getProfile(userId: Uuid): Result<Profile?> {
+        return cache[userId].let { Result.success(it) }
     }
 
-    override fun dropProfile(email: String) {
-        cache.remove(email)
+    override fun dropProfile(userId: Uuid) {
+        cache.remove(userId)
     }
 }

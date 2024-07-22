@@ -50,9 +50,10 @@ class ProfileRepositoryImpl(
     override suspend fun createProfile(profile: Profile): Result<Profile> {
         return withContext(ioContext) {
             try {
-                profileService.createProfile(getCurrentUserId(), profile)
+                val userId = getCurrentUserId()
+                profileService.createProfile(userId, profile)
                     .onSuccess { profileCache.saveProfile(it) }
-                    .onFailure { profileCache.dropProfile(profile.email) }
+                    .onFailure { profileCache.dropProfile(userId) }
             } catch(error: Throwable) {
                 Result.failure(error)
             }
@@ -73,8 +74,9 @@ class ProfileRepositoryImpl(
     override suspend fun removeUser(email: String): Result<Unit> {
         return withContext(ioContext) {
             try {
-                profileService.deleteProfile(getCurrentUserId())
-                    .onSuccess { profileCache.dropProfile(email) }
+                val userId = getCurrentUserId()
+                profileService.deleteProfile(userId)
+                    .onSuccess { profileCache.dropProfile(userId) }
             } catch(error: Throwable) {
                 Result.failure(error)
             }
@@ -84,8 +86,9 @@ class ProfileRepositoryImpl(
     override suspend fun getProfile(email: String): Result<Profile?> {
         return withContext(ioContext) {
             try {
-                profileCache.getProfile(email)
-                    .onFailure { profileService.getProfile(getCurrentUserId()) }
+                val userId = getCurrentUserId()
+                profileCache.getProfile(userId)
+                    .onFailure { profileService.getProfile(userId) }
             } catch(error: Throwable) {
                 Result.failure(error)
             }
