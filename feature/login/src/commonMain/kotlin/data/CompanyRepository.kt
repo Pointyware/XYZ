@@ -9,12 +9,12 @@ import org.pointyware.xyz.core.entities.business.Company
 import org.pointyware.xyz.feature.login.local.CompanyCache
 import org.pointyware.xyz.feature.login.remote.CompanyService
 
+data class CompanyNotFoundException(val uuid: Uuid): Exception("Company not found with uuid: $uuid")
+
 /**
  */
 interface CompanyRepository {
     fun getCompany(uuid: Uuid): Result<Company>
-
-    data class CompanyNotFoundException(val uuid: Uuid): Exception("Company not found with uuid: $uuid")
 }
 
 /**
@@ -34,10 +34,6 @@ class TestCompanyRepository(
     private val companies: MutableMap<Uuid, Company> = mutableMapOf()
 ): CompanyRepository {
     override fun getCompany(uuid: Uuid): Result<Company> {
-        return companies[uuid]?.let { Result.success(it) } ?: Result.failure(
-            CompanyRepository.CompanyNotFoundException(
-                uuid
-            )
-        )
+        return companies[uuid]?.let { Result.success(it) } ?: Result.failure(CompanyNotFoundException(uuid))
     }
 }
