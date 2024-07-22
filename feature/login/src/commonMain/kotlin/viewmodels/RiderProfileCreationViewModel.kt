@@ -22,14 +22,14 @@ class RiderProfileCreationViewModelImpl(
 ): ProfileCreationViewModelImpl<RiderProfileUiState>(emptyRiderProfile), RiderProfileCreationViewModel {
 
     override fun onDisabilitiesSelected(disabilities: List<Disability>) {
-
+        TODO("Not Yet Implemented")
     }
 
     override fun onPreferencesChange(preferences: String) {
-
+        TODO("Not Yet Implemented")
     }
 
     override fun onSubmit() {
-
+        TODO("Not Yet Implemented")
     }
 }
