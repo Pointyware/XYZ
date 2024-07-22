@@ -69,6 +69,6 @@ private fun profileInteractorsModule() = module {
     single<CreateDriverProfileUseCase> { CreateDriverProfileUseCase(get<ProfileRepository>()) }
     single<CreateRiderProfileUseCase> { CreateRiderProfileUseCase(get<ProfileRepository>()) }
     single<GetUserIdUseCase> { GetUserIdUseCase(get<AuthCache>()) }
-    single<GetCompanyUseCase> { GetCompanyUseCase(get<CompanyRepository>(), get<GetDriverProfileUseCase>()) }
+    single<GetCompanyUseCase> { GetCompanyUseCase(get<CompanyRepository>()) }
     single<GetDriverProfileUseCase> { GetDriverProfileUseCase(get<ProfileRepository>()) }
 }
