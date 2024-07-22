@@ -44,6 +44,7 @@ kotlin {
                 implementation(projects.core.interactors)
 
                 implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.dateTime)
                 implementation(libs.koin.core)
             }
         }
