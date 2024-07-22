@@ -5,19 +5,37 @@
 package org.pointyware.xyz.feature.login.di
 
 import org.koin.dsl.module
+import org.pointyware.xyz.core.data.di.dataQualifier
+import org.pointyware.xyz.feature.login.data.ProfileRepository
+import org.pointyware.xyz.feature.login.data.ProfileRepositoryImpl
 import org.pointyware.xyz.feature.login.interactors.CreateDriverProfileUseCase
 import org.pointyware.xyz.feature.login.interactors.CreateRiderProfileUseCase
 import org.pointyware.xyz.feature.login.interactors.GetUserIdUseCase
+import org.pointyware.xyz.feature.login.local.AuthCache
+import org.pointyware.xyz.feature.login.local.ProfileCache
+import org.pointyware.xyz.feature.login.local.ProfileCacheImpl
+import org.pointyware.xyz.feature.login.remote.AuthService
+import org.pointyware.xyz.feature.login.remote.ProfileService
+import org.pointyware.xyz.feature.login.remote.TestProfileService
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModelImpl
 import org.pointyware.xyz.feature.login.viewmodels.ProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.ProfileCreationViewModelImpl
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModelImpl
+import kotlin.coroutines.CoroutineContext
 
 fun featureProfileModule() = module {
     single<ProfileDependencies> { KoinProfileDependencies() }
 
+    includes(
+        profileDataModule(),
+        profileInteractorsModule(),
+        profileViewModelModule()
+    )
+}
+
+private fun profileViewModelModule() = module {
     factory<ProfileCreationViewModel>() { ProfileCreationViewModelImpl() }
     factory<DriverProfileCreationViewModel> {
         DriverProfileCreationViewModelImpl(get<ProfileCreationViewModel>(), get<CreateDriverProfileUseCase>())
@@ -25,4 +43,21 @@ fun featureProfileModule() = module {
     factory<RiderProfileCreationViewModel> {
         RiderProfileCreationViewModelImpl(get<ProfileCreationViewModel>(), get<CreateRiderProfileUseCase>(), get<GetUserIdUseCase>())
     }
+}
+
+private fun profileDataModule() = module {
+    single<ProfileRepository> { ProfileRepositoryImpl(
+        get<AuthCache>(), get<AuthService>(),
+        get<ProfileCache>(), get<ProfileService>(),
+        ioContext = get<CoroutineContext>(dataQualifier)
+    ) }
+
+    single<ProfileCache> { ProfileCacheImpl() }
+    single<ProfileService> { TestProfileService() }
+}
+
+private fun profileInteractorsModule() = module {
+    single<CreateDriverProfileUseCase> { CreateDriverProfileUseCase(get<ProfileRepository>()) }
+    single<CreateRiderProfileUseCase> { CreateRiderProfileUseCase(get<ProfileRepository>()) }
+    single<GetUserIdUseCase> { GetUserIdUseCase(get<AuthCache>()) }
 }

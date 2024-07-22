@@ -51,7 +51,5 @@ fun featureLoginDataModule() = module {
         users = mutableMapOf("foo@bar.com" to TestAuthService.UserEntry("password", Uuid.v4()))
     )}
     single<AuthCache> { AuthCacheImpl() }
-    single<ProfileCache> { ProfileCacheImpl() }
 //    single<ProfileService> { KtorProfileService(getClient()) }
-    single<ProfileService> { TestProfileService() }
 }
