@@ -4,16 +4,20 @@
 
 package org.pointyware.xyz.feature.login.viewmodels
 
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Accommodation
 import org.pointyware.xyz.core.viewmodels.KoinViewModel
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.drive.CompanyProfileUiState
+import org.pointyware.xyz.core.viewmodels.postError
 import org.pointyware.xyz.feature.login.interactors.CreateDriverProfileUseCase
+import org.pointyware.xyz.feature.login.interactors.GetCompanyUseCase
 
 interface DriverProfileCreationViewModel {
     val state: StateFlow<DriverProfileCreationUiState>
@@ -29,7 +33,8 @@ interface DriverProfileCreationViewModel {
  */
 class DriverProfileCreationViewModelImpl(
     override val profileCreationViewModel: ProfileCreationViewModel,
-    private val createProfileUseCase: CreateDriverProfileUseCase
+    private val createProfileUseCase: CreateDriverProfileUseCase,
+    private val getCompanyProfileUseCase: GetCompanyUseCase,
 ): KoinViewModel(), DriverProfileCreationViewModel {
 
     private val mutableState = MutableStateFlow(DriverProfileCreationUiState.empty)
@@ -38,11 +43,35 @@ class DriverProfileCreationViewModelImpl(
     override val loadingState: StateFlow<LoadingUiState<Unit>> get() = mutableLoadingState.asStateFlow()
 
     override fun onAccommodationsSelected(accommodations: List<Accommodation>) {
-        TODO("Not yet implemented")
+        mutableState.update {
+            it.copy(accommodations = accommodations.toSet())
+        }
     }
 
+    private var companySelectionJob: Job? = null
     override fun onCompanySelected(uuid: Uuid) {
-        TODO("Not yet implemented")
+        companySelectionJob?.cancel()
+        companySelectionJob = viewModelScope.launch {
+            getCompanyProfileUseCase.invoke(uuid)
+                .onSuccess {
+                    val companyProfileUiState = CompanyProfileUiState(
+                        id = uuid,
+                        banner = it.banner,
+                        logo = it.logo,
+                        name = it.name,
+                        tagline = it.tagline,
+                        description = it.bio,
+                        phoneNumber = it.phone,
+                        drivers = emptyList(), // TODO: get/map drivers
+                    )
+                    mutableState.update {
+                        it.copy(company = companyProfileUiState)
+                    }
+                }
+                .onFailure {
+                    mutableLoadingState.postError(it)
+                }
+        }
     }
 
     override fun onSubmit() {
