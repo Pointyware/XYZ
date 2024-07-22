@@ -41,7 +41,7 @@ fun featureLoginModule() = module {
     single<CreateUserUseCase> { CreateUserUseCase(get<ProfileRepository>()) }
 }
 
-fun featureLoginDataModule() = module {
+private fun featureLoginDataModule() = module {
     single<ProfileRepository> { ProfileRepositoryImpl(
         get<AuthCache>(), get<AuthService>(), get<ProfileCache>(), get<ProfileService>(),
         get(dataQualifier)
