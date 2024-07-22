@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.ui.ProfileView
-import org.pointyware.xyz.core.viewmodels.DriverProfileUiState
+import org.pointyware.xyz.core.viewmodels.drive.DriverProfileUiState
 
 /**
  * A view that displays the driver profile: Image, name, gender, age, rating, bio, associated
@@ -26,7 +26,7 @@ fun DriverProfileView(
         modifier = modifier
     ) {
         ProfileView(
-            state = state
+            state = state.profile
         )
         Text(text = "Associated Company: ${state.company.name}")
         LazyColumn {

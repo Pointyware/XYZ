@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.core.ui
+package org.pointyware.xyz.feature.login
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
@@ -11,16 +11,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import coil3.compose.AsyncImage
 import kotlinx.datetime.Instant
-import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.data.Uri
-import org.pointyware.xyz.core.viewmodels.ProfileUiState
+import org.pointyware.xyz.core.entities.profile.Gender
+import org.pointyware.xyz.core.ui.GenderPicker
+import org.pointyware.xyz.core.ui.ImagePicker
+import org.pointyware.xyz.feature.login.viewmodels.ProfileCreationUiState
 
 /**
  * Allows a user to specify their generic profile information.
  */
 @Composable
 fun ProfileCreationView(
-    state: ProfileUiState,
+    state: ProfileCreationUiState,
     modifier: Modifier = Modifier,
     onProfileImageSelected: (Uri) -> Unit,
     onMiddleNameChange: (String) -> Unit,
@@ -32,6 +34,7 @@ fun ProfileCreationView(
     Column(modifier = modifier) {
 
         ImagePicker(
+            placeholder = state.image,
             onImageSelected = { uri ->
                 onProfileImageSelected(uri)
             }
@@ -57,6 +60,7 @@ fun ProfileCreationView(
             onValueChange = onFamilyNameChange
         )
 
+        Text(text = state.birthdate.toString())
 //        DatePicker( // TODO: get Locale
 //            state = DatePickerState(
 //                locale = CalendarLocale,

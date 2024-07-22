@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.ui.ProfileView
-import org.pointyware.xyz.core.viewmodels.RiderProfileUiState
+import org.pointyware.xyz.core.viewmodels.ride.RiderProfileUiState
 
 /**
  *
@@ -25,7 +25,7 @@ fun RiderProfileView(
         modifier = modifier
     ) {
         ProfileView(
-            state = state
+            state = state.profile
         )
         Text(text = state.preferences)
         LazyColumn {

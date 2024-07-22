@@ -8,10 +8,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.profile.DriverProfile
+import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.feature.login.local.AuthCache
 import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.remote.AuthService
 import org.pointyware.xyz.feature.login.remote.ProfileService
+import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -19,7 +22,8 @@ import kotlin.coroutines.CoroutineContext
  */
 interface ProfileRepository {
     suspend fun createUser(email: String, password: String): Result<Authorization>
-    suspend fun createProfile(profile: Profile): Result<Profile>
+    suspend fun createDriverProfile(profile: DriverProfile): Result<DriverProfile>
+    suspend fun createRiderProfile(profile: RiderProfile): Result<RiderProfile>
     suspend fun updateProfile(profile: Profile): Result<Profile>
     suspend fun removeUser(email: String): Result<Unit>
     suspend fun getProfile(email: String): Result<Profile?>
@@ -47,11 +51,24 @@ class ProfileRepositoryImpl(
         return authCache.currentAuth.first()?.userId ?: throw IllegalStateException("currentAuth is null")
     }
 
-    override suspend fun createProfile(profile: Profile): Result<Profile> {
+    override suspend fun createDriverProfile(profile: DriverProfile): Result<DriverProfile> {
         return withContext(ioContext) {
             try {
                 val userId = getCurrentUserId()
-                profileService.createProfile(userId, profile)
+                profileService.createDriverProfile(userId, profile)
+                    .onSuccess { profileCache.saveProfile(it) }
+                    .onFailure { profileCache.dropProfile(userId) }
+            } catch(error: Throwable) {
+                Result.failure(error)
+            }
+        }
+    }
+
+    override suspend fun createRiderProfile(profile: RiderProfile): Result<RiderProfile> {
+        return withContext(ioContext) {
+            try {
+                val userId = getCurrentUserId()
+                profileService.createRiderProfile(userId, profile)
                     .onSuccess { profileCache.saveProfile(it) }
                     .onFailure { profileCache.dropProfile(userId) }
             } catch(error: Throwable) {

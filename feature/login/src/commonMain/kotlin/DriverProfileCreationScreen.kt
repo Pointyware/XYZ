@@ -10,11 +10,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.XyzNavController
-import org.pointyware.xyz.drive.ui.DriverProfileCreationView
+import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationView
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 
 /**
- *
+ * Binds a [DriverProfileCreationViewModel] to the [DriverProfileCreationView].
  */
 @Composable
 fun DriverProfileCreationScreen(
@@ -26,12 +26,13 @@ fun DriverProfileCreationScreen(
     DriverProfileCreationView(
         state = state,
         modifier = modifier.fillMaxSize(),
-        onProfileImageSelected = viewModel::onProfileImageSelected,
-        onGivenNameChange = viewModel::onGivenNameChange,
-        onMiddleNameChange = viewModel::onMiddleNameChange,
-        onFamilyNameChange = viewModel::onFamilyNameChange,
-        onBirthdateSelected = viewModel::onBirthdateSelected,
-        onGenderSelected = viewModel::onGenderSelected,
+        onProfileImageSelected = viewModel.profileCreationViewModel::onProfileImageSelected,
+        onGivenNameChange = viewModel.profileCreationViewModel::onGivenNameChange,
+        onMiddleNameChange = viewModel.profileCreationViewModel::onMiddleNameChange,
+        onFamilyNameChange = viewModel.profileCreationViewModel::onFamilyNameChange,
+        onBirthdateSelected = viewModel.profileCreationViewModel::onBirthdateSelected,
+        onGenderSelected = viewModel.profileCreationViewModel::onGenderSelected,
+        onAccommodationsSelected = viewModel::onAccommodationsSelected,
         onCompanySelected = viewModel::onCompanySelected,
         onSubmit = viewModel::onSubmit,
     )

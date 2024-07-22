@@ -12,13 +12,16 @@ import io.ktor.client.plugins.resources.patch
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.profile.DriverProfile
+import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.core.entities.profile.Profile as ProfileEntity
 
 /**
  * Exposes profile-related actions to be performed by a remote service.
  */
 interface ProfileService {
-    suspend fun createProfile(userId: Uuid, profile: ProfileEntity): Result<ProfileEntity>
+    suspend fun createDriverProfile(userId: Uuid, profile: DriverProfile): Result<DriverProfile>
+    suspend fun createRiderProfile(userId: Uuid, profile: RiderProfile): Result<RiderProfile>
     suspend fun getProfile(userId: Uuid): Result<ProfileEntity?>
     suspend fun updateProfile(userId: Uuid, profile: ProfileEntity): Result<ProfileEntity>
     suspend fun deleteProfile(userId: Uuid): Result<Unit>
@@ -27,7 +30,25 @@ interface ProfileService {
 class KtorProfileService(
     val client: HttpClient
 ): ProfileService {
-    override suspend fun createProfile(userId: Uuid, profile: ProfileEntity): Result<ProfileEntity> {
+
+    override suspend fun createDriverProfile(
+        userId: Uuid,
+        profile: DriverProfile
+    ): Result<DriverProfile> {
+        try {
+            val response = client.post(Profile.Id(userId.toString())) {
+                setBody(profile)
+            }
+            return Result.success(response.body())
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
+
+    override suspend fun createRiderProfile(
+        userId: Uuid,
+        profile: RiderProfile
+    ): Result<RiderProfile> {
         try {
             val response = client.post(Profile.Id(userId.toString())) {
                 setBody(profile)
@@ -72,7 +93,12 @@ class TestProfileService(
     private val profiles: MutableMap<Uuid, ProfileEntity> = mutableMapOf()
 ): ProfileService {
 
-    override suspend fun createProfile(userId: Uuid, profile: ProfileEntity): Result<ProfileEntity> {
+    override suspend fun createDriverProfile(userId: Uuid, profile: DriverProfile): Result<DriverProfile> {
+        profiles[userId] = profile
+        return Result.success(profile)
+    }
+
+    override suspend fun createRiderProfile(userId: Uuid, profile: RiderProfile): Result<RiderProfile> {
         profiles[userId] = profile
         return Result.success(profile)
     }

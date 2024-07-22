@@ -10,7 +10,7 @@ import org.pointyware.xyz.core.entities.business.Company
 import org.pointyware.xyz.core.entities.ride.Accommodation
 
 /**
- *
+ * Externally-facing profile data.
  */
 interface Profile {
     val id: Uuid
@@ -19,6 +19,9 @@ interface Profile {
     val picture: Uri
 }
 
+/**
+ * Profile data for a driver.
+ */
 class DriverProfile(
     override val id: Uuid,
     override val name: Name,
@@ -28,6 +31,9 @@ class DriverProfile(
     val company: Company
 ): Profile
 
+/**
+ * Profile data for a rider.
+ */
 class RiderProfile(
     override val id: Uuid,
     override val name: Name,

@@ -4,14 +4,13 @@
 
 package org.pointyware.xyz.feature.login
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.XyzNavController
+import org.pointyware.xyz.feature.login.ride.ui.RiderProfileCreationView
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
-import org.pointyware.xyz.feature.ride.ui.RiderProfileCreationView
 
 /**
  *
@@ -25,12 +24,12 @@ fun RiderProfileCreationScreen(
     val state by viewModel.state.collectAsState()
     RiderProfileCreationView(
         state = state,
-        onProfileImageSelected = viewModel::onProfileImageSelected,
-        onGivenNameChange = viewModel::onGivenNameChange,
-        onMiddleNameChange = viewModel::onMiddleNameChange,
-        onFamilyNameChange = viewModel::onFamilyNameChange,
-        onBirthdateSelected = viewModel::onBirthdateSelected,
-        onGenderSelected = viewModel::onGenderSelected,
+        onProfileImageSelected = viewModel.profileCreationViewModel::onProfileImageSelected,
+        onGivenNameChange = viewModel.profileCreationViewModel::onGivenNameChange,
+        onMiddleNameChange = viewModel.profileCreationViewModel::onMiddleNameChange,
+        onFamilyNameChange = viewModel.profileCreationViewModel::onFamilyNameChange,
+        onBirthdateSelected = viewModel.profileCreationViewModel::onBirthdateSelected,
+        onGenderSelected = viewModel.profileCreationViewModel::onGenderSelected,
         onDisabilitiesSelected = viewModel::onDisabilitiesSelected,
         onPreferencesChange = viewModel::onPreferencesChange,
         onSubmit = viewModel::onSubmit,

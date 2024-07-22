@@ -5,15 +5,16 @@
 package org.pointyware.xyz.feature.login.interactors
 
 import org.pointyware.xyz.core.entities.profile.Profile
+import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.feature.login.data.ProfileRepository
 
 /**
  *
  */
-class CreateProfileUseCase(
+class CreateRiderProfileUseCase(
     private val profileRepository: ProfileRepository
 ) {
-    suspend operator fun invoke(profile: Profile): Result<Profile> {
-        return profileRepository.createProfile(profile)
+    suspend operator fun invoke(profile: RiderProfile): Result<RiderProfile> {
+        return profileRepository.createRiderProfile(profile)
     }
 }

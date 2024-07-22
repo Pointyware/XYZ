@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.feature.ride.ui
+package org.pointyware.xyz.feature.login.ride.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
@@ -11,20 +11,20 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import kotlinx.datetime.Instant
+import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.Disability
 import org.pointyware.xyz.core.entities.profile.Gender
-import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.ui.DisabilityPicker
 import org.pointyware.xyz.core.ui.DisabilityPickerState
-import org.pointyware.xyz.core.ui.ProfileCreationView
-import org.pointyware.xyz.core.viewmodels.RiderProfileUiState
+import org.pointyware.xyz.feature.login.ProfileCreationView
+import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationUiState
 
 /**
  * Presents the user with a form to create their rider profile.
  */
 @Composable
 fun RiderProfileCreationView(
-    state: RiderProfileUiState,
+    state: RiderProfileCreationUiState,
     modifier: Modifier = Modifier,
     onProfileImageSelected: (Uri)->Unit,
     onGivenNameChange: (String)->Unit,
@@ -40,7 +40,7 @@ fun RiderProfileCreationView(
         modifier = modifier,
     ) {
         ProfileCreationView(
-            state = state,
+            state = state.profile,
             onProfileImageSelected = onProfileImageSelected,
             onGivenNameChange = onGivenNameChange,
             onMiddleNameChange = onMiddleNameChange,

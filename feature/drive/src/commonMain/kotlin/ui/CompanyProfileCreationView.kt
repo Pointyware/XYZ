@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.ui.BriefProfileCollectionItem
-import org.pointyware.xyz.core.viewmodels.CompanyProfileUiState
+import org.pointyware.xyz.core.viewmodels.drive.CompanyProfileUiState
 
 /**
  *

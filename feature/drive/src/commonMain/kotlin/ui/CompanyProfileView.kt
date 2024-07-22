@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.pointyware.xyz.core.ui.BriefProfileCollectionItem
-import org.pointyware.xyz.core.viewmodels.CompanyProfileUiState
+import org.pointyware.xyz.core.viewmodels.drive.CompanyProfileUiState
 
 /**
  * Displays a company profile:
