@@ -27,10 +27,10 @@ interface ProfileCreationViewModel {
     fun onGenderSelected(gender: Gender)
 }
 
-abstract class ProfileCreationViewModelImpl(
+class ProfileCreationViewModelImpl(
 
 ): KoinViewModel(), ProfileCreationViewModel {
-    protected val mutableState = MutableStateFlow(ProfileCreationUiState.empty)
+    private val mutableState = MutableStateFlow(ProfileCreationUiState.empty)
     override val state: StateFlow<ProfileCreationUiState> get() = mutableState.asStateFlow()
 
     override fun onProfileImageSelected(uri: Uri) {

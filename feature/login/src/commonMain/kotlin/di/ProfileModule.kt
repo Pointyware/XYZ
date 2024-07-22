@@ -11,12 +11,14 @@ import org.pointyware.xyz.feature.login.interactors.GetUserIdUseCase
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModelImpl
 import org.pointyware.xyz.feature.login.viewmodels.ProfileCreationViewModel
+import org.pointyware.xyz.feature.login.viewmodels.ProfileCreationViewModelImpl
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModelImpl
 
 fun featureProfileModule() = module {
     single<ProfileDependencies> { KoinProfileDependencies() }
 
+    factory<ProfileCreationViewModel>() { ProfileCreationViewModelImpl() }
     factory<DriverProfileCreationViewModel> {
         DriverProfileCreationViewModelImpl(get<ProfileCreationViewModel>(), get<CreateDriverProfileUseCase>())
     }
