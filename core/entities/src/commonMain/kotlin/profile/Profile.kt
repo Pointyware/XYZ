@@ -14,7 +14,6 @@ import org.pointyware.xyz.core.entities.ride.Accommodation
  */
 interface Profile {
     val id: Uuid
-    val email: String
     val name: Name
     val phone: PhoneNumber
     val gender: Gender
@@ -23,7 +22,6 @@ interface Profile {
 
 class DriverProfile(
     override val id: Uuid,
-    override val email: String,
     override val name: Name,
     override val phone: PhoneNumber,
     override val gender: Gender,
@@ -34,7 +32,6 @@ class DriverProfile(
 
 class RiderProfile(
     override val id: Uuid,
-    override val email: String,
     override val name: Name,
     override val phone: PhoneNumber,
     override val gender: Gender,
