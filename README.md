@@ -6,21 +6,9 @@ Get your X from Y to Z
 * Drivers - Owners or Operators
 
 ## Features
-* Managers
-  * Create company listing
-  * Accept/Invite Drivers
-  * Drop Drivers
-* Drivers
-  * Manage service area
-  * List accommodations
-  * Rate riders
-  * Bid service rate
-* Riders
-  * Post a ride immediately
-  * Post a ride in the future
-  * List disabilities
-  * Rate drivers
-  * Bid service rate
+* [Manage](./feature/manage/README.md)
+* [Drive](./feature/drive/README.md)
+* [Ride](./feature/ride/README.md)
 
 ## Modularization
 * core: common, data, entities, interactors, local, remote, ui, view-models

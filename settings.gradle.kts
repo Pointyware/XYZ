@@ -32,6 +32,7 @@ include(":core:remote")
 include(":core:ui")
 include(":core:view-models")
 
+include(":feature:manage")
 include(":feature:drive")
 include(":feature:login")
 include(":feature:ride")
