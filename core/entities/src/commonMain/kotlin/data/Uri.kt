@@ -5,7 +5,7 @@
 package org.pointyware.xyz.core.entities.data
 
 /**
- * Multplatform implementation of URIs
+ * Multiplatform implementation of URIs
  */
 class Uri(
     val value: String
