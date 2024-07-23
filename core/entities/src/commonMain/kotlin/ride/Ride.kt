@@ -5,22 +5,15 @@
 package org.pointyware.xyz.core.entities.ride
 
 import kotlinx.datetime.Instant
-import org.pointyware.xyz.core.entities.geo.Length
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.business.Currency
+import org.pointyware.xyz.core.entities.geo.Length
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
-import ride.EndReason
 import kotlin.time.Duration
 
 /**
  * Describes a ride in one of many possible states.
- *
- * 1. At the time a user is drafting a new ride request.
- * 2. At the time a user has posted a new ride request.
- * 3. At the time a driver has accepted a ride request.
- * 4. After a ride has been completed successfully.
- * 5. After a ride has been canceled by the rider or driver.
  */
 sealed interface Ride {
 
@@ -30,14 +23,14 @@ sealed interface Ride {
     val id: Uuid
 
     /**
-     * The time the ride was posted to the system.
+     * The current status of the ride as it progresses through the system.
      */
-    val timePosted: Instant?
+    val status: Status
 
     /**
-     * The time the ride is scheduled to start.
+     * The time the ride was posted to the system by the rider.
      */
-    val timeToStart: Instant?
+    val timePosted: Instant?
 
     /**
      * The time the ride was accepted by a driver.
@@ -68,11 +61,6 @@ sealed interface Ride {
         }
 
     /**
-     * The reason the ride ended: completion or cancellation.
-     */
-    val endReason: EndReason?
-
-    /**
      * The planned route of the ride.
      */
     val plannedRoute: Route?
@@ -86,123 +74,92 @@ sealed interface Ride {
     val rider: RiderProfile?
 
     /**
-     * Filter criteria for searching for rides.
+     *
      */
-    interface Criteria {
-        val serviceArea: Area
-        val timeRange: ClosedRange<Instant>
-        val distanceRange: ClosedRange<Length>
-        val priceRange: ClosedRange<Currency>
-        val rateRange: ClosedRange<Currency>
-    }
+    sealed interface Status {
+        /**
+         * Marker interface for route progress.
+         */
+        sealed interface RouteProgress {
+            /**
+             * The ride route has no progress.
+             */
+            interface Unrealized: RouteProgress
 
-    data class Draft(
-        override val id: Uuid,
-        override val timeToStart: Instant,
-        override val plannedRoute: Route,
-    ): Ride {
-        override val timePosted: Instant?
-            get() = null
-        override val timeAccepted: Instant?
-            get() = null
-        override val timeEnded: Instant?
-            get() = null
-        override val endReason: EndReason?
-            get() = null
-        override val timeArrived: Instant?
-            get() = null
-        override val timeStarted: Instant?
-            get() = null
-        override val actualRoute: Route?
-            get() = null
-        override val driver: DriverProfile?
-            get() = null
-        override val rider: RiderProfile?
-            get() = null
-    }
+            /**
+             * A ride with some or all of the route completed.
+             */
+            interface Realized: RouteProgress {
+                val actualRoute: Route
+            }
+        }
 
-    data class Immediate(
-        override val id: Uuid,
-        override val rider: RiderProfile?,
-        override val plannedRoute: Route,
-        override val timePosted: Instant,
-    ): Ride {
-        override val actualRoute: Route?
-            get() = null
-        override val timeAccepted: Instant?
-            get() = null
-        override val timeEnded: Instant?
-            get() = null
-        override val endReason: EndReason?
-            get() = null
-        override val timeArrived: Instant?
-            get() = null
-        override val timeToStart: Instant?
-            get() = null
-        override val timeStarted: Instant?
-            get() = null
-        override val driver: DriverProfile?
-            get() = null
-    }
+        /**
+         * The ride is posted and waiting for a driver to accept it.
+         * Possible transitions are [Active], []
+         */
+        data object Immediate : Status, RouteProgress.Unrealized
 
-    data class Scheduled(
-        override val id: Uuid,
-        override val rider: RiderProfile,
-        override val plannedRoute: Route,
-        override val timeToStart: Instant,
-        override val timePosted: Instant,
-    ): Ride {
-        override val timeAccepted: Instant?
-            get() = null
-        override val timeEnded: Instant?
-            get() = null
-        override val endReason: EndReason?
-            get() = null
-        override val timeArrived: Instant?
-            get() = null
-        override val timeStarted: Instant?
-            get() = null
-        override val actualRoute: Route?
-            get() = null
-        override val driver: DriverProfile?
-            get() = null
-    }
+        /**
+         * The ride is scheduled for a future time and waiting for a driver to accept it.
+         * Possible transitions are [Accepted], [Ended]
+         */
+        data class Scheduled(
+            val timeToStart: Instant
+        ): Status, RouteProgress.Unrealized
 
-    data class Accepted(
-        override val id: Uuid,
-        override val rider: RiderProfile,
-        override val driver: DriverProfile,
-        override val plannedRoute: Route,
-        override val timeToStart: Instant,
-        override val timePosted: Instant,
-        override val timeAccepted: Instant,
-    ): Ride {
-        override val timeEnded: Instant?
-            get() = null
-        override val endReason: EndReason?
-            get() = null
-        override val timeArrived: Instant?
-            get() = null
-        override val timeStarted: Instant?
-            get() = null
-        override val actualRoute: Route?
-            get() = null
-    }
+        /**
+         * The ride has been accepted by a driver for future completion.
+         * Possible transitions are [Active], [Ended]
+         */
+        data class Accepted(
+            val timeToStart: Instant
+        ): Status, RouteProgress.Unrealized
 
-    data class Ended(
-        override val id: Uuid,
-        override val rider: RiderProfile,
-        override val driver: DriverProfile,
-        override val plannedRoute: Route,
-        override val timeToStart: Instant,
-        override val timePosted: Instant,
-        override val timeAccepted: Instant,
-        override val timeArrived: Instant,
-        override val timeStarted: Instant,
-        override val timeEnded: Instant,
-        override val actualRoute: Route,
-        override val endReason: EndReason,
-    ): Ride {
+        /**
+         * The ride is in progress.
+         * Possible transitions are [Ended]
+         */
+        data class Active(
+            override val actualRoute: Route
+        ): Status, RouteProgress.Realized
 
+        /**
+         * The ride has ended, either by completion or cancellation.
+         */
+        abstract class Ended(
+            val endReason: EndReason
+        ) : Status, RouteProgress
+
+        /**
+         * The driver canceled the ride before it started.
+         */
+        data object DriverCanceled : Ended(EndReason.DriverCanceled), RouteProgress.Unrealized
+
+        /**
+         * The rider canceled the ride before it started.
+         */
+        data object RiderCanceled : Ended(EndReason.RiderCanceled), RouteProgress.Unrealized
+
+        /**
+         * The ride was completed successfully.
+         */
+        data class Completed(
+            override val actualRoute: Route
+        ) : Ended(EndReason.Completed), RouteProgress.Realized
+
+        /**
+         * The rider canceled the ride after it started.
+         */
+        data class RiderCanceledLate(
+            override val actualRoute: Route
+        ) : Ended(EndReason.RiderCanceledLate), RouteProgress.Realized
+
+        /**
+         * The driver canceled the ride after it started.
+         */
+        data class DriverCanceledLate(
+            override val actualRoute: Route
+        ) : Ended(EndReason.RiderCanceledLate), RouteProgress.Realized
     }
 }
