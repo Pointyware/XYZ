@@ -24,6 +24,7 @@ fun RiderProfileCreationScreen(
     val state by viewModel.state.collectAsState()
     RiderProfileCreationView(
         state = state,
+        modifier = modifier,
         onProfileImageSelected = viewModel.profileCreationViewModel::onProfileImageSelected,
         onGivenNameChange = viewModel.profileCreationViewModel::onGivenNameChange,
         onMiddleNameChange = viewModel.profileCreationViewModel::onMiddleNameChange,
