@@ -6,6 +6,7 @@ package org.pointyware.xyz.drive.data
 
 import kotlinx.coroutines.flow.Flow
 import org.pointyware.xyz.core.entities.ride.Ride
+import org.pointyware.xyz.core.entities.ride.RideFilter
 import org.pointyware.xyz.drive.local.RideCache
 import org.pointyware.xyz.drive.remote.RideService
 
@@ -18,7 +19,7 @@ interface RideRepository {
     suspend fun searchDestinations(query: String): Result<RideSearchResult>
     suspend fun postRide(ride: Ride): Result<Ride>
     suspend fun cancelRide(ride: Ride): Result<Ride>
-    suspend fun createRideFilter(criteria: Ride.Criteria): Result<Flow<Ride>>
+    suspend fun watchRides(filter: RideFilter): Result<Flow<Ride>>
 }
 
 class RideRepositoryImpl(
@@ -50,7 +51,7 @@ class RideRepositoryImpl(
             }
     }
 
-    override suspend fun createRideFilter(criteria: Ride.Criteria): Result<Flow<Ride>> {
-        return rideService.createRideFilter(criteria)
+    override suspend fun watchRides(filter: RideFilter): Result<Flow<Ride>> {
+        return rideService.createRideFilter(filter)
     }
 }
