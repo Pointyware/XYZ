@@ -40,6 +40,16 @@ class RiderProfileCreationViewModelImpl(
     private val mutableLoadingState = MutableStateFlow<LoadingUiState<Unit>>(LoadingUiState.Idle())
     override val loadingState: StateFlow<LoadingUiState<Unit>> get() = mutableLoadingState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            profileCreationViewModel.state.collect { profileState ->
+                mutableState.update {
+                    it.copy(profile = profileState)
+                }
+            }
+        }
+    }
+
     override fun onDisabilitiesSelected(disabilities: List<Disability>) {
         mutableState.update {
             it.copy(
