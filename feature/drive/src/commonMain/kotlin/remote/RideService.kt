@@ -6,6 +6,7 @@ package org.pointyware.xyz.drive.remote
 
 import kotlinx.coroutines.flow.Flow
 import org.pointyware.xyz.core.entities.ride.Ride
+import org.pointyware.xyz.core.entities.ride.RideFilter
 import org.pointyware.xyz.drive.data.RideSearchResult
 
 /**
@@ -35,5 +36,5 @@ interface RideService {
     /**
      * Creates a filter for rides that match the given criteria.
      */
-    suspend fun createRideFilter(criteria: Ride.Criteria): Result<Flow<Ride>>
+    suspend fun createRideFilter(filter: RideFilter): Result<Flow<Ride>>
 }
