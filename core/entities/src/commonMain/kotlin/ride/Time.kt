@@ -7,7 +7,7 @@ package org.pointyware.xyz.core.entities.ride
 import kotlinx.datetime.Instant
 
 /**
- *
+ * Represents a ride time that can be either immediate or scheduled.
  */
 sealed class Time {
     data object Immediate : Time()
