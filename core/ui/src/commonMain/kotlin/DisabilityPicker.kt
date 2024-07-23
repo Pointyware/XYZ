@@ -52,7 +52,13 @@ fun DisabilityPicker(
             Text("Add Disability")
         }
         if (showDialog) {
+            val options = listOf(
+                Disability.Deaf, Disability.Blind,
+                Disability.Mobility, Disability.Allergy,
+                Disability.ServiceAnimal
+            )
             DisabilityPickerDialog(
+                options = options - state.selected.toSet(),
                 onDismiss = { showDialog = false },
                 onSelectDisability = {
                     onUpdateSelected(state.selected + it)
@@ -65,6 +71,7 @@ fun DisabilityPicker(
 
 @Composable
 fun DisabilityPickerDialog(
+    options: List<Disability>,
     modifier: Modifier = Modifier,
     onSelectDisability: (Disability)->Unit,
     onDismiss: ()->Unit,
@@ -77,22 +84,11 @@ fun DisabilityPickerDialog(
         ) {
             Text("Disability Picker")
 
-            Button(onClick = { onSelectDisability(Disability.Blind) }) {
-                Text("Blind")
+            options.forEach {
+                Button(onClick = { onSelectDisability(it) }) {
+                    Text(it.toString())
+                }
             }
-            Button(onClick = { onSelectDisability(Disability.Deaf) }) {
-                Text("Deaf")
-            }
-            Button(onClick = { onSelectDisability(Disability.Mobility) }) {
-                Text("Mobility")
-            }
-            Button(onClick = { onSelectDisability(Disability.ServiceAnimal) }) {
-                Text("Service Animal")
-            }
-            Button(onClick = { onSelectDisability(Disability.Allergy) }) {
-                Text("Allergy")
-            }
-            // TODO: replace with more nuanced entities
         }
     }
 }
