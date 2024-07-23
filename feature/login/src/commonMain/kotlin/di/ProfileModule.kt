@@ -7,6 +7,7 @@ package org.pointyware.xyz.feature.login.di
 import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.feature.login.data.CompanyRepository
+import org.pointyware.xyz.feature.login.data.CompanyRepositoryImpl
 import org.pointyware.xyz.feature.login.data.ProfileRepository
 import org.pointyware.xyz.feature.login.data.ProfileRepositoryImpl
 import org.pointyware.xyz.feature.login.interactors.CreateDriverProfileUseCase
@@ -19,6 +20,7 @@ import org.pointyware.xyz.feature.login.local.CompanyCache
 import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.local.ProfileCacheImpl
 import org.pointyware.xyz.feature.login.remote.AuthService
+import org.pointyware.xyz.feature.login.remote.CompanyService
 import org.pointyware.xyz.feature.login.remote.ProfileService
 import org.pointyware.xyz.feature.login.remote.TestProfileService
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
@@ -63,6 +65,10 @@ private fun profileDataModule() = module {
 
     single<ProfileCache> { ProfileCacheImpl() }
     single<ProfileService> { TestProfileService() }
+
+    single<CompanyRepository> { CompanyRepositoryImpl(get<CompanyCache>(), get<CompanyService>()) }
+    single<CompanyCache> { CompanyCache() }
+    single<CompanyService> { CompanyService() }
 }
 
 private fun profileInteractorsModule() = module {
