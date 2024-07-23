@@ -5,9 +5,11 @@
 package org.pointyware.xyz.core.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,23 +23,33 @@ import org.pointyware.xyz.core.entities.profile.Gender
  */
 @Composable
 fun GenderPicker(
+    value: Gender,
     onGenderSelected: (Gender)->Unit,
     modifier: Modifier = Modifier,
 ) {
-    var expanded by remember { mutableStateOf(false) }
-    DropdownMenu(
-        modifier = modifier.clickable { expanded = true },
-        expanded = expanded,
-        onDismissRequest = { expanded = false }
-    ) {
-        Gender.entries.forEach {
-            DropdownMenuItem(
-                text = { Text(text = it.name) },
-                onClick = {
-                    expanded = false
-                    onGenderSelected(it)
-                }
-            )
+    Box {
+        TextField(
+            value = value.toString(),
+            onValueChange = {},
+            label = { Text("Gender") },
+            readOnly = true,
+        )
+
+        var expanded by remember { mutableStateOf(false) }
+        DropdownMenu(
+            modifier = modifier.clickable { expanded = true },
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            Gender.entries.forEach {
+                DropdownMenuItem(
+                    text = { Text(text = it.name) },
+                    onClick = {
+                        expanded = false
+                        onGenderSelected(it)
+                    }
+                )
+            }
         }
     }
 }
