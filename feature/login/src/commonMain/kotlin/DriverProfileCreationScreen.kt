@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.XyzNavController
+import org.pointyware.xyz.feature.login.navigation.companyCreationRoute
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationView
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 
@@ -33,6 +34,8 @@ fun DriverProfileCreationScreen(
         onBirthdateSelected = viewModel.profileCreationViewModel::onBirthdateSelected,
         onGenderSelected = viewModel.profileCreationViewModel::onGenderSelected,
         onAccommodationsSelected = viewModel::onAccommodationsSelected,
+        onCompanySearchChange = viewModel::onCompanySearchChange,
+        onCreateCompany = { navController.navigateTo(companyCreationRoute) },
         onCompanySelected = viewModel::onCompanySelected,
         onSubmit = viewModel::onSubmit,
     )

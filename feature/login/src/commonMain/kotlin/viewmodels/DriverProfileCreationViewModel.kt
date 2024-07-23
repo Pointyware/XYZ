@@ -14,7 +14,10 @@ import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Accommodation
 import org.pointyware.xyz.core.viewmodels.KoinViewModel
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
+import org.pointyware.xyz.core.viewmodels.drive.AccommodationsSelectionUiState
+import org.pointyware.xyz.core.viewmodels.drive.BriefCompanyProfileUiState
 import org.pointyware.xyz.core.viewmodels.drive.CompanyProfileUiState
+import org.pointyware.xyz.core.viewmodels.drive.CompanySelectionUiState
 import org.pointyware.xyz.core.viewmodels.postError
 import org.pointyware.xyz.feature.login.interactors.CreateDriverProfileUseCase
 import org.pointyware.xyz.feature.login.interactors.GetCompanyUseCase
@@ -26,6 +29,7 @@ interface DriverProfileCreationViewModel {
     fun onAccommodationsSelected(accommodations: List<Accommodation>)
     fun onCompanySelected(uuid: Uuid)
     fun onSubmit()
+    fun onCompanySearchChange(query: String)
 }
 
 /**
@@ -44,9 +48,15 @@ class DriverProfileCreationViewModelImpl(
 
     override fun onAccommodationsSelected(accommodations: List<Accommodation>) {
         mutableState.update {
-            it.copy(accommodations = accommodations.toSet())
+            it.copy(accommodations = it.accommodations.copy(selected = accommodations))
         }
     }
+
+    override fun onCompanySearchChange(query: String) {
+        TODO("Not yet implemented")
+    }
+
+
 
     private var companySelectionJob: Job? = null
     override fun onCompanySelected(uuid: Uuid) {
@@ -54,18 +64,19 @@ class DriverProfileCreationViewModelImpl(
         companySelectionJob = viewModelScope.launch {
             getCompanyProfileUseCase.invoke(uuid)
                 .onSuccess {
-                    val companyProfileUiState = CompanyProfileUiState(
+                    val companyProfileUiState = BriefCompanyProfileUiState(
                         id = uuid,
-                        banner = it.banner,
                         logo = it.logo,
                         name = it.name,
-                        tagline = it.tagline,
-                        description = it.bio,
-                        phoneNumber = it.phone,
-                        drivers = emptyList(), // TODO: get/map drivers
                     )
                     mutableState.update {
-                        it.copy(company = companyProfileUiState)
+                        it.copy(companySelection =
+                        CompanySelectionUiState(
+                            search = "",
+                            suggestions = emptyList(),
+                            selected = companyProfileUiState
+                        )
+                        )
                     }
                 }
                 .onFailure {
@@ -89,13 +100,14 @@ class DriverProfileCreationViewModelImpl(
  */
 data class DriverProfileCreationUiState(
     val profile: ProfileCreationUiState,
-    val accommodations: Set<Accommodation> = emptySet(),
-    val company: CompanyProfileUiState
+    val accommodations: AccommodationsSelectionUiState,
+    val companySelection: CompanySelectionUiState,
 ) {
     companion object {
         val empty = DriverProfileCreationUiState(
             profile = ProfileCreationUiState.empty,
-            company = CompanyProfileUiState.empty
+            accommodations = AccommodationsSelectionUiState.empty,
+            companySelection = CompanySelectionUiState.empty
         )
     }
 }

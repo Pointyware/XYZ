@@ -17,6 +17,7 @@ import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.ride.Accommodation
+import org.pointyware.xyz.core.ui.AccommodationPicker
 import org.pointyware.xyz.core.ui.CompanyPicker
 import org.pointyware.xyz.feature.login.ProfileCreationView
 
@@ -34,6 +35,8 @@ fun DriverProfileCreationView(
     onFamilyNameChange: (String)->Unit,
     onBirthdateSelected: (Instant?)->Unit,
     onAccommodationsSelected: (List<Accommodation>)->Unit,
+    onCompanySearchChange: (String)->Unit,
+    onCreateCompany: ()->Unit,
     onCompanySelected: (Uuid)->Unit,
     onGenderSelected: (Gender)->Unit,
     onSubmit: ()->Unit
@@ -51,13 +54,20 @@ fun DriverProfileCreationView(
             onGenderSelected = onGenderSelected,
         )
 
+        AccommodationPicker(
+            state = state.accommodations,
+            onAccommodationsSelected = onAccommodationsSelected,
+        )
+
         CompanyPicker(
-            value = state.company,
-            onSelectCompany = { onCompanySelected(state.company.id) }
+            state = state.companySelection,
+            onSelectCompany = { onCompanySelected(it) },
+            onSearchChange = onCompanySearchChange,
+            onCreateCompany = onCreateCompany
         )
 
         LazyColumn {
-            items(state.accommodations.toList()) { accommodation ->
+            items(state.accommodations.selected) { accommodation ->
                 Text(text = accommodation.toString())
             }
         }
