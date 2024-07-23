@@ -49,13 +49,14 @@ fun RiderProfileCreationView(
             onGenderSelected = onGenderSelected,
         )
 
-        DisabilityPicker(
-            state = DisabilityPickerState(state.disabilities.toList()),
-            onUpdateSelected = onDisabilitiesSelected
-        )
+//        DisabilityPicker(
+//            state = DisabilityPickerState(state.disabilities.toList()),
+//            onUpdateSelected = onDisabilitiesSelected
+//        )
         TextField(
             value = state.preferences,
             label = { Text("Phone Number") },
+            singleLine = true,
             onValueChange = onPreferencesChange
         )
 

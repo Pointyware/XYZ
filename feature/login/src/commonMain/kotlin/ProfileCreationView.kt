@@ -15,6 +15,7 @@ import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.ui.GenderPicker
 import org.pointyware.xyz.core.ui.ImagePicker
+import org.pointyware.xyz.core.ui.design.LocalDateFormatter
 import org.pointyware.xyz.feature.login.viewmodels.ProfileCreationUiState
 
 /**
@@ -25,42 +26,48 @@ fun ProfileCreationView(
     state: ProfileCreationUiState,
     modifier: Modifier = Modifier,
     onProfileImageSelected: (Uri) -> Unit,
+    onGivenNameChange: (String) -> Unit,
     onMiddleNameChange: (String) -> Unit,
     onFamilyNameChange: (String) -> Unit,
     onBirthdateSelected: (Instant?) -> Unit,
     onGenderSelected: (Gender) -> Unit,
-    onGivenNameChange: (String) -> Unit,
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+    ) {
 
-        ImagePicker(
-            placeholder = state.image,
-            onImageSelected = { uri ->
-                onProfileImageSelected(uri)
-            }
-        ) {
-            AsyncImage(
-                model = it.value,
-                contentDescription = "Profile Image",
-            )
-        }
+//        ImagePicker(
+//            placeholder = state.image,
+//            onImageSelected = { uri ->
+//                onProfileImageSelected(uri)
+//            }
+//        ) {
+//            AsyncImage(
+//                model = it.value,
+//                contentDescription = "Profile Image",
+//            )
+//        }
         TextField(
             value = state.fullName.given,
             label = { Text("Given Name") },
+            singleLine = true,
             onValueChange = onGivenNameChange
         )
         TextField(
             value = state.fullName.middle,
             label = { Text("Middle Name") },
+            singleLine = true,
             onValueChange = onMiddleNameChange
         )
         TextField(
             value = state.fullName.family,
             label = { Text("Family Name") },
+            singleLine = true,
             onValueChange = onFamilyNameChange
         )
 
-        Text(text = state.birthdate.toString())
+        val formatter = LocalDateFormatter.current
+        Text(text = formatter.format(state.birthdate, "MMMM dd, yyyy"))
 //        DatePicker( // TODO: get Locale
 //            state = DatePickerState(
 //                locale = CalendarLocale,
@@ -68,8 +75,9 @@ fun ProfileCreationView(
 //            onDateChange = onBirthdateChange,
 //        )
 
-        GenderPicker(
-            onGenderSelected = onGenderSelected,
-        )
+//        GenderPicker(
+//            value = state.gender,
+//            onGenderSelected = onGenderSelected,
+//        )
     }
 }
