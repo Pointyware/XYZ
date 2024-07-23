@@ -5,9 +5,11 @@
 package org.pointyware.xyz.feature.login
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.LoadingResultView
@@ -20,15 +22,17 @@ import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 @Composable
 fun RiderProfileCreationScreen(
     viewModel: RiderProfileCreationViewModel,
-    navController: XyzNavController,
-    modifier: Modifier = Modifier,
+    navController: XyzNavController
 ) {
-    Box {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         val state by viewModel.state.collectAsState()
         val loadingState by viewModel.loadingState.collectAsState()
         RiderProfileCreationView(
             state = state,
-            modifier = modifier,
+            modifier = Modifier.align(Alignment.Center),
             onProfileImageSelected = viewModel.profileCreationViewModel::onProfileImageSelected,
             onGivenNameChange = viewModel.profileCreationViewModel::onGivenNameChange,
             onMiddleNameChange = viewModel.profileCreationViewModel::onMiddleNameChange,
