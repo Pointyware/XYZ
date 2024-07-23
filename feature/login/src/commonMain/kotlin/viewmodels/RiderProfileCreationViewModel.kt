@@ -23,6 +23,7 @@ interface RiderProfileCreationViewModel {
     val profileCreationViewModel: ProfileCreationViewModel
     fun onDisabilitiesSelected(disabilities: List<Disability>)
     fun onPreferencesChange(preferences: String)
+    fun clearLoadingError()
     fun onSubmit()
 }
 
@@ -64,6 +65,10 @@ class RiderProfileCreationViewModelImpl(
                 preferences = preferences
             )
         }
+    }
+
+    override fun clearLoadingError() {
+        mutableLoadingState.value = LoadingUiState.Idle()
     }
 
     override fun onSubmit() {
