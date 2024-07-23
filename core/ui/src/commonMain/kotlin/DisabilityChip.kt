@@ -5,6 +5,7 @@
 package org.pointyware.xyz.core.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -17,8 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.draw.shadow
 import org.pointyware.xyz.core.entities.profile.Disability
+import org.pointyware.xyz.core.ui.design.XyzTheme
 
 /**
  * Displays a single disability.
@@ -31,17 +33,24 @@ fun DisabilityChip(
 ) {
     Surface(
         modifier = modifier
-            .padding(8.dp)
+            .shadow(XyzTheme.dimensions.spacerSmall, MaterialTheme.shapes.small)
             .clip(MaterialTheme.shapes.small)
     ) {
-        Box {
+        Box(
+            modifier = Modifier
+        ) {
             Text(
                 text = value.toString(),
-                style = MaterialTheme.typography.labelSmall
+                style = MaterialTheme.typography.labelSmall,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(XyzTheme.dimensions.paddingSmall),
             )
             IconButton(
                 onClick = onRemove,
-                modifier = Modifier.align(Alignment.TopEnd)
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .offset(x = XyzTheme.dimensions.paddingSmall, y = -XyzTheme.dimensions.paddingSmall)
             ) {
                 Icon(imageVector = Icons.Default.Close, contentDescription = "Remove")
             }

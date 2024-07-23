@@ -7,6 +7,7 @@ package org.pointyware.xyz.core.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
 import org.pointyware.xyz.core.entities.profile.Disability
+import org.pointyware.xyz.core.ui.design.XyzTheme
 
 data class DisabilityPickerState(
     val selected: List<Disability>
@@ -40,6 +42,7 @@ fun DisabilityPicker(
             state.selected.forEach {
                 DisabilityChip(
                     value = it,
+                    modifier = Modifier.padding(XyzTheme.dimensions.paddingSmall),
                     onRemove = { onUpdateSelected(state.selected - it) }
                 )
             }
