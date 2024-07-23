@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.data.Uri
@@ -37,6 +38,7 @@ fun RiderProfileCreationView(
     onSubmit: ()->Unit,
 ) {
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,
     ) {
         ProfileCreationView(
