@@ -15,8 +15,9 @@ class GetUserIdUseCase(
     private val authCache: AuthCache
 ) {
 
-    suspend operator fun invoke(): Uuid {
-        return authCache.currentAuth.first()?.userId
-            ?: throw IllegalStateException("User not logged in")
+    suspend operator fun invoke(): Result<Uuid> {
+        return authCache.currentAuth.first()?.let {
+            Result.success(it.userId)
+        } ?: Result.failure(IllegalStateException("User not logged in"))
     }
 }

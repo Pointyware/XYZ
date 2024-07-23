@@ -74,22 +74,27 @@ class RiderProfileCreationViewModelImpl(
     override fun onSubmit() {
         viewModelScope.launch {
             mutableLoadingState.value = LoadingUiState.Loading()
-            val id = getUserIdUseCase.invoke()
-            val state = state.value
-            val riderProfile = RiderProfile(
-                id = id,
-                name = state.profile.fullName,
-                preferences = state.preferences,
-                disabilities = state.disabilities.toSet(),
-                gender = state.profile.gender,
-                picture = state.profile.image,
-            )
-            createProfileUseCase.invoke(riderProfile)
-                .onSuccess {
-                    mutableLoadingState.value = LoadingUiState.Success(Unit)
+            getUserIdUseCase.invoke()
+                .onSuccess { id ->
+                    val state = state.value
+                    val riderProfile = RiderProfile(
+                        id = id,
+                        name = state.profile.fullName,
+                        preferences = state.preferences,
+                        disabilities = state.disabilities.toSet(),
+                        gender = state.profile.gender,
+                        picture = state.profile.image,
+                    )
+                    createProfileUseCase.invoke(riderProfile)
+                        .onSuccess {
+                            mutableLoadingState.value = LoadingUiState.Success(Unit)
+                        }
+                        .onFailure {
+                            mutableLoadingState.postError(it)
+                        }
                 }
-                .onFailure {
-                    mutableLoadingState.postError(it)
+                .onFailure { error ->
+                    mutableLoadingState.postError(error)
                 }
         }
     }
