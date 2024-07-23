@@ -34,7 +34,7 @@ interface Route {
     /**
      * The total duration of the route, estimated for a planned route or measured for an actual path.
      * @see Ride.plannedRoute
-     * @see Ride.actualRoute
+     * @see Ride.Status.RouteProgress.Realized
      */
     val duration: Duration
 }

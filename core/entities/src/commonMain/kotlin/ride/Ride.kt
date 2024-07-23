@@ -65,11 +65,6 @@ sealed interface Ride {
      */
     val plannedRoute: Route?
 
-    /**
-     * The actual route taken during the ride.
-     */
-    val actualRoute: Route?
-
     val driver: DriverProfile?
     val rider: RiderProfile?
 
