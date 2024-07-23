@@ -11,4 +11,8 @@ import org.pointyware.xyz.core.entities.ride.Accommodation
  */
 data class AccommodationsSelectionUiState(
     val selected: List<Accommodation>
-)
+) {
+    companion object {
+        val empty: AccommodationsSelectionUiState = AccommodationsSelectionUiState(selected = emptyList())
+    }
+}
