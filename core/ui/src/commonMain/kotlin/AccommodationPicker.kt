@@ -4,9 +4,11 @@
 
 package org.pointyware.xyz.core.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.entities.ride.Accommodation
@@ -26,7 +28,26 @@ fun AccommodationPicker(
         modifier = modifier
     ) {
         FlowRow(modifier = modifier) {
-
+            state.selected.forEach { accommodation ->
+                AccommodationChip(
+                    value = accommodation,
+                    onRemove = {
+                        onAccommodationsSelected(state.selected - accommodation)
+                    },
+                )
+            }
+        }
+        val availableAccommodations = listOf(Accommodation.AnimalFriendly, Accommodation.AnimalFriendly)
+        val accommodations = availableAccommodations - state.selected.toSet()
+        FlowRow {
+            accommodations.forEach { accommodation ->
+                AccommodationChip(
+                    value = accommodation,
+                    modifier = Modifier.clickable {
+                        onAccommodationsSelected(state.selected + accommodation)
+                    }
+                )
+            }
         }
     }
 }
