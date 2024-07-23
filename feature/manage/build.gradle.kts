@@ -60,6 +60,8 @@ kotlin {
                 implementation(projects.core.navigation)
                 implementation(projects.core.ui)
 
+                implementation(projects.feature.drive)
+
                 implementation(libs.coil.core)
                 implementation(libs.coil.compose)
                 implementation(libs.coil.networkKtor)
