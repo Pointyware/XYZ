@@ -13,6 +13,7 @@ import androidx.compose.ui.window.rememberWindowState
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.startKoin
 import org.pointyware.xyz.desktop.di.desktopModule
+import org.pointyware.xyz.desktop.di.topLevelModule
 import org.pointyware.xyz.shared.XyzApp
 import org.pointyware.xyz.shared.di.appModule
 import org.pointyware.xyz.shared.di.getDependencies
@@ -21,8 +22,7 @@ fun main() = application {
 
     startKoin {
         modules(
-            desktopModule(),
-            appModule()
+            topLevelModule
         )
     }
 
