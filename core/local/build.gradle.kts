@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -41,6 +42,8 @@ kotlin {
             dependencies {
                 implementation(projects.core.common)
                 implementation(projects.core.entities)
+
+                implementation(libs.kotlinx.serialization)
 
                 implementation(libs.koin.core)
             }
