@@ -19,4 +19,6 @@ class Path(
     companion object {
         const val separator = "/"
     }
+
+    operator fun plus(other: Path): Path = Path(value + separator + other.value)
 }

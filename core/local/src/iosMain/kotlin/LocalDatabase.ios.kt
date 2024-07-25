@@ -6,6 +6,6 @@ package org.pointyware.xyz.core.local
 
 import org.pointyware.xyz.core.entities.data.Uri
 
-actual fun <T : Any> createLocalDatabase(path: Path): LocalDatabase<T> {
+actual fun createLocalDatabase(path: Path): LocalDatabase {
     return LocalFileDatabase(path)
 }

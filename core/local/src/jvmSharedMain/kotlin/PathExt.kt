@@ -4,6 +4,11 @@
 
 package org.pointyware.xyz.core.local
 
-actual fun createLocalDatabase(path: Path): LocalDatabase {
-    return LocalMemoryDatabase(path)
+import java.io.File
+
+/**
+ *
+ */
+fun Path.toFile(): File {
+    return File(value)
 }

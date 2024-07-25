@@ -4,21 +4,24 @@
 
 package org.pointyware.xyz.core.local
 
+import kotlinx.serialization.json.Json
+
 /**
- *
+ * Implements [LocalDatabase] using the file indicated by [Path] as the root.
  */
-class LocalFileDatabase(
-    path: Path
-): LocalDatabase {
+class LocalMemoryDatabase(
+    private val root: Path
+) : LocalDatabase {
+
     override fun save(path: Path, data: String) {
-        TODO("Not yet implemented")
+        TODO("Not Yet Implemented")
     }
 
     override fun load(path: Path): String? {
-        TODO("Not yet implemented")
+        TODO("Not Yet Implemented")
     }
 
     override fun delete(path: Path) {
-        TODO("Not yet implemented")
+        TODO("Not Yet Implemented")
     }
 }

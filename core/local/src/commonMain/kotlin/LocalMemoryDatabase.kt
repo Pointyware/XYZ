@@ -7,18 +7,25 @@ package org.pointyware.xyz.core.local
 /**
  *
  */
-class LocalFileDatabase(
-    path: Path
+class LocalMemoryDatabase(
+    val root: Path
 ): LocalDatabase {
+
+    private val dataMap = mutableMapOf<Path, String>()
+
     override fun save(path: Path, data: String) {
-        TODO("Not yet implemented")
+        dataMap[root + path] = data
     }
 
     override fun load(path: Path): String? {
-        TODO("Not yet implemented")
+        return dataMap[root + path]
     }
 
     override fun delete(path: Path) {
-        TODO("Not yet implemented")
+        dataMap.remove(root + path)
     }
+}
+
+fun createLocalMemoryDatabase(path: Path): LocalDatabase {
+    return LocalMemoryDatabase(path)
 }
