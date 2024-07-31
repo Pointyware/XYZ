@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
     `maven-publish`
-    alias(libs.plugins.artifactRegistry)
+//    alias(libs.plugins.artifactRegistry)
 }
 
 tasks.named<Zip>("distZip") {
@@ -21,6 +21,7 @@ description = "XYZ API"
 version = libs.versions.xyz.get()
 
 kotlin {
+    jvmToolchain(17)
     dependencies {
         implementation(projects.core.entities)
 
