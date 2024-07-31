@@ -40,4 +40,15 @@ jobs:
         run: ./gradlew :app-android:bundle
 
 #      - name: "Upload: Send Release to Google Play Store"
-#        uses:
+#        uses: google-github-actions/upload-google-play@main
+#        with:
+#          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_JSON }}
+#          packageName: com.example.myapp
+#          bundleFile: app/build/outputs/bundle/release/app-release.aab
+#          track: internal
+
+#      - name: "Upload: Send AABs to GitHub"
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: app-android
+#          path: app-android/build/outputs/bundle/debug/app-android-debug.aab
