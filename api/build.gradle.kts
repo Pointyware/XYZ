@@ -51,8 +51,8 @@ ktor {
 //publishing {
 //    publications {
 //        create<MavenPublication>("maven") {
-//            groupId = "org.pointyware.replace-me"
-//            artifactId = "replace-me-api"
+//            groupId = "org.pointyware.xyz"
+//            artifactId = "xyz-api"
 //            from(components["java"])
 //        }
 //    }
