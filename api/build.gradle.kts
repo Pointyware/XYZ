@@ -50,6 +50,20 @@ ktor {
     docker {
         jreVersion.set(JavaVersion.VERSION_17)
         localImageName = "xyz-api-image"
+//        portMappings.set(listOf(
+//            io.ktor.plugin.features.DockerPortMapping(
+//                80,
+//                8080,
+//                io.ktor.plugin.features.DockerPortMappingProtocol.TCP
+//            )
+//        ))
+//        externalRegistry = DockerImageRegistry.externalRegistry(
+//            username = providers.environmentVariable(""),
+//            password = providers.environmentVariable(""),
+//            hostname = providers.provider { "" },
+//            project = providers.provider { "" },
+//            namespace = providers.provider { "" }
+//        )
     }
 }
 
