@@ -46,6 +46,10 @@ ktor {
     fatJar {
         archiveFileName = "XYZ-API-${version}.jar"
     }
+
+    docker {
+        jreVersion.set(JavaVersion.VERSION_17)
+    }
 }
 
 //publishing {
