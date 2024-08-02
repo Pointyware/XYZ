@@ -71,7 +71,7 @@ ktor {
 //    publications {
 //        create<MavenPublication>("maven") {
 //            groupId = "org.pointyware.xyz"
-//            artifactId = "xyz-api"
+//            artifactId = "api"
 //            from(components["java"])
 //        }
 //    }
