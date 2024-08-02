@@ -77,7 +77,7 @@ ktor {
 //    }
 //    repositories {
 //        maven {
-//            val releaseURL = "artifactregistry://us-central1-maven.pkg.dev/<project-id>/<repo>"
+//            val releaseURL = "artifactregistry://us-central1-maven.pkg.dev/xyz-debug/maven-repo"
 //            url = uri(releaseURL)
 //        }
 //    }
