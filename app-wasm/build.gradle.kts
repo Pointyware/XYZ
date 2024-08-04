@@ -11,8 +11,6 @@ plugins {
     alias(libs.plugins.ktor)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.compose.compiler)
-//    `maven-publish`
-//    alias(libs.plugins.artifactRegistry)
 }
 
 tasks.named<Zip>("distZip") {
@@ -104,35 +102,5 @@ ktor {
     docker {
         jreVersion.set(JavaVersion.VERSION_17)
         localImageName = "xyz-wasm-app-image"
-//        portMappings.set(listOf(
-//            io.ktor.plugin.features.DockerPortMapping(
-//                80,
-//                8080,
-//                io.ktor.plugin.features.DockerPortMappingProtocol.TCP
-//            )
-//        ))
-//        externalRegistry = DockerImageRegistry.externalRegistry(
-//            username = providers.environmentVariable(""),
-//            password = providers.environmentVariable(""),
-//            hostname = providers.provider { "" },
-//            project = providers.provider { "" },
-//            namespace = providers.provider { "" }
-//        )
     }
 }
-
-//publishing {
-//    publications {
-//        create<MavenPublication>("maven") {
-//            groupId = "org.pointyware.xyz"
-//            artifactId = "wasm-app"
-//            from(components["java"])
-//        }
-//    }
-//    repositories {
-//        maven {
-//            val releaseURL = "artifactregistry://us-central1-maven.pkg.dev/xyz-debug/maven-repo"
-//            url = uri(releaseURL)
-//        }
-//    }
-//}
