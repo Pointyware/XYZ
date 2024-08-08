@@ -9,11 +9,15 @@ import io.ktor.server.netty.Netty
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 
+const val ARG_PORT = "--port"
+const val ENV_PORT = "PORT"
+
 /**
- *
+ * Usage: `ServerKt --port=$PORT`
  */
-fun main() {
-    val port = System.getenv("PORT")?.toInt() ?: 8080
+fun main(vararg args: String) {
+    val argPort = args.find { it.startsWith(ARG_PORT) }?.split("=")?.get(1)?.toInt()
+    val port = argPort ?: System.getenv(ENV_PORT)?.toInt() ?: 8080
     embeddedServer(Netty, port) {
         routing {
             get() {
