@@ -1,10 +1,6 @@
 name: "CD / Android Release Builds"
 on:
-  pull_request:
-    types:
-      - opened        # initially opened
-      - reopened      # closed then opened again
-      - synchronize   # any changes pushed
+  push:
     branches:
       - main
     paths-ignore: # Only run checks on changes to code
