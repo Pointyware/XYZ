@@ -1,4 +1,5 @@
-name: "PR Checks for `main`"
+name: "CI / Android Debug Builds"
+#
 on:
   pull_request:
     types:
@@ -31,13 +32,13 @@ jobs:
       - name: "Setup Gradle"
         uses: gradle/actions/setup-gradle@v3
 
-      - name: "Build: Assemble and Test entire project"
-        run: ./gradlew :app-android:build
+      - name: "Build: Assemble and Test Debug Binary"
+        run: ./gradlew :app-android:buildDebug
 
 #      - run: ./gradlew generate coverage report, upload test/coverage reports
 
-      - name: "Bundle: Generate AABs"
-        run: ./gradlew :app-android:bundle
+      - name: "Bundle: Generate Debug AAB"
+        run: ./gradlew :app-android:bundleDebug
 
 #      - name: "Upload: Send Release to Google Play Store"
 #        uses: google-github-actions/upload-google-play@main
@@ -47,8 +48,8 @@ jobs:
 #          bundleFile: app/build/outputs/bundle/release/app-release.aab
 #          track: internal
 
-#      - name: "Upload: Send AABs to GitHub"
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: app-android
-#          path: app-android/build/outputs/bundle/debug/app-android-debug.aab
+      - name: "Upload: Send AABs to GitHub"
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-android-debug
+          path: app-android/build/outputs/bundle/debug/app-android-debug.aab
