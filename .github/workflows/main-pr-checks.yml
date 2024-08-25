@@ -48,8 +48,8 @@ jobs:
 #          bundleFile: app/build/outputs/bundle/release/app-release.aab
 #          track: internal
 
-#      - name: "Upload: Send AABs to GitHub"
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: app-android
-#          path: app-android/build/outputs/bundle/debug/app-android-debug.aab
+      - name: "Upload: Send AABs to GitHub"
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-android-debug
+          path: app-android/build/outputs/bundle/debug/app-android-debug.aab
