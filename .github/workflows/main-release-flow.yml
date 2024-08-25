@@ -1,4 +1,4 @@
-name: "CD / Release from `main`"
+name: "CD / Android Release Builds"
 on:
   pull_request:
     types:
