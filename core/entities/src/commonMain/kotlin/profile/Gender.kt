@@ -14,6 +14,9 @@ enum class Gender {
     Man,
     Woman,
     Nonbinary,
+    GenderFluid,
+    TransMasc,
+    TransFem,
     Nonconforming,
     NotSpecified
 }
