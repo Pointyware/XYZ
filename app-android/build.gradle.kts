@@ -11,11 +11,11 @@ plugins {
 
 android {
     namespace = "org.pointyware.xyz.android"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "org.pointyware.xyz.android"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
