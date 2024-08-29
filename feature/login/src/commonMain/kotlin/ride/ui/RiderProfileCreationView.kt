@@ -57,7 +57,7 @@ fun RiderProfileCreationView(
         )
         TextField(
             value = state.preferences,
-            label = { Text("Phone Number") },
+            label = { Text("Preferences") },
             singleLine = true,
             onValueChange = onPreferencesChange
         )
