@@ -4,6 +4,14 @@
 
 package org.pointyware.xyz.app.drive
 
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.runComposeUiTest
+import org.koin.core.KoinApplication
+import org.koin.dsl.koinApplication
+import org.pointyware.xyz.core.navigation.StackNavigationController
+import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.feature.login.DriverProfileCreationScreen
+import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -11,11 +19,18 @@ import kotlin.test.Test
 /**
  * System/UI Test for Driver Profile Creation View
  */
+@OptIn(ExperimentalTestApi::class)
 class DriverProfileCreationUiTest {
 
+    private lateinit var koinApp: KoinApplication
     @BeforeTest
     fun setUp() {
         // TODO: Setup test server for repository
+        koinApp = koinApplication {
+            modules(
+
+            )
+        }
     }
 
     @AfterTest
@@ -24,7 +39,19 @@ class DriverProfileCreationUiTest {
     }
 
     @Test
-    fun create_driver_profile() {
+    fun create_driver_profile() = runComposeUiTest {
+        val di = koinApp.koin
+        val viewModel = di.get<DriverProfileCreationViewModel>()
+        val navController = di.get<StackNavigationController<Any, Any?>>()
+
+        setContent {
+            XyzTheme {
+                DriverProfileCreationScreen(
+                    viewModel,
+                    navController
+                )
+            }
+        }
         /*
         Given:
         - User is logged out
