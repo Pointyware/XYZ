@@ -10,7 +10,7 @@ import kotlinx.coroutines.SupervisorJob
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val uiQualifier = named("ui-scope")
+val uiQualifier = named("ui")
 
 /**
  *
