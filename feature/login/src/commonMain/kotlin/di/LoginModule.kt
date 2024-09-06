@@ -5,6 +5,8 @@
 package org.pointyware.xyz.feature.login.di
 
 import navigation.loginRoute
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.core.entities.Uuid
@@ -16,11 +18,9 @@ import org.pointyware.xyz.feature.login.interactors.LoginUseCase
 import org.pointyware.xyz.feature.login.local.AuthCache
 import org.pointyware.xyz.feature.login.local.AuthCacheImpl
 import org.pointyware.xyz.feature.login.local.ProfileCache
-import org.pointyware.xyz.feature.login.local.ProfileCacheImpl
 import org.pointyware.xyz.feature.login.remote.AuthService
 import org.pointyware.xyz.feature.login.remote.ProfileService
 import org.pointyware.xyz.feature.login.remote.TestAuthService
-import org.pointyware.xyz.feature.login.remote.TestProfileService
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModelImpl
 
@@ -36,7 +36,9 @@ fun featureLoginModule() = module {
         featureLoginDataModule()
     )
 
-    single<AuthorizationViewModel> { AuthorizationViewModelImpl(get<LoginUseCase>(), get<CreateUserUseCase>()) }
+    singleOf(::AuthorizationViewModelImpl) {
+        bind<AuthorizationViewModel>()
+    }
     single<LoginUseCase> { LoginUseCase(get<ProfileRepository>()) }
     single<CreateUserUseCase> { CreateUserUseCase(get<ProfileRepository>()) }
 }
