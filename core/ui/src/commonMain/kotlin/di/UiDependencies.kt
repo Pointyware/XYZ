@@ -18,3 +18,12 @@ interface UiDependencies {
 class KoinUiDependencies : UiDependencies, KoinComponent {
     override val resources: Resources = get()
 }
+
+class EmptyTestUiDependencies : UiDependencies {
+    override val resources: Resources = object : Resources {
+        override val loadingViewResources: LoadingViewResources = object : LoadingViewResources {
+            override val loadingIcon get() = throw IllegalStateException("Not implemented")
+            override val loadingContentDescription get() = throw IllegalStateException("Not implemented")
+        }
+    }
+}
