@@ -8,15 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import org.koin.mp.KoinPlatform
-import org.pointyware.xyz.core.navigation.StaticRoute
 import org.pointyware.xyz.core.navigation.XyzRootScope
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
+import org.pointyware.xyz.core.navigation.toTypedKey
 import org.pointyware.xyz.drive.di.DriveDependencies
 import org.pointyware.xyz.drive.ui.DriveScreen
 
-val driveRoute = StaticRoute("drive", Unit)
-// TODO: replace with TypedKey's
+val driveRoute = "drive".toTypedKey<Unit>()
 
 /**
  *
@@ -27,6 +25,7 @@ fun XyzRootScope.driveRouting(
     navigationDependencies: NavigationDependencies
 ) {
     location(driveRoute) {
+        // TODO: replace with viewModel extension function that uses available (Koin)Scope
         val driveViewModel = remember { dependencies.getDriveViewModel() }
         val navController = remember { navigationDependencies.getNavController() }
 

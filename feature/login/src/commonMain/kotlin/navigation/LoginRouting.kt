@@ -8,15 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.xyz.core.navigation.StaticRoute
 import org.pointyware.xyz.core.navigation.XyzRootScope
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
+import org.pointyware.xyz.core.navigation.toTypedKey
 import org.pointyware.xyz.feature.login.di.LoginDependencies
 import org.pointyware.xyz.feature.login.ui.AuthorizationScreen
 
-val loginRoute = StaticRoute("login", Unit)
-// TODO: replace with TypedKey's
+val loginRoute = "login".toTypedKey<Unit>()
 
 /**
  * Sets up all routes for home navigation.
@@ -28,6 +26,7 @@ fun XyzRootScope.loginRouting(
 ) {
 
     location(loginRoute) {
+        // TODO: replace with viewModel extension function that uses available (Koin)Scope
         val authorizationViewModel = remember { dependencies.getAuthorizationViewModel() }
         val navController = remember { navigationDependencies.getNavController() }
 
