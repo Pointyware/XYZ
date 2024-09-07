@@ -29,6 +29,9 @@ val LocalResources = compositionLocalOf<Resources> { throw IllegalStateException
 
 val LocalDimensions = compositionLocalOf<Dimensions> { throw IllegalStateException("LocalDimensions not provided") }
 
+/**
+ * Provides access to extended theme values provided at the call site's position in the hierarchy.
+ */
 object XyzTheme {
     val dateFormatter: DateFormatter
         @Composable
@@ -45,11 +48,11 @@ object XyzTheme {
 }
 
 /**
- * Extends the Material3 Theme with an [DateFormatter].
+ * Extends the Material3 Theme with a [DateFormatter], [Resources], and [Dimensions].
  */
 @Composable
 fun XyzTheme(
-    uiDependencies: UiDependencies = remember { KoinUiDependencies() },
+    uiDependencies: UiDependencies = remember { KoinUiDependencies() }, // TODO: remove koin reference in file
     isDark: Boolean = false,
     content: @Composable ()->Unit,
 ) {
