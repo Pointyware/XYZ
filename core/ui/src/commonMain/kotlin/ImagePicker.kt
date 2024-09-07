@@ -65,7 +65,7 @@ fun ImagePickerDialog(
     onDismiss: ()->Unit,
 ) {
     Dialog(
-        onDismissRequest = { /* TODO */ }
+        onDismissRequest = onDismiss
     ) {
         Column(
             modifier = modifier,
