@@ -44,6 +44,14 @@ class DriverProfileCreationUiTest {
         val viewModel = di.get<DriverProfileCreationViewModel>()
         val navController = di.get<StackNavigationController<Any, Any?>>()
 
+
+        /*
+        Given:
+        - User is logged out
+        - Account does not exist for <email>
+         */
+
+
         setContent {
             XyzTheme {
                 DriverProfileCreationScreen(
@@ -52,11 +60,6 @@ class DriverProfileCreationUiTest {
                 )
             }
         }
-        /*
-        Given:
-        - User is logged out
-        - Account does not exist for <email>
-         */
 
         /*
         When:
