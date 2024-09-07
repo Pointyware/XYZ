@@ -68,6 +68,7 @@ data class DynamicRoute<V, P>(
 /**
  * P: parent type
  */
+@Deprecated("Arbitrary commitment to path strings", ReplaceWith("TypedKey<T>"))
 data class StaticRoute<P>(
     val segment: String,
     val parent: P
