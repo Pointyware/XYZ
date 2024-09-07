@@ -16,6 +16,7 @@ import org.pointyware.xyz.feature.login.di.LoginDependencies
 import org.pointyware.xyz.feature.login.ui.AuthorizationScreen
 
 val loginRoute = StaticRoute("login", Unit)
+// TODO: replace with TypedKey's
 
 /**
  * Sets up all routes for home navigation.

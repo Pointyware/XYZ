@@ -25,6 +25,7 @@ val roleSelectionRoute = accountCreationRoute.fixed("role")
 val driverCreationRoute = accountCreationRoute.fixed("driver")
 val riderCreationRoute = accountCreationRoute.fixed("ride")
 val userProfileRoute = profileRoute.variable<Uuid>("user-{userId}")
+// TODO: replace with TypedKey's
 
 /**
  * Sets up all routes for home navigation.

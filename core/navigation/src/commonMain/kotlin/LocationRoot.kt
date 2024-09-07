@@ -40,6 +40,7 @@ interface LocationRootScope<K, V> {
 
 private class LocationRootScopeImpl<K, V> : LocationRootScope<K, V> {
 
+    // TODO: replace with ComposeLambda
     val locations = mutableMapOf<K, @Composable (StackNavigationController<K, V>) -> Unit>()
     @Composable
     override fun location(key: K, content: @Composable (StackNavigationController<K, V>) -> Unit) {
