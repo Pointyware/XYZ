@@ -11,6 +11,7 @@ import org.koin.dsl.koinApplication
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.navigation.StackNavigationController
 import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.login.DriverProfileCreationScreen
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import kotlin.test.AfterTest
@@ -53,7 +54,9 @@ class DriverProfileCreationUiTest {
 
 
         setContent {
-            XyzTheme {
+            XyzTheme(
+                uiDependencies = EmptyTestUiDependencies()
+            ) {
                 DriverProfileCreationScreen(
                     viewModel,
                     navController
