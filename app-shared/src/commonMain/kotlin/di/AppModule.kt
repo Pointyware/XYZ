@@ -53,15 +53,15 @@ fun coreModule(
 }
 
 fun featureModule(
-    featureLoginModule: Module = featureLoginModule(),
-    featureProfileModule: Module = featureProfileModule(),
-    featureDriveModule: Module = featureDriveModule(),
-    featureRideModule: Module = featureRideModule(),
+    loginModule: Module = featureLoginModule(),
+    profileModule: Module = featureProfileModule(),
+    driveModule: Module = featureDriveModule(),
+    rideModule: Module = featureRideModule(),
 ) = module {
     includes(
-        featureLoginModule,
-        featureProfileModule,
-        featureDriveModule,
-        featureRideModule,
+        loginModule,
+        profileModule,
+        driveModule,
+        rideModule,
     )
 }
