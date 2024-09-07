@@ -22,11 +22,10 @@ import kotlin.test.Test
 @OptIn(ExperimentalTestApi::class)
 class DriverProfileCreationUiTest {
 
-    private lateinit var koinApp: KoinApplication
     @BeforeTest
     fun setUp() {
         // TODO: Setup test server for repository
-        koinApp = koinApplication {
+        koinApplication {
             modules(
 
             )
@@ -35,12 +34,12 @@ class DriverProfileCreationUiTest {
 
     @AfterTest
     fun tearDown() {
-
+        stopKoin()
     }
 
     @Test
     fun create_driver_profile() = runComposeUiTest {
-        val di = koinApp.koin
+        val di = getKoin()
         val viewModel = di.get<DriverProfileCreationViewModel>()
         val navController = di.get<StackNavigationController<Any, Any?>>()
 
