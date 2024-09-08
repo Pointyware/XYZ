@@ -57,4 +57,12 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.play.services.ads)
+
+    implementation(compose.components.resources)
+}
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "org.pointyware.xyz.android"
+    generateResClass = always
 }
