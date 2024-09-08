@@ -15,6 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.XyzNavController
+import org.pointyware.xyz.core.ui.AdView
+import org.pointyware.xyz.core.ui.AdViewState
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.drive.viewmodels.DriveViewModel
@@ -53,6 +55,11 @@ fun DriveScreen(
         MapView(
             state = mapState,
             modifier = Modifier.fillMaxSize()
+        )
+
+        AdView(
+            state = AdViewState(unit = "ca-app-pub-7815756395963999/7475476086"),
+            modifier = Modifier.align(Alignment.TopCenter)
         )
 
         AnimatedContent(
