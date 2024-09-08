@@ -57,12 +57,15 @@ fun RiderProfileCreationView(
         )
         TextField(
             value = state.preferences,
-            label = { Text("Phone Number") },
+            label = { Text("Preferences") },
             singleLine = true,
             onValueChange = onPreferencesChange
         )
 
-        Button(onClick = onSubmit) {
+        Button(
+            onClick = onSubmit,
+            enabled = state.canSubmit
+        ) {
             Text(text = "Submit")
         }
     }
