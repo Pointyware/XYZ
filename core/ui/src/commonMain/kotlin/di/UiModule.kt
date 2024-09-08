@@ -17,4 +17,5 @@ val uiQualifier = named("ui")
  */
 fun coreUiModule() = module {
     single<CoroutineScope>(qualifier = uiQualifier) { CoroutineScope(Dispatchers.Main + SupervisorJob()) }
+    single<UiDependencies> { KoinUiDependencies() }
 }
