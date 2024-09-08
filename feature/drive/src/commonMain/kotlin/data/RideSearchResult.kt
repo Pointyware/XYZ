@@ -9,7 +9,7 @@ import org.pointyware.xyz.core.entities.ride.Location
 /**
  *
  */
-interface RideSearchResult {
-    val id: String
+data class RideSearchResult(
+//    val id: String,
     val destinations: List<Location>
-}
+)
