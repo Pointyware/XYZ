@@ -11,7 +11,7 @@ interface Length: Comparable<Length> {
     val value: Double
     val unit: LengthUnit
 
-    fun to(unit: LengthUnit): Length
+    fun to(otherUnit: LengthUnit): Length
 }
 
 enum class LengthUnit(
