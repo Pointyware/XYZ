@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   ~ Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
   -->
 
 <resources>
-    <string name="app_name">XYZ</string>
     <string name="loading_content_description">Loading</string>
 </resources>

@@ -13,7 +13,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import org.pointyware.xyz.core.ui.AdView
+import org.pointyware.xyz.core.ui.AdViewState
 import org.pointyware.xyz.core.ui.MapView
+import org.pointyware.xyz.core.ui.testAdViewState
 import org.pointyware.xyz.core.viewmodels.MapUiState
 
 data class RideViewState(
@@ -36,6 +39,11 @@ fun RideView(
         MapView(
             state = state.map,
             modifier = modifier.fillMaxSize(),
+        )
+
+        AdView(
+            state = AdViewState(unit = "ca-app-pub-7815756395963999/4805080719"),
+            modifier = Modifier.align(Alignment.TopCenter)
         )
 
         // TODO: hoist state

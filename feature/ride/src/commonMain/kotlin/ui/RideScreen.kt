@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.feature.ride.ui
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -17,7 +18,6 @@ import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
 fun RideScreen(
     viewModel: RideViewModel,
     navController: XyzNavController,
-    modifier: Modifier = Modifier,
 ) {
     val state = viewModel.state.collectAsState()
     val mapState = viewModel.mapState.collectAsState()
@@ -25,7 +25,7 @@ fun RideScreen(
     val rideViewState = RideUiStateMapper.map(state.value to mapState.value)
     RideView(
         state = rideViewState,
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
         onBack = { navController.goBack() }
     )
 }
