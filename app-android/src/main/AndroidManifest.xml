@@ -6,7 +6,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:name=".PDApplication"
+        android:name=".XyzApplication"
         android:allowBackup="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"

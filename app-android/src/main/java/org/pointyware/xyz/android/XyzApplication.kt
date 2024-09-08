@@ -12,7 +12,7 @@ import org.pointyware.xyz.shared.di.appModule
 /**
  * This is the production XYZ application; it performs production environment setup.
  */
-class PDApplication: Application() {
+class XyzApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
