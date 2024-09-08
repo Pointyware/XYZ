@@ -97,6 +97,7 @@ kotlin {
             dependsOn(jvmSharedMain)
             dependencies {
                 implementation(libs.androidx.composePreview)
+                implementation(libs.play.services.ads)
             }
         }
         val androidUnitTest by getting {
