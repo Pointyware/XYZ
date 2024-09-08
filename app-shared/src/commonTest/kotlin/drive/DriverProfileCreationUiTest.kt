@@ -5,6 +5,15 @@
 package org.pointyware.xyz.app.drive
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.filter
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
@@ -77,14 +86,6 @@ class DriverProfileCreationUiTest {
         val viewModel = di.get<DriverProfileCreationViewModel>()
         val navController = di.get<StackNavigationController<Any, Any?>>()
 
-
-        /*
-        Given:
-        - User is logged out
-        - Account does not exist for <email>
-         */
-
-
         setContent {
             XyzTheme(
                 uiDependencies = EmptyTestUiDependencies()
@@ -98,40 +99,25 @@ class DriverProfileCreationUiTest {
 
         /*
         When:
-        - User Opens App
-        Then:
-        - User is presented with Login Screen
-         */
-
-        /*
-        When:
-        - User Selects Create Account
-        Then:
-        - Login Screen shows Create Account Form
-         */
-
-        /*
-        When:
-        - User Enters <email>, <password>, <confirm password>
-        Then:
-        - Create Account Button is enabled
-         */
-
-        /*
-        When:
-        - User Selects Create Account
-        Then:
-        - Account is created for <email>
-        - User is presented with Profile Creation Screen
-        - Profile Creation Screen shows "Rider" Tab selected
-         */
-
-        /*
-        When:
         - User Enters <given name>, <middle name>, <family name>
         Then:
         - Create Profile button is disabled
          */
+        onNodeWithText("Given Name")
+            .assertExists()
+            .performTextInput("John")
+
+        onNodeWithText("Middle Name")
+            .assertExists()
+            .performTextInput("Jacob")
+
+        onNodeWithText("Family Name")
+            .assertExists()
+            .performTextInput("Jingleheimer Schmidt")
+
+        onNodeWithText("Submit")
+            .assertExists()
+            .assertIsNotEnabled()
 
         /*
         When:
@@ -139,6 +125,7 @@ class DriverProfileCreationUiTest {
         Then:
         - Create Profile button is disabled
          */
+        // TODO: Implement date picker
 
         /*
         When:
@@ -146,28 +133,19 @@ class DriverProfileCreationUiTest {
         Then:
         - Create Profile button is enabled
          */
+        // TODO: Implement gender picker
 
         /*
         When:
-        - User Taps "Driver" Tab
+        - User Taps "WheelchairAccess"
         Then:
-        - Driver Profile Form is displayed
-        - Company Picker shows "Independent" selected
+        - WheelchairAccess is added to list of accommodations
          */
-
-        /*
-        When:
-        - User Taps "Add Accommodation"
-        Then:
-        - Accommodation Picker is displayed
-         */
-
-        /*
-        When:
-        - User Selects <accommodation>
-        Then:
-        - Accommodation is added to Profile
-         */
+        onNodeWithText("WheelchairAccess")
+            .assertExists()
+            .performClick()
+        onNodeWithContentDescription("Selected Accommodations")
+            .onChildren().filter(hasText("WheelchairAccess")).onFirst().performClick()
 
         /*
         When:
@@ -178,5 +156,8 @@ class DriverProfileCreationUiTest {
           - Profile contains <accommodation>
           - Profile company is "Independent"
          */
+        onNodeWithText("Submit")
+            .assertExists()
+            .performClick()
     }
 }
