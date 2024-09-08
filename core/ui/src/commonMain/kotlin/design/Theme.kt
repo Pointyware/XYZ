@@ -16,11 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.unit.Dp
-import kotlinx.datetime.Instant
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.pointyware.xyz.core.ui.di.KoinUiDependencies
+import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.core.ui.di.UiDependencies
 
 val LocalDateFormatter = compositionLocalOf<DateFormatter> { throw IllegalStateException("DateFormat not provided") }
@@ -29,6 +26,9 @@ val LocalResources = compositionLocalOf<Resources> { throw IllegalStateException
 
 val LocalDimensions = compositionLocalOf<Dimensions> { throw IllegalStateException("LocalDimensions not provided") }
 
+/**
+ * Provides access to extended theme values provided at the call site's position in the hierarchy.
+ */
 object XyzTheme {
     val dateFormatter: DateFormatter
         @Composable
@@ -45,11 +45,11 @@ object XyzTheme {
 }
 
 /**
- * Extends the Material3 Theme with an [DateFormatter].
+ * Extends the Material3 Theme with a [DateFormatter], [Resources], and [Dimensions].
  */
 @Composable
 fun XyzTheme(
-    uiDependencies: UiDependencies = remember { KoinUiDependencies() },
+    uiDependencies: UiDependencies,
     isDark: Boolean = false,
     content: @Composable ()->Unit,
 ) {
@@ -70,7 +70,9 @@ fun XyzTheme(
 @Preview
 @Composable
 fun XyzThemePreview() {
-    XyzTheme {
+    XyzTheme(
+        uiDependencies = EmptyTestUiDependencies(),
+    ) {
         Surface {
             Text("ooh, a button")
             Button(onClick = { println("Click") }) {

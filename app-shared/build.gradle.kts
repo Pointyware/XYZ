@@ -2,8 +2,10 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
@@ -25,7 +27,8 @@ kotlin {
 
     }
     androidTarget {
-
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
     val framework = XCFramework()
     listOf(
@@ -71,6 +74,9 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
+
+                @OptIn(ExperimentalComposeLibrary::class)
+                implementation(compose.uiTest)
             }
         }
 
@@ -79,6 +85,8 @@ kotlin {
                 implementation(compose.desktop.common)
                 implementation(libs.kotlinx.coroutinesSwing)
                 implementation(libs.ktor.client.okhttp)
+
+                implementation(compose.desktop.currentOs)
             }
         }
     }
@@ -94,5 +102,11 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 21
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    dependencies {
+        androidTestImplementation(libs.androidx.composeTest)
+        debugImplementation(libs.androidx.composeManifest)
     }
 }

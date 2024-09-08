@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.Gender
@@ -76,11 +77,16 @@ data class ProfileCreationUiState(
     val birthdate: Instant?,
     val gender: Gender,
 ) {
+    val canSubmit: Boolean
+        get() = fullName.given.isNotBlank() &&
+                fullName.family.isNotBlank() &&
+                birthdate != null
+
     companion object {
         val empty = ProfileCreationUiState(
             image = Uri.nullDevice,
             fullName = Name("", "", ""),
-            birthdate = null,
+            birthdate = Clock.System.now(),
             gender = Gender.NotSpecified
         )
     }

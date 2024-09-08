@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.feature.login.di
 
+import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.feature.login.data.CompanyRepository
@@ -31,13 +32,17 @@ import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModelImpl
 import kotlin.coroutines.CoroutineContext
 
-fun featureProfileModule() = module {
+fun featureProfileModule(
+    dataModule: Module = profileDataModule(),
+    interactorsModule: Module = profileInteractorsModule(),
+    viewModelModule: Module = profileViewModelModule()
+) = module {
     single<ProfileDependencies> { KoinProfileDependencies() }
 
     includes(
-        profileDataModule(),
-        profileInteractorsModule(),
-        profileViewModelModule()
+        dataModule,
+        interactorsModule,
+        viewModelModule
     )
 }
 
@@ -56,7 +61,7 @@ private fun profileViewModelModule() = module {
     }
 }
 
-private fun profileDataModule() = module {
+fun profileDataModule() = module {
     single<ProfileRepository> { ProfileRepositoryImpl(
         get<AuthCache>(), get<AuthService>(),
         get<ProfileCache>(), get<ProfileService>(),

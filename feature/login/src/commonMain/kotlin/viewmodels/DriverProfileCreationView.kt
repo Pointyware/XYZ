@@ -66,13 +66,10 @@ fun DriverProfileCreationView(
             onCreateCompany = onCreateCompany
         )
 
-        LazyColumn {
-            items(state.accommodations.selected) { accommodation ->
-                Text(text = accommodation.toString())
-            }
-        }
-
-        Button(onClick = onSubmit) {
+        Button(
+            onClick = onSubmit,
+            enabled = state.canSubmit
+        ) {
             Text(text = "Submit")
         }
     }

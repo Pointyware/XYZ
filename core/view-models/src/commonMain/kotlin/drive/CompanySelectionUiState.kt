@@ -10,7 +10,7 @@ package org.pointyware.xyz.core.viewmodels.drive
 data class CompanySelectionUiState(
     val search: String,
     val suggestions: List<BriefCompanyProfileUiState>,
-    val selected: BriefCompanyProfileUiState? = null,
+    val selected: BriefCompanyProfileUiState? = BriefCompanyProfileUiState.independent,
 ) {
     companion object {
         val empty = CompanySelectionUiState(

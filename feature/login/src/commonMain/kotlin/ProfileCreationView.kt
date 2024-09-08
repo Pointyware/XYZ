@@ -13,9 +13,8 @@ import coil3.compose.AsyncImage
 import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.Gender
-import org.pointyware.xyz.core.ui.GenderPicker
 import org.pointyware.xyz.core.ui.ImagePicker
-import org.pointyware.xyz.core.ui.design.LocalDateFormatter
+import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.feature.login.viewmodels.ProfileCreationUiState
 
 /**
@@ -36,17 +35,17 @@ fun ProfileCreationView(
         modifier = modifier
     ) {
 
-        ImagePicker(
-            placeholder = state.image,
-            onImageSelected = { uri ->
-                onProfileImageSelected(uri)
-            }
-        ) {
-            AsyncImage(
-                model = it.value,
-                contentDescription = "Profile Image",
-            )
-        }
+//        ImagePicker(
+//            placeholder = state.image,
+//            onImageSelected = { uri ->
+//                onProfileImageSelected(uri)
+//            }
+//        ) {
+//            AsyncImage(
+//                model = it.value,
+//                contentDescription = "Profile Image",
+//            )
+//        }
         TextField(
             value = state.fullName.given,
             label = { Text("Given Name") },
@@ -66,7 +65,7 @@ fun ProfileCreationView(
             onValueChange = onFamilyNameChange
         )
 
-        val formatter = LocalDateFormatter.current
+        val formatter = XyzTheme.dateFormatter
         Text(text = formatter.format(state.birthdate, "MMMM dd, yyyy"))
 //        DatePicker( // TODO: get Locale
 //            state = DatePickerState(

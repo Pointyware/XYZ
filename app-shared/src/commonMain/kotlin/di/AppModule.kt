@@ -20,31 +20,48 @@ import org.pointyware.xyz.feature.login.di.featureProfileModule
 import org.pointyware.xyz.feature.ride.di.featureRideModule
 
 
-fun appModule(): Module = module {
+fun appModule(
+    coreModule: Module = coreModule(),
+    featureModule: Module = featureModule(),
+): Module = module {
     includes(
-        coreModule(),
-        featureModule(),
+        coreModule,
+        featureModule,
     )
 }
 
-fun coreModule() = module {
+fun coreModule(
+    entitiesModule: Module = coreEntitiesModule(),
+    interactorsModule: Module = coreInteractorsModule(),
+    viewModelsModule: Module = coreViewModelsModule(),
+    dataModule: Module = coreDataModule(),
+    localModule: Module = coreLocalModule(),
+    remoteModule: Module = coreRemoteModule(),
+    navigationModule: Module = coreNavigationModule(),
+    uiModule: Module = coreUiModule(),
+) = module {
     includes(
-        coreEntitiesModule(),
-        coreInteractorsModule(),
-        coreViewModelsModule(),
-        coreDataModule(),
-        coreLocalModule(),
-        coreRemoteModule(),
-        coreNavigationModule(),
-        coreUiModule(),
+        entitiesModule,
+        interactorsModule,
+        viewModelsModule,
+        dataModule,
+        localModule,
+        remoteModule,
+        navigationModule,
+        uiModule,
     )
 }
 
-fun featureModule() = module {
+fun featureModule(
+    loginModule: Module = featureLoginModule(),
+    profileModule: Module = featureProfileModule(),
+    driveModule: Module = featureDriveModule(),
+    rideModule: Module = featureRideModule(),
+) = module {
     includes(
-        featureLoginModule(),
-        featureProfileModule(),
-        featureDriveModule(),
-        featureRideModule(),
+        loginModule,
+        profileModule,
+        driveModule,
+        rideModule,
     )
 }

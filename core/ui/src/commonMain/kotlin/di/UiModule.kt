@@ -10,11 +10,12 @@ import kotlinx.coroutines.SupervisorJob
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val uiQualifier = named("ui-scope")
+val uiQualifier = named("ui")
 
 /**
  *
  */
 fun coreUiModule() = module {
     single<CoroutineScope>(qualifier = uiQualifier) { CoroutineScope(Dispatchers.Main + SupervisorJob()) }
+    single<UiDependencies> { KoinUiDependencies() }
 }

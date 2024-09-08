@@ -8,7 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.entities.ride.Accommodation
@@ -27,7 +27,10 @@ fun AccommodationPicker(
     Column(
         modifier = modifier
     ) {
-        FlowRow(modifier = modifier) {
+        Text("Selected Accommodations")
+        FlowRow(
+            modifier = modifier
+        ) {
             state.selected.forEach { accommodation ->
                 AccommodationChip(
                     value = accommodation,
@@ -37,7 +40,8 @@ fun AccommodationPicker(
                 )
             }
         }
-        val availableAccommodations = listOf(Accommodation.AnimalFriendly, Accommodation.AnimalFriendly)
+        Text("Available Accommodations")
+        val availableAccommodations = listOf(Accommodation.AnimalFriendly, Accommodation.WheelchairAccess)
         val accommodations = availableAccommodations - state.selected.toSet()
         FlowRow {
             accommodations.forEach { accommodation ->

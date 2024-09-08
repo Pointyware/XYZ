@@ -14,4 +14,12 @@ data class BriefCompanyProfileUiState(
     val id: Uuid,
     val logo: Uri,
     val name: String
-)
+) {
+    companion object {
+        val independent = BriefCompanyProfileUiState(
+            id = Uuid.nil(),
+            logo = Uri.nullDevice,
+            name = "Independent"
+        )
+    }
+}
