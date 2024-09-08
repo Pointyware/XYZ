@@ -45,6 +45,16 @@ class DriverProfileCreationViewModelImpl(
     private val mutableLoadingState = MutableStateFlow<LoadingUiState<Unit>>(LoadingUiState.Idle())
     override val loadingState: StateFlow<LoadingUiState<Unit>> get() = mutableLoadingState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            profileCreationViewModel.state.collect { profileState ->
+                mutableState.update {
+                    it.copy(profile = profileState)
+                }
+            }
+        }
+    }
+
     override fun onAccommodationsSelected(accommodations: List<Accommodation>) {
         mutableState.update {
             it.copy(accommodations = it.accommodations.copy(selected = accommodations))
