@@ -168,11 +168,11 @@ class RiderProfileCreationUiTest {
         Then:
         - Dialog is closed and Mobility is added to list of disabilities
          */
-        onNodeWithText("Disability Picker")
-            .assertDoesNotExist()
         onNodeWithText("Mobility")
             .assertExists()
             .performClick()
+        onNodeWithText("Disability Picker")
+            .assertDoesNotExist()
 
         /*
         When:
