@@ -35,17 +35,17 @@ fun ProfileCreationView(
         modifier = modifier
     ) {
 
-        ImagePicker(
-            placeholder = state.image,
-            onImageSelected = { uri ->
-                onProfileImageSelected(uri)
-            }
-        ) {
-            AsyncImage(
-                model = it.value,
-                contentDescription = "Profile Image",
-            )
-        }
+//        ImagePicker(
+//            placeholder = state.image,
+//            onImageSelected = { uri ->
+//                onProfileImageSelected(uri)
+//            }
+//        ) {
+//            AsyncImage(
+//                model = it.value,
+//                contentDescription = "Profile Image",
+//            )
+//        }
         TextField(
             value = state.fullName.given,
             label = { Text("Given Name") },
