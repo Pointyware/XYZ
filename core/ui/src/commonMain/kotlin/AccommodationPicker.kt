@@ -8,11 +8,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import org.pointyware.xyz.core.entities.ride.Accommodation
 import org.pointyware.xyz.core.viewmodels.drive.AccommodationsSelectionUiState
 
@@ -29,8 +27,9 @@ fun AccommodationPicker(
     Column(
         modifier = modifier
     ) {
+        Text("Selected Accommodations")
         FlowRow(
-            modifier = modifier.semantics { contentDescription = "Selected Accommodations" }
+            modifier = modifier
         ) {
             state.selected.forEach { accommodation ->
                 AccommodationChip(
@@ -41,11 +40,10 @@ fun AccommodationPicker(
                 )
             }
         }
+        Text("Available Accommodations")
         val availableAccommodations = listOf(Accommodation.AnimalFriendly, Accommodation.WheelchairAccess)
         val accommodations = availableAccommodations - state.selected.toSet()
-        FlowRow(
-            modifier = Modifier.semantics { contentDescription = "Available Accommodations" }
-        ) {
+        FlowRow {
             accommodations.forEach { accommodation ->
                 AccommodationChip(
                     value = accommodation,
