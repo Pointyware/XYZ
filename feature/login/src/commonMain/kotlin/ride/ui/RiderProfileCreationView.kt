@@ -62,7 +62,10 @@ fun RiderProfileCreationView(
             onValueChange = onPreferencesChange
         )
 
-        Button(onClick = onSubmit) {
+        Button(
+            onClick = onSubmit,
+            enabled = state.canSubmit
+        ) {
             Text(text = "Submit")
         }
     }

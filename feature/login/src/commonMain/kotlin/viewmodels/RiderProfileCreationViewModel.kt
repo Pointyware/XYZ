@@ -108,6 +108,10 @@ data class RiderProfileCreationUiState(
     val disabilities: List<Disability>,
     val preferences: String
 ) {
+
+    val canSubmit: Boolean
+        get() = profile.canSubmit
+
     companion object {
         val empty = RiderProfileCreationUiState(
             profile = ProfileCreationUiState.empty,
