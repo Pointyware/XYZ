@@ -66,7 +66,10 @@ fun DriverProfileCreationView(
             onCreateCompany = onCreateCompany
         )
 
-        Button(onClick = onSubmit) {
+        Button(
+            onClick = onSubmit,
+            enabled = state.canSubmit
+        ) {
             Text(text = "Submit")
         }
     }

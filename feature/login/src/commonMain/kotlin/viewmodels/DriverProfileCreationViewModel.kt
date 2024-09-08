@@ -16,7 +16,6 @@ import org.pointyware.xyz.core.viewmodels.KoinViewModel
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.drive.AccommodationsSelectionUiState
 import org.pointyware.xyz.core.viewmodels.drive.BriefCompanyProfileUiState
-import org.pointyware.xyz.core.viewmodels.drive.CompanyProfileUiState
 import org.pointyware.xyz.core.viewmodels.drive.CompanySelectionUiState
 import org.pointyware.xyz.core.viewmodels.postError
 import org.pointyware.xyz.feature.login.interactors.CreateDriverProfileUseCase
@@ -103,6 +102,10 @@ data class DriverProfileCreationUiState(
     val accommodations: AccommodationsSelectionUiState,
     val companySelection: CompanySelectionUiState,
 ) {
+
+    val canSubmit: Boolean
+        get() = profile.canSubmit && companySelection.selected != null
+
     companion object {
         val empty = DriverProfileCreationUiState(
             profile = ProfileCreationUiState.empty,

@@ -76,6 +76,11 @@ data class ProfileCreationUiState(
     val birthdate: Instant?,
     val gender: Gender,
 ) {
+    val canSubmit: Boolean
+        get() = fullName.given.isNotBlank() &&
+                fullName.family.isNotBlank() &&
+                birthdate != null
+
     companion object {
         val empty = ProfileCreationUiState(
             image = Uri.nullDevice,
