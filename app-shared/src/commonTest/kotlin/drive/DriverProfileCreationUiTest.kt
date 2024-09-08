@@ -5,13 +5,10 @@
 package org.pointyware.xyz.app.drive
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.test.filter
-import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.onChildren
-import androidx.compose.ui.test.onFirst
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onSibling
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
@@ -99,25 +96,42 @@ class DriverProfileCreationUiTest {
 
         /*
         When:
-        - User Enters <given name>, <middle name>, <family name>
+        - User Enters <given name>
         Then:
         - Create Profile button is disabled
          */
         onNodeWithText("Given Name")
             .assertExists()
             .performTextInput("John")
-
-        onNodeWithText("Middle Name")
-            .assertExists()
-            .performTextInput("Jacob")
-
-        onNodeWithText("Family Name")
-            .assertExists()
-            .performTextInput("Jingleheimer Schmidt")
-
         onNodeWithText("Submit")
             .assertExists()
             .assertIsNotEnabled()
+
+        /*
+        When:
+        - User Enters <middle name>
+        Then:
+        - Create Profile button is disabled
+         */
+        onNodeWithText("Middle Name")
+            .assertExists()
+            .performTextInput("Jacob")
+        onNodeWithText("Submit")
+            .assertExists()
+            .assertIsNotEnabled()
+
+        /*
+        When:
+        - User Enters <family name>
+        Then:
+        - Create Profile button is enabled
+         */
+        onNodeWithText("Family Name")
+            .assertExists()
+            .performTextInput("Jingleheimer Schmidt")
+        onNodeWithText("Submit")
+            .assertExists()
+            .assertIsEnabled()
 
         /*
         When:
@@ -144,8 +158,9 @@ class DriverProfileCreationUiTest {
         onNodeWithText("WheelchairAccess")
             .assertExists()
             .performClick()
-        onNodeWithContentDescription("Selected Accommodations")
-            .onChildren().filter(hasText("WheelchairAccess")).onFirst().performClick()
+        onNodeWithText("WheelchairAccess")
+            .assertExists()
+            .onSibling().performClick()
 
         /*
         When:
