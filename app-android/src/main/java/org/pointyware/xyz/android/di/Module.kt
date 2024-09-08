@@ -5,6 +5,8 @@
 package org.pointyware.xyz.android.di
 
 import org.koin.dsl.module
+import org.pointyware.painteddogs.android.ads.AdMobController
+import org.pointyware.xyz.core.ui.ads.AdsController
 import org.pointyware.xyz.shared.entities.SharedStringResources
 
 /**
@@ -12,4 +14,6 @@ import org.pointyware.xyz.shared.entities.SharedStringResources
  */
 fun androidModule() = module {
     single<SharedStringResources> { AndroidStringResources() }
+
+    factory<AdsController> { params -> AdMobController(params.get()) }
 }

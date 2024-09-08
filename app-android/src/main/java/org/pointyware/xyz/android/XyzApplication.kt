@@ -5,8 +5,15 @@
 package org.pointyware.xyz.android
 
 import android.app.Application
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import org.koin.core.context.startKoin
+import org.koin.core.parameter.parametersOf
+import org.koin.java.KoinJavaComponent.getKoin
 import org.pointyware.xyz.android.di.androidModule
+import org.pointyware.xyz.core.ui.ads.AdsController
 import org.pointyware.xyz.shared.di.appModule
 
 /**
@@ -21,6 +28,13 @@ class XyzApplication: Application() {
                 androidModule(),
                 appModule()
             )
+        }
+
+        val koin = getKoin()
+        val adsController = koin.get<AdsController> { parametersOf(this) }
+        val startupScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+        startupScope.launch {
+            adsController.onAppStart()
         }
     }
 }
