@@ -86,9 +86,6 @@ fun XyzApp(
                     },
                 )
             },
-            floatingActionButton = {
-            },
-            floatingActionButtonPosition = FabPosition.End,
         ) { paddingValues ->
             LocationRoot(
                 navController = navController,
