@@ -6,12 +6,41 @@ package org.pointyware.xyz.core.entities.ride
 
 import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.entities.geo.Length
+import org.pointyware.xyz.core.entities.geo.LengthUnit
 
 /**
  * Describes a geographical area.
  */
 sealed interface Area {
-    data class Circular(val center: LatLong, val radius: Length): Area
-    data class Rectangular(val topLeft: LatLong, val bottomRight: LatLong): Area
-    data class Polygonal(val vertices: List<LatLong>): Area
+    fun contains(coordinates: LatLong): Boolean
+
+    data class Circular(val center: LatLong, val radius: Length): Area {
+        override fun contains(coordinates: LatLong): Boolean {
+            return center.distanceTo(coordinates) <= radius.to(LengthUnit.KILOMETERS).value
+        }
+    }
+
+    data class Rectangular(val topLeft: LatLong, val bottomRight: LatLong): Area {
+        override fun contains(coordinates: LatLong): Boolean {
+            return coordinates.latitude in bottomRight.latitude..topLeft.latitude
+                    && coordinates.longitude in topLeft.longitude..bottomRight.longitude
+        }
+    }
+
+    data class Polygonal(val vertices: List<LatLong>): Area {
+        override fun contains(coordinates: LatLong): Boolean {
+            var inside = false
+            var j = vertices.size - 1
+            for (i in vertices.indices) {
+                if (vertices[i].longitude < coordinates.longitude && vertices[j].longitude >= coordinates.longitude
+                    || vertices[j].longitude < coordinates.longitude && vertices[i].longitude >= coordinates.longitude) {
+                    if (vertices[i].latitude + (coordinates.longitude - vertices[i].longitude) / (vertices[j].longitude - vertices[i].longitude) * (vertices[j].latitude - vertices[i].latitude) < coordinates.latitude) {
+                        inside = !inside
+                    }
+                }
+                j = i
+            }
+            return inside
+        }
+    }
 }
