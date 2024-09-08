@@ -4,10 +4,8 @@
 
 package org.pointyware.xyz.feature.ride.navigation
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.XyzRootScope
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
 import org.pointyware.xyz.core.navigation.toTypedKey
@@ -31,8 +29,7 @@ fun XyzRootScope.rideRouting(
 
         RideScreen(
             viewModel = rideViewModel,
-            navController = navController,
-            modifier = Modifier.fillMaxSize()
+            navController = navController
         )
     }
 }
