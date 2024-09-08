@@ -4,7 +4,12 @@
 
 package org.pointyware.xyz.drive.data
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.update
 import org.pointyware.xyz.core.entities.ride.Location
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.ride.RideFilter
@@ -59,6 +64,7 @@ class RideRepositoryImpl(
 
 class TestRideRepository(
     val destinations: MutableSet<Location> = mutableSetOf(),
+    val dataScope: CoroutineScope,
 ): RideRepository {
 
     private val maximumLevenshteinDistance = 20
@@ -103,17 +109,22 @@ class TestRideRepository(
         return Result.success(RideSearchResult(candidates))
     }
 
-
+    private val mutableNewRides = MutableSharedFlow<Ride>()
+    private val mutablePostedRides: MutableStateFlow<Set<Ride>> = MutableStateFlow(emptySet())
 
     override suspend fun postRide(ride: Ride): Result<Ride> {
-        TODO("Not yet implemented")
+        mutableNewRides.emit(ride)
+        mutablePostedRides.update { it + ride }
+        // no limiting criteria in tests
+        return Result.success(ride)
     }
 
     override suspend fun cancelRide(ride: Ride): Result<Ride> {
-        TODO("Not yet implemented")
+        mutablePostedRides.update { it - ride }
+        return Result.success(ride)
     }
 
     override suspend fun watchRides(filter: RideFilter): Result<Flow<Ride>> {
-        TODO("Not yet implemented")
+        return Result.success(mutableNewRides.filter { filter.accepts(it) })
     }
 }
