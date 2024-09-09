@@ -25,12 +25,12 @@ import org.pointyware.xyz.core.remote.di.coreRemoteModule
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.drive.data.RideRepository
-import org.pointyware.xyz.drive.data.TestRideRepository
 import org.pointyware.xyz.feature.login.data.CompanyRepository
 import org.pointyware.xyz.feature.login.data.ProfileRepository
 import org.pointyware.xyz.feature.login.data.TestCompanyRepository
 import org.pointyware.xyz.feature.login.data.TestProfileRepository
 import org.pointyware.xyz.feature.login.di.profileDataModule
+import org.pointyware.xyz.feature.ride.data.TestRideRequestRepository
 import org.pointyware.xyz.feature.ride.di.featureRideDataModule
 import org.pointyware.xyz.feature.ride.ui.RideScreen
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
@@ -47,7 +47,7 @@ class RequestRideUiTest {
 
     private lateinit var profileRepository: TestProfileRepository
     private lateinit var companyRepository: TestCompanyRepository
-    private lateinit var rideRepository: TestRideRepository
+    private lateinit var rideRepository: TestRideRequestRepository
 
     private fun testFeatureProfileModule(
         profileRepository: ProfileRepository,
@@ -74,7 +74,7 @@ class RequestRideUiTest {
             )
         }
         val koin = getKoin()
-        rideRepository = TestRideRepository(
+        rideRepository = TestRideRequestRepository(
             mutableSetOf(),
             koin.get(qualifier = dataQualifier)
         )
