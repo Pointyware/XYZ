@@ -37,7 +37,19 @@ class RideViewModel(
     }
 
     fun sendQuery() {
-        TODO("State must be Search; send the query to the server and update the search results")
+        mutableState.update {
+            if (it is RideUiState.Search) {
+                it.copy(suggestions = listOf(
+                    Location(0.0, 0.0, "123 Main St"),
+                    Location(0.0, 0.0, "456 Main St"),
+                    Location(0.0, 0.0, "789 Main St"),
+                    Location(0.0, 0.0, "012 Main St"),
+                    Location(0.0, 0.0, "345 Main St"),
+                ))
+            } else {
+                it
+            }
+        }
     }
 
     fun selectLocation(location: Location) {
