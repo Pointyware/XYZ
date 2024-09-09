@@ -4,8 +4,12 @@
 
 package org.pointyware.xyz.feature.ride.di
 
+import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import org.pointyware.xyz.feature.ride.data.RideRequestRepository
+import org.pointyware.xyz.feature.ride.data.RideRequestRepositoryImpl
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
 
 /**
@@ -14,9 +18,18 @@ import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
 fun featureRideModule() = module {
     single<RideDependencies> { KoinRideDependencies() }
 
-    includes(featureRideViewModelModule())
+    includes(
+        featureRideViewModelModule(),
+        featureRideDataModule()
+    )
 }
 
 fun featureRideViewModelModule() = module {
     factoryOf(::RideViewModel)
+}
+
+fun featureRideDataModule() = module {
+    singleOf(::RideRequestRepositoryImpl) {
+        bind<RideRequestRepository>()
+    }
 }
