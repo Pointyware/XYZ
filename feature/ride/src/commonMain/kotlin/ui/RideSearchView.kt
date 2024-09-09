@@ -4,19 +4,28 @@
 
 package org.pointyware.xyz.feature.ride.ui
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.pointyware.xyz.core.entities.ride.Location
+import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 
 data class RideSearchViewState(
     val isExpanded: Boolean,
@@ -29,42 +38,93 @@ data class RideSearchViewState(
  */
 @Composable
 fun RideSearchView(
-    state: RideSearchViewState,
+    state: RideUiState,
     modifier: Modifier = Modifier,
-    onCollapse: ()->Unit,
-    onExpand: ()->Unit,
-    onSearch: (String)-> Unit,
+    onNewRide: ()->Unit,
+    onUpdateSearch: (String)-> Unit,
+    onSendQuery: ()->Unit,
+    onSelectLocation: (Location)->Unit,
+    onConfirmDetails: ()->Unit,
+    onCancelRequest: ()->Unit
 ) {
-    val shape = if (state.isExpanded) {
-        // Rounded corners
-        RoundedCornerShape(8.dp)
-    } else {
-        CircleShape
+    val shape = when (state) {
+        is RideUiState.Idle,
+        is RideUiState.Waiting -> {
+            CircleShape
+        }
+        else -> {
+            // Rounded corners
+            RoundedCornerShape(8.dp)
+        }
     }
     Surface(
         modifier = modifier.background(color = MaterialTheme.colorScheme.primary, shape = shape)
     ) {
-        if (state.isExpanded) {
-            Row {
-                TextField(
-                    value = state.query,
-                    onValueChange = { /* TODO: Implement search */ },
-                    label = { Text("Search") },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                Button(onClick = {
-                    if (state.query.isNotBlank()) {
-                        onSearch(state.query)
-                    } else {
-                        onCollapse()
+        AnimatedContent(targetState = state) { state ->
+            when (state) {
+                is RideUiState.Idle -> {
+                    Button(onClick = onNewRide) {
+                        Text("New Ride")
                     }
-                }) {
-                    Text("Search")
                 }
-            }
-        } else {
-            Button(onClick = onExpand) {
-                Text("New Ride")
+
+                is RideUiState.Search -> {
+                    Row {
+                        TextField(
+                            value = state.query,
+                            onValueChange = onUpdateSearch,
+                            label = { Text("Search") },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        Button(
+                            onClick = {
+                                onSendQuery()
+                            },
+                            enabled = state.query.isNotBlank()
+                        ) {
+                            Text("Search")
+                        }
+                        var expanded by remember { mutableStateOf(state.suggestions.isNotEmpty()) }
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            state.suggestions.forEach { suggestion ->
+                                DropdownMenuItem(
+                                    text = { Text(suggestion.name) },
+                                    onClick = {
+                                        expanded = false
+                                        onSelectLocation(suggestion)
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                is RideUiState.Confirm -> {
+                    // TODO: confirm ride details
+                    Button(onClick = onConfirmDetails) {
+                        Text("Confirm")
+                    }
+                }
+
+                is RideUiState.Posted -> {
+                    Text("Hailing a driver")
+                    Button(onClick = onCancelRequest) {
+                        Text("Cancel")
+                    }
+                }
+
+                is RideUiState.Waiting -> {
+                    Text("Waiting for driver")
+                    // TODO: rider details
+                }
+
+                is RideUiState.Riding -> {
+                    // Do nothing
+                    // TODO: rider details
+                }
             }
         }
     }

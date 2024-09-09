@@ -17,11 +17,11 @@ import org.pointyware.xyz.core.entities.ride.Location
 import org.pointyware.xyz.core.ui.AdView
 import org.pointyware.xyz.core.ui.AdViewState
 import org.pointyware.xyz.core.ui.MapView
-import org.pointyware.xyz.core.ui.testAdViewState
 import org.pointyware.xyz.core.viewmodels.MapUiState
+import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 
 data class RideViewState(
-    val search: RideSearchViewState,
+    val ride: RideUiState,
     val map: MapUiState
 )
 
@@ -52,14 +52,16 @@ fun RideView(
             modifier = Modifier.align(Alignment.TopCenter)
         )
 
-        // TODO: hoist state
-        var isExpanded by remember { mutableStateOf(false) }
+        var query by remember { mutableStateOf("") }
         RideSearchView(
-            state = state.search,
+            state = state.ride,
             modifier = Modifier.align(Alignment.BottomEnd),
-            onCollapse = { isExpanded = false },
-            onExpand = { isExpanded = true },
-            onSearch = { query -> /* TODO: Implement search */ },
+            onNewRide = onStartSearch,
+            onUpdateSearch = { query = it },
+            onSendQuery = { onSendQuery(query) },
+            onSelectLocation = onSelectLocation,
+            onConfirmDetails = onConfirmDetails,
+            onCancelRequest = onCancel
         )
     }
 }
