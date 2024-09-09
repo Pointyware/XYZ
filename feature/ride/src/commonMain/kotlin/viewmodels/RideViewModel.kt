@@ -58,14 +58,41 @@ class RideViewModel(
     }
 
     fun selectLocation(location: Location) {
-        TODO("State must be Search; select a location from the search results")
+        mutableState.update {
+            if (it is RideUiState.Search) {
+                RideUiState.Confirm(
+                    origin = userLocation,
+                    destination = location,
+                    route = null,
+                    price = null
+                )
+                // TODO: Calculate route and price; update state
+            } else {
+                it
+            }
+        }
     }
 
     fun confirmDetails() {
-        TODO("State must be Confirm; confirm the ride details and post the ride")
+        mutableState.update {
+            if (it is RideUiState.Confirm) {
+                val route = it.route ?: return
+                val price = it.price ?: return
+                RideUiState.Posted(
+                    route = route,
+                    price = price
+                )
+                // TODO: listen for driver acceptance; update state
+            } else {
+                it
+            }
+        }
     }
 
     fun cancelRide() {
-        TODO("State must be Waiting or Riding; cancel the ride")
+        // TODO: send cancellation request to server
+        mutableState.update {
+            RideUiState.Idle
+        }
     }
 }
