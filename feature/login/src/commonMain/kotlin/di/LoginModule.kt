@@ -48,10 +48,14 @@ private fun featureLoginDataModule() = module {
         get<AuthCache>(), get<AuthService>(), get<ProfileCache>(), get<ProfileService>(),
         get(dataQualifier)
     ) }
-//    single<AuthService> { SimpleAuthService(get<HttpClient>()) }
-    single<AuthService> { TestAuthService(
-        users = mutableMapOf("foo@bar.com" to TestAuthService.UserEntry("password", Uuid.v4()))
-    )}
+
+    includes(
+        featureLoginRemoteModule()
+    )
     single<AuthCache> { AuthCacheImpl() }
 //    single<ProfileService> { KtorProfileService(getClient()) }
+}
+
+fun featureLoginRemoteModule() = module {
+    single<AuthService> { SimpleAuthService(get<HttpClient>()) }
 }
