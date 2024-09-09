@@ -10,31 +10,31 @@ import kotlin.time.Duration
 /**
  *
  */
-interface Route {
+data class Route (
     /**
      * The starting point of the route.
      */
-    val start: Location
+    val start: Location,
 
     /*
      * The intermediate points along the route.
      */
-    val intermediates: List<Location>
+    val intermediates: List<Location>,
 
     /**
      * The ending point of the route.
      */
-    val end: Location
+    val end: Location,
 
     /**
      * The total distance of the route.
      */
-    val distance: Length
+    val distance: Length,
 
     /**
      * The total duration of the route, estimated for a planned route or measured for an actual path.
      * @see Ride.plannedRoute
      * @see Ride.Status.RouteProgress.Realized
      */
-    val duration: Duration
-}
+    val duration: Duration,
+)
