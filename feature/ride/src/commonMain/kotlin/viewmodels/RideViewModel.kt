@@ -7,8 +7,12 @@ package org.pointyware.xyz.feature.ride.viewmodels
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.pointyware.xyz.core.entities.business.dollarCents
+import org.pointyware.xyz.core.entities.geo.LengthUnit
 import org.pointyware.xyz.core.entities.ride.Location
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
+import org.pointyware.xyz.feature.ride.data.RideRequestRepository
 
 /**
  * Maintains the state of a rider UI and provides actions to update it.
@@ -16,7 +20,7 @@ import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
  * @see RideUiState
  */
 class RideViewModel(
-
+    private val rideRequestRepository: RideRequestRepository
 ): MapViewModelImpl() {
 
     private val userLocation = Location(
@@ -57,6 +61,27 @@ class RideViewModel(
         }
     }
 
+    private fun findRoute(start: Location, end: Location) {
+        viewModelScope.launch {
+            rideRequestRepository.findRoute(start, end)
+                .onSuccess { route ->
+                    // TODO: Calculate route and price; update state
+                    val rate = 120 // $1.20 per km
+                    val price = (route.distance.to(LengthUnit.KILOMETERS).value * rate).toLong().dollarCents()
+                    mutableState.update {
+                        if (it is RideUiState.Confirm) {
+                            it.copy(route = route, price = price)
+                        } else {
+                            it
+                        }
+                    }
+                }
+                .onFailure {
+                    // TODO: display error condition
+                }
+        }
+    }
+
     fun selectLocation(location: Location) {
         mutableState.update {
             if (it is RideUiState.Search) {
@@ -65,8 +90,9 @@ class RideViewModel(
                     destination = location,
                     route = null,
                     price = null
-                )
-                // TODO: Calculate route and price; update state
+                ).also {
+                    findRoute(userLocation, location)
+                }
             } else {
                 it
             }
