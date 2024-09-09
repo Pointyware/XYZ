@@ -143,7 +143,8 @@ fun ActiveSearchView(
         var expanded by remember(state.suggestions) { mutableStateOf(state.suggestions.isNotEmpty()) }
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.semantics { contentDescription = "Location Suggestions" },
         ) {
             state.suggestions.forEach { suggestion ->
                 DropdownMenuItem(
