@@ -6,6 +6,7 @@ package org.pointyware.xyz.feature.ride.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
@@ -63,69 +64,129 @@ fun RideSearchView(
         AnimatedContent(targetState = state) { state ->
             when (state) {
                 is RideUiState.Idle -> {
-                    Button(onClick = onNewRide) {
-                        Text("New Ride")
-                    }
+                    IdleSearchView(onNewRide = onNewRide)
                 }
 
                 is RideUiState.Search -> {
-                    Row {
-                        TextField(
-                            value = state.query,
-                            onValueChange = onUpdateSearch,
-                            label = { Text("Search") },
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                        Button(
-                            onClick = {
-                                onSendQuery()
-                            },
-                            enabled = state.query.isNotBlank()
-                        ) {
-                            Text("Confirm")
-                        }
-                        var expanded by remember { mutableStateOf(state.suggestions.isNotEmpty()) }
-                        DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            state.suggestions.forEach { suggestion ->
-                                DropdownMenuItem(
-                                    text = { Text(suggestion.name) },
-                                    onClick = {
-                                        expanded = false
-                                        onSelectLocation(suggestion)
-                                    }
-                                )
-                            }
-                        }
-                    }
+                    ActiveSearchView(
+                        state = state,
+                        onUpdateSearch = onUpdateSearch,
+                        onSendQuery = onSendQuery,
+                        onSelectLocation = onSelectLocation
+                    )
                 }
 
                 is RideUiState.Confirm -> {
-                    // TODO: confirm ride details
-                    Button(onClick = onConfirmDetails) {
-                        Text("Confirm")
-                    }
+                    SearchDetailsView(
+                        state = state,
+                        onConfirmDetails = onConfirmDetails,
+                    )
                 }
 
                 is RideUiState.Posted -> {
-                    Text("Hailing a driver")
-                    Button(onClick = onCancelRequest) {
-                        Text("Cancel")
-                    }
+                    PostedRideView(
+                        state = state,
+                        onCancelRequest = onCancelRequest
+                    )
                 }
 
                 is RideUiState.Waiting -> {
-                    Text("Waiting for driver")
-                    // TODO: rider details
+                    AwaitingRideView(state = state)
                 }
 
                 is RideUiState.Riding -> {
-                    // Do nothing
-                    // TODO: rider details
+                    ActiveRideView(state = state)
                 }
             }
         }
     }
+}
+
+@Composable
+fun IdleSearchView(
+    onNewRide: ()->Unit
+) {
+    Button(onClick = onNewRide) {
+        Text("New Ride")
+    }
+}
+
+@Composable
+fun ActiveSearchView(
+    state: RideUiState.Search,
+    onUpdateSearch: (String)->Unit,
+    onSendQuery: ()->Unit,
+    onSelectLocation: (Location)->Unit
+) {
+    Row {
+        TextField(
+            value = state.query,
+            onValueChange = onUpdateSearch,
+            label = { Text("Search") },
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Button(
+            onClick = {
+                onSendQuery()
+            },
+            enabled = state.query.isNotBlank()
+        ) {
+            Text("Confirm")
+        }
+        var expanded by remember { mutableStateOf(state.suggestions.isNotEmpty()) }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            state.suggestions.forEach { suggestion ->
+                DropdownMenuItem(
+                    text = { Text(suggestion.name) },
+                    onClick = {
+                        expanded = false
+                        onSelectLocation(suggestion)
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun SearchDetailsView(
+    state: RideUiState.Confirm,
+    onConfirmDetails: ()->Unit
+) {
+    // TODO: confirm ride details
+    Button(onClick = onConfirmDetails) {
+        Text("Confirm")
+    }
+}
+
+@Composable
+fun PostedRideView(
+    state: RideUiState.Posted,
+    onCancelRequest: ()->Unit
+) {
+    Column {
+        Text("Hailing a driver")
+        Button(onClick = onCancelRequest) {
+            Text("Cancel")
+        }
+    }
+}
+
+@Composable
+fun AwaitingRideView(
+    state: RideUiState.Waiting
+) {
+    Text("Waiting for driver")
+    // TODO: rider details
+}
+
+@Composable
+fun ActiveRideView(
+    state: RideUiState.Riding
+) {
+    // Do nothing
+    // TODO: rider details
 }
