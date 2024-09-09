@@ -33,11 +33,13 @@ import org.pointyware.xyz.feature.login.di.profileDataModule
 import org.pointyware.xyz.feature.ride.data.TestRideRequestRepository
 import org.pointyware.xyz.feature.ride.di.featureRideDataModule
 import org.pointyware.xyz.feature.ride.ui.RideScreen
+import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
 import org.pointyware.xyz.shared.di.appModule
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 /**
  * System/UI Test for Driver Profile Creation View
@@ -101,6 +103,8 @@ class RequestRideUiTest {
         val di = getKoin()
         val viewModel = di.get<RideViewModel>()
         val navController = di.get<StackNavigationController<Any, Any?>>()
+
+        assertEquals(RideUiState.Idle, viewModel.state.value, "Initial state is Idle")
 
         /*
         Given:
