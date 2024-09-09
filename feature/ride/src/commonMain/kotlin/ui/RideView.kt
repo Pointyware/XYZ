@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import org.pointyware.xyz.core.entities.ride.Location
 import org.pointyware.xyz.core.ui.AdView
 import org.pointyware.xyz.core.ui.AdViewState
 import org.pointyware.xyz.core.ui.MapView
@@ -31,6 +32,11 @@ data class RideViewState(
 fun RideView(
     state: RideViewState,
     modifier: Modifier = Modifier,
+    onStartSearch: ()->Unit,
+    onUpdateSearch: (String)->Unit,
+    onSelectLocation: (Location)->Unit,
+    onConfirmDetails: ()->Unit,
+    onCancel: ()->Unit,
     onBack: ()->Unit
 ) {
     Box(

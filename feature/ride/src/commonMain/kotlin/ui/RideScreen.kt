@@ -26,6 +26,11 @@ fun RideScreen(
     RideView(
         state = rideViewState,
         modifier = Modifier.fillMaxSize(),
+        onStartSearch = { viewModel.startSearch() },
+        onUpdateSearch = { viewModel.updateSearch(it) },
+        onSelectLocation = { viewModel.selectLocation(it) },
+        onConfirmDetails = { viewModel.confirmDetails() },
+        onCancel = { viewModel.cancelRide() },
         onBack = { navController.goBack() }
     )
 }
