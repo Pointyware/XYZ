@@ -82,7 +82,7 @@ fun RideSearchView(
                             },
                             enabled = state.query.isNotBlank()
                         ) {
-                            Text("Search")
+                            Text("Confirm")
                         }
                         var expanded by remember { mutableStateOf(state.suggestions.isNotEmpty()) }
                         DropdownMenu(
