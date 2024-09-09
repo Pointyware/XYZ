@@ -106,6 +106,12 @@ kotlin {
     }
 }
 
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "org.pointyware.xyz.core.ui"
+    generateResClass = always
+}
+
 android {
     namespace = "org.pointyware.xyz.core.ui"
     compileSdk = 34

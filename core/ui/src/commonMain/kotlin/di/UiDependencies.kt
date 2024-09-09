@@ -8,8 +8,12 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.pointyware.xyz.core.ui.components.LoadingViewResources
 import org.pointyware.xyz.core.ui.design.Resources
+import org.pointyware.xyz.core.ui.Res
+import org.pointyware.xyz.core.ui.loading_content_description
+import org.pointyware.xyz.core.ui.tray_icon
 
 /**
+ *
  */
 interface UiDependencies {
     val resources: Resources
@@ -22,8 +26,8 @@ class KoinUiDependencies : UiDependencies, KoinComponent {
 class EmptyTestUiDependencies : UiDependencies {
     override val resources: Resources = object : Resources {
         override val loadingViewResources: LoadingViewResources = object : LoadingViewResources {
-            override val loadingIcon get() = throw IllegalStateException("Not implemented")
-            override val loadingContentDescription get() = throw IllegalStateException("Not implemented")
+            override val loadingIcon get() = Res.drawable.tray_icon
+            override val loadingContentDescription get() = Res.string.loading_content_description
         }
     }
 }
