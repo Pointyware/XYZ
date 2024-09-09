@@ -24,6 +24,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.pointyware.xyz.core.entities.ride.Location
 import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
@@ -121,12 +123,14 @@ fun ActiveSearchView(
     onSendQuery: ()->Unit,
     onSelectLocation: (Location)->Unit
 ) {
-    Row {
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         TextField(
             value = state.query,
             onValueChange = onUpdateSearch,
             label = { Text("Search") },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.weight(1f),
         )
         Button(
             onClick = {
