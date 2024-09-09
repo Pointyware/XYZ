@@ -140,7 +140,7 @@ fun ActiveSearchView(
         ) {
             Text("Confirm")
         }
-        var expanded by remember { mutableStateOf(state.suggestions.isNotEmpty()) }
+        var expanded by remember(state.suggestions) { mutableStateOf(state.suggestions.isNotEmpty()) }
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
