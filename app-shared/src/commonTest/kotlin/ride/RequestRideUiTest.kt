@@ -186,24 +186,31 @@ class RequestRideUiTest {
         Then:
         - The Map is updated with the "Red Rock" destination
         - The waiting indicator is shown while the route is calculated
+        - The "Confirm Route" button is shown but disabled while the route is calculated
          */
         onNodeWithContentDescription("Location Suggestions")
             .onChildren().filterToOne(hasText("Red Rock", substring = true))
             .assertExists()
             .performClick()
         // TODO: Assert that the map is updated
-        onNodeWithContentDescription("Waiting Indicator")
+        onNodeWithContentDescription("Loading")
             .assertExists()
+        onNodeWithText("Confirm Route")
+            .assertExists()
+            .assertIsNotEnabled()
 
         /*
         When:
         - The route is calculated
         Then:
         - The "Confirm Route" button is shown
+        - The waiting indicator is no longer shown
          */
         onNodeWithText("Confirm Route")
             .assertExists()
             .assertIsEnabled()
+        onNodeWithContentDescription("Loading")
+            .assertDoesNotExist()
 
         /*
         When:
