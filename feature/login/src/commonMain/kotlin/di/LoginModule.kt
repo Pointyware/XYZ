@@ -11,6 +11,7 @@ import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.navigation.di.homeQualifier
+import org.pointyware.xyz.core.remote.getClient
 import org.pointyware.xyz.feature.login.data.ProfileRepository
 import org.pointyware.xyz.feature.login.data.ProfileRepositoryImpl
 import org.pointyware.xyz.feature.login.interactors.CreateUserUseCase
@@ -19,6 +20,7 @@ import org.pointyware.xyz.feature.login.local.AuthCache
 import org.pointyware.xyz.feature.login.local.AuthCacheImpl
 import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.remote.AuthService
+import org.pointyware.xyz.feature.login.remote.KtorProfileService
 import org.pointyware.xyz.feature.login.remote.ProfileService
 import org.pointyware.xyz.feature.login.remote.TestAuthService
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModel
@@ -50,12 +52,15 @@ private fun featureLoginDataModule() = module {
     ) }
 
     includes(
-        featureLoginRemoteModule()
+        featureLoginRemoteModule(),
+        featureLoginLocalModule()
     )
-    single<AuthCache> { AuthCacheImpl() }
-//    single<ProfileService> { KtorProfileService(getClient()) }
 }
 
 fun featureLoginRemoteModule() = module {
     single<AuthService> { SimpleAuthService(get<HttpClient>()) }
+}
+
+fun featureLoginLocalModule() = module {
+    single<ProfileService> { KtorProfileService(get<HttpClient>()) }
 }
