@@ -13,7 +13,7 @@ import kotlin.test.Test
 
 /**
  */
-class KoinValidationTest {
+class KoinValidationTest { // TODO: create validation tests for other platforms
 
     @OptIn(KoinExperimentalAPI::class)
     @Test
