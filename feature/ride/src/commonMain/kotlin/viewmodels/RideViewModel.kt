@@ -40,11 +40,10 @@ class RideViewModel(
         mutableState.update {
             if (it is RideUiState.Search) {
                 it.copy(suggestions = listOf(
-                    Location(0.0, 0.0, "123 Main St"),
-                    Location(0.0, 0.0, "456 Main St"),
-                    Location(0.0, 0.0, "789 Main St"),
-                    Location(0.0, 0.0, "012 Main St"),
-                    Location(0.0, 0.0, "345 Main St"),
+                    Location(lat = 36.1314561, long = -97.0605216, name = "Red Rock Bakery", address = "910 N Boomer Rd", zip = "74075"),
+                    Location(lat = 36.1244264, long = -97.0583594, name = "Sonic", address = "215 N Main St", zip = "74075"),
+                    Location(lat = 36.1171898, long = -97.0509852, name = "Sonic", address = "423 S Perkins Rd", zip = "74074"),
+                    Location(lat = 36.1150974, long = -97.1177298, name = "Sonic", address = "4425 W 6th Ave", zip = "74074"),
                 ))
             } else {
                 it
