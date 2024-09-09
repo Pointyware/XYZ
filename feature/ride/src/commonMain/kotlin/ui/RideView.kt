@@ -33,7 +33,8 @@ fun RideView(
     state: RideViewState,
     modifier: Modifier = Modifier,
     onStartSearch: ()->Unit,
-    onSendQuery: (String)->Unit,
+    onUpdateQuery: (String)->Unit,
+    onSendQuery: ()->Unit,
     onSelectLocation: (Location)->Unit,
     onConfirmDetails: ()->Unit,
     onCancel: ()->Unit,
@@ -52,13 +53,12 @@ fun RideView(
             modifier = Modifier.align(Alignment.TopCenter)
         )
 
-        var query by remember { mutableStateOf("") }
         RideSearchView(
             state = state.ride,
             modifier = Modifier.align(Alignment.BottomEnd),
             onNewRide = onStartSearch,
-            onUpdateSearch = { query = it },
-            onSendQuery = { onSendQuery(query) },
+            onUpdateSearch = onUpdateQuery,
+            onSendQuery = onSendQuery,
             onSelectLocation = onSelectLocation,
             onConfirmDetails = onConfirmDetails,
             onCancelRequest = onCancel

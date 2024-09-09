@@ -6,6 +6,7 @@ package org.pointyware.xyz.feature.ride.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import org.pointyware.xyz.core.entities.ride.Location
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 
@@ -27,6 +28,12 @@ class RideViewModel(
 
     fun updateSearch(query: String) {
         TODO("State must be Search; update search query; after a delay, send query for suggestions")
+    fun updateQuery(query: String) {
+        }
+    }
+
+    fun sendQuery() {
+        TODO("State must be Search; send the query to the server and update the search results")
     }
 
     fun selectLocation(location: Location) {
