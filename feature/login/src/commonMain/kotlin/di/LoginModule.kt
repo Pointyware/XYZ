@@ -59,8 +59,9 @@ private fun featureLoginDataModule() = module {
 
 fun featureLoginRemoteModule() = module {
     single<AuthService> { SimpleAuthService(get<HttpClient>()) }
+    single<ProfileService> { KtorProfileService(get<HttpClient>()) }
 }
 
 fun featureLoginLocalModule() = module {
-    single<ProfileService> { KtorProfileService(get<HttpClient>()) }
+    single<AuthCache> { AuthCacheImpl() }
 }
