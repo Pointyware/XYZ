@@ -27,10 +27,10 @@ import org.pointyware.xyz.feature.login.remote.TestAuthService
 import org.pointyware.xyz.feature.ride.di.featureRideModule
 
 
-fun setupKoin(platformModules: List<Module>) {
+fun setupKoin(platformModule: Module) {
     startKoin {
         modules(appModule())
-        modules(platformModules)
+        modules(platformModule)
     }
 
     // Temporary Test Setup - remove for production
