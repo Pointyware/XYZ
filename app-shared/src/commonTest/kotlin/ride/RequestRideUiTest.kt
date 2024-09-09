@@ -7,7 +7,6 @@ package org.pointyware.xyz.app.ride
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsEnabled
-import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -27,14 +26,12 @@ import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.drive.data.RideRepository
 import org.pointyware.xyz.drive.data.TestRideRepository
-import org.pointyware.xyz.feature.login.RiderProfileCreationScreen
 import org.pointyware.xyz.feature.login.data.CompanyRepository
 import org.pointyware.xyz.feature.login.data.ProfileRepository
 import org.pointyware.xyz.feature.login.data.TestCompanyRepository
 import org.pointyware.xyz.feature.login.data.TestProfileRepository
 import org.pointyware.xyz.feature.login.di.profileDataModule
-import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
-import org.pointyware.xyz.feature.ride.di.featureRideModule
+import org.pointyware.xyz.feature.ride.di.featureRideDataModule
 import org.pointyware.xyz.feature.ride.ui.RideScreen
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
 import org.pointyware.xyz.shared.di.appModule
@@ -82,7 +79,7 @@ class RequestRideUiTest {
             koin.get(qualifier = dataQualifier)
         )
         unloadKoinModules(listOf(
-            featureRideModule(),
+            featureRideDataModule(),
             profileDataModule(),
             coreRemoteModule()
         ))
