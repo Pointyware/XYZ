@@ -8,6 +8,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -164,9 +165,26 @@ fun SearchDetailsView(
     state: RideUiState.Confirm,
     onConfirmDetails: ()->Unit
 ) {
-    // TODO: confirm ride details
-    Button(onClick = onConfirmDetails) {
-        Text("Confirm")
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(
+            text = "from: ${state.origin.name}", // TODO: add search field for origin
+        )
+        Text(
+            text = "to: ${state.destination.name}", // TODO: use search field for destination
+        )
+        val distanceString = state.route?.let { route -> "${route.distance}" } ?: "Calculating..."
+        Text(
+            text = "distance: $distanceString",
+        )
+        val priceString = state.price?.let { price -> "$price" } ?: "Calculating..."
+        Text(
+            text = "price: $priceString",
+        )
+        Button(onClick = onConfirmDetails) {
+            Text("Confirm Route")
+        }
     }
 }
 
