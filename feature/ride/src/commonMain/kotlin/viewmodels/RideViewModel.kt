@@ -19,6 +19,12 @@ class RideViewModel(
 
 ): MapViewModelImpl() {
 
+    private val userLocation = Location(
+        lat = 36.1031637, long = -97.0517528,
+        name = "Mission of Hope",
+        address = "1804 S Perkins Rd", zip = "74074"
+    )
+
     private val mutableState = MutableStateFlow<RideUiState>(RideUiState.Idle)
     val state: StateFlow<RideUiState> get() = mutableState
 
