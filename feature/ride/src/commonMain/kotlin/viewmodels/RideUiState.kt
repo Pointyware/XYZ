@@ -4,14 +4,10 @@
 
 package org.pointyware.xyz.feature.ride.viewmodels
 
+import org.pointyware.xyz.core.entities.ride.Location
+
 /**
- *
- * - Idle: The rider is not currently requesting a ride.
- * - Search: The rider is searching for a destination.
- * - Confirm: The rider is confirming the ride details.
- * - Posted: The rider has posted the ride and is waiting for a driver.
- * - Waiting: The request has been accepted and the rider is waiting for the driver to arrive.
- * - Riding: The rider is in the car and the ride is in progress.
+ * Represents the state of a rider's UI.
  */
 sealed interface RideUiState {
 
@@ -21,23 +17,32 @@ sealed interface RideUiState {
     data object Idle: RideUiState
 
     /**
-     *
+     * The rider is searching for a destination.
      */
     data class Search(
         val query: String = "",
-        val suggestions: List<String>
+        val suggestions: List<Location>
     ): RideUiState
 
+    /**
+     * The rider is confirming the ride details.
+     */
     data class Confirm(
         val destination: String,
         val price: Double
     ): RideUiState
 
+    /**
+     * The rider has posted the ride and is waiting for a driver.
+     */
     data class Posted(
         val destination: String,
         val price: Double
     ): RideUiState
 
+    /**
+     * The request has been accepted and the rider is waiting for the driver to arrive.
+     */
     data class Waiting(
         /**
          * The driver's name. TODO: replace with BriefProfile?
@@ -49,6 +54,9 @@ sealed interface RideUiState {
         val eta: Int
     ): RideUiState
 
+    /**
+     * The rider is in the car and the ride is in progress.
+     */
     data class Riding(
         val driver: String,
         val eta: Int
