@@ -127,7 +127,8 @@ class RequestRideUiTest {
             }
         }
 
-        onNodeWithContentDescription("New Ride")
+
+        onNodeWithText("New Ride")
             .assertExists()
             .assertIsEnabled()
 
@@ -137,12 +138,12 @@ class RequestRideUiTest {
         Then:
         - The "New Ride" button transforms into the Search Bar
          */
-        onNodeWithContentDescription("New Ride")
+        onNodeWithText("New Ride")
             .performClick()
 
         onNodeWithContentDescription("Search Bar")
             .assertExists()
-        onNodeWithContentDescription("Confirm")
+        onNodeWithText("Confirm")
             .assertExists()
             .assertIsEnabled()
 
@@ -163,7 +164,7 @@ class RequestRideUiTest {
         Then:
         - Location suggestion list is shown
          */
-        onNodeWithContentDescription("Confirm")
+        onNodeWithText("Confirm")
             .performClick()
         onNodeWithContentDescription("Location Suggestions")
             .assertExists()
@@ -178,7 +179,7 @@ class RequestRideUiTest {
         onNodeWithText("Red Rock")
             .performClick()
         // TODO: Assert that the map is updated
-        onNodeWithContentDescription("Confirm Route")
+        onNodeWithText("Confirm Route")
             .assertExists()
             .assertIsEnabled()
 
@@ -188,9 +189,9 @@ class RequestRideUiTest {
         Then:
         - The "Cancel Request" button is shown
          */
-        onNodeWithContentDescription("Confirm Route")
+        onNodeWithText("Confirm Route")
             .performClick()
-        onNodeWithContentDescription("Cancel Request")
+        onNodeWithText("Cancel Request")
             .assertExists()
             .assertIsEnabled()
     }
