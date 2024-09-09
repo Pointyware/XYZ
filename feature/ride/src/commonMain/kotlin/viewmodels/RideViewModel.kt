@@ -23,12 +23,16 @@ class RideViewModel(
     val state: StateFlow<RideUiState> get() = mutableState
 
     fun startSearch() {
-        TODO("State must be Idle; move to empty search state")
+        mutableState.value = RideUiState.Search("", emptyList())
     }
 
-    fun updateSearch(query: String) {
-        TODO("State must be Search; update search query; after a delay, send query for suggestions")
     fun updateQuery(query: String) {
+        mutableState.update {
+            if (it is RideUiState.Search) {
+                it.copy(query = query)
+            } else {
+                it
+            }
         }
     }
 
