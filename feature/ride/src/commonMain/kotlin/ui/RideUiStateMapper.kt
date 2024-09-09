@@ -14,32 +14,8 @@ import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 object RideUiStateMapper: Mapper<Pair<RideUiState, MapUiState>, RideViewState> {
     override fun map(input: Pair<RideUiState, MapUiState>): RideViewState {
         val (state, mapState) = input
-        when (state) {
-            is RideUiState.Idle -> {
-
-            }
-            is RideUiState.Search -> {
-
-            }
-            is RideUiState.Confirm -> {
-
-            }
-            is RideUiState.Posted -> {
-
-            }
-            is RideUiState.Waiting -> {
-
-            }
-            is RideUiState.Riding -> {
-
-            }
-        }
         return RideViewState(
-            search = RideSearchViewState(
-                query = "",
-                results = emptyList(),
-                isExpanded = false // TODO: map state
-            ),
+            ride = state,
             map = mapState
         )
     }
