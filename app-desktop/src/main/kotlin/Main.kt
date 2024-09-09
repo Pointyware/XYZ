@@ -11,18 +11,14 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import org.jetbrains.compose.resources.painterResource
-import org.koin.core.context.startKoin
-import org.pointyware.xyz.desktop.di.topLevelModule
+import org.pointyware.xyz.desktop.di.desktopModule
 import org.pointyware.xyz.shared.XyzApp
 import org.pointyware.xyz.shared.di.getDependencies
+import org.pointyware.xyz.shared.di.setupKoin
 
 fun main() = application {
 
-    startKoin {
-        modules(
-            topLevelModule
-        )
-    }
+    setupKoin(platformModule = desktopModule())
 
     val appDependencies = remember { getDependencies() }
 
