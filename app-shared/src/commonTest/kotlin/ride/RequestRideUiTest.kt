@@ -8,7 +8,9 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.filterToOne
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -181,7 +183,9 @@ class RequestRideUiTest {
         - The Map is updated with the "Red Rock" destination
         - The "Confirm Route" button is shown
          */
-        onNodeWithText("Red Rock")
+        onNodeWithContentDescription("Location Suggestions")
+            .onChildren().filterToOne(hasText("Red Rock", substring = true))
+            .assertExists()
             .performClick()
         // TODO: Assert that the map is updated
         onNodeWithText("Confirm Route")
