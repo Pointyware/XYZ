@@ -7,6 +7,7 @@ package org.pointyware.xyz.app.ride
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -137,26 +138,30 @@ class RequestRideUiTest {
         - User clicks on the "New Ride" button
         Then:
         - The "New Ride" button transforms into the Search Bar
+        - The "Confirm" search button is shown but disabled
          */
         onNodeWithText("New Ride")
             .performClick()
 
-        onNodeWithContentDescription("Search Bar")
+        onNodeWithText("Search")
             .assertExists()
         onNodeWithText("Confirm")
             .assertExists()
-            .assertIsEnabled()
+            .assertIsNotEnabled()
 
         /*
         When:
         - User types "Red Rock" into the Search Bar
         Then:
         - The Search Bar displays "Red Rock"
+        - The "Confirm" search button is enabled
          */
-        onNodeWithContentDescription("Search Bar")
+        onNodeWithText("Search")
             .performTextInput("Red Rock")
-        onNodeWithContentDescription("Search Bar")
+        onNodeWithText("Search")
             .assert(hasText("Red Rock"))
+        onNodeWithText("Confirm")
+            .assertIsEnabled()
 
         /*
         When:
