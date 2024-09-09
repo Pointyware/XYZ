@@ -113,9 +113,9 @@ class TestRideRequestRepository(
             start = origin,
             intermediates = List(5) {
                 Location(
-                    lat = origin.coordinates.latitude + (destination.coordinates.latitude - origin.coordinates.latitude) * it / (intermediateCount - 1),
-                    long = origin.coordinates.longitude + (destination.coordinates.longitude - origin.coordinates.longitude) * it / (intermediateCount - 1),
-                    name = "Intermediate $it",
+                    lat = origin.coordinates.latitude + (destination.coordinates.latitude - origin.coordinates.latitude) * (it + 1) / (intermediateCount + 1),
+                    long = origin.coordinates.longitude + (destination.coordinates.longitude - origin.coordinates.longitude) * (it + 1) / (intermediateCount + 1),
+                    name = "${origin.name} to ${destination.name} (${it + 1} of $intermediateCount)",
                 )
             },
             end = destination,
