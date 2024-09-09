@@ -11,7 +11,9 @@ import kotlinx.coroutines.launch
 import org.pointyware.xyz.core.entities.business.dollarCents
 import org.pointyware.xyz.core.entities.geo.LengthUnit
 import org.pointyware.xyz.core.entities.ride.Location
+import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
+import org.pointyware.xyz.core.viewmodels.postError
 import org.pointyware.xyz.feature.ride.data.RideRequestRepository
 
 /**
@@ -29,6 +31,8 @@ class RideViewModel(
         address = "1804 S Perkins Rd", zip = "74074"
     )
 
+    private val mutableLoadingState = MutableStateFlow<LoadingUiState<Unit>>(LoadingUiState.Idle())
+    val loadingState: StateFlow<LoadingUiState<Unit>> get() = mutableLoadingState
     private val mutableState = MutableStateFlow<RideUiState>(RideUiState.Idle)
     val state: StateFlow<RideUiState> get() = mutableState
 
@@ -62,6 +66,7 @@ class RideViewModel(
     }
 
     private fun findRoute(start: Location, end: Location) {
+        mutableLoadingState.value = LoadingUiState.Loading()
         viewModelScope.launch {
             rideRequestRepository.findRoute(start, end)
                 .onSuccess { route ->
@@ -75,9 +80,10 @@ class RideViewModel(
                             it
                         }
                     }
+                    mutableLoadingState.value = LoadingUiState.Idle()
                 }
                 .onFailure {
-                    // TODO: display error condition
+                    mutableLoadingState.postError(it)
                 }
         }
     }
@@ -120,5 +126,9 @@ class RideViewModel(
         mutableState.update {
             RideUiState.Idle
         }
+    }
+
+    fun clearError() {
+        mutableLoadingState.value = LoadingUiState.Idle()
     }
 }
