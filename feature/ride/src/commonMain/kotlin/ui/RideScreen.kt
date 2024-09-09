@@ -27,7 +27,7 @@ fun RideScreen(
         state = rideViewState,
         modifier = Modifier.fillMaxSize(),
         onStartSearch = { viewModel.startSearch() },
-        onUpdateSearch = { viewModel.updateSearch(it) },
+        onSendQuery = { viewModel.updateSearch(it) },
         onSelectLocation = { viewModel.selectLocation(it) },
         onConfirmDetails = { viewModel.confirmDetails() },
         onCancel = { viewModel.cancelRide() },

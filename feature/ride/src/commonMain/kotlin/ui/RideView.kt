@@ -33,7 +33,7 @@ fun RideView(
     state: RideViewState,
     modifier: Modifier = Modifier,
     onStartSearch: ()->Unit,
-    onUpdateSearch: (String)->Unit,
+    onSendQuery: (String)->Unit,
     onSelectLocation: (Location)->Unit,
     onConfirmDetails: ()->Unit,
     onCancel: ()->Unit,
