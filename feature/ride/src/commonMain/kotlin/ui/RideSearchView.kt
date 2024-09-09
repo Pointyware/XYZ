@@ -61,7 +61,10 @@ fun RideSearchView(
     Surface(
         modifier = modifier.background(color = MaterialTheme.colorScheme.primary, shape = shape)
     ) {
-        AnimatedContent(targetState = state) { state ->
+        AnimatedContent(
+            targetState = state,
+            contentKey = { it::class }
+        ) { state ->
             when (state) {
                 is RideUiState.Idle -> {
                     IdleSearchView(onNewRide = onNewRide)
