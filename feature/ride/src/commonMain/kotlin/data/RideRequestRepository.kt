@@ -5,16 +5,20 @@
 package org.pointyware.xyz.feature.ride.data
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.datetime.Instant
+import org.pointyware.xyz.core.entities.geo.kilometers
 import org.pointyware.xyz.core.entities.ride.Location
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.ride.Route
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Handles requests for rides.
  */
 interface RideRequestRepository {
     suspend fun searchDestinations(query: String): Result<RideSearchResult>
+    suspend fun findRoute(origin: Location, destination: Location): Result<Route>
     suspend fun requestRide(route: Route): Result<Ride>
     suspend fun scheduleRide(route: Route, time: Instant): Result<Ride>
 }
@@ -35,6 +39,10 @@ class RideRequestRepositoryImpl(
             .onFailure {
                 cache.getDestinations(query)
             }
+    }
+
+    override suspend fun findRoute(origin: Location, destination: Location): Result<Route> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun requestRide(route: Route): Result<Ride> {
@@ -96,8 +104,30 @@ class TestRideRequestRepository(
         return Result.success(RideSearchResult(candidates))
     }
 
+    override suspend fun findRoute(origin: Location, destination: Location): Result<Route> {
+        val intermediateCount = 5
+        val length = origin.coordinates.distanceTo(destination.coordinates)
+        val speed = 45.0 / (1000 * 60 * 60) // 45 km/hr
+        // TODO: include rate; 120 cents per km
+        val route = Route(
+            start = origin,
+            intermediates = List(5) {
+                Location(
+                    lat = origin.coordinates.latitude + (destination.coordinates.latitude - origin.coordinates.latitude) * it / (intermediateCount - 1),
+                    long = origin.coordinates.longitude + (destination.coordinates.longitude - origin.coordinates.longitude) * it / (intermediateCount - 1),
+                    name = "Intermediate $it",
+                )
+            },
+            end = destination,
+            distance = length.kilometers(),
+            duration = (length / speed).toInt().milliseconds
+        )
+        delay(1500)
+        return Result.success(route)
+    }
+
     override suspend fun requestRide(route: Route): Result<Ride> {
-        TODO("")
+        TODO("Not yet implemented")
     }
 
     override suspend fun scheduleRide(route: Route, time: Instant): Result<Ride> {
