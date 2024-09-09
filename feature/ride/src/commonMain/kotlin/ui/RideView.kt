@@ -7,16 +7,14 @@ package org.pointyware.xyz.feature.ride.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.entities.ride.Location
 import org.pointyware.xyz.core.ui.AdView
 import org.pointyware.xyz.core.ui.AdViewState
+import org.pointyware.xyz.core.ui.LoadingResultView
 import org.pointyware.xyz.core.ui.MapView
+import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 
@@ -31,6 +29,7 @@ data class RideViewState(
 @Composable
 fun RideView(
     state: RideViewState,
+    loadingState: LoadingUiState<Unit>,
     modifier: Modifier = Modifier,
     onStartSearch: ()->Unit,
     onUpdateQuery: (String)->Unit,
@@ -38,7 +37,8 @@ fun RideView(
     onSelectLocation: (Location)->Unit,
     onConfirmDetails: ()->Unit,
     onCancel: ()->Unit,
-    onBack: ()->Unit
+    onBack: ()->Unit,
+    clearError: ()->Unit
 ) {
     Box(
         modifier = modifier
@@ -51,6 +51,12 @@ fun RideView(
         AdView(
             state = AdViewState(unit = "ca-app-pub-7815756395963999/4805080719"),
             modifier = Modifier.align(Alignment.TopCenter)
+        )
+
+        LoadingResultView(
+            state = loadingState,
+            onSuccess = {},
+            onDismiss = clearError
         )
 
         RideSearchView(

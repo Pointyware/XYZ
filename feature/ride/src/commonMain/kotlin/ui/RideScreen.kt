@@ -21,10 +21,12 @@ fun RideScreen(
 ) {
     val state = viewModel.state.collectAsState()
     val mapState = viewModel.mapState.collectAsState()
+    val loadingState = viewModel.loadingState.collectAsState()
 
     val rideViewState = RideUiStateMapper.map(state.value to mapState.value)
     RideView(
         state = rideViewState,
+        loadingState = loadingState.value,
         modifier = Modifier.fillMaxSize(),
         onStartSearch = { viewModel.startSearch() },
         onUpdateQuery = { viewModel.updateQuery(it) },
@@ -32,6 +34,7 @@ fun RideScreen(
         onSelectLocation = { viewModel.selectLocation(it) },
         onConfirmDetails = { viewModel.confirmDetails() },
         onCancel = { viewModel.cancelRide() },
-        onBack = { navController.goBack() }
+        onBack = { navController.goBack() },
+        clearError = { viewModel.clearError() }
     )
 }
