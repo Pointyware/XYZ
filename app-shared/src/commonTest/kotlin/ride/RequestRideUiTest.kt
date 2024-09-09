@@ -33,6 +33,7 @@ import org.pointyware.xyz.feature.login.data.ProfileRepository
 import org.pointyware.xyz.feature.login.data.TestCompanyRepository
 import org.pointyware.xyz.feature.login.data.TestProfileRepository
 import org.pointyware.xyz.feature.login.di.profileDataModule
+import org.pointyware.xyz.feature.ride.data.RideRequestRepository
 import org.pointyware.xyz.feature.ride.data.TestRideRequestRepository
 import org.pointyware.xyz.feature.ride.di.featureRideDataModule
 import org.pointyware.xyz.feature.ride.ui.RideScreen
@@ -63,9 +64,9 @@ class RequestRideUiTest {
     }
 
     private fun testFeatureRideDataModule(
-        rideRepository: RideRepository
+        rideRepository: RideRequestRepository
     ) = module {
-        single<RideRepository> { rideRepository }
+        single<RideRequestRepository> { rideRepository }
     }
 
     @BeforeTest
@@ -92,6 +93,9 @@ class RequestRideUiTest {
             testFeatureProfileModule(
                 profileRepository,
                 companyRepository
+            ),
+            testFeatureRideDataModule(
+                rideRepository
             )
         ))
     }
