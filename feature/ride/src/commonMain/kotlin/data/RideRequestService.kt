@@ -14,3 +14,10 @@ interface RideRequestService {
      */
     suspend fun searchDestinations(query: String): Result<RideSearchResult>
 }
+
+class RideRequestServiceImpl : RideRequestService {
+
+    override suspend fun searchDestinations(query: String): Result<RideSearchResult> {
+        TODO()
+    }
+}
