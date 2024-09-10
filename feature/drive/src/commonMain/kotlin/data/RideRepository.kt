@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.drive.RideFilter
@@ -97,5 +98,12 @@ class TestRideRepository(
             activeRide = null
             Result.success(Cancellation(it, "Driver canceled"))
         } ?: Result.failure(IllegalStateException("No active ride to cancel"))
+    }
+
+    fun addRequest(testRequest: Request) {
+        dataScope.launch {
+            mutableNewRequests.emit(testRequest)
+            mutableActiveRequests.update { it + testRequest }
+        }
     }
 }
