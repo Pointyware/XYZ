@@ -117,31 +117,155 @@ class DriverRequestsScreenUiTest {
 
     @Test
     fun wait_for_request_and_accept() = runComposeUiTest {
+        val koin = getKoin()
+        val viewModel = koin.get<DriveViewModel>()
+        val navController = koin.get<XyzNavController>()
+
+        /*
+        Given:
+        - The ride filter is set to accept all requests
+        - The view model state is Idle
+        - A request with the following properties
+          - RiderProfile
+          - Route:
+          - Rate: $1.00/mile
+         */
+        assertEquals(DriveScreenState.Idle, viewModel.state.value, "initial state is idle")
+
+        /*
+        When:
+        - The Drive Screen is presented
+        Then:
+        - The Map is centered on the user
+        - The requests list is absent
+         */
         setContent {
             XyzTheme(
                 uiDependencies = EmptyTestUiDependencies()
             ) {
-
+                DriveScreen(
+                    viewModel = viewModel,
+                    navController = navController
+                )
             }
         }
-
         onNodeWithContentDescription("New Requests")
             .assertDoesNotExist()
 
+        /*
+        When:
+        - A new ride request is received
+        Then:
+        - The requests list is visible
+        - The new request is shown in the list
+          - The request displays the user's name
+          - The request displays the origin and destination
+          - The request displays the route distance
+          - The request displays the total fare
+          - The request has a accept/reject buttons
+         */
+        rideRepository.addRequest(testRequest)
+        waitUntilExactlyOneExists(hasText("New Requests"))
+        onNodeWithText("John")
+            .assertExists()
+        onNodeWithText("Walmart")
+            .assertExists()
+        onNodeWithText("Walgreens")
+            .assertExists()
+        onNodeWithText("0.5 km")
+            .assertExists()
+        onNodeWithText("$0.50")
+            .assertExists()
+        onNodeWithText("Accept")
+            .assertExists()
+        onNodeWithText("Reject")
+            .assertExists()
+
+        /*
+        When:
+        - The accept button is pressed
+        Then:
+        - The rider profile/messaging input is shown
+         */
+        onNodeWithText("Accept")
+            .performClick()
+        onNodeWithContentDescription("Rider Profile")
+            .assertExists()
+        onNodeWithContentDescription("Message Input")
+            .assertExists()
     }
 
     @Test
     fun wait_for_request_and_reject() = runComposeUiTest {
+        val koin = getKoin()
+        val viewModel = koin.get<DriveViewModel>()
+        val navController = koin.get<XyzNavController>()
+
+        /*
+        Given:
+        - The ride filter is set to accept all requests
+        - The view model state is Idle
+         */
+        assertEquals(DriveScreenState.Idle, viewModel.state.value, "initial state is idle")
+
+        /*
+        When:
+        - The Drive Screen is presented
+        Then:
+        - The Map is centered on the user
+        - The requests list is absent
+         */
         setContent {
             XyzTheme(
                 uiDependencies = EmptyTestUiDependencies()
             ) {
-
+                DriveScreen(
+                    viewModel = viewModel,
+                    navController = navController
+                )
             }
         }
-
         onNodeWithContentDescription("New Requests")
             .assertDoesNotExist()
 
+        /*
+        When:
+        - A new ride request is received
+        Then:
+        - The requests list is visible
+        - The new request is shown in the list
+          - The request displays the user's name
+          - The request displays the origin and destination
+          - The request displays the route distance
+          - The request displays the total fare
+          - The request has a accept/reject buttons
+         */
+        waitUntilExactlyOneExists(hasText("New Requests"))
+        onNodeWithText("John")
+            .assertExists()
+        onNodeWithText("Walmart")
+            .assertExists()
+        onNodeWithText("Walgreens")
+            .assertExists()
+        onNodeWithText("0.5 km")
+            .assertExists()
+        onNodeWithText("$0.50")
+            .assertExists()
+        onNodeWithText("Accept")
+            .assertExists()
+        onNodeWithText("Reject")
+            .assertExists()
+
+        /*
+        When:
+        - The reject button is pressed
+        Then:
+        - The request is removed from the list
+        - The request list is absent
+         */
+        onNodeWithText("Reject")
+            .performClick()
+        onNodeWithContentDescription("New Requests")
+            .assertDoesNotExist()
     }
 }
