@@ -7,7 +7,7 @@ package org.pointyware.xyz.drive.remote
 import kotlinx.coroutines.flow.Flow
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
-import org.pointyware.xyz.core.entities.ride.RideFilter
+import org.pointyware.xyz.drive.RideFilter
 import org.pointyware.xyz.drive.data.Cancellation
 import org.pointyware.xyz.drive.entities.Request
 
