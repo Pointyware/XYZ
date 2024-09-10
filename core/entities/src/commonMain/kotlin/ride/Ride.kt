@@ -6,8 +6,7 @@ package org.pointyware.xyz.core.entities.ride
 
 import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.Uuid
-import org.pointyware.xyz.core.entities.business.Currency
-import org.pointyware.xyz.core.entities.geo.Length
+import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import kotlin.time.Duration

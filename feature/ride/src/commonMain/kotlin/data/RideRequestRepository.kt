@@ -10,7 +10,7 @@ import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.geo.kilometers
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.ride.Ride
-import org.pointyware.xyz.core.entities.ride.Route
+import org.pointyware.xyz.core.entities.geo.Route
 import kotlin.time.Duration.Companion.milliseconds
 
 /**

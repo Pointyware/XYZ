@@ -6,7 +6,7 @@ package org.pointyware.xyz.feature.ride.viewmodels
 
 import org.pointyware.xyz.core.entities.business.Currency
 import org.pointyware.xyz.core.entities.geo.Location
-import org.pointyware.xyz.core.entities.ride.Route
+import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.viewmodels.BriefProfileUiState
 
 /**

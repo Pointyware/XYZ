@@ -8,7 +8,7 @@ import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.business.Currency
 import org.pointyware.xyz.core.entities.business.Rate
 import org.pointyware.xyz.core.entities.profile.RiderProfile
-import org.pointyware.xyz.core.entities.ride.Route
+import org.pointyware.xyz.core.entities.geo.Route
 
 /**
  * Represents a request for a new ride.
