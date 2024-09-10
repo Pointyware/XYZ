@@ -10,12 +10,14 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.data.di.coreDataModule
 import org.pointyware.xyz.core.entities.di.coreEntitiesModule
 import org.pointyware.xyz.core.interactors.di.coreInteractorsModule
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.coreNavigationModule
+import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.remote.di.coreRemoteModule
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
@@ -23,6 +25,7 @@ import org.pointyware.xyz.core.ui.di.coreUiModule
 import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
 import org.pointyware.xyz.drive.di.featureDriveModule
 import org.pointyware.xyz.drive.navigation.driverActiveRoute
+import org.pointyware.xyz.drive.navigation.driverHomeRoute
 import org.pointyware.xyz.drive.ui.DriverHomeScreen
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -46,7 +49,10 @@ class DriverHomeScreenUiTest {
                 coreEntitiesModule(),
                 coreNavigationModule(),
 
-                featureDriveModule()
+                featureDriveModule(),
+                module {
+                    single<Any>(qualifier = homeQualifier) { driverHomeRoute }
+                }
             )
         }
     }
