@@ -6,6 +6,7 @@ package org.pointyware.xyz.drive.di
 
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.xyz.drive.data.RideRepository
 import org.pointyware.xyz.drive.data.RideRepositoryImpl
@@ -24,7 +25,7 @@ fun featureDriveModule() = module {
 
 fun featureDriveDataModule() = module {
 
-    factoryOf(::RideRepositoryImpl) { bind<RideRepository>() }
+    singleOf(::RideRepositoryImpl) { bind<RideRepository>() }
 }
 
 fun featureDriveViewModelModule() = module {
