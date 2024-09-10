@@ -33,10 +33,7 @@ fun setupKoin(platformModule: Module) {
         modules(platformModule)
     }
 
-    // Temporary Test Setup - remove for production
-    unloadKoinModules(listOf(
-        featureLoginRemoteModule()
-    ))
+    // TODO: move to utility function with environment variable
     loadKoinModules(module {
         single<AuthService> { TestAuthService(
             users = mutableMapOf("foo@bar.com" to TestAuthService.UserEntry("password", Uuid.v4()))
