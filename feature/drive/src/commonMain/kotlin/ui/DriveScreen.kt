@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.AdView
 import org.pointyware.xyz.core.ui.AdViewState
@@ -72,8 +73,11 @@ fun DriveScreen(
 
                 }
                 is DriveScreenState.NewRequest -> {
+                    // TODO: make RequestList
                     RideRequestView(
-                        state = capture.requestUiState
+                        state = capture.requestUiState,
+                        onReject = { viewModel.onReject(Uuid.nil()) },
+                        onAccept = { viewModel.onAccept(Uuid.nil()) },
                     )
                 }
                 is DriveScreenState.Accepted -> {
