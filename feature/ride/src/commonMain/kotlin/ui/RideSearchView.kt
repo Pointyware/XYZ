@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import org.pointyware.xyz.core.entities.ride.Location
+import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 
 data class RideSearchViewState(

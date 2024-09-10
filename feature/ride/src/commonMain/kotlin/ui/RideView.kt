@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.entities.ride.Location
+import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.ui.AdView
 import org.pointyware.xyz.core.ui.AdViewState
 import org.pointyware.xyz.core.ui.LoadingResultView

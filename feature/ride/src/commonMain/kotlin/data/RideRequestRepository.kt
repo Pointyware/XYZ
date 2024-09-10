@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.geo.kilometers
-import org.pointyware.xyz.core.entities.ride.Location
+import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.ride.Route
 import kotlin.time.Duration.Companion.milliseconds

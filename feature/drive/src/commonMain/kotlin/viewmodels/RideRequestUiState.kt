@@ -6,7 +6,7 @@ package org.pointyware.xyz.drive.viewmodels
 
 import org.pointyware.xyz.core.entities.business.Currency
 import org.pointyware.xyz.core.entities.geo.Length
-import org.pointyware.xyz.core.entities.ride.Location
+import org.pointyware.xyz.core.entities.geo.Location
 
 /**
  * Displays information about a new ride request: distance from driver, distance of route, and rider service rate.

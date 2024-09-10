@@ -5,6 +5,7 @@
 package org.pointyware.xyz.core.entities.ride
 
 import org.pointyware.xyz.core.entities.geo.Length
+import org.pointyware.xyz.core.entities.geo.Location
 import kotlin.time.Duration
 
 /**
