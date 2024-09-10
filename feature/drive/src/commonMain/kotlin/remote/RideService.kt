@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.ride.RideFilter
-import org.pointyware.xyz.core.entities.rides.RideRequest
 import org.pointyware.xyz.drive.data.Cancellation
+import org.pointyware.xyz.drive.entities.Request
 
 /**
  * Defines the actions supported by the remote service.
@@ -19,7 +19,7 @@ interface RideService {
     /**
      * Returns a flow of ride requests that match the given [filter].
      */
-    suspend fun createRideFilter(filter: RideFilter): Result<Flow<RideRequest>>
+    suspend fun createRideFilter(filter: RideFilter): Result<Flow<Request>>
 
     /**
      * Accepts the ride request with the given [requestId].
