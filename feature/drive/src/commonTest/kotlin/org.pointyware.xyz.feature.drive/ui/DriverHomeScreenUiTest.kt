@@ -18,7 +18,6 @@ import org.pointyware.xyz.core.interactors.di.coreInteractorsModule
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.coreNavigationModule
 import org.pointyware.xyz.core.navigation.di.homeQualifier
-import org.pointyware.xyz.core.remote.di.coreRemoteModule
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.core.ui.di.coreUiModule
