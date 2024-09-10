@@ -85,6 +85,10 @@ class DriverRequestsScreenUiTest {
 
             }
         }
+
+        onNodeWithContentDescription("New Requests")
+            .assertDoesNotExist()
+
     }
 
     @Test
@@ -96,5 +100,9 @@ class DriverRequestsScreenUiTest {
 
             }
         }
+
+        onNodeWithContentDescription("New Requests")
+            .assertDoesNotExist()
+
     }
 }
