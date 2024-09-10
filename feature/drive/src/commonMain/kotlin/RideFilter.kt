@@ -7,7 +7,7 @@ package org.pointyware.xyz.drive
 import org.pointyware.xyz.core.entities.business.Currency
 import org.pointyware.xyz.core.entities.business.Rate
 import org.pointyware.xyz.core.entities.geo.Length
-import org.pointyware.xyz.core.entities.ride.Area
+import org.pointyware.xyz.core.entities.geo.Area
 import org.pointyware.xyz.drive.entities.Request
 
 /**
