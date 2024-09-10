@@ -44,13 +44,12 @@ sealed interface DriveScreenState {
 fun DriveScreen(
     viewModel: DriveViewModel,
     navController: XyzNavController,
-    modifier: Modifier = Modifier,
 ) {
     val state: DriveScreenState by viewModel.state.collectAsState()
     val mapState: MapUiState by viewModel.mapState.collectAsState()
 
     Box(
-        modifier = modifier
+        modifier = Modifier.fillMaxSize()
     ) {
         MapView(
             state = mapState,

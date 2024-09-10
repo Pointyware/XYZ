@@ -21,3 +21,33 @@ interface Location {
     val zip: String
     val country: String
 }
+
+private data class SimpleLocation(
+    override val coordinates: LatLong,
+    override val name: String,
+    override val address: String,
+    override val city: String,
+    override val state: String,
+    override val zip: String,
+    override val country: String,
+): Location
+
+
+fun Location(
+    lat: Double,
+    long: Double,
+    name: String,
+    address: String = "1804 S Perkins Rd",
+    city: String = "Stillwater",
+    state: String = "Ok",
+    zip: String = "74074",
+    country: String = "United States",
+): Location = SimpleLocation(
+    LatLong(lat, long),
+    name,
+    address,
+    city,
+    state,
+    zip,
+    country,
+)

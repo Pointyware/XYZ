@@ -4,19 +4,32 @@
 
 package org.pointyware.xyz.feature.ride.ui
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import org.pointyware.xyz.core.entities.ride.Location
+import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 
 data class RideSearchViewState(
     val isExpanded: Boolean,
@@ -29,43 +42,180 @@ data class RideSearchViewState(
  */
 @Composable
 fun RideSearchView(
-    state: RideSearchViewState,
+    state: RideUiState,
     modifier: Modifier = Modifier,
-    onCollapse: ()->Unit,
-    onExpand: ()->Unit,
-    onSearch: (String)-> Unit,
+    onNewRide: ()->Unit,
+    onUpdateSearch: (String)-> Unit,
+    onSendQuery: ()->Unit,
+    onSelectLocation: (Location)->Unit,
+    onConfirmDetails: ()->Unit,
+    onCancelRequest: ()->Unit
 ) {
-    val shape = if (state.isExpanded) {
-        // Rounded corners
-        RoundedCornerShape(8.dp)
-    } else {
-        CircleShape
+    val shape = when (state) {
+        is RideUiState.Idle,
+        is RideUiState.Waiting -> {
+            CircleShape
+        }
+        else -> {
+            // Rounded corners
+            RoundedCornerShape(8.dp)
+        }
     }
     Surface(
         modifier = modifier.background(color = MaterialTheme.colorScheme.primary, shape = shape)
     ) {
-        if (state.isExpanded) {
-            Row {
-                TextField(
-                    value = state.query,
-                    onValueChange = { /* TODO: Implement search */ },
-                    label = { Text("Search") },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                Button(onClick = {
-                    if (state.query.isNotBlank()) {
-                        onSearch(state.query)
-                    } else {
-                        onCollapse()
-                    }
-                }) {
-                    Text("Search")
+        AnimatedContent(
+            targetState = state,
+            contentKey = { it::class }
+        ) { state ->
+            when (state) {
+                is RideUiState.Idle -> {
+                    IdleSearchView(onNewRide = onNewRide)
                 }
-            }
-        } else {
-            Button(onClick = onExpand) {
-                Text("New Ride")
+
+                is RideUiState.Search -> {
+                    ActiveSearchView(
+                        state = state,
+                        onUpdateSearch = onUpdateSearch,
+                        onSendQuery = onSendQuery,
+                        onSelectLocation = onSelectLocation
+                    )
+                }
+
+                is RideUiState.Confirm -> {
+                    SearchDetailsView(
+                        state = state,
+                        onConfirmDetails = onConfirmDetails,
+                    )
+                }
+
+                is RideUiState.Posted -> {
+                    PostedRideView(
+                        state = state,
+                        onCancelRequest = onCancelRequest
+                    )
+                }
+
+                is RideUiState.Waiting -> {
+                    AwaitingRideView(state = state)
+                }
+
+                is RideUiState.Riding -> {
+                    ActiveRideView(state = state)
+                }
             }
         }
     }
+}
+
+@Composable
+fun IdleSearchView(
+    onNewRide: ()->Unit
+) {
+    Button(onClick = onNewRide) {
+        Text("New Ride")
+    }
+}
+
+@Composable
+fun ActiveSearchView(
+    state: RideUiState.Search,
+    onUpdateSearch: (String)->Unit,
+    onSendQuery: ()->Unit,
+    onSelectLocation: (Location)->Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        TextField(
+            value = state.query,
+            onValueChange = onUpdateSearch,
+            label = { Text("Search") },
+            modifier = Modifier.weight(1f),
+        )
+        Button(
+            onClick = {
+                onSendQuery()
+            },
+            enabled = state.query.isNotBlank()
+        ) {
+            Text("Confirm")
+        }
+        var expanded by remember(state.suggestions) { mutableStateOf(state.suggestions.isNotEmpty()) }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.semantics { contentDescription = "Location Suggestions" },
+        ) {
+            state.suggestions.forEach { suggestion ->
+                DropdownMenuItem(
+                    text = { Text(suggestion.name) },
+                    onClick = {
+                        expanded = false
+                        onSelectLocation(suggestion)
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun SearchDetailsView(
+    state: RideUiState.Confirm,
+    onConfirmDetails: ()->Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(
+            text = "from: ${state.origin.name}", // TODO: add search field for origin
+        )
+        Text(
+            text = "to: ${state.destination.name}", // TODO: use search field for destination
+        )
+        val distanceString = state.route?.let { route -> "${route.distance}" } ?: "Calculating..."
+        Text(
+            text = "distance: $distanceString",
+        )
+        val priceString = state.price?.let { price -> "$price" } ?: "Calculating..."
+        Text(
+            text = "price: $priceString",
+        )
+        Button(
+            onClick = onConfirmDetails,
+            enabled = state.route != null && state.price != null
+        ) {
+            Text("Confirm Route")
+        }
+    }
+}
+
+@Composable
+fun PostedRideView(
+    state: RideUiState.Posted,
+    onCancelRequest: ()->Unit
+) {
+    Column {
+        Text("Hailing a driver")
+        Button(onClick = onCancelRequest) {
+            Text("Cancel Request")
+        }
+    }
+}
+
+@Composable
+fun AwaitingRideView(
+    state: RideUiState.Waiting
+) {
+    Text("Waiting for driver")
+    // TODO: rider details
+}
+
+@Composable
+fun ActiveRideView(
+    state: RideUiState.Riding
+) {
+    // Do nothing
+    // TODO: rider details
 }

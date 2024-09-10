@@ -7,20 +7,19 @@ package org.pointyware.xyz.feature.ride.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import org.pointyware.xyz.core.entities.ride.Location
 import org.pointyware.xyz.core.ui.AdView
 import org.pointyware.xyz.core.ui.AdViewState
+import org.pointyware.xyz.core.ui.LoadingResultView
 import org.pointyware.xyz.core.ui.MapView
-import org.pointyware.xyz.core.ui.testAdViewState
+import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.MapUiState
+import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 
 data class RideViewState(
-    val search: RideSearchViewState,
+    val ride: RideUiState,
     val map: MapUiState
 )
 
@@ -30,8 +29,16 @@ data class RideViewState(
 @Composable
 fun RideView(
     state: RideViewState,
+    loadingState: LoadingUiState<Unit>,
     modifier: Modifier = Modifier,
-    onBack: ()->Unit
+    onStartSearch: ()->Unit,
+    onUpdateQuery: (String)->Unit,
+    onSendQuery: ()->Unit,
+    onSelectLocation: (Location)->Unit,
+    onConfirmDetails: ()->Unit,
+    onCancel: ()->Unit,
+    onBack: ()->Unit,
+    clearError: ()->Unit
 ) {
     Box(
         modifier = modifier
@@ -46,14 +53,21 @@ fun RideView(
             modifier = Modifier.align(Alignment.TopCenter)
         )
 
-        // TODO: hoist state
-        var isExpanded by remember { mutableStateOf(false) }
+        LoadingResultView(
+            state = loadingState,
+            onSuccess = {},
+            onDismiss = clearError
+        )
+
         RideSearchView(
-            state = state.search,
+            state = state.ride,
             modifier = Modifier.align(Alignment.BottomEnd),
-            onCollapse = { isExpanded = false },
-            onExpand = { isExpanded = true },
-            onSearch = { query -> /* TODO: Implement search */ },
+            onNewRide = onStartSearch,
+            onUpdateSearch = onUpdateQuery,
+            onSendQuery = onSendQuery,
+            onSelectLocation = onSelectLocation,
+            onConfirmDetails = onConfirmDetails,
+            onCancelRequest = onCancel
         )
     }
 }

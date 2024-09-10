@@ -93,3 +93,5 @@ internal class SimpleCurrency(
 fun Currency(amount: Long, form: Currency.Form): Currency {
     return SimpleCurrency(amount, form)
 }
+
+fun Long.dollarCents() = Currency(this, Currency.Form.usDollarCents)

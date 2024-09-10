@@ -91,6 +91,7 @@ kotlin {
         }
     }
 }
+
 compose.resources {
     publicResClass = true
     packageOfResClass = "org.pointyware.xyz.shared"

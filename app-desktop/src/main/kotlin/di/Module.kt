@@ -13,13 +13,6 @@ import org.pointyware.xyz.shared.entities.SharedStringResources
 import org.pointyware.xyz.shared.ui.SharedDrawableResources
 import org.pointyware.xyz.shared.ui.SharedFontResources
 
-val topLevelModule = module {
-    includes(
-        desktopModule(),
-        appModule()
-    )
-}
-
 /**
  * Provides the desktop module
  */

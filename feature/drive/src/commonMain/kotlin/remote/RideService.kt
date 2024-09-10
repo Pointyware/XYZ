@@ -7,16 +7,11 @@ package org.pointyware.xyz.drive.remote
 import kotlinx.coroutines.flow.Flow
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.ride.RideFilter
-import org.pointyware.xyz.drive.data.RideSearchResult
 
 /**
  * Defines the actions supported by the remote service.
  */
 interface RideService {
-    /**
-     * Searches for destinations that match the given query.
-     */
-    suspend fun searchDestinations(query: String): Result<RideSearchResult>
 
     /**
      * Posts a ride to the service.

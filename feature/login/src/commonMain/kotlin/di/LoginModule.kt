@@ -4,12 +4,12 @@
 
 package org.pointyware.xyz.feature.login.di
 
+import io.ktor.client.HttpClient
 import navigation.loginRoute
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.dataQualifier
-import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.feature.login.data.ProfileRepository
 import org.pointyware.xyz.feature.login.data.ProfileRepositoryImpl
@@ -19,8 +19,9 @@ import org.pointyware.xyz.feature.login.local.AuthCache
 import org.pointyware.xyz.feature.login.local.AuthCacheImpl
 import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.remote.AuthService
+import org.pointyware.xyz.feature.login.remote.KtorProfileService
 import org.pointyware.xyz.feature.login.remote.ProfileService
-import org.pointyware.xyz.feature.login.remote.TestAuthService
+import org.pointyware.xyz.feature.login.remote.SimpleAuthService
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModelImpl
 
@@ -48,10 +49,18 @@ private fun featureLoginDataModule() = module {
         get<AuthCache>(), get<AuthService>(), get<ProfileCache>(), get<ProfileService>(),
         get(dataQualifier)
     ) }
-//    single<AuthService> { SimpleAuthService(get<HttpClient>()) }
-    single<AuthService> { TestAuthService(
-        users = mutableMapOf("foo@bar.com" to TestAuthService.UserEntry("password", Uuid.v4()))
-    )}
+
+    includes(
+        featureLoginRemoteModule(),
+        featureLoginLocalModule()
+    )
+}
+
+fun featureLoginRemoteModule() = module {
+    single<AuthService> { SimpleAuthService(get<HttpClient>()) }
+    single<ProfileService> { KtorProfileService(get<HttpClient>()) }
+}
+
+fun featureLoginLocalModule() = module {
     single<AuthCache> { AuthCacheImpl() }
-//    single<ProfileService> { KtorProfileService(getClient()) }
 }

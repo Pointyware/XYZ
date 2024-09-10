@@ -31,8 +31,7 @@ fun XyzRootScope.driveRouting(
 
         DriveScreen(
             viewModel = driveViewModel,
-            navController = navController,
-            modifier = Modifier.fillMaxSize()
+            navController = navController
         )
     }
 }
