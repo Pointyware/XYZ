@@ -157,3 +157,30 @@ sealed interface Ride {
         ) : Ended(EndReason.RiderCanceledLate), RouteProgress.Realized
     }
 }
+
+data class SimpleRide(
+    override val id: Uuid,
+    override val status: Ride.Status,
+    override val timePosted: Instant? = null,
+    override val timeAccepted: Instant? = null,
+    override val timeArrived: Instant? = null,
+    override val timeStarted: Instant? = null,
+    override val timeEnded: Instant? = null,
+    override val plannedRoute: Route? = null,
+    override val driver: DriverProfile? = null,
+    override val rider: RiderProfile? = null
+): Ride
+
+fun activeRide(
+    id: Uuid,
+    rider: RiderProfile,
+    plannedRoute: Route,
+    timePosted: Instant,
+    timeAccepted: Instant
+) = SimpleRide(
+    id = id,
+    status = Ride.Status.Immediate,
+    rider = rider,
+    plannedRoute = plannedRoute,
+    timePosted = timePosted
+)
