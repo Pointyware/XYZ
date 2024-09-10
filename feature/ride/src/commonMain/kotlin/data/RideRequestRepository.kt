@@ -128,6 +128,10 @@ class TestRideRequestRepository(
 
     override suspend fun requestRide(route: Route): Result<Ride> {
         TODO("Not yet implemented")
+//        mutableNewRides.emit(ride)
+//        mutablePostedRides.update { it + ride }
+//        // no limiting criteria in tests
+//        return Result.success(ride)
     }
 
     override suspend fun scheduleRide(route: Route, time: Instant): Result<Ride> {

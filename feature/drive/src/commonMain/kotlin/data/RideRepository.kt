@@ -21,7 +21,6 @@ import org.pointyware.xyz.drive.remote.RideService
  * It mediates between a local cache and a remote service.
  */
 interface RideRepository {
-    suspend fun postRide(ride: Ride): Result<Ride>
     suspend fun cancelRide(ride: Ride): Result<Ride>
     suspend fun watchRides(filter: RideFilter): Result<Flow<Ride>>
 }
@@ -30,13 +29,6 @@ class RideRepositoryImpl(
     private val rideService: RideService,
     private val rideCache: RideCache,
 ): RideRepository {
-
-    override suspend fun postRide(ride: Ride): Result<Ride> {
-        return rideService.postRide(ride)
-            .onSuccess {
-                rideCache.saveRide(ride)
-            }
-    }
 
     override suspend fun cancelRide(ride: Ride): Result<Ride> {
         return rideService.cancelRide(ride)
@@ -57,13 +49,6 @@ class TestRideRepository(
     private val mutableNewRides = MutableSharedFlow<Ride>()
     private val mutablePostedRides: MutableStateFlow<Set<Ride>> = MutableStateFlow(emptySet())
 
-    override suspend fun postRide(ride: Ride): Result<Ride> {
-        mutableNewRides.emit(ride)
-        mutablePostedRides.update { it + ride }
-        // no limiting criteria in tests
-        return Result.success(ride)
-    }
-
     override suspend fun cancelRide(ride: Ride): Result<Ride> {
         mutablePostedRides.update { it - ride }
         return Result.success(ride)
@@ -71,5 +56,10 @@ class TestRideRepository(
 
     override suspend fun watchRides(filter: RideFilter): Result<Flow<Ride>> {
         return Result.success(mutableNewRides.filter { filter.accepts(it) })
+    }
+
+    fun postRide(ride: Ride) {
+        mutableNewRides.tryEmit(ride)
+        mutablePostedRides.update { it + ride }
     }
 }

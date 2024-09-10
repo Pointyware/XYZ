@@ -14,11 +14,6 @@ import org.pointyware.xyz.core.entities.ride.RideFilter
 interface RideService {
 
     /**
-     * Posts a ride to the service.
-     */
-    suspend fun postRide(ride: Ride): Result<Ride>
-
-    /**
      * Cancels a ride.
      */
     suspend fun cancelRide(ride: Ride): Result<Ride>
