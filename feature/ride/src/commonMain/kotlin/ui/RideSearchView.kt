@@ -199,7 +199,7 @@ fun PostedRideView(
     Column {
         Text("Hailing a driver")
         Button(onClick = onCancelRequest) {
-            Text("Cancel")
+            Text("Cancel Request")
         }
     }
 }
