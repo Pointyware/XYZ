@@ -19,7 +19,7 @@ interface RideService {
     /**
      * Returns a flow of ride requests that match the given [filter].
      */
-    suspend fun createRideFilter(filter: RideFilter): Result<Flow<Request>>
+    suspend fun createRideFilter(filter: RideFilter): Result<Flow<List<Request>>>
 
     /**
      * Accepts the ride request with the given [requestId].

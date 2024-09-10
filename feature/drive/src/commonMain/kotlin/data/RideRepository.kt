@@ -9,10 +9,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
+import org.pointyware.xyz.core.entities.ride.activeRide
 import org.pointyware.xyz.drive.RideFilter
 import org.pointyware.xyz.drive.entities.Request
 import org.pointyware.xyz.drive.local.RideCache
@@ -27,12 +30,17 @@ interface RideRepository {
     /**
      * Watch for new ride requests that match the given [filter].
      */
-    suspend fun watchRequests(filter: RideFilter): Result<Flow<Request>>
+    suspend fun watchRequests(filter: RideFilter): Result<Flow<List<Request>>>
 
     /**
      * Accept the ride request with the given [requestId].
      */
     suspend fun acceptRequest(requestId: Uuid): Result<Ride>
+
+    /**
+     * Reject the ride request with the given [requestId].
+     */
+    suspend fun rejectRequest(requestId: Uuid): Result<Ride>
 
     /**
      * Complete the active ride.
@@ -55,11 +63,15 @@ class RideRepositoryImpl(
     private val rideCache: RideCache,
 ): RideRepository {
 
-    override suspend fun watchRequests(filter: RideFilter): Result<Flow<Request>> {
+    override suspend fun watchRequests(filter: RideFilter): Result<Flow<List<Request>>> {
         return rideService.createRideFilter(filter)
     }
 
     override suspend fun acceptRequest(requestId: Uuid): Result<Ride> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun rejectRequest(requestId: Uuid): Result<Ride> {
         TODO("Not yet implemented")
     }
 
@@ -81,16 +93,42 @@ class TestRideRepository(
 
     private var activeRide: Ride? = null
 
-    override suspend fun watchRequests(filter: RideFilter): Result<Flow<Request>> {
-        return Result.success(mutableNewRequests.filter { filter.accepts(it) })
+    override suspend fun watchRequests(filter: RideFilter): Result<Flow<List<Request>>> {
+        return Result.success(mutableActiveRequests.map { list -> list.filter(filter::accepts)})
     }
 
     override suspend fun acceptRequest(requestId: Uuid): Result<Ride> {
-        TODO("Not yet implemented")
+        val request = mutableActiveRequests.value.find { it.rideId == requestId }
+        return if (request != null) {
+            mutableActiveRequests.update { it - request }
+            val newRide = activeRide(
+                id = request.rideId,
+                rider = request.rider,
+                plannedRoute = request.route,
+                timePosted = request.timePosted,
+                timeAccepted = Clock.System.now()
+            )
+            Result.success(newRide)
+        } else {
+            Result.failure(IllegalStateException("Request not found"))
+        }
+    }
+
+    override suspend fun rejectRequest(requestId: Uuid): Result<Ride> {
+        val request = mutableActiveRequests.value.find { it.rideId == requestId }
+        return if (request != null) {
+            mutableActiveRequests.update { it - request }
+            Result.success(activeRide!!)
+        } else {
+            Result.failure(IllegalStateException("Request not found"))
+        }
     }
 
     override suspend fun completeRide(): Result<Ride> {
-        TODO("Not yet implemented")
+        activeRide?.let {
+            activeRide = null
+            return Result.success(it)
+        } ?: return Result.failure(IllegalStateException("No active ride to complete"))
     }
 
     override suspend fun cancelRide(): Result<Cancellation> {
