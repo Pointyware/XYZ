@@ -182,7 +182,10 @@ fun SearchDetailsView(
         Text(
             text = "price: $priceString",
         )
-        Button(onClick = onConfirmDetails) {
+        Button(
+            onClick = onConfirmDetails,
+            enabled = state.route != null && state.price != null
+        ) {
             Text("Confirm Route")
         }
     }
