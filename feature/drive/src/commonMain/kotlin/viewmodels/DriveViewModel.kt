@@ -6,6 +6,7 @@ package org.pointyware.xyz.drive.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.drive.ui.DriveScreenState
 
@@ -18,5 +19,13 @@ class DriveViewModel(
 
     private val mutableState = MutableStateFlow<DriveScreenState>(DriveScreenState.Idle)
     val state: StateFlow<DriveScreenState> get() = mutableState
+
+    fun onAccept(request: Uuid) {
+        TODO("Send Acceptance; Update State on Success")
+    }
+
+    fun onReject(request: Uuid) {
+        TODO("Send Rejection; Update State on Success")
+    }
 
 }
