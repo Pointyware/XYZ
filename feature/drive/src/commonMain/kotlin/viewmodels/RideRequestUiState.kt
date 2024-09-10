@@ -5,12 +5,16 @@
 package org.pointyware.xyz.drive.viewmodels
 
 import org.pointyware.xyz.core.entities.business.Currency
+import org.pointyware.xyz.core.entities.geo.Length
+import org.pointyware.xyz.core.entities.ride.Location
 
 /**
  * Displays information about a new ride request: distance from driver, distance of route, and rider service rate.
  */
 interface RideRequestUiState {
-    val distanceFromDriver: Double
-    val distanceOfRoute: Double
-    val riderServiceRate: Currency
+    val destination: Location
+    val distanceFromDriver: Length
+    val distanceOfRoute: Length
+//    val riderServiceRate: Currency // TODO: create rate entity
+    val totalFair: Currency
 }
