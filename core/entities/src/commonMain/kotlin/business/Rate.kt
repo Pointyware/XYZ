@@ -12,11 +12,15 @@ import org.pointyware.xyz.core.entities.geo.Length
 data class Rate(
     val currency: Currency,
     val denominator: Length
-) {
+): Comparable<Rate> {
     operator fun times(length: Length): Currency {
         val consistentLength = length.to(denominator.unit)
         val ratedAmount = currency.amount * consistentLength.value / denominator.value
         return Currency(ratedAmount.toLong(), currency.form)
+    }
+
+    override fun compareTo(other: Rate): Int {
+        TODO("Convert Currency and length to same units and compare")
     }
 
     companion object {
