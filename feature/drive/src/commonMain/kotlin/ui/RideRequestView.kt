@@ -26,8 +26,18 @@ fun RideRequestView(
         modifier = modifier
     ) {
         Text("New Ride Request")
-        Text("Distance from driver: 0.0 km")
-        Text("Distance of route: 0.0 km")
-        Text("Rider service rate: $0.00")
+        Text("Rider destination: ${state.destination}")
+        Text("Distance from driver: ${state.distanceFromDriver}")
+        Text("Distance of route: ${state.distanceOfRoute}")
+        Text("Total fair: ${state.totalFair}")
+
+        Row {
+            Button(onClick = onReject) {
+                Text("Decline")
+            }
+            Button(onClick = onAccept) {
+                Text("Accept")
+            }
+        }
     }
 }
