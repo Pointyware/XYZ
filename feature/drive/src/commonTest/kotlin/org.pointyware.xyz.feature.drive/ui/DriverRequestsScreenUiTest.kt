@@ -11,6 +11,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilExactlyOneExists
+import kotlinx.datetime.Clock
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -76,7 +77,8 @@ class DriverRequestsScreenUiTest {
             distance = .5.kilometers(),
             duration = 1.0.minutes
         ),
-        rate = 100L.dollarCents() per 1.0.kilometers()
+        rate = 100L.dollarCents() per 1.0.kilometers(),
+        timePosted = Clock.System.now()
     )
 
     private fun testDataModule(

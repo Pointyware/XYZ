@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.drive.entities
 
+import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.business.Currency
 import org.pointyware.xyz.core.entities.business.Rate
@@ -17,7 +18,8 @@ data class Request(
     val rideId: Uuid,
     val rider: RiderProfile,
     val route: Route,
-    val rate: Rate
+    val rate: Rate,
+    val timePosted: Instant
 ) {
     val fare: Currency = rate * route.distance
 }
