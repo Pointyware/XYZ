@@ -23,7 +23,7 @@ interface RideFilter {
     val rateRange: ClosedRange<Rate>?
 }
 
-private data class SimpleRideFilter(
+data class SimpleRideFilter(
     override val serviceArea: Area? = null,
 //    override val timeRange: ClosedRange<Instant>? = null,
     override val distanceRange: ClosedRange<Length>? = null,
@@ -46,5 +46,9 @@ private data class SimpleRideFilter(
             return false
         }
         return true
+    }
+
+    companion object {
+        val Permissive = SimpleRideFilter()
     }
 }
