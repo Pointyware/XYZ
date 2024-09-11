@@ -40,7 +40,7 @@ interface RideRepository {
     /**
      * Reject the ride request with the given [requestId].
      */
-    suspend fun rejectRequest(requestId: Uuid): Result<Ride>
+    suspend fun rejectRequest(requestId: Uuid): Result<Unit>
 
     /**
      * Complete the active ride.
@@ -71,7 +71,7 @@ class RideRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun rejectRequest(requestId: Uuid): Result<Ride> {
+    override suspend fun rejectRequest(requestId: Uuid): Result<Unit> {
         TODO("Not yet implemented")
     }
 
@@ -114,11 +114,11 @@ class TestRideRepository(
         }
     }
 
-    override suspend fun rejectRequest(requestId: Uuid): Result<Ride> {
+    override suspend fun rejectRequest(requestId: Uuid): Result<Unit> {
         val request = mutableActiveRequests.value.find { it.rideId == requestId }
         return if (request != null) {
             mutableActiveRequests.update { it - request }
-            Result.success(activeRide!!)
+            Result.success(Unit)
         } else {
             Result.failure(IllegalStateException("Request not found"))
         }
