@@ -27,7 +27,7 @@ data class LatLong(
      * Calculate the distance between this location and another in kilometers assuming a
      * spherical Earth of radius [EARTH_RADIUS] km.
      */
-    fun distanceTo(coordinates: LatLong): Double {
+    fun distanceTo(coordinates: LatLong): Length {
         val lat1 = latitude.toRadians()
         val lon1 = longitude.toRadians()
         val lat2 = coordinates.latitude.toRadians()
@@ -37,6 +37,6 @@ data class LatLong(
 
         val centralAngle = asin(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(lonDif))
 
-        return EARTH_RADIUS * centralAngle
+        return (EARTH_RADIUS * centralAngle).kilometers()
     }
 }

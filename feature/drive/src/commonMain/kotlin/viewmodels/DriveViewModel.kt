@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.drive.SimpleRideFilter
 import org.pointyware.xyz.drive.data.RideRepository
@@ -28,6 +29,8 @@ class DriveViewModel(
         watchRequests()
     }
 
+    private val driverLocation = LatLong(0.0, 0.0) // TODO: get and update driver location
+
     private var requestsJob: Job? = null
     private fun watchRequests() {
         requestsJob?.cancel()
@@ -41,7 +44,7 @@ class DriveViewModel(
                                     requestId = it.rideId,
                                     riderName = it.rider.name.given,
                                     route = it.route,
-                                    distanceFromDriver = it.route.distance,
+                                    distanceFromDriver = it.route.start.coordinates.distanceTo(driverLocation),
                                     riderServiceRate = it.rate
                                 )
                             }

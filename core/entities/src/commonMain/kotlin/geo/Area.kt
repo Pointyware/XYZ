@@ -12,7 +12,7 @@ sealed interface Area {
 
     data class Circular(val center: LatLong, val radius: Length): Area {
         override fun contains(coordinates: LatLong): Boolean {
-            return center.distanceTo(coordinates) <= radius.to(LengthUnit.KILOMETERS).value
+            return center.distanceTo(coordinates) <= radius.to(LengthUnit.KILOMETERS)
         }
     }
 
