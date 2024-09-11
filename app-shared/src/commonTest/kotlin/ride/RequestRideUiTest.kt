@@ -21,7 +21,6 @@ import androidx.compose.ui.test.waitUntilDoesNotExist
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
-import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.data.di.dataQualifier
@@ -85,11 +84,6 @@ class RequestRideUiTest {
             mutableSetOf(),
             koin.get(qualifier = dataQualifier)
         )
-        unloadKoinModules(listOf(
-            featureRideDataModule(),
-            profileDataModule(),
-            coreRemoteModule()
-        ))
         loadKoinModules(listOf(
             testFeatureProfileModule(
                 profileRepository,

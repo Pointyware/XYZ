@@ -4,17 +4,17 @@
 
 package org.pointyware.xyz.drive.navigation
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.XyzRootScope
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
 import org.pointyware.xyz.core.navigation.toTypedKey
 import org.pointyware.xyz.drive.di.DriveDependencies
 import org.pointyware.xyz.drive.ui.DriveScreen
+import org.pointyware.xyz.drive.ui.DriverHomeScreen
 
-val driveRoute = "drive".toTypedKey<Unit>()
+val driverHomeRoute = "drive/home".toTypedKey<Unit>()
+val driverActiveRoute = "drive/active".toTypedKey<Unit>()
 
 /**
  *
@@ -24,7 +24,11 @@ fun XyzRootScope.driveRouting(
     dependencies: DriveDependencies,
     navigationDependencies: NavigationDependencies
 ) {
-    location(driveRoute) {
+    location(driverHomeRoute) {
+        val navController = remember { navigationDependencies.getNavController() }
+        DriverHomeScreen(navController = navController)
+    }
+    location(driverActiveRoute) {
         // TODO: replace with viewModel extension function that uses available (Koin)Scope
         val driveViewModel = remember { dependencies.getDriveViewModel() }
         val navController = remember { navigationDependencies.getNavController() }

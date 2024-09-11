@@ -16,11 +16,9 @@ import androidx.compose.ui.test.runComposeUiTest
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
-import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.navigation.StackNavigationController
-import org.pointyware.xyz.core.remote.di.coreRemoteModule
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.login.RiderProfileCreationScreen
@@ -61,10 +59,6 @@ class RiderProfileCreationUiTest {
                 appModule()
             )
         }
-        unloadKoinModules(listOf(
-            profileDataModule(),
-            coreRemoteModule()
-        ))
         loadKoinModules(listOf(
             testFeatureProfileModule(
                 profileRepository,

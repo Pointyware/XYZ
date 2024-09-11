@@ -5,8 +5,11 @@
 package org.pointyware.xyz.drive.remote
 
 import kotlinx.coroutines.flow.Flow
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
-import org.pointyware.xyz.core.entities.ride.RideFilter
+import org.pointyware.xyz.drive.RideFilter
+import org.pointyware.xyz.drive.data.Cancellation
+import org.pointyware.xyz.drive.entities.Request
 
 /**
  * Defines the actions supported by the remote service.
@@ -14,22 +17,22 @@ import org.pointyware.xyz.core.entities.ride.RideFilter
 interface RideService {
 
     /**
-     * Posts a ride to the service.
+     * Returns a flow of ride requests that match the given [filter].
      */
-    suspend fun postRide(ride: Ride): Result<Ride>
+    suspend fun createRideFilter(filter: RideFilter): Result<Flow<List<Request>>>
 
     /**
-     * Cancels a ride.
+     * Accepts the ride request with the given [requestId].
      */
-    suspend fun cancelRide(ride: Ride): Result<Ride>
+    suspend fun acceptRequest(requestId: Uuid): Result<Ride>
 
     /**
-     * Completes a ride.
+     * Completes the active ride.
      */
-    suspend fun completeRide(ride: Ride): Result<Ride>
+    suspend fun completeRide(): Result<Ride>
 
     /**
-     * Creates a filter for rides that match the given criteria.
+     * Cancels the active ride.
      */
-    suspend fun createRideFilter(filter: RideFilter): Result<Flow<Ride>>
+    suspend fun cancelRide(): Result<Cancellation>
 }

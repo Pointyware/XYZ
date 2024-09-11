@@ -8,9 +8,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.geo.kilometers
-import org.pointyware.xyz.core.entities.ride.Location
+import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.ride.Ride
-import org.pointyware.xyz.core.entities.ride.Route
+import org.pointyware.xyz.core.entities.geo.Route
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
@@ -119,8 +119,8 @@ class TestRideRequestRepository(
                 )
             },
             end = destination,
-            distance = length.kilometers(),
-            duration = (length / speed).toInt().milliseconds
+            distance = length,
+            duration = (length.value / speed).toInt().milliseconds
         )
         delay(1500)
         return Result.success(route)
@@ -128,6 +128,10 @@ class TestRideRequestRepository(
 
     override suspend fun requestRide(route: Route): Result<Ride> {
         TODO("Not yet implemented")
+//        mutableNewRides.emit(ride)
+//        mutablePostedRides.update { it + ride }
+//        // no limiting criteria in tests
+//        return Result.success(ride)
     }
 
     override suspend fun scheduleRide(route: Route, time: Instant): Result<Ride> {

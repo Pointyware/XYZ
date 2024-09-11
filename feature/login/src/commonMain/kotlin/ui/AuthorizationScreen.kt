@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.NavOptions
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.LoadingResultView
-import org.pointyware.xyz.drive.navigation.driveRoute
+import org.pointyware.xyz.drive.navigation.driverHomeRoute
 import org.pointyware.xyz.feature.login.navigation.roleSelectionRoute
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationEvent
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationUiState
@@ -57,7 +57,7 @@ fun AuthorizationScreen(
                         rideRoute
                     }
                     AuthorizationEvent.Driver -> {
-                        driveRoute
+                        driverHomeRoute
                     }
                 }
                 navController.navigateTo(location, navOptions = NavOptions(clearBackStack = true))

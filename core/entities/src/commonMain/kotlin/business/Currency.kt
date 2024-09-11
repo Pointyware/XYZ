@@ -89,6 +89,10 @@ internal class SimpleCurrency(
         val otherValue = other.amount * form.centsPerUnit / other.form.centsPerUnit
         return amount.compareTo(otherValue)
     }
+
+    override fun toString(): String {
+        return form.format(amount)
+    }
 }
 fun Currency(amount: Long, form: Currency.Form): Currency {
     return SimpleCurrency(amount, form)

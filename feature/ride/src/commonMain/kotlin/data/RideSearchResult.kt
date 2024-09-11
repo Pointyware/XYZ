@@ -4,7 +4,7 @@
 
 package org.pointyware.xyz.feature.ride.data
 
-import org.pointyware.xyz.core.entities.ride.Location
+import org.pointyware.xyz.core.entities.geo.Location
 
 /**
  *

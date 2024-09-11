@@ -9,9 +9,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
-import org.pointyware.xyz.core.entities.ride.RideFilter
+import org.pointyware.xyz.core.entities.ride.activeRide
+import org.pointyware.xyz.drive.RideFilter
+import org.pointyware.xyz.drive.entities.Request
 import org.pointyware.xyz.drive.local.RideCache
 import org.pointyware.xyz.drive.remote.RideService
 
@@ -21,32 +27,60 @@ import org.pointyware.xyz.drive.remote.RideService
  * It mediates between a local cache and a remote service.
  */
 interface RideRepository {
-    suspend fun postRide(ride: Ride): Result<Ride>
-    suspend fun cancelRide(ride: Ride): Result<Ride>
-    suspend fun watchRides(filter: RideFilter): Result<Flow<Ride>>
+    /**
+     * Watch for new ride requests that match the given [filter].
+     */
+    suspend fun watchRequests(filter: RideFilter): Result<Flow<List<Request>>>
+
+    /**
+     * Accept the ride request with the given [requestId].
+     */
+    suspend fun acceptRequest(requestId: Uuid): Result<Ride>
+
+    /**
+     * Reject the ride request with the given [requestId].
+     */
+    suspend fun rejectRequest(requestId: Uuid): Result<Unit>
+
+    /**
+     * Complete the active ride.
+     */
+    suspend fun completeRide(): Result<Ride>
+
+    /**
+     * Cancel the active ride.
+     */
+    suspend fun cancelRide(): Result<Cancellation>
 }
+
+data class Cancellation(
+    val ride: Ride,
+    val reason: String,
+)
 
 class RideRepositoryImpl(
     private val rideService: RideService,
     private val rideCache: RideCache,
 ): RideRepository {
 
-    override suspend fun postRide(ride: Ride): Result<Ride> {
-        return rideService.postRide(ride)
-            .onSuccess {
-                rideCache.saveRide(ride)
-            }
-    }
-
-    override suspend fun cancelRide(ride: Ride): Result<Ride> {
-        return rideService.cancelRide(ride)
-            .onSuccess {
-                rideCache.dropRide(ride)
-            }
-    }
-
-    override suspend fun watchRides(filter: RideFilter): Result<Flow<Ride>> {
+    override suspend fun watchRequests(filter: RideFilter): Result<Flow<List<Request>>> {
         return rideService.createRideFilter(filter)
+    }
+
+    override suspend fun acceptRequest(requestId: Uuid): Result<Ride> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun rejectRequest(requestId: Uuid): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun completeRide(): Result<Ride> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun cancelRide(): Result<Cancellation> {
+        TODO("Not yet implemented")
     }
 }
 
@@ -54,22 +88,60 @@ class TestRideRepository(
     val dataScope: CoroutineScope,
 ): RideRepository {
 
-    private val mutableNewRides = MutableSharedFlow<Ride>()
-    private val mutablePostedRides: MutableStateFlow<Set<Ride>> = MutableStateFlow(emptySet())
+    private val mutableNewRequests = MutableSharedFlow<Request>()
+    private val mutableActiveRequests: MutableStateFlow<Set<Request>> = MutableStateFlow(emptySet())
 
-    override suspend fun postRide(ride: Ride): Result<Ride> {
-        mutableNewRides.emit(ride)
-        mutablePostedRides.update { it + ride }
-        // no limiting criteria in tests
-        return Result.success(ride)
+    private var activeRide: Ride? = null
+
+    override suspend fun watchRequests(filter: RideFilter): Result<Flow<List<Request>>> {
+        return Result.success(mutableActiveRequests.map { list -> list.filter(filter::accepts)})
     }
 
-    override suspend fun cancelRide(ride: Ride): Result<Ride> {
-        mutablePostedRides.update { it - ride }
-        return Result.success(ride)
+    override suspend fun acceptRequest(requestId: Uuid): Result<Ride> {
+        val request = mutableActiveRequests.value.find { it.rideId == requestId }
+        return if (request != null) {
+            mutableActiveRequests.update { it - request }
+            val newRide = activeRide(
+                id = request.rideId,
+                rider = request.rider,
+                plannedRoute = request.route,
+                timePosted = request.timePosted,
+                timeAccepted = Clock.System.now()
+            )
+            Result.success(newRide)
+        } else {
+            Result.failure(IllegalStateException("Request not found"))
+        }
     }
 
-    override suspend fun watchRides(filter: RideFilter): Result<Flow<Ride>> {
-        return Result.success(mutableNewRides.filter { filter.accepts(it) })
+    override suspend fun rejectRequest(requestId: Uuid): Result<Unit> {
+        val request = mutableActiveRequests.value.find { it.rideId == requestId }
+        return if (request != null) {
+            mutableActiveRequests.update { it - request }
+            Result.success(Unit)
+        } else {
+            Result.failure(IllegalStateException("Request not found"))
+        }
+    }
+
+    override suspend fun completeRide(): Result<Ride> {
+        activeRide?.let {
+            activeRide = null
+            return Result.success(it)
+        } ?: return Result.failure(IllegalStateException("No active ride to complete"))
+    }
+
+    override suspend fun cancelRide(): Result<Cancellation> {
+        return activeRide?.let {
+            activeRide = null
+            Result.success(Cancellation(it, "Driver canceled"))
+        } ?: Result.failure(IllegalStateException("No active ride to cancel"))
+    }
+
+    fun addRequest(testRequest: Request) {
+        dataScope.launch {
+            mutableNewRequests.emit(testRequest)
+            mutableActiveRequests.update { it + testRequest }
+        }
     }
 }
