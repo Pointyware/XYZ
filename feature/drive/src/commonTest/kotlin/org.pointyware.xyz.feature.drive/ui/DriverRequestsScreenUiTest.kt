@@ -132,7 +132,7 @@ class DriverRequestsScreenUiTest {
           - Route:
           - Rate: $1.00/mile
          */
-        assertEquals(DriveScreenState.Idle, viewModel.state.value, "initial state is idle")
+        assertEquals(DriveScreenState.AvailableRequests(emptyList()), viewModel.state.value, "initial state is idle")
 
         /*
         When:
@@ -208,7 +208,7 @@ class DriverRequestsScreenUiTest {
         - The ride filter is set to accept all requests
         - The view model state is Idle
          */
-        assertEquals(DriveScreenState.Idle, viewModel.state.value, "initial state is idle")
+        assertEquals(DriveScreenState.AvailableRequests(emptyList()), viewModel.state.value, "initial state is idle")
 
         /*
         When:

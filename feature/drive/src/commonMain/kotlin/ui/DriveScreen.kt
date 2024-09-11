@@ -28,7 +28,6 @@ import org.pointyware.xyz.drive.viewmodels.DriveViewModel
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 
 sealed interface DriveScreenState {
-    data object Idle : DriveScreenState
     class AvailableRequests(
         val requests: List<RideRequestUiState>
     ): DriveScreenState
@@ -75,9 +74,6 @@ fun DriveScreen(
                 .align(Alignment.BottomCenter)
         ) {
             when (val capture = state) {
-                is DriveScreenState.Idle -> {
-
-                }
                 is DriveScreenState.AvailableRequests -> {
                     RideRequestList(
                         requests = capture.requests,
