@@ -29,9 +29,9 @@ fun RideRequestView(
         Text(state.riderName)
         Text(state.route.start.name)
         Text(state.route.end.name)
-        Text("Distance from driver: ${state.distanceFromDriver}")
-        Text("Distance of route: ${state.distanceOfRoute}")
-        Text("Total fair: ${state.totalFair}")
+        Text(state.distanceFromDriver.toString())
+        Text(state.route.distance.toString())
+        Text(state.totalFair.toString())
 
         Row {
             Button(onClick = onReject) {
