@@ -35,7 +35,7 @@ fun RideRequestView(
 
         Row {
             Button(onClick = onReject) {
-                Text("Decline")
+                Text("Reject")
             }
             Button(onClick = onAccept) {
                 Text("Accept")
