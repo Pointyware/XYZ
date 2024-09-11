@@ -26,8 +26,9 @@ fun RideRequestView(
         modifier = modifier
     ) {
         Text("New Ride Request")
-        Text("Rider Name: ${state.riderName}")
-        Text("Rider destination: ${state.destination}")
+        Text(state.riderName)
+        Text(state.route.start.name)
+        Text(state.route.end.name)
         Text("Distance from driver: ${state.distanceFromDriver}")
         Text("Distance of route: ${state.distanceOfRoute}")
         Text("Total fair: ${state.totalFair}")

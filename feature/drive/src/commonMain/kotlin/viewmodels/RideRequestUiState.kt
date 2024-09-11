@@ -9,6 +9,7 @@ import org.pointyware.xyz.core.entities.business.Currency
 import org.pointyware.xyz.core.entities.business.Rate
 import org.pointyware.xyz.core.entities.geo.Length
 import org.pointyware.xyz.core.entities.geo.Location
+import org.pointyware.xyz.core.entities.geo.Route
 
 /**
  * Displays information about a new ride request: distance from driver, distance of route, and rider service rate.
@@ -16,7 +17,7 @@ import org.pointyware.xyz.core.entities.geo.Location
 interface RideRequestUiState {
     val requestId: Uuid
     val riderName: String
-    val destination: Location
+    val route: Route
     val distanceFromDriver: Length
     val distanceOfRoute: Length
     val riderServiceRate: Rate
@@ -26,7 +27,7 @@ interface RideRequestUiState {
 data class RideRequestUiStateImpl(
     override val requestId: Uuid,
     override val riderName: String,
-    override val destination: Location,
+    override val route: Route,
     override val distanceFromDriver: Length,
     override val distanceOfRoute: Length,
     override val riderServiceRate: Rate,

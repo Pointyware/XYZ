@@ -40,7 +40,7 @@ class DriveViewModel(
                                 RideRequestUiStateImpl(
                                     requestId = it.rideId,
                                     riderName = it.rider.name.given,
-                                    destination = it.route.end,
+                                    route = it.route,
                                     distanceFromDriver = it.route.distance,
                                     distanceOfRoute = it.route.distance,
                                     riderServiceRate = it.rate
