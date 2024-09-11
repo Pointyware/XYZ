@@ -119,8 +119,8 @@ class TestRideRequestRepository(
                 )
             },
             end = destination,
-            distance = length.kilometers(),
-            duration = (length / speed).toInt().milliseconds
+            distance = length,
+            duration = (length.value / speed).toInt().milliseconds
         )
         delay(1500)
         return Result.success(route)
