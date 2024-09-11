@@ -42,7 +42,6 @@ class DriveViewModel(
                                     riderName = it.rider.name.given,
                                     route = it.route,
                                     distanceFromDriver = it.route.distance,
-                                    distanceOfRoute = it.route.distance,
                                     riderServiceRate = it.rate
                                 )
                             }

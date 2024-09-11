@@ -19,7 +19,6 @@ interface RideRequestUiState {
     val riderName: String
     val route: Route
     val distanceFromDriver: Length
-    val distanceOfRoute: Length
     val riderServiceRate: Rate
     val totalFair: Currency
 }
@@ -29,9 +28,8 @@ data class RideRequestUiStateImpl(
     override val riderName: String,
     override val route: Route,
     override val distanceFromDriver: Length,
-    override val distanceOfRoute: Length,
     override val riderServiceRate: Rate,
 ): RideRequestUiState {
     override val totalFair: Currency
-        get() = riderServiceRate * distanceOfRoute
+        get() = riderServiceRate * route.distance
 }
