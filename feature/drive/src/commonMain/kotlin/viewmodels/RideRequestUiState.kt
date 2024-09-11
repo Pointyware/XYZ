@@ -15,6 +15,7 @@ import org.pointyware.xyz.core.entities.geo.Location
  */
 interface RideRequestUiState {
     val requestId: Uuid
+    val riderName: String
     val destination: Location
     val distanceFromDriver: Length
     val distanceOfRoute: Length
@@ -24,6 +25,7 @@ interface RideRequestUiState {
 
 data class RideRequestUiStateImpl(
     override val requestId: Uuid,
+    override val riderName: String,
     override val destination: Location,
     override val distanceFromDriver: Length,
     override val distanceOfRoute: Length,

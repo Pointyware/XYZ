@@ -39,6 +39,7 @@ class DriveViewModel(
                             requests = requestList.map {
                                 RideRequestUiStateImpl(
                                     requestId = it.rideId,
+                                    riderName = it.rider.name.given,
                                     destination = it.route.end,
                                     distanceFromDriver = it.route.distance,
                                     distanceOfRoute = it.route.distance,
