@@ -28,7 +28,7 @@ import org.pointyware.xyz.drive.viewmodels.DriveViewModel
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 
 sealed interface DriveScreenState {
-    class AvailableRequests(
+    data class AvailableRequests(
         val requests: List<RideRequestUiState>
     ): DriveScreenState
     data class Accepted(
