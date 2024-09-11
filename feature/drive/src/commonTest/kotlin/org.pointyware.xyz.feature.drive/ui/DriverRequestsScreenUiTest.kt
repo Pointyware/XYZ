@@ -151,7 +151,7 @@ class DriverRequestsScreenUiTest {
                 )
             }
         }
-        onNodeWithContentDescription("New Requests")
+        onNodeWithContentDescription("Ride Requests")
             .assertDoesNotExist()
 
         /*
@@ -167,7 +167,7 @@ class DriverRequestsScreenUiTest {
           - The request has a accept/reject buttons
          */
         rideRepository.addRequest(testRequest)
-        waitUntilExactlyOneExists(hasText("New Requests"))
+        waitUntilExactlyOneExists(hasText("Ride Requests"))
         onNodeWithText("John")
             .assertExists()
         onNodeWithText("Walmart")
