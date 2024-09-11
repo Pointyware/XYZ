@@ -184,3 +184,131 @@ fun activeRide(
     plannedRoute = plannedRoute,
     timePosted = timePosted
 )
+
+data class PlannedRide(
+    override val id: Uuid,
+    override val rider: RiderProfile,
+    override val plannedRoute: Route,
+    override val timePosted: Instant,
+    override val driver: DriverProfile? = null,
+    override val timeAccepted: Instant? = null,
+    override val timeArrived: Instant? = null,
+    override val timeStarted: Instant? = null,
+    override val timeEnded: Instant? = null,
+): Ride {
+    override val status: Ride.Status
+        get() = Ride.Status.Immediate
+
+    fun accept(driver: DriverProfile, timeAccepted: Instant): PendingRide {
+        return PendingRide(
+            id = id,
+            rider = rider,
+            plannedRoute = plannedRoute,
+            timePosted = timePosted,
+            driver = driver,
+            timeAccepted = timeAccepted
+        )
+    }
+}
+
+data class PendingRide(
+    override val id: Uuid,
+    override val rider: RiderProfile,
+    override val plannedRoute: Route,
+    override val timePosted: Instant,
+    override val driver: DriverProfile,
+    override val timeAccepted: Instant,
+    override val timeArrived: Instant? = null,
+    override val timeStarted: Instant? = null,
+    override val timeEnded: Instant? = null,
+): Ride {
+
+    override val status: Ride.Status
+        get() = Ride.Status.Immediate
+
+    fun arrive(timeArrived: Instant): ActiveRide {
+        return ActiveRide(
+            id = id,
+            rider = rider,
+            plannedRoute = plannedRoute,
+            timePosted = timePosted,
+            driver = driver,
+            timeAccepted = timeAccepted,
+            timeArrived = timeArrived
+        )
+    }
+}
+
+data class ActiveRide(
+    override val id: Uuid,
+    override val rider: RiderProfile,
+    override val plannedRoute: Route,
+    override val timePosted: Instant,
+    override val driver: DriverProfile,
+    override val timeAccepted: Instant,
+    override val timeArrived: Instant,
+    override val timeStarted: Instant? = null,
+    override val timeEnded: Instant? = null,
+): Ride {
+
+    override val status: Ride.Status
+        get() = Ride.Status.Active(TODO())
+
+    fun start(timeStarted: Instant): CompletingRide {
+        return CompletingRide(
+            id = id,
+            rider = rider,
+            plannedRoute = plannedRoute,
+            timePosted = timePosted,
+            driver = driver,
+            timeAccepted = timeAccepted,
+            timeArrived = timeArrived,
+            timeStarted = timeStarted
+        )
+    }
+}
+
+data class CompletingRide(
+    override val id: Uuid,
+    override val rider: RiderProfile,
+    override val plannedRoute: Route,
+    override val timePosted: Instant,
+    override val driver: DriverProfile,
+    override val timeAccepted: Instant,
+    override val timeArrived: Instant,
+    override val timeStarted: Instant,
+    override val timeEnded: Instant? = null,
+): Ride {
+
+    override val status: Ride.Status
+        get() = Ride.Status.Active(TODO())
+
+    fun complete(timeEnded: Instant): CompletedRide {
+        return CompletedRide(
+            id = id,
+            rider = rider,
+            plannedRoute = plannedRoute,
+            timePosted = timePosted,
+            driver = driver,
+            timeAccepted = timeAccepted,
+            timeArrived = timeArrived,
+            timeStarted = timeStarted,
+            timeEnded = timeEnded
+        )
+    }
+}
+
+data class CompletedRide(
+    override val id: Uuid,
+    override val rider: RiderProfile,
+    override val plannedRoute: Route,
+    override val timePosted: Instant,
+    override val driver: DriverProfile,
+    override val timeAccepted: Instant,
+    override val timeArrived: Instant,
+    override val timeStarted: Instant,
+    override val timeEnded: Instant,
+): Ride {
+    override val status: Ride.Status
+        get() = Ride.Status.Completed(TODO())
+}
