@@ -166,6 +166,7 @@ class DriverRequestsScreenUiTest {
           - The request has a accept/reject buttons
          */
         rideRepository.addRequest(testRequest)
+        waitForIdle()
         onNodeWithContentDescription("Ride Requests")
             .onChildren().onFirst().assertExists()
         onNodeWithText("John")
@@ -245,6 +246,7 @@ class DriverRequestsScreenUiTest {
           - The request has a accept/reject buttons
          */
         rideRepository.addRequest(testRequest)
+        waitForIdle()
         onNodeWithContentDescription("Ride Requests")
             .onChildren().onFirst().assertExists()
         onNodeWithText("John")
