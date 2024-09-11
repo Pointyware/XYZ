@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -130,9 +131,26 @@ fun RideRequestList(
 
 @Composable
 fun RideInfo(
-    ride: Ride // TODO: replace with appropriate UI state
+    ride: Ride
 ) {
-    Column {
-        Text("Ride Info")
+    Column(
+        modifier = Modifier.semantics { contentDescription = "Rider Profile" }
+    ) {
+        Text(text = ride.rider?.name?.toString() ?: "Rider Name")
+
+        MessageInput(
+            modifier = Modifier.fillMaxWidth()
+        )
     }
+}
+
+@Composable
+fun MessageInput(
+    modifier: Modifier = Modifier,
+) {
+    TextField(
+        value = "",
+        onValueChange = {},
+        modifier = modifier.semantics { contentDescription = "Message Input" }
+    )
 }
