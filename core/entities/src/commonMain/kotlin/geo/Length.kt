@@ -15,12 +15,13 @@ interface Length: Comparable<Length> {
 }
 
 enum class LengthUnit(
-    val metersPerUnit: Double
+    val metersPerUnit: Double,
+    val symbol: String
 ) {
-    MILES(1609.34),
-    KILOMETERS(1000.0),
-    METERS(1.0),
-    FEET(0.3048),
+    MILES(1609.34, "mi"),
+    KILOMETERS(1000.0, "km"),
+    METERS(1.0, "m"),
+    FEET(0.3048, "ft"),
 }
 
 data class LengthValue(
@@ -35,6 +36,10 @@ data class LengthValue(
     override fun to(otherUnit: LengthUnit): Length {
         val newValue = value * unit.metersPerUnit / otherUnit.metersPerUnit
         return LengthValue(newValue, otherUnit)
+    }
+
+    override fun toString(): String {
+        return "$value ${unit.symbol}"
     }
 }
 
