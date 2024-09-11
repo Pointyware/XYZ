@@ -6,6 +6,7 @@ package org.pointyware.xyz.drive.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
@@ -14,7 +15,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.AdView
 import org.pointyware.xyz.core.ui.AdViewState
@@ -25,10 +29,12 @@ import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 
 sealed interface DriveScreenState {
     data object Idle : DriveScreenState
-    class NewRequest(
-        val requestUiState: RideRequestUiState
+    class AvailableRequests(
+        val requests: List<RideRequestUiState>
     ): DriveScreenState
-    data object Accepted : DriveScreenState
+    data class Accepted(
+        val ride: Ride
+    ): DriveScreenState
     data object RiderCanceled : DriveScreenState
     data object Pickup : DriveScreenState
     data object InProgress : DriveScreenState
@@ -72,16 +78,17 @@ fun DriveScreen(
                 is DriveScreenState.Idle -> {
 
                 }
-                is DriveScreenState.NewRequest -> {
-                    // TODO: make RequestList
-                    RideRequestView(
-                        state = capture.requestUiState,
-                        onReject = { viewModel.onReject(Uuid.nil()) },
-                        onAccept = { viewModel.onAccept(Uuid.nil()) },
+                is DriveScreenState.AvailableRequests -> {
+                    RideRequestList(
+                        requests = capture.requests,
+                        onAccept = { viewModel.onAccept(it) },
+                        onReject = { viewModel.onReject(it) },
                     )
                 }
                 is DriveScreenState.Accepted -> {
-                    Text("Accepted")
+                    RideInfo(
+                        ride = capture.ride
+                    )
                 }
                 is DriveScreenState.RiderCanceled -> {
                     Text("RiderCanceled")
@@ -103,5 +110,33 @@ fun DriveScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun RideRequestList(
+    requests: List<RideRequestUiState>,
+    onReject: (Uuid) -> Unit,
+    onAccept: (Uuid) -> Unit,
+) {
+    Column(
+        modifier = Modifier.semantics { contentDescription = "Ride Requests" }
+    ) {
+        requests.forEach {
+            RideRequestView(
+                state = it,
+                onReject = { onReject(it.requestId) },
+                onAccept = { onAccept(it.requestId) },
+            )
+        }
+    }
+}
+
+@Composable
+fun RideInfo(
+    ride: Ride // TODO: replace with appropriate UI state
+) {
+    Column {
+        Text("Ride Info")
     }
 }
