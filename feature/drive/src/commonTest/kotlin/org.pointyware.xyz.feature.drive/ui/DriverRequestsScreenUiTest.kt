@@ -229,6 +229,8 @@ class DriverRequestsScreenUiTest {
         }
         onNodeWithContentDescription("Ride Requests")
             .assertExists()
+            .onChild()
+            .assertDoesNotExist()
 
         /*
         When:
