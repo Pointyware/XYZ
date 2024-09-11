@@ -128,10 +128,6 @@ class DriverRequestsScreenUiTest {
         Given:
         - The ride filter is set to accept all requests
         - The view model state is Idle
-        - A request with the following properties
-          - RiderProfile
-          - Route:
-          - Rate: $1.00/mile
          */
         assertEquals(DriveScreenState.AvailableRequests(emptyList()), viewModel.state.value, "initial state is idle")
 
