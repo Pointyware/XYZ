@@ -78,6 +78,12 @@ interface Currency: Comparable<Currency> {
                 decimalPlaces = 2,
                 centsPerUnit = 1,
             )
+
+            /*
+            TODO: Add currencies as different areas are supported by the application
+            1. currency conversion service will be needed; can't use comparable directly
+            2. currency exchange rates will be needed
+             */
         }
     }
 }
@@ -98,4 +104,5 @@ fun Currency(amount: Long, form: Currency.Form): Currency {
     return SimpleCurrency(amount, form)
 }
 
+fun Long.dollars() = Currency(this, Currency.Form.usDollars)
 fun Long.dollarCents() = Currency(this, Currency.Form.usDollarCents)
