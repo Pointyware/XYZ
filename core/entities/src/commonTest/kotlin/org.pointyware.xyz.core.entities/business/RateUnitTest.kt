@@ -105,27 +105,54 @@ class RateUnitTest {
     }
 
     data class ComparisonCase(
-        val amount1: Long,
-        val form1: Currency.Form,
-        val length1: LengthUnit,
-        val amount2: Long,
-        val form2: Currency.Form,
-        val length2: LengthUnit,
+        val rate1: Rate,
+        val rate2: Rate,
         val expected: Int
     )
 
     @Test
     fun `comparison should compare converted values across units`() {
-//        listOf(
-//
-//        ).forEach {
-//
-//            val left = Currency(amount1, form1)
-//            val right = Currency(amount2, form2)
-//            val comparison = left.compareTo(right)
-//
-//            assertEquals(expected, comparison)
-//        }
-        fail("Not yet implemented")
+
+        listOf(
+            ComparisonCase(
+                12L.dollars() / LengthUnit.FEET,
+                12L.dollars() / LengthUnit.FEET,
+                0
+            ),
+            ComparisonCase(
+                10L.dollars() / LengthUnit.FEET,
+                12L.dollars() / LengthUnit.FEET,
+                -1
+            ),
+            ComparisonCase(
+                24L.dollars() / LengthUnit.FEET,
+                12L.dollars() / LengthUnit.FEET,
+                1
+            ),
+            ComparisonCase(
+                12L.dollars() / LengthUnit.FEET,
+                12L.dollars() / LengthUnit.METERS,
+                1
+            ),
+            ComparisonCase(
+                12L.dollars() / LengthUnit.METERS,
+                12L.dollars() / LengthUnit.FEET,
+                -1
+            ),
+            ComparisonCase(
+                12L.dollars() / LengthUnit.KILOMETERS,
+                1200L.dollarCents() / LengthUnit.KILOMETERS,
+                0
+            ),
+            ComparisonCase(
+                1000L.dollars() / LengthUnit.KILOMETERS,
+                1L.dollars() / LengthUnit.METERS,
+                0
+            ),
+        ).forEach { (left, right, expected) ->
+            val comparison = left.compareTo(right)
+
+            assertEquals(expected, comparison, "Left: $left, Right: $right")
+        }
     }
 }
