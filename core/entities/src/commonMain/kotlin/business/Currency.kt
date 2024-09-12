@@ -78,6 +78,12 @@ interface Currency: Comparable<Currency> {
                 decimalPlaces = 2,
                 centsPerUnit = 1,
             )
+
+            /*
+            TODO: Add currencies as different areas are supported by the application
+            1. currency conversion service will be needed; can't use comparable directly
+            2. currency exchange rates will be needed
+             */
         }
     }
 }
@@ -86,8 +92,17 @@ internal class SimpleCurrency(
     override val form: Currency.Form,
 ): Currency {
     override fun compareTo(other: Currency): Int {
-        val otherValue = other.amount * form.centsPerUnit / other.form.centsPerUnit
-        return amount.compareTo(otherValue)
+        when {
+            form.centsPerUnit > other.form.centsPerUnit -> {
+                val thisValue = amount * form.centsPerUnit / other.form.centsPerUnit
+                return thisValue.compareTo(other.amount)
+            }
+            form.centsPerUnit < other.form.centsPerUnit -> {
+                val otherValue = other.amount * other.form.centsPerUnit / form.centsPerUnit
+                return amount.compareTo(otherValue)
+            }
+            else -> return amount.compareTo(other.amount)
+        }
     }
 
     override fun toString(): String {
@@ -98,4 +113,5 @@ fun Currency(amount: Long, form: Currency.Form): Currency {
     return SimpleCurrency(amount, form)
 }
 
+fun Long.dollars() = Currency(this, Currency.Form.usDollars)
 fun Long.dollarCents() = Currency(this, Currency.Form.usDollarCents)
