@@ -4,6 +4,8 @@
 
 package org.pointyware.xyz.core.entities.geo
 
+import kotlin.math.pow
+
 /**
  *
  */
@@ -39,8 +41,16 @@ data class LengthValue(
         return LengthValue(newValue, otherUnit)
     }
 
+    private val expectedDecimalPlaces = 2
+    private val shiftFactor = 10.0.pow(expectedDecimalPlaces)
     override fun format(): String {
-        return "$value ${unit.symbol}"
+        val shiftedValue = value * shiftFactor
+        val roundedValue = (shiftedValue + if (value > 0) { 0.5 } else {-0.5}).toLong() // add/subtract 0.5 to round to nearest
+        val roundedString = roundedValue.toString()
+        val whole = roundedString.substring(0, roundedString.length - expectedDecimalPlaces)
+        val fraction = roundedString.substring(roundedString.length - expectedDecimalPlaces)
+
+        return "$whole.$fraction ${unit.symbol}"
     }
 }
 
