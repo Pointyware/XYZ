@@ -12,6 +12,7 @@ interface Length: Comparable<Length> {
     val unit: LengthUnit
 
     fun to(otherUnit: LengthUnit): Length
+    fun format(): String
 }
 
 enum class LengthUnit(
@@ -38,7 +39,7 @@ data class LengthValue(
         return LengthValue(newValue, otherUnit)
     }
 
-    override fun toString(): String {
+    override fun format(): String {
         return "$value ${unit.symbol}"
     }
 }
