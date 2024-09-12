@@ -87,7 +87,7 @@ interface Currency: Comparable<Currency> {
         }
     }
 }
-internal class SimpleCurrency(
+internal data class SimpleCurrency(
     override val amount: Long,
     override val form: Currency.Form,
 ): Currency {
