@@ -5,41 +5,60 @@
 package org.pointyware.xyz.core.entities.business
 
 import org.pointyware.xyz.core.entities.geo.Length
+import org.pointyware.xyz.core.entities.geo.LengthUnit
 
 /**
  * Represents a rate of currency per length.
  */
 data class Rate(
     val currency: Currency,
-    val denominator: Length
+    val denominator: LengthUnit
 ): Comparable<Rate> {
     operator fun times(length: Length): Currency {
-        val consistentLength = length.to(denominator.unit)
-        val ratedAmount = currency.amount * consistentLength.value / denominator.value
+        val consistentLength = length.to(denominator)
+        val ratedAmount = currency.amount * consistentLength.value
         return Currency(ratedAmount.toLong(), currency.form)
     }
 
     override fun compareTo(other: Rate): Int {
-        val leftLength = denominator
-        val rightLength = other.denominator.to(denominator.unit)
+        val leftCurrency: Currency
+        val rightCurrency: Currency
 
-        val leftCurrency = Currency((currency.amount * leftLength.value).toLong(), currency.form)
-        val rightCurrency = Currency((other.currency.amount * rightLength.value).toLong(), other.currency.form)
+        when {
+            denominator.metersPerUnit > other.denominator.metersPerUnit -> {
+                val scaling = denominator.metersPerUnit / other.denominator.metersPerUnit
+                leftCurrency = currency
+                rightCurrency = Currency((other.currency.amount * scaling).toLong(), other.currency.form)
+            }
+            denominator.metersPerUnit < other.denominator.metersPerUnit -> {
+                val scaling = other.denominator.metersPerUnit / denominator.metersPerUnit
+                leftCurrency = Currency((currency.amount * scaling).toLong(), currency.form)
+                rightCurrency = other.currency
+            }
+            else -> {
+                leftCurrency = currency
+                rightCurrency = other.currency
+            }
+        }
         return leftCurrency compareTo rightCurrency
     }
 
     fun format(): String {
-//        return "${currency.format()} per ${denominator.format()}"
-        TODO("Not yet implemented")
+        return "${currency.format()}/${denominator.symbol}"
     }
 
     companion object {
         operator fun Currency.div(length: Length): Rate {
-            return Rate(this, length)
+            val scaledCurrency = Currency((amount * length.value).toLong(), form)
+            return Rate(scaledCurrency, length.unit)
         }
 
         infix fun Currency.per(length: Length): Rate {
-            return Rate(this, length)
+            return div(length)
+        }
+
+        operator fun Currency.div(unit: LengthUnit): Rate {
+            return Rate(this, unit)
         }
     }
 }
