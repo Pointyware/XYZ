@@ -57,7 +57,12 @@ interface Currency: Comparable<Currency> {
                 val fractions = 10L pow decimalPlaces
                 val whole = amount / fractions
                 val remainder = amount % fractions
-                return "$prefix$whole.$remainder$postfix"
+                val remainderString = if (remainder == 0L) {
+                    "0".repeat(decimalPlaces)
+                } else {
+                    remainder.toString()
+                }
+                return "$prefix$whole.$remainderString$postfix"
             }
         }
 
@@ -87,7 +92,7 @@ interface Currency: Comparable<Currency> {
         }
     }
 }
-internal class SimpleCurrency(
+internal data class SimpleCurrency(
     override val amount: Long,
     override val form: Currency.Form,
 ): Currency {
