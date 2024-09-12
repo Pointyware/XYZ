@@ -2,13 +2,8 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.core.entities
+package org.pointyware.xyz.core.entities.geo
 
-import org.pointyware.xyz.core.entities.geo.Length
-import org.pointyware.xyz.core.entities.geo.feet
-import org.pointyware.xyz.core.entities.geo.kilometers
-import org.pointyware.xyz.core.entities.geo.meters
-import org.pointyware.xyz.core.entities.geo.miles
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
