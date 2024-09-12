@@ -30,6 +30,7 @@ data class Rate(
 
     fun format(): String {
 //        return "${currency.format()} per ${denominator.format()}"
+        TODO("Not yet implemented")
     }
 
     companion object {
