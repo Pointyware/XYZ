@@ -20,7 +20,16 @@ data class Rate(
     }
 
     override fun compareTo(other: Rate): Int {
-        TODO("Convert Currency and length to same units and compare")
+        val leftLength = denominator
+        val rightLength = other.denominator.to(denominator.unit)
+
+        val leftCurrency = Currency((currency.amount * leftLength.value).toLong(), currency.form)
+        val rightCurrency = Currency((other.currency.amount * rightLength.value).toLong(), other.currency.form)
+        return leftCurrency compareTo rightCurrency
+    }
+
+    fun format(): String {
+//        return "${currency.format()} per ${denominator.format()}"
     }
 
     companion object {
