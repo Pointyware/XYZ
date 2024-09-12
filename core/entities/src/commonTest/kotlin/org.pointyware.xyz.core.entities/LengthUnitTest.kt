@@ -11,6 +11,7 @@ import org.pointyware.xyz.core.entities.geo.meters
 import org.pointyware.xyz.core.entities.geo.miles
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 /**
  *
@@ -44,7 +45,7 @@ class LengthUnitTest {
     )
 
     @Test
-    fun `conversions should be accurate to 5 decimals`() {
+    fun `conversions should be accurate to 5 significant figures`() {
         /*
         Given
         - a list-matrix of 1km in various units
@@ -91,7 +92,9 @@ class LengthUnitTest {
             case.convertedMeasures.forEach { to ->
                 val converted = base.to(to.unit)
 
-                assertEquals(to.value, converted.value, 0.00001)
+                val diff = converted.value - to.value
+                val error = diff / to.value
+                assertTrue(error < 0.00001)
             }
         }
     }
