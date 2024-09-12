@@ -4,10 +4,12 @@
 
 package org.pointyware.xyz.core.entities.business
 
+import org.pointyware.xyz.core.entities.business.Rate.Companion.div
 import org.pointyware.xyz.core.entities.geo.Length
 import org.pointyware.xyz.core.entities.geo.LengthUnit
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.fail
 
 /**
  *
@@ -17,28 +19,82 @@ class RateUnitTest {
     data class FormattingCase(
         val amount: Long,
         val form: Currency.Form,
+        val lengthUnit: LengthUnit,
         val expected: String
     )
 
     @Test
-    fun testSimpleForm() {
+    fun `formatting rate returns a string of formatted currency per length-unit`() {
         listOf(
             FormattingCase(
                 100,
                 Currency.Form.usDollars,
-                "$100"
+                LengthUnit.METERS,
+                "$100/m"
             ),
             FormattingCase(
                 56,
                 Currency.Form.usDollars,
-                "$56"
+                LengthUnit.KILOMETERS,
+                "$56/km"
             ),
-        ).forEach { (amount, form, expected) ->
-            val currency = Currency(amount, form)
+            FormattingCase(
+                100,
+                Currency.Form.usDollarCents,
+                LengthUnit.FEET,
+                "$1.00/ft"
+            ),
+            FormattingCase(
+                56,
+                Currency.Form.usDollarCents,
+                LengthUnit.MILES,
+                "$0.56/mi"
+            ),
+        ).forEach { (amount, form, unit, expected) ->
+            val rate = Rate(Currency(amount, form), unit)
 
-            val string = currency.format()
+            val string = rate.format()
 
             assertEquals(expected, string)
+        }
+    }
+
+    data class RatingCase(
+        val amount: Long,
+        val form: Currency.Form,
+        val length: LengthUnit
+    )
+
+    @Test
+    fun `dividing currency by length should return a rate`() {
+        listOf(
+            RatingCase(
+                100,
+                Currency.Form.usDollars,
+                LengthUnit.METERS
+            ),
+            RatingCase(
+                56,
+                Currency.Form.usDollars,
+                LengthUnit.KILOMETERS,
+            ),
+            RatingCase(
+                100,
+                Currency.Form.usDollarCents,
+                LengthUnit.FEET,
+            ),
+            RatingCase(
+                56,
+                Currency.Form.usDollarCents,
+                LengthUnit.MILES,
+            ),
+        ).forEach { (amount, form, unit) ->
+            val currency = Currency(amount, form)
+            val expected = Rate(Currency(amount, form), unit)
+
+            val rate = currency / unit
+
+            assertEquals(expected, rate)
         }
     }
 
@@ -53,34 +109,17 @@ class RateUnitTest {
     )
 
     @Test
-    fun `comparison should `() {
-        listOf(
-
-        ).forEach {
-
-            val left = Currency(amount1, form1)
-            val right = Currency(amount2, form2)
-            val comparison = left.compareTo(right)
-
-            assertEquals(expected, comparison)
-        }
-    }
-
-    @Test
-    fun `dollars should return a currency with the correct form`() {
-        val amount = 100L
-        val currency = amount.dollars()
-
-        assertEquals(amount, currency.amount)
-        assertEquals(Currency.Form.usDollars, currency.form)
-    }
-
-    @Test
-    fun `cents should return a currency with the correct form`() {
-        val amount = 100L
-        val currency = amount.dollarCents()
-
-        assertEquals(amount, currency.amount)
-        assertEquals(Currency.Form.usDollarCents, currency.form)
+    fun `comparison should compare converted values across units`() {
+//        listOf(
+//
+//        ).forEach {
+//
+//            val left = Currency(amount1, form1)
+//            val right = Currency(amount2, form2)
+//            val comparison = left.compareTo(right)
+//
+//            assertEquals(expected, comparison)
+//        }
+        fail("Not yet implemented")
     }
 }
