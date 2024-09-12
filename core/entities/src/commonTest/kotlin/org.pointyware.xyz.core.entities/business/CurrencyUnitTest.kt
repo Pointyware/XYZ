@@ -81,4 +81,22 @@ class CurrencyUnitTest {
             assertEquals(expected, comparison)
         }
     }
+
+    @Test
+    fun `dollars should return a currency with the correct form`() {
+        val amount = 100L
+        val currency = amount.dollars()
+
+        assertEquals(amount, currency.amount)
+        assertEquals(Currency.Form.usDollars, currency.form)
+    }
+
+    @Test
+    fun `cents should return a currency with the correct form`() {
+        val amount = 100L
+        val currency = amount.dollarCents()
+
+        assertEquals(amount, currency.amount)
+        assertEquals(Currency.Form.usDollarCents, currency.form)
+    }
 }
