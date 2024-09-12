@@ -63,14 +63,14 @@ class CurrencyUnitTest {
                 Currency.Form.usDollars,
                 5610,
                 Currency.Form.usDollarCents,
-                1
+                -1
             ),
             ComparisonCase(
                 56,
                 Currency.Form.usDollarCents,
                 54,
                 Currency.Form.usDollarCents,
-                -1
+                1
             ),
         ).forEach { (amount1, form1, amount2, form2, expected) ->
 
