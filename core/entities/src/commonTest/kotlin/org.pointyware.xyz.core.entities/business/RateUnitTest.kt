@@ -50,6 +50,12 @@ class RateUnitTest {
                 LengthUnit.MILES,
                 "$0.56/mi"
             ),
+            FormattingCase(
+                50,
+                Currency.Form.usDollarCents,
+                LengthUnit.MILES,
+                "$0.50/mi"
+            ),
         ).forEach { (amount, form, unit, expected) ->
             val rate = Rate(Currency(amount, form), unit)
 
