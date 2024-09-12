@@ -92,8 +92,17 @@ internal class SimpleCurrency(
     override val form: Currency.Form,
 ): Currency {
     override fun compareTo(other: Currency): Int {
-        val otherValue = other.amount * form.centsPerUnit / other.form.centsPerUnit
-        return amount.compareTo(otherValue)
+        when {
+            form.centsPerUnit > other.form.centsPerUnit -> {
+                val thisValue = amount * form.centsPerUnit / other.form.centsPerUnit
+                return thisValue.compareTo(other.amount)
+            }
+            form.centsPerUnit < other.form.centsPerUnit -> {
+                val otherValue = other.amount * other.form.centsPerUnit / form.centsPerUnit
+                return amount.compareTo(otherValue)
+            }
+            else -> return amount.compareTo(other.amount)
+        }
     }
 
     override fun toString(): String {
