@@ -29,7 +29,7 @@ fun RideRequestView(
         Text(state.riderName)
         Text(state.route.start.name)
         Text(state.route.end.name)
-        Text(state.distanceFromDriver.toString())
+        Text(state.pickupDistance.toString())
         Text(state.route.distance.toString())
         Text(state.totalFair.toString())
 
