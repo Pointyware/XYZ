@@ -15,6 +15,10 @@ interface Length: Comparable<Length> {
 
     fun to(otherUnit: LengthUnit): Length
     fun format(): String
+    operator fun plus(other: Length): Length {
+        val otherToThis = other.to(unit)
+        return LengthValue(value + otherToThis.value, unit)
+    }
 }
 
 enum class LengthUnit(
