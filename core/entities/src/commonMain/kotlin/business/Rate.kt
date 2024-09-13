@@ -25,15 +25,9 @@ data class Rate(
         val rightCurrency: Currency
 
         when {
-            denominator.metersPerUnit > other.denominator.metersPerUnit -> {
-                val scaling = denominator.metersPerUnit / other.denominator.metersPerUnit
-                leftCurrency = currency
-                rightCurrency = Currency((other.currency.amount * scaling).toLong(), other.currency.form)
-            }
-            denominator.metersPerUnit < other.denominator.metersPerUnit -> {
-                val scaling = other.denominator.metersPerUnit / denominator.metersPerUnit
-                leftCurrency = Currency((currency.amount * scaling).toLong(), currency.form)
-                rightCurrency = other.currency
+            denominator.metersPerUnit != other.denominator.metersPerUnit -> {
+                leftCurrency = Currency((currency.amount / denominator.metersPerUnit).toLong(), currency.form)
+                rightCurrency = Currency((other.currency.amount / other.denominator.metersPerUnit).toLong(), other.currency.form)
             }
             else -> {
                 leftCurrency = currency
