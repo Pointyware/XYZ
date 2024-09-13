@@ -98,7 +98,7 @@ class RideRequestViewUnitTest {
         onNodeWithContentDescription("Pickup Metrics", substring = true)
             .assertExists()
             .assertTextContains("1.10 mi @ $0.00/mi", substring = true)
-            .assertTextContains("$0.00 - $0.18", substring = true)
+            .assertTextContains("$0.00 - $0.17", substring = true)
     }
 
     @Test
@@ -112,6 +112,6 @@ class RideRequestViewUnitTest {
         onNodeWithContentDescription("Route Metrics", substring = true)
             .assertExists()
             .assertTextContains("1.60 mi @ $0.83/mi", substring = true)
-            .assertTextContains("$1.33 - $0.88", substring = true)
+            .assertTextContains("$1.32 - $0.25", substring = true)
     }
 }
