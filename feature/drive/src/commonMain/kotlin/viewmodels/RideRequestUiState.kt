@@ -29,6 +29,9 @@ interface RideRequestUiState {
     val dropoffRate: Rate
     val maintenanceRate: Rate
 
+    val pickupPrice: Currency
+    val dropoffPrice: Currency
+
     val pickupCost: Currency
     val dropoffCost: Currency
 
@@ -59,10 +62,15 @@ data class RideRequestUiStateImpl(
     override val maintenanceRate: Rate
         get() = driverRates.maintenanceCost
 
-    override val pickupCost: Currency
+    override val pickupPrice: Currency
         get() = pickupRate * pickupDistance
-    override val dropoffCost: Currency
+    override val dropoffPrice: Currency
         get() = dropoffRate * dropoffDistance
     override val grossProfit: Currency
-        get() = pickupCost + dropoffCost
+        get() = pickupPrice + dropoffPrice
+
+    override val pickupCost: Currency
+        get() = maintenanceRate * pickupDistance
+    override val dropoffCost: Currency
+        get() = maintenanceRate * dropoffDistance
 }
