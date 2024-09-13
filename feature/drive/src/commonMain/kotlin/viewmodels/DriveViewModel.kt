@@ -11,15 +11,16 @@ import kotlinx.coroutines.launch
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
-import org.pointyware.xyz.drive.SimpleRideFilter
 import org.pointyware.xyz.drive.data.RideRepository
+import org.pointyware.xyz.drive.interactors.WatchRatedRequests
 import org.pointyware.xyz.drive.ui.DriveScreenState
 
 /**
  *
  */
 class DriveViewModel(
-    private val repository: RideRepository
+    private val repository: RideRepository,
+    private val watchRatedRequests: WatchRatedRequests
 ): MapViewModelImpl() {
 
     private val mutableState = MutableStateFlow<DriveScreenState>(DriveScreenState.AvailableRequests(emptyList()))
@@ -35,17 +36,19 @@ class DriveViewModel(
     private fun watchRequests() {
         requestsJob?.cancel()
         requestsJob = viewModelScope.launch {
-            repository.watchRequests(SimpleRideFilter.Permissive)
+            watchRatedRequests.invoke()
                 .onSuccess { flow ->
                     flow.collect { requestList ->
                         mutableState.value = DriveScreenState.AvailableRequests(
                             requests = requestList.map {
+                                val request = it.request
                                 RideRequestUiStateImpl(
-                                    requestId = it.rideId,
-                                    riderName = it.rider.name.given,
-                                    route = it.route,
-                                    distanceFromDriver = it.route.start.coordinates.distanceTo(driverLocation),
-                                    riderServiceRate = it.rate
+                                    requestId = request.rideId,
+                                    riderName = request.rider.name.given,
+                                    route = request.route,
+                                    riderServiceRate = request.rate,
+                                    it.pickupDistance,
+                                    it.driverRates
                                 )
                             }
                         )
