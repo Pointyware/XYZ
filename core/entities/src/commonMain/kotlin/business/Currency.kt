@@ -22,6 +22,16 @@ interface Currency: Comparable<Currency> {
     fun format(): String {
         return form.format(amount)
     }
+    operator fun plus(other: Currency): Currency {
+        when (other.form.centsPerUnit) {
+            form.centsPerUnit -> return Currency(amount + other.amount, form)
+            else -> {
+                val thisValue = amount
+                val otherValue = other.amount * other.form.centsPerUnit / form.centsPerUnit
+                return Currency(thisValue + otherValue, form)
+            }
+        }
+    }
 
     sealed class Form(
         val prefix: String,
