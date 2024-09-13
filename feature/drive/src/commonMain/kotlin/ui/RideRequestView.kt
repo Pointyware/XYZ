@@ -60,7 +60,7 @@ fun RideRequestView(
             }
         ) {
             Text(
-                text = state.pickupDistance.format() + "@" + state.pickupRate.format(),
+                text = state.pickupDistance.format() + " @ " + state.pickupRate.format(),
             )
             Image(
                 imageVector = Icons.Default.PlayArrow,
@@ -87,7 +87,7 @@ fun RideRequestView(
             }
         ) {
             Text(
-                text = state.dropoffDistance.format() + "@" + state.dropoffRate.format(),
+                text = state.dropoffDistance.format() + " @ " + state.dropoffRate.format(),
             )
             Image(
                 imageVector = Icons.Default.PlayArrow,
