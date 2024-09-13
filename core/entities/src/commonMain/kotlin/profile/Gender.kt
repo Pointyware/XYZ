@@ -17,6 +17,6 @@ enum class Gender {
     GenderFluid,
     TransMasc,
     TransFem,
-    Nonconforming,
+    Agender,
     NotSpecified
 }
