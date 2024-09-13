@@ -149,6 +149,16 @@ class RateUnitTest {
                 1L.dollars() / LengthUnit.METERS,
                 0
             ),
+            ComparisonCase(
+                1609L.dollars() / LengthUnit.MILES,
+                1000L.dollars() / LengthUnit.KILOMETERS,
+                -1
+            ),
+            ComparisonCase(
+                160934L.dollarCents() / LengthUnit.MILES,
+                1000L.dollars() / LengthUnit.KILOMETERS,
+                0
+            )
         ).forEach { (left, right, expected) ->
             val comparison = left.compareTo(right)
 
