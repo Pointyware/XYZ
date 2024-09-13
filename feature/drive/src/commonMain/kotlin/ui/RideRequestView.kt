@@ -7,6 +7,7 @@ package org.pointyware.xyz.drive.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
@@ -29,6 +30,7 @@ fun RideRequestView(
 ) {
     Column(
         modifier = modifier
+            .fillMaxWidth()
     ) {
         Row {
     //        AsyncImage(
