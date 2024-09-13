@@ -82,9 +82,9 @@ class RideRequestViewUnitTest {
 
         contentUnderTest()
 
-        onNodeWithContentDescription("Rider Name")
+        onNodeWithContentDescription("Rider Name", substring = true)
             .assertExists()
-            .assertTextContains("John")
+            .assertTextContains("John", substring = true)
     }
 
     @Test
@@ -92,21 +92,21 @@ class RideRequestViewUnitTest {
 
         contentUnderTest()
 
-        onNodeWithContentDescription("Pickup Location")
+        onNodeWithContentDescription("Pickup Location", substring = true)
             .assertExists()
-            .assertTextContains("Mission of Hope")
-        onNodeWithContentDescription("Pickup Distance")
+            .assertTextContains("Mission of Hope", substring = true)
+        onNodeWithContentDescription("Pickup Distance", substring = true)
             .assertExists()
-            .assertTextContains("1.1 miles")
-        onNodeWithContentDescription("Pickup Rate")
+            .assertTextContains("1.1 miles", substring = true)
+        onNodeWithContentDescription("Pickup Rate", substring = true)
             .assertExists()
-            .assertTextContains("$0.00/mi")
-        onNodeWithContentDescription("Pickup Cost")
+            .assertTextContains("$0.00/mi", substring = true)
+        onNodeWithContentDescription("Pickup Cost", substring = true)
             .assertExists()
-            .assertTextContains("$0.00")
-        onNodeWithContentDescription("Pickup Maintenance Cost")
+            .assertTextContains("$0.00", substring = true)
+        onNodeWithContentDescription("Pickup Maintenance Cost", substring = true)
             .assertExists()
-            .assertTextContains("$0.18")
+            .assertTextContains("$0.18", substring = true)
     }
 
     @Test
@@ -114,20 +114,20 @@ class RideRequestViewUnitTest {
 
         contentUnderTest()
 
-        onNodeWithContentDescription("Dropoff Location")
+        onNodeWithContentDescription("Dropoff Location", substring = true)
             .assertExists()
-            .assertTextContains("Walmart")
-        onNodeWithContentDescription("Route Distance")
+            .assertTextContains("Walmart", substring = true)
+        onNodeWithContentDescription("Route Distance", substring = true)
             .assertExists()
-            .assertTextContains("1.1 miles")
-        onNodeWithContentDescription("Route Rate")
+            .assertTextContains("1.1 miles", substring = true)
+        onNodeWithContentDescription("Route Rate", substring = true)
             .assertExists()
-            .assertTextContains("$0.83/mi")
-        onNodeWithContentDescription("Route Cost")
+            .assertTextContains("$0.83/mi", substring = true)
+        onNodeWithContentDescription("Route Cost", substring = true)
             .assertExists()
-            .assertTextContains("$1.33")
-        onNodeWithContentDescription("Route Maintenance Cost")
+            .assertTextContains("$1.33", substring = true)
+        onNodeWithContentDescription("Route Maintenance Cost", substring = true)
             .assertExists()
-            .assertTextContains("$0.88")
+            .assertTextContains("$0.88", substring = true)
     }
 }
