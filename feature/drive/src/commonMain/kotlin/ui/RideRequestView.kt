@@ -67,7 +67,7 @@ fun RideRequestView(
                 contentDescription = null
             )
             Text(
-                text = state.pickupCost.format(),
+                text = state.pickupPrice.format() + " - " + state.pickupCost.format(),
             )
         }
         Row(
@@ -94,7 +94,7 @@ fun RideRequestView(
                 contentDescription = null
             )
             Text(
-                text = state.pickupCost.format(),
+                text = state.dropoffPrice.format() + " - " + state.dropoffCost.format(),
             )
         }
 
