@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.android
 
+import android.annotation.SuppressLint
 import android.app.Application
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +30,26 @@ class XyzApplication: Application() {
         val startupScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
         startupScope.launch {
             adsController.onAppStart()
+        }
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+
+        @SuppressLint("SwitchIntDef")
+        when (level) {
+            TRIM_MEMORY_UI_HIDDEN -> {
+
+            }
+            TRIM_MEMORY_BACKGROUND -> {
+
+            }
+            // deprecated constants
+//            TRIM_MEMORY_COMPLETE
+//            TRIM_MEMORY_MODERATE
+//            TRIM_MEMORY_RUNNING_CRITICAL
+//            TRIM_MEMORY_RUNNING_LOW
+//            TRIM_MEMORY_RUNNING_MODERATE
         }
     }
 }
