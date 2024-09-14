@@ -11,7 +11,7 @@ import org.pointyware.xyz.core.entities.business.Currency
  */
 class CurrencyInputValidator {
     fun validate(currency: String): Boolean {
-        return currency.matches(Regex("^[0-9]+(\\.[0-9]{1,2})?$"))
+        return currency.matches(Regex("^[0-9]*(\\.?[0-9]{0,2})?$"))
     }
 
     fun parse(input: String): Currency {
