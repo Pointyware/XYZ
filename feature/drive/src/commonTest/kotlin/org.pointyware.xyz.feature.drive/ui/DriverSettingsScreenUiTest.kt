@@ -9,6 +9,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import org.koin.core.context.loadKoinModules
@@ -118,12 +119,18 @@ class DriverSettingsScreenUiTest {
         onNodeWithContentDescription("Dropoff Rate", useUnmergedTree = true)
             .assertTextEquals("0.56")
 
-        onNodeWithContentDescription("Cost of Maintenance")
-            .performTextInput("98")
-        onNodeWithContentDescription("Pickup Rate")
-            .performTextInput("89.")
-        onNodeWithContentDescription("Dropoff Rate")
-            .performTextInput("76.54")
+        onNodeWithContentDescription("Cost of Maintenance").apply {
+            performTextClearance()
+            performTextInput("98")
+        }
+        onNodeWithContentDescription("Pickup Rate").apply {
+            performTextClearance()
+            performTextInput("89.")
+        }
+        onNodeWithContentDescription("Dropoff Rate").apply {
+            performTextClearance()
+            performTextInput("76.54")
+        }
 
         onNodeWithText("Revert")
             .performClick()
@@ -164,12 +171,18 @@ class DriverSettingsScreenUiTest {
         onNodeWithContentDescription("Dropoff Rate", useUnmergedTree = true)
             .assertTextEquals("0.56")
 
-        onNodeWithContentDescription("Cost of Maintenance")
-            .performTextInput("98")
-        onNodeWithContentDescription("Pickup Rate")
-            .performTextInput("89.")
-        onNodeWithContentDescription("Dropoff Rate")
-            .performTextInput("76.54")
+        onNodeWithContentDescription("Cost of Maintenance").apply {
+            performTextClearance()
+            performTextInput("98")
+        }
+        onNodeWithContentDescription("Pickup Rate").apply {
+            performTextClearance()
+            performTextInput("89.")
+        }
+        onNodeWithContentDescription("Dropoff Rate").apply {
+            performTextClearance()
+            performTextInput("76.54")
+        }
 
         onNodeWithText("Save")
             .performClick()
