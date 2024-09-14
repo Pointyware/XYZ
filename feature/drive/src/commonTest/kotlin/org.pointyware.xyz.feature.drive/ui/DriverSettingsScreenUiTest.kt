@@ -87,7 +87,6 @@ class DriverSettingsScreenUiTest {
     @Test
     fun `revert ui on reject`() = runComposeUiTest {
         val koin = getKoin()
-        val viewModel = koin.get<DriverSettingsViewModel>()
         driverSettingsRepository.setDriverRates(
             DriverRates(
                 maintenanceCost = 12L.dollarCents() / LengthUnit.MILES,
@@ -95,6 +94,7 @@ class DriverSettingsScreenUiTest {
                 dropoffCost = 56L.dollarCents() / LengthUnit.MILES,
             )
         )
+        val viewModel = koin.get<DriverSettingsViewModel>()
 
         /*
         When:
