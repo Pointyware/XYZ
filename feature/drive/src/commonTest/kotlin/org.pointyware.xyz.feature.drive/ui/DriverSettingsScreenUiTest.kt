@@ -111,12 +111,12 @@ class DriverSettingsScreenUiTest {
                 )
             }
         }
-        onNodeWithContentDescription("Cost of Maintenance")
-            .assertTextEquals("12.00")
-        onNodeWithContentDescription("Pickup Rate")
-            .assertTextEquals("34.00")
-        onNodeWithContentDescription("Dropoff Rate")
-            .assertTextEquals("56.00")
+        onNodeWithContentDescription("Cost of Maintenance", useUnmergedTree = true)
+            .assertTextEquals("0.12")
+        onNodeWithContentDescription("Pickup Rate", useUnmergedTree = true)
+            .assertTextEquals("0.34")
+        onNodeWithContentDescription("Dropoff Rate", useUnmergedTree = true)
+            .assertTextEquals("0.56")
 
         onNodeWithContentDescription("Cost of Maintenance")
             .performTextInput("98")
@@ -132,7 +132,6 @@ class DriverSettingsScreenUiTest {
     @Test
     fun `retain input on accept`() = runComposeUiTest {
         val koin = getKoin()
-        val viewModel = koin.get<DriverSettingsViewModel>()
         driverSettingsRepository.setDriverRates(
             DriverRates(
                 maintenanceCost = 12L.dollarCents() / LengthUnit.MILES,
@@ -140,6 +139,7 @@ class DriverSettingsScreenUiTest {
                 dropoffCost = 56L.dollarCents() / LengthUnit.MILES,
             )
         )
+        val viewModel = koin.get<DriverSettingsViewModel>()
 
         /*
         When:
@@ -157,12 +157,12 @@ class DriverSettingsScreenUiTest {
                 )
             }
         }
-        onNodeWithContentDescription("Cost of Maintenance")
-            .assertTextEquals("12.00")
-        onNodeWithContentDescription("Pickup Rate")
-            .assertTextEquals("34.00")
-        onNodeWithContentDescription("Dropoff Rate")
-            .assertTextEquals("56.00")
+        onNodeWithContentDescription("Cost of Maintenance", useUnmergedTree = true)
+            .assertTextEquals("0.12")
+        onNodeWithContentDescription("Pickup Rate", useUnmergedTree = true)
+            .assertTextEquals("0.34")
+        onNodeWithContentDescription("Dropoff Rate", useUnmergedTree = true)
+            .assertTextEquals("0.56")
 
         onNodeWithContentDescription("Cost of Maintenance")
             .performTextInput("98")
