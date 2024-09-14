@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
 /**
  *
  */
-class CurrencyInputValidatorTest {
+class CurrencyInputValidatorUnitTest {
 
     private lateinit var validator: CurrencyInputValidator
 
