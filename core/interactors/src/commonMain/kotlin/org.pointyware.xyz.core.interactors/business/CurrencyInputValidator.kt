@@ -17,7 +17,7 @@ class CurrencyInputValidator {
     fun parse(input: String): Currency {
         val parts = input.split(".")
         val dollars = parts[0].toLong()
-        val cents = parts.getOrNull(1)?.toLong() ?: 0
+        val cents = parts.getOrNull(1).takeIf { it?.isNotEmpty() == true } ?.toLong() ?: 0
         return Currency(dollars*100 + cents, Currency.Form.usDollarCents)
     }
 }
