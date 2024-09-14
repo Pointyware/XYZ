@@ -12,9 +12,11 @@ import org.pointyware.xyz.core.navigation.toTypedKey
 import org.pointyware.xyz.drive.di.DriveDependencies
 import org.pointyware.xyz.drive.ui.DriveScreen
 import org.pointyware.xyz.drive.ui.DriverHomeScreen
+import org.pointyware.xyz.drive.ui.DriverSettingsScreen
 
 val driverHomeRoute = "drive/home".toTypedKey<Unit>()
 val driverActiveRoute = "drive/active".toTypedKey<Unit>()
+val driverSettings = "drive/settings".toTypedKey<Unit>()
 
 /**
  *
@@ -37,5 +39,11 @@ fun XyzRootScope.driveRouting(
             viewModel = driveViewModel,
             navController = navController
         )
+    }
+    location(driverSettings) {
+        // TODO: replace with viewModel extension function that uses available (Koin)Scope
+        val driveViewModel = remember { dependencies.getDriverSettingsViewModel() }
+
+        DriverSettingsScreen(viewModel = driveViewModel)
     }
 }
