@@ -25,17 +25,14 @@ import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.core.navigation.StackNavigationController
-import org.pointyware.xyz.core.remote.di.coreRemoteModule
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.login.data.CompanyRepository
 import org.pointyware.xyz.feature.login.data.ProfileRepository
 import org.pointyware.xyz.feature.login.data.TestCompanyRepository
 import org.pointyware.xyz.feature.login.data.TestProfileRepository
-import org.pointyware.xyz.feature.login.di.profileDataModule
 import org.pointyware.xyz.feature.ride.data.RideRequestRepository
 import org.pointyware.xyz.feature.ride.data.TestRideRequestRepository
-import org.pointyware.xyz.feature.ride.di.featureRideDataModule
 import org.pointyware.xyz.feature.ride.ui.RideScreen
 import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel

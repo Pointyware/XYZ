@@ -6,7 +6,6 @@ package org.pointyware.xyz.shared.di
 
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
-import org.koin.core.context.unloadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.coreDataModule
@@ -20,7 +19,6 @@ import org.pointyware.xyz.core.ui.di.coreUiModule
 import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
 import org.pointyware.xyz.drive.di.featureDriveModule
 import org.pointyware.xyz.feature.login.di.featureLoginModule
-import org.pointyware.xyz.feature.login.di.featureLoginRemoteModule
 import org.pointyware.xyz.feature.login.di.featureProfileModule
 import org.pointyware.xyz.feature.login.remote.AuthService
 import org.pointyware.xyz.feature.login.remote.TestAuthService
