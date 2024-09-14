@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.pointyware.xyz.core.entities.business.Rate.Companion.div
 import org.pointyware.xyz.core.entities.geo.LengthUnit
+import org.pointyware.xyz.core.interactors.business.CurrencyInputValidator
 import org.pointyware.xyz.core.viewmodels.ViewModel
 import org.pointyware.xyz.drive.data.DriverSettingsRepository
 import org.pointyware.xyz.drive.entities.DriverRates
-import org.pointyware.xyz.drive.interactors.CurrencyInputValidator
 
 /**
  *

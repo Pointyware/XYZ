@@ -41,6 +41,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.core.common)
+                implementation(projects.core.entities)
                 implementation(projects.core.data)
 
                 implementation(libs.koin.core)
