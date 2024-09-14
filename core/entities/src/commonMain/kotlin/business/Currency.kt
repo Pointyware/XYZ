@@ -19,8 +19,8 @@ interface Currency: Comparable<Currency> {
     val amount: Long
     val form: Form
 
-    fun format(): String {
-        return form.format(amount)
+    fun format(includeSymbols: Boolean = true): String {
+        return form.format(amount, includeSymbols)
     }
     operator fun plus(other: Currency): Currency {
         when (other.form.centsPerUnit) {
@@ -41,7 +41,7 @@ interface Currency: Comparable<Currency> {
         val centsPerUnit: Long,
     ) {
 
-        abstract fun format(amount: Long): String
+        abstract fun format(amount: Long, includeSymbols: Boolean = true): String
 
         class SimpleForm(
             prefix: String,
@@ -50,8 +50,12 @@ interface Currency: Comparable<Currency> {
             code: String,
             centsPerUnit: Long
         ): Form(prefix, postfix, name, code, centsPerUnit) {
-            override fun format(amount: Long): String {
-                return "$prefix$amount$postfix"
+            override fun format(amount: Long, includeSymbols: Boolean): String {
+                return if (includeSymbols) {
+                    "$prefix$amount$postfix"
+                } else {
+                    amount.toString()
+                }
             }
         }
 
@@ -63,7 +67,7 @@ interface Currency: Comparable<Currency> {
             centsPerUnit: Long,
             val decimalPlaces: Int,
         ): Form(prefix, postfix, name, code, centsPerUnit) {
-            override fun format(amount: Long): String {
+            override fun format(amount: Long, includeSymbols: Boolean): String {
                 val fractions = 10L pow decimalPlaces
                 val whole = amount / fractions
                 val remainder = amount % fractions
@@ -72,7 +76,11 @@ interface Currency: Comparable<Currency> {
                 } else {
                     remainder.toString()
                 }
-                return "$prefix$whole.$remainderString$postfix"
+                return if (includeSymbols) {
+                    "$prefix$whole.$remainderString$postfix"
+                } else {
+                    "$whole.$remainderString"
+                }
             }
         }
 
