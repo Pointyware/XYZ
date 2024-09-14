@@ -26,9 +26,9 @@ class DriverSettingsViewModel(
     private fun getDriverSettingsUiState(): DriverSettingsUiState {
         val rates = driverSettingsRepository.getDriverRates()
         return DriverSettingsUiState(
-            maintenanceCost = rates.maintenanceCost.format(),
-            pickupCost = rates.pickupCost.format(),
-            dropoffCost = rates.dropoffCost.format()
+            maintenanceCost = rates.maintenanceCost.format(includeSymbol = false, includeDenominator = false),
+            pickupCost = rates.pickupCost.format(includeSymbol = false, includeDenominator = false),
+            dropoffCost = rates.dropoffCost.format(includeSymbol = false, includeDenominator = false)
         )
     }
 
