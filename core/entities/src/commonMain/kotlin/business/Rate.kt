@@ -37,8 +37,15 @@ data class Rate(
         return leftCurrency compareTo rightCurrency
     }
 
-    fun format(): String {
-        return "${currency.format()}/${denominator.symbol}"
+    fun format(
+        includeSymbol: Boolean = true,
+        includeDenominator: Boolean = true
+    ): String {
+        return if (includeDenominator) {
+            "${currency.format(includeSymbol)}/${denominator.symbol}"
+        } else {
+            currency.format(includeSymbol)
+        }
     }
 
     companion object {
