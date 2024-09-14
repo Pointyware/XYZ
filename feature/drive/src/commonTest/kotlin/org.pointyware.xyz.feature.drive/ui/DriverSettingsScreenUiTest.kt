@@ -134,6 +134,16 @@ class DriverSettingsScreenUiTest {
 
         onNodeWithText("Revert")
             .performClick()
+
+        val savedValue = driverSettingsRepository.getDriverRates()
+        assertEquals(
+            DriverRates(
+                maintenanceCost = 12L.dollarCents() / LengthUnit.MILES,
+                pickupCost = 34L.dollarCents() / LengthUnit.MILES,
+                dropoffCost = 56L.dollarCents() / LengthUnit.MILES,
+            ),
+            savedValue
+        )
     }
 
     @Test
