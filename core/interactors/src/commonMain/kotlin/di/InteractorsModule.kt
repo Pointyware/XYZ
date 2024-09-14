@@ -4,11 +4,13 @@
 
 package org.pointyware.xyz.core.interactors.di
 
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
+import org.pointyware.xyz.core.interactors.business.CurrencyInputValidator
 
 /**
  *
  */
 fun coreInteractorsModule() = module {
-
+    factoryOf(::CurrencyInputValidator)
 }
