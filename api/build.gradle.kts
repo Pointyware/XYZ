@@ -38,12 +38,12 @@ kotlin {
 }
 
 application {
-    mainClass = "org.pointyware.replace-me.api.ServerKt"
+    mainClass = "org.pointyware.xyz.api.ServerKt"
 }
 
 ktor {
     fatJar {
-        archiveFileName = "replace-me-API-${version}.jar"
+        archiveFileName = "XYZ-API-${version}.jar"
     }
 }
 
