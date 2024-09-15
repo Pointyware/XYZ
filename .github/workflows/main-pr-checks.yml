@@ -33,7 +33,9 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: "Build: Assemble and Test Debug Binary"
-        run: ./gradlew :app-android:buildDebug
+        run: |
+          ./gradlew :app-android:buildDebug
+          ./gradlew testDebugUnitTest
 
 #      - run: ./gradlew generate coverage report, upload test/coverage reports
 
