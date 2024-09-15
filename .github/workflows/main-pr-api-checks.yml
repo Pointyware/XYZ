@@ -43,8 +43,6 @@ jobs:
       - name: "Bundle: Generate Fat-JAR"
         run: ./gradlew :api:buildFatJar
 
-#      - name: "Upload: Send Release to GCloud Artifact Repository"
-
       - name: "Upload: Send JARs to GitHub"
         uses: actions/upload-artifact@v4
         with:
