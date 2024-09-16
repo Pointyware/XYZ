@@ -34,6 +34,7 @@ kotlin {
 
         testImplementation(libs.kotlin.test)
         testImplementation(libs.kotlinx.coroutinesTest)
+        testImplementation(libs.ktor.server.test.host)
     }
 }
 
