@@ -17,16 +17,15 @@ Platform - tag as Android, iOS, Web, or Desktop
 | App Version | (1.0) |
 
 ## Description
-Clear concise description of the bug:
+&lt;Clear, concise description of the bug&gt;
 
 ## Reproduction Steps
-Steps to reproduce the bug:
 1. &lt;Action/Step&gt;
-2. 
+2.
 
 ### Expected
 
 ### Actual
 
 ## References
-Screenshots or additional information
+&lt;Original Report or other information - design images or screenshots should be placed under expected or actual&gt;
