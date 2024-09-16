@@ -10,11 +10,12 @@ assignees: ''
 # User Story
 As a &lt;role&gt;, I want &lt;to action or feature&gt;, so that &lt;value&gt;.
 
-## Requirements
-Itemize user requirements
+## Acceptance Criteria
 
-* &lt;descriptions&gt;
+- Given &lt;initial condition&gt;
+    - When &lt;event or action&gt;
+        - Then &lt;expectation&gt;
 
 ## References
 
-* &lt;images or additional imformation&gt;
+* &lt;links, images, or thought process&gt;
