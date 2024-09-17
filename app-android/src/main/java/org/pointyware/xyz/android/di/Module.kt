@@ -5,7 +5,7 @@
 package org.pointyware.xyz.android.di
 
 import org.koin.dsl.module
-import org.pointyware.painteddogs.android.ads.AdMobController
+import org.pointyware.xyz.android.ads.AdMobController
 import org.pointyware.painteddogs.android.di.AndroidLoadingViewResources
 import org.pointyware.painteddogs.android.di.AndroidResources
 import org.pointyware.xyz.core.ui.ads.AdsController
