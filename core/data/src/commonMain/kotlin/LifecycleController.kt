@@ -20,22 +20,22 @@ interface LifecycleController {
     /**
      * Called when the Window or Activity is started.
      */
-    fun onAppStart()
+    fun onStart()
 
     /**
      * Called when the Window or Activity is resumed.
      */
-    fun onAppResume()
+    fun onResume()
 
     /**
      * Called when the Window or Activity is paused.
      */
-    fun onAppPause()
+    fun onPause()
 
     /**
      * Called when the Window or Activity is stopped.
      */
-    fun onAppStop()
+    fun onStop()
 }
 
 enum class LifecycleEvent {
@@ -52,19 +52,19 @@ class DefaultLifecycleController : LifecycleController {
     override val lifecycleState: SharedFlow<LifecycleEvent>
         get() = mutableLifecycleState.asStateFlow()
 
-    override fun onAppStart() {
+    override fun onStart() {
         mutableLifecycleState.value = LifecycleEvent.Start
     }
 
-    override fun onAppResume() {
+    override fun onResume() {
         mutableLifecycleState.value = LifecycleEvent.Resume
     }
 
-    override fun onAppPause() {
+    override fun onPause() {
         mutableLifecycleState.value = LifecycleEvent.Pause
     }
 
-    override fun onAppStop() {
+    override fun onStop() {
         mutableLifecycleState.value = LifecycleEvent.Stop
     }
 }
