@@ -13,8 +13,8 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import org.pointyware.xyz.core.data.AppLifecycleController
-import org.pointyware.xyz.core.data.DefaultAppLifecycleController
+import org.pointyware.xyz.core.data.LifecycleController
+import org.pointyware.xyz.core.data.DefaultLifecycleController
 import kotlin.coroutines.CoroutineContext
 
 val dataQualifier = named("data-scope")
@@ -33,8 +33,8 @@ fun coreDataModule(
         get<CoroutineContext>(dataQualifier) + SupervisorJob()
     ) }
 
-    singleOf(::DefaultAppLifecycleController) {
-        bind<AppLifecycleController>()
+    singleOf(::DefaultLifecycleController) {
+        bind<LifecycleController>()
     }
 
     includes(

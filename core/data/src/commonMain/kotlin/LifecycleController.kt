@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 /**
  * Allows for lifecycle events to be handled by the app.
  */
-interface AppLifecycleController {
+interface LifecycleController {
     /**
      * A flow of lifecycle events. Will replay the latest event on subscription.
      */
@@ -46,7 +46,7 @@ enum class LifecycleEvent {
     Stop
 }
 
-class DefaultAppLifecycleController : AppLifecycleController {
+class DefaultLifecycleController : LifecycleController {
 
     private val mutableLifecycleState = MutableStateFlow(LifecycleEvent.Create)
     override val lifecycleState: SharedFlow<LifecycleEvent>
