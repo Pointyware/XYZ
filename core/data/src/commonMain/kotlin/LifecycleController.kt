@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 /**
- * Allows for lifecycle events to be handled by the app.
+ * Allows for lifecycle events to be handled by an Activity or Window.
  */
 interface LifecycleController {
     /**
@@ -18,22 +18,22 @@ interface LifecycleController {
     val lifecycleState: SharedFlow<LifecycleEvent>
 
     /**
-     * Called when the app is started.
+     * Called when the Window or Activity is started.
      */
     fun onAppStart()
 
     /**
-     * Called when the app is resumed.
+     * Called when the Window or Activity is resumed.
      */
     fun onAppResume()
 
     /**
-     * Called when the app is paused.
+     * Called when the Window or Activity is paused.
      */
     fun onAppPause()
 
     /**
-     * Called when the app is stopped.
+     * Called when the Window or Activity is stopped.
      */
     fun onAppStop()
 }
