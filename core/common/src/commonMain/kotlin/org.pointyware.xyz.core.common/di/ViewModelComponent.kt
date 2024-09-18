@@ -9,9 +9,10 @@ import org.koin.core.component.createScope
 import org.koin.core.scope.Scope
 
 class ViewModelComponent(private val windowComponent: WindowComponent): KoinScopeComponent {
-    override val scope: Scope by lazy {
-        createScope(this).also {
-            it.linkTo(windowComponent.scope)
-        }
+    override val scope: Scope by nestedScope(windowComponent)
+
+    fun finish() {
+        scope.unlink(windowComponent.scope)
+        scope.close()
     }
 }

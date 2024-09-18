@@ -12,5 +12,9 @@ import org.koin.core.scope.Scope
  *
  */
 class ApplicationComponent: KoinScopeComponent {
-    override val scope: Scope by lazy { createScope(this) }
+    override val scope: Scope by nestedScope()
+
+    fun finish() {
+        scope.close()
+    }
 }
