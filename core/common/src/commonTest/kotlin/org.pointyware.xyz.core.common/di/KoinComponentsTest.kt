@@ -8,10 +8,10 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.core.module.dsl.scopedOf
 import org.koin.dsl.module
-import org.koin.mp.KoinPlatform
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
 /**
@@ -67,13 +67,32 @@ class KoinComponentsTest {
     }
 
     @Test
+    fun `application scope`() {
+        val appComponent = ApplicationComponent()
+        assertEquals(appComponent, appComponent.scope.get<ApplicationComponent>(),
+            "ApplicationComponent should be available in its own scope")
+        val appDep = appComponent.scope.get<AppDep>()
+        assertEquals(AppDep::class, appDep::class)
+
+        assertFails("WindowDep should not be available in the ApplicationComponent") {
+            appComponent.scope.get<WindowDep>()
+        }
+    }
+
+    @Test
     fun `window scope within application scope`() {
         val appComponent = ApplicationComponent()
-        appComponent.scope.get<AppDep>()
-
+        val appDep = appComponent.scope.get<AppDep>()
         val windowComponent = WindowComponent(appComponent)
-        windowComponent.scope.get<WindowDep>()
+        assertEquals(windowComponent, windowComponent.scope.get<WindowComponent>(),
+            "WindowComponent should be available in its own scope")
+        val windowDep = windowComponent.scope.get<WindowDep>()
+        assertEquals(WindowDep::class, windowDep::class)
+        val parent = windowComponent.scope.get<ApplicationComponent>()
+        assertEquals(appComponent, parent, "ApplicationComponent should be available in the Window Scope")
 
+        val appDepFromWindow = windowComponent.scope.get<AppDep>()
+        assertEquals(appDep, appDepFromWindow, "AppDep should be the same instance in Window Scope")
         assertFails("WindowDep should not be available in the ApplicationComponent") {
             appComponent.scope.get<WindowDep>()
         }
@@ -82,17 +101,25 @@ class KoinComponentsTest {
     @Test
     fun `view model scope within window scope`() {
         val appComponent = ApplicationComponent()
-        appComponent.scope.get<AppDep>()
-
+        val appDep = appComponent.scope.get<AppDep>()
         val windowComponent = WindowComponent(appComponent)
-        windowComponent.scope.get<WindowDep>()
-
+        val windowDep = windowComponent.scope.get<WindowDep>()
         val viewModelComponent = ViewModelComponent(windowComponent)
-        viewModelComponent.scope.get<ViewModelDep>()
+        assertEquals(viewModelComponent, viewModelComponent.scope.get<ViewModelComponent>(),
+            "ViewModelComponent should be available in its own scope")
+        val viewModelDep = viewModelComponent.scope.get<ViewModelDep>()
+        assertEquals(ViewModelDep::class, viewModelDep::class)
+        val parent = viewModelComponent.scope.get<WindowComponent>()
+        assertEquals(windowComponent, parent, "WindowComponent should be available in the ViewModel Scope")
 
+        val appDepFromViewModel = viewModelComponent.scope.get<AppDep>()
+        assertEquals(appDep, appDepFromViewModel, "AppDep should be the same instance in ViewModel Scope")
         assertFails("ViewModelDep should not be available in the ApplicationComponent") {
             appComponent.scope.get<ViewModelDep>()
         }
+
+        val windowDepFromViewModel = viewModelComponent.scope.get<WindowDep>()
+        assertEquals(windowDep, windowDepFromViewModel, "ViewModelDep should be the same instance in ViewModel Scope")
         assertFails("ViewModelDep should not be available in the WindowComponent") {
             windowComponent.scope.get<ViewModelDep>()
         }
@@ -101,23 +128,31 @@ class KoinComponentsTest {
     @Test
     fun `view scope within view model scope`() {
         val appComponent = ApplicationComponent()
-        appComponent.scope.get<AppDep>()
-
+        val appDep = appComponent.scope.get<AppDep>()
         val windowComponent = WindowComponent(appComponent)
-        windowComponent.scope.get<WindowDep>()
-
+        val windowDep = windowComponent.scope.get<WindowDep>()
         val viewModelComponent = ViewModelComponent(windowComponent)
-        viewModelComponent.scope.get<ViewModelDep>()
-
+        val viewModelDep = viewModelComponent.scope.get<ViewModelDep>()
         val viewComponent = ViewComponent(viewModelComponent)
-        viewComponent.scope.get<ViewDep>()
+        assertEquals(viewComponent, viewComponent.scope.get<ViewComponent>(),
+            "ViewComponent should be available in its own scope")
+        val viewDep = viewComponent.scope.get<ViewDep>()
+        assertEquals(ViewDep::class, viewDep::class)
+        val parent = viewComponent.scope.get<ViewModelComponent>()
+        assertEquals(viewModelComponent, parent, "ViewModelComponent should be available in the View Scope")
 
+        val appDepFromView = viewComponent.scope.get<AppDep>()
+        assertEquals(appDep, appDepFromView, "AppDep should be the same instance in View Scope")
         assertFails("ViewDep should not be available in the ApplicationComponent") {
             appComponent.scope.get<ViewDep>()
         }
+        val windowDepFromView = viewComponent.scope.get<WindowDep>()
+        assertEquals(windowDep, windowDepFromView, "WindowDep should be the same instance in View Scope")
         assertFails("ViewDep should not be available in the WindowComponent") {
             windowComponent.scope.get<ViewDep>()
         }
+        val viewModelDepFromView = viewComponent.scope.get<ViewModelDep>()
+        assertEquals(viewModelDep, viewModelDepFromView, "ViewModelDep should be the same instance in View Scope")
         assertFails("ViewDep should not be available in the ViewModelComponent") {
             viewModelComponent.scope.get<ViewDep>()
         }
