@@ -8,11 +8,6 @@ package org.pointyware.xyz.core.common
  * Controls application logic at build-time to allow branch shaking to remove unused code.
  */
 object BuildInfo {
-    enum class BuildType {
-        DEBUG,
-        STAGING,
-        RELEASE
-    }
     val buildType = BuildType.DEBUG
 
     val isDebug: Boolean = buildType == BuildType.DEBUG
