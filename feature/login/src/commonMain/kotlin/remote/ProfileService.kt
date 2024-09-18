@@ -99,6 +99,8 @@ class TestProfileService(
     private val profiles: MutableMap<Uuid, ProfileEntity> = mutableMapOf()
 ): ProfileService {
 
+    // TODO: Implement file persistence for testing
+
     override suspend fun createDriverProfile(userId: Uuid, profile: DriverProfile): Result<DriverProfile> {
         profiles[userId] = profile
         return Result.success(profile)
