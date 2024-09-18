@@ -30,13 +30,6 @@ fun setupKoin(platformModule: Module) {
         modules(appModule())
         modules(platformModule)
     }
-
-    // TODO: move to utility function with environment variable
-    loadKoinModules(module {
-        single<AuthService> { TestAuthService(
-            users = mutableMapOf("foo@bar.com" to TestAuthService.UserEntry("password", Uuid.v4()))
-        ) }
-    })
 }
 
 fun appModule(
