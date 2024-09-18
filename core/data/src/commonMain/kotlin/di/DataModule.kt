@@ -14,6 +14,7 @@ import org.koin.core.module.dsl.scopedOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import org.pointyware.xyz.core.common.di.WindowComponent
 import org.pointyware.xyz.core.data.DefaultLifecycleController
 import org.pointyware.xyz.core.data.LifecycleController
 import kotlin.coroutines.CoroutineContext

@@ -4,16 +4,15 @@
 
 package org.pointyware.xyz.core.data
 
-import io.ktor.http.ContentType
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.core.module.dsl.scopedOf
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.xyz.core.data.di.ApplicationComponent
-import org.pointyware.xyz.core.data.di.ViewComponent
-import org.pointyware.xyz.core.data.di.ViewModelComponent
-import org.pointyware.xyz.core.data.di.WindowComponent
+import org.pointyware.xyz.core.common.di.ApplicationComponent
+import org.pointyware.xyz.core.common.di.ViewComponent
+import org.pointyware.xyz.core.common.di.ViewModelComponent
+import org.pointyware.xyz.core.common.di.WindowComponent
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
