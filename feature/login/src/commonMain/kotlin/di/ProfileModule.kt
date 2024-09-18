@@ -46,6 +46,7 @@ fun featureProfileModule() = module {
         profileDataModule(),
         profileInteractorsModule(),
         profileViewModelModule(),
+        profileLocalModule(),
         profileRemoteModule()
     )
 }
