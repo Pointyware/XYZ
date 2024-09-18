@@ -4,9 +4,9 @@
 
 package org.pointyware.xyz.core.data
 
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 /**
  * Allows for lifecycle events to be handled by an Android Activity or Desktop Window.
@@ -54,23 +54,23 @@ enum class LifecycleEvent {
  */
 class DefaultLifecycleController : LifecycleController {
 
-    private val mutableLifecycleState = MutableStateFlow(LifecycleEvent.Create)
+    private val mutableLifecycleState = MutableSharedFlow<LifecycleEvent>(replay = 1)
     override val lifecycleState: SharedFlow<LifecycleEvent>
-        get() = mutableLifecycleState.asStateFlow()
+        get() = mutableLifecycleState.asSharedFlow()
 
     override fun onStart() {
-        mutableLifecycleState.value = LifecycleEvent.Start
+        mutableLifecycleState.tryEmit(LifecycleEvent.Start)
     }
 
     override fun onResume() {
-        mutableLifecycleState.value = LifecycleEvent.Resume
+        mutableLifecycleState.tryEmit(LifecycleEvent.Resume)
     }
 
     override fun onPause() {
-        mutableLifecycleState.value = LifecycleEvent.Pause
+        mutableLifecycleState.tryEmit(LifecycleEvent.Pause)
     }
 
     override fun onStop() {
-        mutableLifecycleState.value = LifecycleEvent.Stop
+        mutableLifecycleState.tryEmit(LifecycleEvent.Stop)
     }
 }
