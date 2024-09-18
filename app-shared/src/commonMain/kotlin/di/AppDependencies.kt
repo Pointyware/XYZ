@@ -27,8 +27,6 @@ interface AppDependencies {
     fun getRideDependencies(): RideDependencies
 }
 
-fun getDependencies(): AppDependencies = KoinAppDependencies()
-
 class KoinAppDependencies: AppDependencies, KoinComponent {
 
     override fun getNavigationDependencies(): NavigationDependencies = get()
