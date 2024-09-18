@@ -67,7 +67,39 @@ class KoinComponentsTest {
     }
 
     @Test
-    fun nestedComponents() {
+    fun `window scope within application scope`() {
+        val appComponent = ApplicationComponent()
+        appComponent.scope.get<AppDep>()
+
+        val windowComponent = WindowComponent(appComponent)
+        windowComponent.scope.get<WindowDep>()
+
+        assertFails("WindowDep should not be available in the ApplicationComponent") {
+            appComponent.scope.get<WindowDep>()
+        }
+    }
+
+    @Test
+    fun `view model scope within window scope`() {
+        val appComponent = ApplicationComponent()
+        appComponent.scope.get<AppDep>()
+
+        val windowComponent = WindowComponent(appComponent)
+        windowComponent.scope.get<WindowDep>()
+
+        val viewModelComponent = ViewModelComponent(windowComponent)
+        viewModelComponent.scope.get<ViewModelDep>()
+
+        assertFails("ViewModelDep should not be available in the ApplicationComponent") {
+            appComponent.scope.get<ViewModelDep>()
+        }
+        assertFails("ViewModelDep should not be available in the WindowComponent") {
+            windowComponent.scope.get<ViewModelDep>()
+        }
+    }
+
+    @Test
+    fun `view scope within view model scope`() {
         val appComponent = ApplicationComponent()
         appComponent.scope.get<AppDep>()
 
@@ -80,14 +112,14 @@ class KoinComponentsTest {
         val viewComponent = ViewComponent(viewModelComponent)
         viewComponent.scope.get<ViewDep>()
 
+        assertFails("ViewDep should not be available in the ApplicationComponent") {
+            appComponent.scope.get<ViewDep>()
+        }
+        assertFails("ViewDep should not be available in the WindowComponent") {
+            windowComponent.scope.get<ViewDep>()
+        }
         assertFails("ViewDep should not be available in the ViewModelComponent") {
             viewModelComponent.scope.get<ViewDep>()
-        }
-        assertFails("ViewModelDep should not be available in the WindowComponent") {
-            windowComponent.scope.get<ViewModelDep>()
-        }
-        assertFails("WindowDep should not be available in the ApplicationComponent") {
-            appComponent.scope.get<WindowDep>()
         }
     }
 
