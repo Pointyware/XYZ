@@ -53,8 +53,6 @@ class KoinComponentsTest {
 
     @Test
     fun nestedComponents() {
-        val koin = KoinPlatform.getKoin()
-
         val appComponent = ApplicationComponent()
         appComponent.scope.get<AppDep>()
 
