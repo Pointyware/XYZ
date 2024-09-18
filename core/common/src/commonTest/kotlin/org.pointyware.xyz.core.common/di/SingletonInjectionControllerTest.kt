@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.core.common.di
 
+import org.pointyware.xyz.core.common.Environment
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
