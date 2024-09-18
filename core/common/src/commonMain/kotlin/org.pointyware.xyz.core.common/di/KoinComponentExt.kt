@@ -9,7 +9,7 @@ import org.koin.core.component.createScope
 import org.koin.core.scope.Scope
 
 /**
- * Create a nested scope for the component
+ * Create a nested scope for the component. If a parent is provided, the scope will be linked to the parent.
  */
 fun KoinScopeComponent.nestedScope(parent: KoinScopeComponent? = null): Lazy<Scope> {
     return lazy {
