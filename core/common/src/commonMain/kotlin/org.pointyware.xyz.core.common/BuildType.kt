@@ -5,10 +5,10 @@
 package org.pointyware.xyz.core.common
 
 /**
- * Defines expected build types for the application.
+ * A build type that controls application logic at build-time to allow
+ * branch shaking to remove unused code, e.g. logging, debugging, etc.
  */
 enum class BuildType {
     DEBUG,
-    STAGING,
     RELEASE
 }
