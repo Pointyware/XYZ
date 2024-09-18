@@ -5,6 +5,8 @@
 package org.pointyware.xyz.feature.login.di
 
 import kotlinx.io.files.Path
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.xyz.core.common.BuildInfo
@@ -40,7 +42,7 @@ import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 import kotlin.coroutines.CoroutineContext
 
 fun featureProfileModule() = module {
-    single<ProfileDependencies> { KoinProfileDependencies() }
+    singleOf(::KoinProfileDependencies) { bind<ProfileDependencies>() }
 
     includes(
         profileDataModule(),
@@ -52,18 +54,9 @@ fun featureProfileModule() = module {
 }
 
 private fun profileViewModelModule() = module {
-    factory<ProfileCreationViewModel>() { ProfileCreationViewModelImpl() }
-    factory<DriverProfileCreationViewModel> {
-        DriverProfileCreationViewModelImpl(
-            get<ProfileCreationViewModel>(), get<CreateDriverProfileUseCase>(),
-            get<GetCompanyUseCase>()
-        )
-    }
-    factory<RiderProfileCreationViewModel> {
-        RiderProfileCreationViewModelImpl(
-            get<ProfileCreationViewModel>(), get<CreateRiderProfileUseCase>(),
-            get<GetUserIdUseCase>())
-    }
+    factoryOf(::ProfileCreationViewModelImpl) { bind<ProfileCreationViewModel>() }
+    factoryOf(::DriverProfileCreationViewModelImpl) { bind<DriverProfileCreationViewModel>() }
+    factoryOf(::RiderProfileCreationViewModelImpl) { bind<RiderProfileCreationViewModel>() }
 }
 
 fun profileDataModule() = module {
@@ -72,21 +65,20 @@ fun profileDataModule() = module {
         get<ProfileCache>(), get<ProfileService>(),
         ioContext = get<CoroutineContext>(dataQualifier)
     ) }
-
-    single<CompanyRepository> { CompanyRepositoryImpl(get<CompanyCache>(), get<CompanyService>()) }
+    singleOf(::CompanyRepositoryImpl) { bind<CompanyRepository>() }
 }
 
 private fun profileInteractorsModule() = module {
-    single<CreateDriverProfileUseCase> { CreateDriverProfileUseCase(get<ProfileRepository>()) }
-    single<CreateRiderProfileUseCase> { CreateRiderProfileUseCase(get<ProfileRepository>()) }
-    single<GetUserIdUseCase> { GetUserIdUseCase(get<AuthCache>()) }
-    single<GetCompanyUseCase> { GetCompanyUseCase(get<CompanyRepository>()) }
-    single<GetDriverProfileUseCase> { GetDriverProfileUseCase(get<ProfileRepository>()) }
+    singleOf(::CreateDriverProfileUseCase)
+    singleOf(::CreateRiderProfileUseCase)
+    singleOf(::GetUserIdUseCase)
+    singleOf(::GetCompanyUseCase)
+    singleOf(::GetDriverProfileUseCase)
 }
 
 private fun profileLocalModule() = module {
-    single<ProfileCache> { ProfileCacheImpl() }
-    single<CompanyCache> { CompanyCache() }
+    singleOf(::ProfileCacheImpl) { bind<ProfileCache>() }
+    singleOf(::CompanyCache)
 }
 
 private fun profileRemoteModule() = module {
@@ -108,7 +100,7 @@ private fun profileRemoteModule() = module {
             )
         }
     } else {
-        single<ProfileService> { KtorProfileService(get()) }
-        single<AuthService> { SimpleAuthService(get()) }
+        singleOf(::KtorProfileService) { bind<ProfileService>() }
+        singleOf(::SimpleAuthService) { bind<AuthService>() }
     }
 }
