@@ -45,6 +45,8 @@ kotlin {
                 implementation(projects.core.entities)
 
                 implementation(libs.kotlinx.serialization)
+                api(libs.kotlinx.io.core)
+                api(libs.kotlinx.io.bytestring)
 
                 implementation(libs.koin.core)
             }
