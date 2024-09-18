@@ -30,7 +30,7 @@ import org.pointyware.xyz.feature.login.remote.AuthService
 import org.pointyware.xyz.feature.login.remote.CompanyService
 import org.pointyware.xyz.feature.login.remote.KtorProfileService
 import org.pointyware.xyz.feature.login.remote.ProfileService
-import org.pointyware.xyz.feature.login.remote.SimpleAuthService
+import org.pointyware.xyz.feature.login.remote.KtorAuthService
 import org.pointyware.xyz.feature.login.remote.TestAuthService
 import org.pointyware.xyz.feature.login.remote.TestProfileService
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
@@ -101,6 +101,6 @@ private fun profileRemoteModule() = module {
         }
     } else {
         singleOf(::KtorProfileService) { bind<ProfileService>() }
-        singleOf(::SimpleAuthService) { bind<AuthService>() }
+        singleOf(::KtorAuthService) { bind<AuthService>() }
     }
 }

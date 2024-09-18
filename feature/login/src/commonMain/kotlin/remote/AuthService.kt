@@ -35,7 +35,7 @@ interface AuthService {
  * A simple implementation of [AuthService] that uses a [HttpClient] to make requests to the server.
  * For the server implementation, see [org.pointyware.xyz.api.routes.auth]
  */
-class SimpleAuthService( // TODO: rename to KtorAuthService for consistency
+class KtorAuthService(
     private val client: HttpClient
 ): AuthService {
 

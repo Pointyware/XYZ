@@ -21,7 +21,7 @@ import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.remote.AuthService
 import org.pointyware.xyz.feature.login.remote.KtorProfileService
 import org.pointyware.xyz.feature.login.remote.ProfileService
-import org.pointyware.xyz.feature.login.remote.SimpleAuthService
+import org.pointyware.xyz.feature.login.remote.KtorAuthService
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModelImpl
 
@@ -57,7 +57,7 @@ private fun featureLoginDataModule() = module {
 }
 
 fun featureLoginRemoteModule() = module {
-    single<AuthService> { SimpleAuthService(get<HttpClient>()) }
+    single<AuthService> { KtorAuthService(get<HttpClient>()) }
     single<ProfileService> { KtorProfileService(get<HttpClient>()) }
 }
 
