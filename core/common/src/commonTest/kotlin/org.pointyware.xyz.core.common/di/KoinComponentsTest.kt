@@ -2,17 +2,13 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.core.data
+package org.pointyware.xyz.core.common.di
 
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.core.module.dsl.scopedOf
 import org.koin.dsl.module
-import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.xyz.core.common.di.ApplicationComponent
-import org.pointyware.xyz.core.common.di.ViewComponent
-import org.pointyware.xyz.core.common.di.ViewModelComponent
-import org.pointyware.xyz.core.common.di.WindowComponent
+import org.koin.mp.KoinPlatform
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -57,7 +53,7 @@ class KoinComponentsTest {
 
     @Test
     fun nestedComponents() {
-        val koin = getKoin()
+        val koin = KoinPlatform.getKoin()
 
         val appComponent = ApplicationComponent()
         appComponent.scope.get<AppDep>()
