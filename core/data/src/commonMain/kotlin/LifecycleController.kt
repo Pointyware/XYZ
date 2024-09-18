@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 /**
- * Allows for lifecycle events to be handled by an Activity or Window.
+ * Allows for lifecycle events to be handled by an Android Activity or Desktop Window.
  */
 interface LifecycleController {
     /**
@@ -38,6 +38,9 @@ interface LifecycleController {
     fun onStop()
 }
 
+/**
+ * Events that can be emitted by a [LifecycleController].
+ */
 enum class LifecycleEvent {
     Create,
     Start,
@@ -46,6 +49,9 @@ enum class LifecycleEvent {
     Stop
 }
 
+/**
+ * Default implementation of [LifecycleController].
+ */
 class DefaultLifecycleController : LifecycleController {
 
     private val mutableLifecycleState = MutableStateFlow(LifecycleEvent.Create)
