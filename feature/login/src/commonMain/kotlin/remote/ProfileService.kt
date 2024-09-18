@@ -11,6 +11,7 @@ import io.ktor.client.plugins.resources.get
 import io.ktor.client.plugins.resources.patch
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
+import kotlinx.io.files.Path
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
@@ -89,7 +90,12 @@ class KtorProfileService(
     }
 }
 
+/**
+ * A test implementation of the [ProfileService] interface. Instead of relying on a remote service,
+ * it will load and store profiles in a given directory between test runs.
+ */
 class TestProfileService(
+    private val profileFile: Path,
     private val profiles: MutableMap<Uuid, ProfileEntity> = mutableMapOf()
 ): ProfileService {
 

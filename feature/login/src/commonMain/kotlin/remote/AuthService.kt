@@ -9,6 +9,7 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
 import kotlinx.coroutines.delay
+import kotlinx.io.files.Path
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.login.data.Authorization
 import kotlin.random.Random
@@ -34,7 +35,7 @@ interface AuthService {
  * A simple implementation of [AuthService] that uses a [HttpClient] to make requests to the server.
  * For the server implementation, see [org.pointyware.xyz.api.routes.auth]
  */
-class SimpleAuthService(
+class SimpleAuthService( // TODO: rename to KtorAuthService for consistency
     private val client: HttpClient
 ): AuthService {
 
@@ -61,7 +62,11 @@ class SimpleAuthService(
     }
 }
 
+/**
+ *
+ */
 class TestAuthService(
+    private val accountsFile: Path,
     private val users: MutableMap<String, UserEntry> = mutableMapOf(),
     private val defaultDelay: Long = 500
 ): AuthService {
