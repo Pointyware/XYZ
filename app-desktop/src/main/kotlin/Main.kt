@@ -5,6 +5,7 @@
 package org.pointyware.xyz.desktop
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -20,16 +21,20 @@ import org.pointyware.xyz.shared.di.setupKoin
 fun main() = application {
     // Configure Koin Dependency Injection (actually Service Locator)
     setupKoin(platformModule = desktopModule())
-
-    val appComponent = ApplicationComponent()
-
-    val appDependencies = appComponent.get<AppDependencies>()
+    // Get the dependencies
+    val appComponent = remember { ApplicationComponent() }
+    val appDependencies = remember { appComponent.get<AppDependencies>() }
 
     val state = rememberWindowState()
+    // TODO: observe window state changes for configuration scope
+
     Window(
         title = "My Application",
         state = state,
-        onCloseRequest = this::exitApplication
+        onCloseRequest = {
+            appComponent.finish()
+            exitApplication()
+        }
     ) {
         XyzApp(
             dependencies = appDependencies,
