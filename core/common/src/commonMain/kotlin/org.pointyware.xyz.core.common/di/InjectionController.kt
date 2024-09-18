@@ -4,7 +4,6 @@
 
 package org.pointyware.xyz.core.common.di
 
-import org.pointyware.xyz.core.common.BuildType
 import org.pointyware.xyz.core.common.Environment
 
 /**
