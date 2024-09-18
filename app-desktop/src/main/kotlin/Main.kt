@@ -17,7 +17,7 @@ import org.pointyware.xyz.shared.di.getDependencies
 import org.pointyware.xyz.shared.di.setupKoin
 
 fun main() = application {
-
+    // Configure Koin Dependency Injection (actually Service Locator)
     setupKoin(platformModule = desktopModule())
 
     val appDependencies = remember { getDependencies() }
