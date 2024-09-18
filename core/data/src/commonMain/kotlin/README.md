@@ -15,7 +15,7 @@ The Android Component/Scope hierarchy works like so:
                 - ViewWithFragmentComponent
 
 A Desktop/Multiplatform Component/Scope hierarchy would look like this:
-- Application/SingletonComponent
+- ApplicationComponent
     - BackgroundComponent
     - WindowComponent
         - ViewModelComponent
