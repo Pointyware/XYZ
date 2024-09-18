@@ -8,6 +8,10 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.createScope
 import org.koin.core.scope.Scope
 
-class ViewComponent: KoinScopeComponent {
-    override val scope: Scope by lazy { createScope(this) }
+class ViewComponent(private val viewModelComponent: ViewModelComponent): KoinScopeComponent {
+    override val scope: Scope by lazy {
+        createScope(this).also {
+            it.linkTo(viewModelComponent.scope)
+        }
+    }
 }

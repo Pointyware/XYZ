@@ -4,10 +4,8 @@
 
 package org.pointyware.xyz.core.data.di
 
-import io.ktor.http.ContentType
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.createScope
-import org.koin.core.component.getOrCreateScope
 import org.koin.core.scope.Scope
 
 /**
