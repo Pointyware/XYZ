@@ -10,6 +10,7 @@ package org.pointyware.xyz.core.common
 object BuildInfo {
     enum class BuildType {
         DEBUG,
+        STAGING,
         RELEASE
     }
     val buildType = BuildType.DEBUG
