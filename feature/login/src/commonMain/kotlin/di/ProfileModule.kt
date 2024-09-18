@@ -69,11 +69,11 @@ private fun profileDataModule() = module {
 }
 
 private fun profileInteractorsModule() = module {
-    singleOf(::CreateDriverProfileUseCase)
-    singleOf(::CreateRiderProfileUseCase)
-    singleOf(::GetUserIdUseCase)
-    singleOf(::GetCompanyUseCase)
-    singleOf(::GetDriverProfileUseCase)
+    factoryOf(::CreateDriverProfileUseCase)
+    factoryOf(::CreateRiderProfileUseCase)
+    factoryOf(::GetUserIdUseCase)
+    factoryOf(::GetCompanyUseCase)
+    factoryOf(::GetDriverProfileUseCase)
 }
 
 private fun profileLocalModule() = module {
