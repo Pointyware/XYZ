@@ -5,28 +5,29 @@
 package org.pointyware.xyz.core.common.di
 
 import org.pointyware.xyz.core.common.BuildType
+import org.pointyware.xyz.core.common.Environment
 
 /**
  * Controls the injection of objects based on the current environment setting.
  */
 interface InjectionController {
 
-    var environment: BuildType
+    var environment: Environment
 
     /**
      * Returns an instance of the object based on the current environment setting. If a factory is not found for the current environment, the next environment in the list is used. In order: dev, stage, prod.
      * @throws IllegalStateException if no factory is found for the current environment or any of the subsequent environments.
      */
-    fun <T> inject(factoryMap: Map<BuildType, ()->T>): T
+    fun <T> inject(factoryMap: Map<Environment, ()->T>): T
 }
 
 internal class InjectionControllerImpl: InjectionController {
 
-    override var environment: BuildType = BuildType.DEBUG
+    override var environment: Environment = Environment.DEV
 
-    override fun <T> inject(factoryMap: Map<BuildType, () -> T>): T {
-        for (index in environment.ordinal until BuildType.entries.size) {
-            val environment = BuildType.entries[index]
+    override fun <T> inject(factoryMap: Map<Environment, () -> T>): T {
+        for (index in environment.ordinal until Environment.entries.size) {
+            val environment = Environment.entries[index]
             val factory = factoryMap[environment]
             if (factory != null) {
                 return factory.invoke()
@@ -38,4 +39,4 @@ internal class InjectionControllerImpl: InjectionController {
 
 private val singletonInjectionController: InjectionController = InjectionControllerImpl()
 
-fun <T> inject(factoryMap: Map<BuildType, ()->T>): T = singletonInjectionController.inject(factoryMap)
+fun <T> inject(factoryMap: Map<Environment, ()->T>): T = singletonInjectionController.inject(factoryMap)
