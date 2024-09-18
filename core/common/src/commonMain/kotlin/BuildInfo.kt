@@ -14,5 +14,5 @@ object BuildInfo {
     }
     val buildType = BuildType.DEBUG
 
-    fun isDebug(): Boolean = buildType == BuildType.DEBUG
+    val isDebug: Boolean = buildType == BuildType.DEBUG
 }
