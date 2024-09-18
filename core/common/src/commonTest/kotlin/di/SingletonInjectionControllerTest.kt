@@ -4,6 +4,9 @@
 
 package org.pointyware.xyz.core.common.di
 
+import org.pointyware.xyz.core.common.org.pointyware.xyz.core.common.di.Environment
+import org.pointyware.xyz.core.common.org.pointyware.xyz.core.common.di.InjectionController
+import org.pointyware.xyz.core.common.org.pointyware.xyz.core.common.di.InjectionControllerImpl
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
