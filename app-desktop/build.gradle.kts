@@ -14,6 +14,7 @@ java {
 }
 
 dependencies {
+    implementation(projects.core.common)
     implementation(projects.core.data)
     implementation(projects.core.entities)
     implementation(projects.core.interactors)
