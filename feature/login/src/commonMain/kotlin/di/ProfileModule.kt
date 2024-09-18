@@ -59,7 +59,7 @@ private fun profileViewModelModule() = module {
     factoryOf(::RiderProfileCreationViewModelImpl) { bind<RiderProfileCreationViewModel>() }
 }
 
-fun profileDataModule() = module {
+private fun profileDataModule() = module {
     single<ProfileRepository> { ProfileRepositoryImpl(
         get<AuthCache>(), get<AuthService>(),
         get<ProfileCache>(), get<ProfileService>(),

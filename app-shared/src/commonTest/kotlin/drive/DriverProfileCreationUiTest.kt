@@ -25,7 +25,6 @@ import org.pointyware.xyz.feature.login.data.CompanyRepository
 import org.pointyware.xyz.feature.login.data.ProfileRepository
 import org.pointyware.xyz.feature.login.data.TestCompanyRepository
 import org.pointyware.xyz.feature.login.data.TestProfileRepository
-import org.pointyware.xyz.feature.login.di.profileDataModule
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import org.pointyware.xyz.shared.di.appModule
 import kotlin.test.AfterTest

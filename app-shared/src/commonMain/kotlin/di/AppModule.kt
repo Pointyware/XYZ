@@ -4,12 +4,10 @@
 
 package org.pointyware.xyz.shared.di
 
-import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.coreDataModule
-import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.di.coreEntitiesModule
 import org.pointyware.xyz.core.interactors.di.coreInteractorsModule
 import org.pointyware.xyz.core.local.di.coreLocalModule
@@ -20,8 +18,6 @@ import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
 import org.pointyware.xyz.drive.di.featureDriveModule
 import org.pointyware.xyz.feature.login.di.featureLoginModule
 import org.pointyware.xyz.feature.login.di.featureProfileModule
-import org.pointyware.xyz.feature.login.remote.AuthService
-import org.pointyware.xyz.feature.login.remote.TestAuthService
 import org.pointyware.xyz.feature.ride.di.featureRideModule
 
 
