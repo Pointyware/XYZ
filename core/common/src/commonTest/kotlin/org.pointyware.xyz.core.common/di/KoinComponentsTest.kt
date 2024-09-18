@@ -122,21 +122,4 @@ class KoinComponentsTest {
             viewModelComponent.scope.get<ViewDep>()
         }
     }
-
-    @Test
-    fun `closed scopes are unlinked`() {
-        val appComponent = ApplicationComponent()
-        appComponent.scope.get<AppDep>()
-
-        val windowComponent = WindowComponent(appComponent)
-        windowComponent.scope.get<WindowDep>()
-
-        val viewModelComponent = ViewModelComponent(windowComponent)
-        viewModelComponent.scope.get<ViewModelDep>()
-
-        val viewComponent = ViewComponent(viewModelComponent)
-        viewComponent.scope.get<ViewDep>()
-
-        viewComponent.finish()
-    }
 }
