@@ -39,17 +39,14 @@ import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModelImpl
 import kotlin.coroutines.CoroutineContext
 
-fun featureProfileModule(
-    dataModule: Module = profileDataModule(),
-    interactorsModule: Module = profileInteractorsModule(),
-    viewModelModule: Module = profileViewModelModule()
-) = module {
+fun featureProfileModule() = module {
     single<ProfileDependencies> { KoinProfileDependencies() }
 
     includes(
-        dataModule,
-        interactorsModule,
-        viewModelModule
+        profileDataModule(),
+        profileInteractorsModule(),
+        profileViewModelModule(),
+        profileRemoteModule()
     )
 }
 
