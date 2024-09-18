@@ -17,6 +17,7 @@ import org.pointyware.xyz.core.data.di.WindowComponent
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertFails
 
 /**
  *
@@ -70,5 +71,15 @@ class KoinComponentsTest {
 
         val viewComponent = ViewComponent(viewModelComponent)
         viewComponent.scope.get<ViewDep>()
+
+        assertFails("ViewDep should not be available in the ViewModelComponent") {
+            viewModelComponent.scope.get<ViewDep>()
+        }
+        assertFails("ViewModelDep should not be available in the WindowComponent") {
+            windowComponent.scope.get<ViewModelDep>()
+        }
+        assertFails("WindowDep should not be available in the ApplicationComponent") {
+            appComponent.scope.get<WindowDep>()
+        }
     }
 }
