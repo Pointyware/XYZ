@@ -15,13 +15,28 @@ import kotlin.test.Test
 import kotlin.test.assertFails
 
 /**
- *
+ * Tests the ability to create and manage nested components and scopes with Koin
  */
 class KoinComponentsTest {
 
+    /**
+     * A dependency of the Application
+     */
     class AppDep()
+
+    /**
+     * A dependency of the Window
+     */
     class WindowDep(val appDep: AppDep)
+
+    /**
+     * A dependency of the ViewModel
+     */
     class ViewModelDep(val windowDep: WindowDep)
+
+    /**
+     * A dependency of the View
+     */
     class ViewDep(val viewModelDep: ViewModelDep)
 
     @BeforeTest
@@ -74,5 +89,22 @@ class KoinComponentsTest {
         assertFails("WindowDep should not be available in the ApplicationComponent") {
             appComponent.scope.get<WindowDep>()
         }
+    }
+
+    @Test
+    fun `closed scopes are unlinked`() {
+        val appComponent = ApplicationComponent()
+        appComponent.scope.get<AppDep>()
+
+        val windowComponent = WindowComponent(appComponent)
+        windowComponent.scope.get<WindowDep>()
+
+        val viewModelComponent = ViewModelComponent(windowComponent)
+        viewModelComponent.scope.get<ViewModelDep>()
+
+        val viewComponent = ViewComponent(viewModelComponent)
+        viewComponent.scope.get<ViewDep>()
+
+        viewComponent.finish()
     }
 }
