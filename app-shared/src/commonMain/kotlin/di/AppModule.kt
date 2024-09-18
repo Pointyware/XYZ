@@ -6,6 +6,8 @@ package org.pointyware.xyz.shared.di
 
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.coreDataModule
 import org.pointyware.xyz.core.entities.di.coreEntitiesModule
@@ -23,8 +25,10 @@ import org.pointyware.xyz.feature.ride.di.featureRideModule
 
 fun setupKoin(platformModule: Module) {
     startKoin {
-        modules(appModule())
-        modules(platformModule)
+        modules(
+            appModule(),
+            platformModule
+        )
     }
 }
 
@@ -32,6 +36,7 @@ fun appModule(
     coreModule: Module = coreModule(),
     featureModule: Module = featureModule(),
 ): Module = module {
+    factoryOf(::KoinAppDependencies) { bind<AppDependencies>() }
     includes(
         coreModule,
         featureModule,
