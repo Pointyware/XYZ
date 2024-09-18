@@ -14,7 +14,7 @@ import org.pointyware.xyz.core.common.BuildInfo
 val testDirectory = named("test-directory")
 
 /**
- *
+ * Defines dependencies for the core local module.
  */
 fun coreLocalModule() = module {
 
