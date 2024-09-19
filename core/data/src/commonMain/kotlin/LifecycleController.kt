@@ -16,7 +16,7 @@ interface LifecycleController {
     /**
      * A flow of lifecycle events. Will replay the latest event on subscription.
      */
-    val lifecycleState: SharedFlow<LifecycleEvent>
+    val events: SharedFlow<LifecycleEvent>
 
     /**
      * Called when the Window or Activity is started.
@@ -56,7 +56,7 @@ enum class LifecycleEvent {
 class DefaultLifecycleController : LifecycleController {
 
     private val mutableLifecycleState = MutableSharedFlow<LifecycleEvent>(replay = 1)
-    override val lifecycleState: SharedFlow<LifecycleEvent>
+    override val events: SharedFlow<LifecycleEvent>
         get() = mutableLifecycleState.asSharedFlow()
 
     override fun onStart() = runBlocking {
