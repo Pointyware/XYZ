@@ -32,6 +32,9 @@ dependencies {
 
     implementation(libs.kotlinx.dateTime)
     implementation(libs.koin.core)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.viewmodel)
+    implementation(libs.koin.compose.viewmodel.navigation)
 
     implementation(compose.desktop.currentOs)
     implementation(compose.ui)
