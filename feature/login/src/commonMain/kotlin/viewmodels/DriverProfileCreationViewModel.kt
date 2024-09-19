@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.business.Business
+import org.pointyware.xyz.core.entities.business.Individual
+import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.ride.Accommodation
 import org.pointyware.xyz.core.viewmodels.KoinViewModel
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
@@ -97,8 +100,16 @@ class DriverProfileCreationViewModelImpl(
     override fun onSubmit() {
         viewModelScope.launch {
             mutableLoadingState.value = LoadingUiState.Loading()
+            val state = state.value
             createProfileUseCase.invoke(
-                TODO("pass profile parameters")
+                DriverProfile(
+                    id = Uuid.v4(), // TODO: pass values to use case and repo; allow server to determine id
+                    name = state.profile.fullName,
+                    gender = state.profile.gender,
+                    picture = state.profile.image,
+                    accommodations = state.accommodations.selected.toSet(),
+                    business = Individual
+                )
             )
         }
     }

@@ -8,10 +8,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
-import kotlinx.coroutines.delay
-import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.login.data.Authorization
-import kotlin.random.Random
 
 /**
  * Defines authentication/authorization service functions.
@@ -34,7 +31,7 @@ interface AuthService {
  * A simple implementation of [AuthService] that uses a [HttpClient] to make requests to the server.
  * For the server implementation, see [org.pointyware.xyz.api.routes.auth]
  */
-class SimpleAuthService(
+class KtorAuthService(
     private val client: HttpClient
 ): AuthService {
 
@@ -57,39 +54,6 @@ class SimpleAuthService(
             return Result.success(response.body<AuthorizationDto>())
         } catch (e: Exception) {
             return Result.failure(e)
-        }
-    }
-}
-
-class TestAuthService(
-    private val users: MutableMap<String, UserEntry> = mutableMapOf(),
-    private val defaultDelay: Long = 500
-): AuthService {
-    private val entropy = Random.Default
-    data class TestAuthorization(
-        override val userId: Uuid,
-        override val token: String
-    ): Authorization
-
-    data class UserEntry(
-        val password: String,
-        val id: Uuid
-    )
-
-    override suspend fun login(email: String, password: String): Result<Authorization> {
-        delay(defaultDelay)
-        return users[email]?.takeIf { it.password == password }?.let {
-            Result.success(TestAuthorization(it.id, entropy.nextInt().toString()))
-        } ?: Result.failure(Authorization.InvalidCredentialsException())
-    }
-
-    override suspend fun createUser(email: String, password: String): Result<Authorization> {
-        delay(defaultDelay)
-        if (users.containsKey(email)) {
-            return Result.failure(Authorization.InUseException(email))
-        } else {
-            val newUser = UserEntry(password, Uuid.v4()).also { users[email] = it }
-            return Result.success(TestAuthorization(newUser.id, entropy.nextInt().toString()))
         }
     }
 }

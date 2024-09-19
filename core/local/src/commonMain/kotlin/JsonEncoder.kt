@@ -14,10 +14,10 @@ object Encoder {
     val json = Json { prettyPrint = true }
 }
 
-inline fun <reified T: Any> LocalDatabase.putData(path: Path, data: T) {
-    save(path, Encoder.json.encodeToString(data))
+inline fun <reified T: Any> LocalDatabase.putData(key: String, data: T) {
+    save(key, Encoder.json.encodeToString(data))
 }
 
-inline fun <reified T: Any> LocalDatabase.getData(path: Path): T? {
-    return load(path)?.let { Encoder.json.decodeFromString(it) }
+inline fun <reified T: Any> LocalDatabase.getData(key: String): T? {
+    return load(key)?.let { Encoder.json.decodeFromString(it) }
 }

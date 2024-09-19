@@ -62,7 +62,7 @@ class KtorProfileService(
     override suspend fun getProfile(userId: Uuid): Result<ProfileEntity?> {
         try {
             val response = client.get(Profile.Id(userId.toString()))
-            return Result.success(response.body<ProfileEntity>())
+            return Result.success(response.body<ProfileEntity?>())
         } catch (e: Exception) {
             return Result.failure(e)
         }
@@ -86,36 +86,5 @@ class KtorProfileService(
         } catch (e: Exception) {
             return Result.failure(e)
         }
-    }
-}
-
-class TestProfileService(
-    private val profiles: MutableMap<Uuid, ProfileEntity> = mutableMapOf()
-): ProfileService {
-
-    override suspend fun createDriverProfile(userId: Uuid, profile: DriverProfile): Result<DriverProfile> {
-        profiles[userId] = profile
-        return Result.success(profile)
-    }
-
-    override suspend fun createRiderProfile(userId: Uuid, profile: RiderProfile): Result<RiderProfile> {
-        profiles[userId] = profile
-        return Result.success(profile)
-    }
-
-    override suspend fun getProfile(userId: Uuid): Result<ProfileEntity?> {
-        profiles[userId].let {
-            return Result.success(it)
-        }
-    }
-
-    override suspend fun updateProfile(userId: Uuid, profile: ProfileEntity): Result<ProfileEntity> {
-        profiles[userId] = profile
-        return Result.success(profile)
-    }
-
-    override suspend fun deleteProfile(userId: Uuid): Result<Unit> {
-        profiles.remove(userId)
-        return Result.success(Unit)
     }
 }

@@ -34,16 +34,17 @@ kotlin {
 
         testImplementation(libs.kotlin.test)
         testImplementation(libs.kotlinx.coroutinesTest)
+        testImplementation(libs.ktor.server.test.host)
     }
 }
 
 application {
-    mainClass = "org.pointyware.replace-me.api.ServerKt"
+    mainClass = "org.pointyware.xyz.api.ServerKt"
 }
 
 ktor {
     fatJar {
-        archiveFileName = "replace-me-API-${version}.jar"
+        archiveFileName = "XYZ-API-${version}.jar"
     }
 }
 

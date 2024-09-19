@@ -4,15 +4,18 @@
 
 package org.pointyware.xyz.core.entities.profile
 
+import kotlinx.serialization.Serializable
+import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.business.Business
 import org.pointyware.xyz.core.entities.data.Uri
-import org.pointyware.xyz.core.entities.business.Company
 import org.pointyware.xyz.core.entities.ride.Accommodation
 
 /**
  * Externally-facing profile data.
  */
-interface Profile {
+@Serializable
+sealed interface Profile {
     val id: Uuid
     val name: Name
     val gender: Gender
@@ -22,18 +25,20 @@ interface Profile {
 /**
  * Profile data for a driver.
  */
+@Serializable
 class DriverProfile(
     override val id: Uuid,
     override val name: Name,
     override val gender: Gender,
     override val picture: Uri,
     val accommodations: Set<Accommodation>,
-    val company: Company
+    val business: Business
 ): Profile
 
 /**
  * Profile data for a rider.
  */
+@Serializable
 class RiderProfile(
     override val id: Uuid,
     override val name: Name,

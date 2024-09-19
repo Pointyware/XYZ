@@ -18,24 +18,16 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilDoesNotExist
-import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.core.navigation.StackNavigationController
-import org.pointyware.xyz.core.remote.di.coreRemoteModule
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.login.data.CompanyRepository
 import org.pointyware.xyz.feature.login.data.ProfileRepository
-import org.pointyware.xyz.feature.login.data.TestCompanyRepository
-import org.pointyware.xyz.feature.login.data.TestProfileRepository
-import org.pointyware.xyz.feature.login.di.profileDataModule
 import org.pointyware.xyz.feature.ride.data.RideRequestRepository
-import org.pointyware.xyz.feature.ride.data.TestRideRequestRepository
-import org.pointyware.xyz.feature.ride.di.featureRideDataModule
 import org.pointyware.xyz.feature.ride.ui.RideScreen
 import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
@@ -51,48 +43,13 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalTestApi::class)
 class RequestRideUiTest {
 
-    private lateinit var profileRepository: TestProfileRepository
-    private lateinit var companyRepository: TestCompanyRepository
-    private lateinit var rideRepository: TestRideRequestRepository
-
-    private fun testFeatureProfileModule(
-        profileRepository: ProfileRepository,
-        companyRepository: CompanyRepository
-    ) = module {
-        single<ProfileRepository> { profileRepository }
-        single<CompanyRepository> { companyRepository }
-    }
-
-    private fun testFeatureRideDataModule(
-        rideRepository: RideRequestRepository
-    ) = module {
-        single<RideRequestRepository> { rideRepository }
-    }
-
     @BeforeTest
     fun setUp() {
-        profileRepository = TestProfileRepository()
-        companyRepository = TestCompanyRepository()
-
         startKoin {
             modules(
                 appModule()
             )
         }
-        val koin = getKoin()
-        rideRepository = TestRideRequestRepository(
-            mutableSetOf(),
-            koin.get(qualifier = dataQualifier)
-        )
-        loadKoinModules(listOf(
-            testFeatureProfileModule(
-                profileRepository,
-                companyRepository
-            ),
-            testFeatureRideDataModule(
-                rideRepository
-            )
-        ))
     }
 
     @AfterTest

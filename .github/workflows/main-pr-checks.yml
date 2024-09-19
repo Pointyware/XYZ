@@ -32,8 +32,14 @@ jobs:
       - name: "Setup Gradle"
         uses: gradle/actions/setup-gradle@v3
 
+      - name: "Test: Run Unit Tests"
+        run: |
+          ./gradlew jvmTest
+
       - name: "Build: Assemble and Test Debug Binary"
-        run: ./gradlew :app-android:buildDebug
+        run: |
+          ./gradlew :app-android:buildDebug
+#          ./gradlew connectedAndroidTest  # requires emulator or device
 
 #      - run: ./gradlew generate coverage report, upload test/coverage reports
 

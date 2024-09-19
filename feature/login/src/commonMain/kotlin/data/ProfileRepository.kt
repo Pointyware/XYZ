@@ -6,15 +6,14 @@ package org.pointyware.xyz.feature.login.data
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
-import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.profile.DriverProfile
+import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.feature.login.local.AuthCache
 import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.remote.AuthService
 import org.pointyware.xyz.feature.login.remote.ProfileService
-import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -131,37 +130,5 @@ class ProfileRepositoryImpl(
                 }
             return@withContext Result.failure(IllegalStateException("This should never happen"))
         }
-    }
-}
-
-class TestProfileRepository(
-
-): ProfileRepository {
-    override suspend fun createUser(email: String, password: String): Result<Authorization> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun createDriverProfile(profile: DriverProfile): Result<DriverProfile> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun createRiderProfile(profile: RiderProfile): Result<RiderProfile> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateProfile(profile: Profile): Result<Profile> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun removeUser(email: String): Result<Unit> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getProfile(email: String): Result<Profile?> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun login(email: String, password: String): Result<Login> {
-        TODO("Not yet implemented")
     }
 }

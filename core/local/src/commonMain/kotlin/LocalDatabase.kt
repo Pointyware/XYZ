@@ -4,7 +4,7 @@
 
 package org.pointyware.xyz.core.local
 
-import org.pointyware.xyz.core.entities.data.Uri
+import kotlinx.io.files.Path
 
 /**
  * A simple interface to represent a local database.
@@ -13,17 +13,15 @@ interface LocalDatabase {
     /**
      * Save the data to the given path, relative to the database root.
      */
-    fun save(path: Path, data: String)
+    fun save(key: String, data: String)
 
     /**
      * Load the data from the given path, relative to the database root.
      */
-    fun load(path: Path): String?
+    fun load(key: String): String?
 
     /**
      * Removes the data at the given path, relative to the database root.
      */
-    fun delete(path: Path)
+    fun delete(key: String)
 }
-
-expect fun createLocalDatabase(path: Path): LocalDatabase

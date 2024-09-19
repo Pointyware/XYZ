@@ -4,12 +4,19 @@
 
 package org.pointyware.xyz.feature.login.di
 
-import io.ktor.client.HttpClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.io.files.Path
+import kotlinx.serialization.json.Json
 import navigation.loginRoute
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import org.pointyware.xyz.core.common.BuildInfo
+import org.pointyware.xyz.core.common.di.ApplicationComponent
+import org.pointyware.xyz.core.data.LifecycleController
 import org.pointyware.xyz.core.data.di.dataQualifier
+import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.local.di.testDirectory
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.feature.login.data.ProfileRepository
 import org.pointyware.xyz.feature.login.data.ProfileRepositoryImpl
@@ -19,11 +26,12 @@ import org.pointyware.xyz.feature.login.local.AuthCache
 import org.pointyware.xyz.feature.login.local.AuthCacheImpl
 import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.remote.AuthService
-import org.pointyware.xyz.feature.login.remote.KtorProfileService
+import org.pointyware.xyz.feature.login.remote.KtorAuthService
 import org.pointyware.xyz.feature.login.remote.ProfileService
-import org.pointyware.xyz.feature.login.remote.SimpleAuthService
+import org.pointyware.xyz.feature.login.remote.fake.FakeAuthService
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationViewModelImpl
+import kotlin.coroutines.CoroutineContext
 
 /**
  *
@@ -57,8 +65,22 @@ private fun featureLoginDataModule() = module {
 }
 
 fun featureLoginRemoteModule() = module {
-    single<AuthService> { SimpleAuthService(get<HttpClient>()) }
-    single<ProfileService> { KtorProfileService(get<HttpClient>()) }
+    if (BuildInfo.isDebug) {
+        single<AuthService> {
+            val accountsFile = Path(get<Path>(qualifier = testDirectory), "accounts.json")
+            println("Using fake auth service with file: $accountsFile")
+            FakeAuthService(
+                accountsFile = accountsFile,
+                users = mutableMapOf(),
+                json = get<Json>(),
+                lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
+                dataContext = get<CoroutineContext>(qualifier = dataQualifier),
+                dataScope = get<CoroutineScope>(qualifier = dataQualifier),
+            )
+        }
+    } else {
+        singleOf(::KtorAuthService) { bind<AuthService>() }
+    }
 }
 
 fun featureLoginLocalModule() = module {

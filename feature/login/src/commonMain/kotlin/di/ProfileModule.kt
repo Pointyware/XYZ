@@ -4,9 +4,19 @@
 
 package org.pointyware.xyz.feature.login.di
 
-import org.koin.core.module.Module
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.io.files.Path
+import kotlinx.serialization.json.Json
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import org.pointyware.xyz.core.common.BuildInfo
+import org.pointyware.xyz.core.common.di.ApplicationComponent
+import org.pointyware.xyz.core.data.LifecycleController
 import org.pointyware.xyz.core.data.di.dataQualifier
+import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.local.di.testDirectory
 import org.pointyware.xyz.feature.login.data.CompanyRepository
 import org.pointyware.xyz.feature.login.data.CompanyRepositoryImpl
 import org.pointyware.xyz.feature.login.data.ProfileRepository
@@ -22,8 +32,11 @@ import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.local.ProfileCacheImpl
 import org.pointyware.xyz.feature.login.remote.AuthService
 import org.pointyware.xyz.feature.login.remote.CompanyService
+import org.pointyware.xyz.feature.login.remote.KtorAuthService
+import org.pointyware.xyz.feature.login.remote.KtorProfileService
 import org.pointyware.xyz.feature.login.remote.ProfileService
-import org.pointyware.xyz.feature.login.remote.TestProfileService
+import org.pointyware.xyz.feature.login.remote.fake.FakeAuthService
+import org.pointyware.xyz.feature.login.remote.fake.FakeProfileService
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModelImpl
 import org.pointyware.xyz.feature.login.viewmodels.ProfileCreationViewModel
@@ -32,54 +45,64 @@ import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModelImpl
 import kotlin.coroutines.CoroutineContext
 
-fun featureProfileModule(
-    dataModule: Module = profileDataModule(),
-    interactorsModule: Module = profileInteractorsModule(),
-    viewModelModule: Module = profileViewModelModule()
-) = module {
-    single<ProfileDependencies> { KoinProfileDependencies() }
+fun featureProfileModule() = module {
+    singleOf(::KoinProfileDependencies) { bind<ProfileDependencies>() }
 
     includes(
-        dataModule,
-        interactorsModule,
-        viewModelModule
+        profileDataModule(),
+        profileInteractorsModule(),
+        profileViewModelModule(),
+        profileLocalModule(),
+        profileRemoteModule()
     )
 }
 
 private fun profileViewModelModule() = module {
-    factory<ProfileCreationViewModel>() { ProfileCreationViewModelImpl() }
-    factory<DriverProfileCreationViewModel> {
-        DriverProfileCreationViewModelImpl(
-            get<ProfileCreationViewModel>(), get<CreateDriverProfileUseCase>(),
-            get<GetCompanyUseCase>()
-        )
-    }
-    factory<RiderProfileCreationViewModel> {
-        RiderProfileCreationViewModelImpl(
-            get<ProfileCreationViewModel>(), get<CreateRiderProfileUseCase>(),
-            get<GetUserIdUseCase>())
-    }
+    factoryOf(::ProfileCreationViewModelImpl) { bind<ProfileCreationViewModel>() }
+    factoryOf(::DriverProfileCreationViewModelImpl) { bind<DriverProfileCreationViewModel>() }
+    factoryOf(::RiderProfileCreationViewModelImpl) { bind<RiderProfileCreationViewModel>() }
 }
 
-fun profileDataModule() = module {
+private fun profileDataModule() = module {
     single<ProfileRepository> { ProfileRepositoryImpl(
         get<AuthCache>(), get<AuthService>(),
         get<ProfileCache>(), get<ProfileService>(),
         ioContext = get<CoroutineContext>(dataQualifier)
     ) }
-
-    single<ProfileCache> { ProfileCacheImpl() }
-    single<ProfileService> { TestProfileService() }
-
-    single<CompanyRepository> { CompanyRepositoryImpl(get<CompanyCache>(), get<CompanyService>()) }
-    single<CompanyCache> { CompanyCache() }
-    single<CompanyService> { CompanyService() }
+    singleOf(::CompanyRepositoryImpl) { bind<CompanyRepository>() }
 }
 
 private fun profileInteractorsModule() = module {
-    single<CreateDriverProfileUseCase> { CreateDriverProfileUseCase(get<ProfileRepository>()) }
-    single<CreateRiderProfileUseCase> { CreateRiderProfileUseCase(get<ProfileRepository>()) }
-    single<GetUserIdUseCase> { GetUserIdUseCase(get<AuthCache>()) }
-    single<GetCompanyUseCase> { GetCompanyUseCase(get<CompanyRepository>()) }
-    single<GetDriverProfileUseCase> { GetDriverProfileUseCase(get<ProfileRepository>()) }
+    factoryOf(::CreateDriverProfileUseCase)
+    factoryOf(::CreateRiderProfileUseCase)
+    factoryOf(::GetUserIdUseCase)
+    factoryOf(::GetCompanyUseCase)
+    factoryOf(::GetDriverProfileUseCase)
+}
+
+private fun profileLocalModule() = module {
+    singleOf(::ProfileCacheImpl) { bind<ProfileCache>() }
+    singleOf(::CompanyCache)
+}
+
+private fun profileRemoteModule() = module {
+
+    singleOf(::CompanyService)
+
+    if (BuildInfo.isDebug) {
+        single<ProfileService> {
+            val profilePath = Path(get<Path>(qualifier = testDirectory), "profile.json")
+            println("Using fake profile service with file: $profilePath")
+            FakeProfileService(
+                profileFile = profilePath,
+                profiles = mutableMapOf(),
+                json = get<Json>(),
+                lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
+                dataContext = get<CoroutineContext>(qualifier = dataQualifier),
+                dataScope = get<CoroutineScope>(qualifier = dataQualifier),
+            )
+        }
+    } else {
+        singleOf(::KtorProfileService) { bind<ProfileService>() }
+    }
 }

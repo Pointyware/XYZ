@@ -4,9 +4,12 @@
 
 package org.pointyware.xyz.core.entities.profile
 
+import kotlinx.serialization.Serializable
+
 /**
  * Known instances of self representation.
  */
+@Serializable
 enum class Gender {
     Man,
     Woman,

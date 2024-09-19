@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -46,12 +47,17 @@ kotlin {
                 implementation(projects.core.remote)
 
                 implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.io.core)
+                implementation(libs.kotlinx.io.bytestring)
                 implementation(libs.koin.core)
+
+                api(libs.kotlinx.serialization)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
+                implementation(libs.koin.test)
             }
         }
 

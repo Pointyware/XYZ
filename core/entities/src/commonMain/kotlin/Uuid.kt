@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.core.entities
 
+import kotlinx.serialization.Serializable
 import kotlin.experimental.and
 import kotlin.experimental.or
 import kotlin.random.Random
@@ -19,6 +20,7 @@ private const val VERSION_VALUE_4 = 0x40.toByte()
 /**
  * Minimal implementation of Universal Uniform Identifier.
  */
+@Serializable
 data class Uuid(
     private val bytes: ByteArray
 ) {
