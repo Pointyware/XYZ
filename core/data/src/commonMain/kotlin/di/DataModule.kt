@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.core.data.di
 
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -31,9 +32,12 @@ fun coreDataModule(
     singleOf(::KoinDataDependencies) {
         bind<DataDependencies>()
     }
+    single<CoroutineExceptionHandler> { CoroutineExceptionHandler { _, throwable -> throwable.printStackTrace() } }
     single<CoroutineContext>(qualifier = dataQualifier) { Dispatchers.IO }
     single<CoroutineScope>(qualifier = dataQualifier) { CoroutineScope(
-        get<CoroutineContext>(dataQualifier) + SupervisorJob()
+        get<CoroutineContext>(dataQualifier)
+                + SupervisorJob()
+                + get<CoroutineExceptionHandler>()
     ) }
     single<Json> { Json { isLenient = true } }
 
