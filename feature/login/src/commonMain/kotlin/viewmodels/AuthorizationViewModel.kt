@@ -92,9 +92,8 @@ class AuthorizationViewModelImpl(
                             when (it.profile) {
                                 is DriverProfile -> mutableLoadingState.value = LoadingUiState.Success(AuthorizationEvent.Driver)
                                 is RiderProfile -> mutableLoadingState.value = LoadingUiState.Success(AuthorizationEvent.Ride)
-                                null -> mutableLoadingState.value = LoadingUiState.Error("Profile not found")
+                                null -> mutableLoadingState.value = LoadingUiState.Success(AuthorizationEvent.NewUser)
                             }
-                            mutableLoadingState.value = LoadingUiState.Success(AuthorizationEvent.NewUser)
                         }
                         .onFailure { mutableLoadingState.postError(it) }
                 } else {
