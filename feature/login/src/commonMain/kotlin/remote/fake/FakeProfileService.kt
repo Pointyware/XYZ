@@ -63,14 +63,15 @@ class FakeProfileService(
             source.readAtMostTo(buffer, Long.MAX_VALUE)
             val byteArray = buffer.readByteArray()
             val jsonString = byteArray.decodeToString()
-            val profiles = json.decodeFromString<Map<Uuid, Profile>>(jsonString)
-            this.profiles.putAll(profiles)
+            if (jsonString.isBlank()) return
+            val profileList = json.decodeFromString<List<Profile>>(jsonString)
+            this.profiles.putAll(profileList.map { it.id to it })
         }
     }
 
     private fun writeFile() {
         val sink = SystemFileSystem.sink(profileFile)
-        val jsonString = json.encodeToString(profiles)
+        val jsonString = json.encodeToString(profiles.values.toList())
         val byteArray = jsonString.toByteArray(Charsets.UTF_8)
         val buffer = Buffer()
         buffer.write(byteArray)
