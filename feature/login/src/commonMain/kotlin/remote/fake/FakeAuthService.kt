@@ -13,6 +13,7 @@ import kotlinx.io.Buffer
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readByteArray
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.pointyware.xyz.core.data.LifecycleController
@@ -82,6 +83,7 @@ class FakeAuthService(
         override val token: String
     ): Authorization
 
+    @Serializable
     data class UserEntry(
         val password: String,
         val id: Uuid
