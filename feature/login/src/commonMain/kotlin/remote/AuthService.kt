@@ -8,10 +8,22 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
+import io.ktor.utils.io.charsets.Charsets
+import io.ktor.utils.io.core.toByteArray
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.io.Buffer
 import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
+import kotlinx.io.readByteArray
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import org.pointyware.xyz.core.data.LifecycleController
+import org.pointyware.xyz.core.data.LifecycleEvent
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.login.data.Authorization
+import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
 
 /**
@@ -68,7 +80,13 @@ class KtorAuthService(
 class TestAuthService(
     private val accountsFile: Path,
     private val users: MutableMap<String, UserEntry> = mutableMapOf(),
-    private val defaultDelay: Long = 500
+    private val defaultDelay: Long = 500,
+
+    private val json: Json,
+
+    private val lifecycleController: LifecycleController,
+    private val dataContext: CoroutineContext,
+    private val dataScope: CoroutineScope
 ): AuthService {
     private val entropy = Random.Default
     data class TestAuthorization(

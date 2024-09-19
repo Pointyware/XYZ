@@ -4,12 +4,16 @@
 
 package org.pointyware.xyz.feature.login.di
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.io.files.Path
+import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.xyz.core.common.BuildInfo
+import org.pointyware.xyz.core.common.di.ApplicationComponent
+import org.pointyware.xyz.core.data.LifecycleController
 import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.local.di.testDirectory
@@ -28,9 +32,9 @@ import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.local.ProfileCacheImpl
 import org.pointyware.xyz.feature.login.remote.AuthService
 import org.pointyware.xyz.feature.login.remote.CompanyService
+import org.pointyware.xyz.feature.login.remote.KtorAuthService
 import org.pointyware.xyz.feature.login.remote.KtorProfileService
 import org.pointyware.xyz.feature.login.remote.ProfileService
-import org.pointyware.xyz.feature.login.remote.KtorAuthService
 import org.pointyware.xyz.feature.login.remote.TestAuthService
 import org.pointyware.xyz.feature.login.remote.TestProfileService
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
@@ -93,10 +97,14 @@ private fun profileRemoteModule() = module {
         single<AuthService> {
             val accountsFile = Path(get<Path>(qualifier = testDirectory), "accounts.json")
             TestAuthService(
-                accountsFile,
+                accountsFile = accountsFile,
                 users = mutableMapOf(
                     "foo@bar.com" to TestAuthService.UserEntry("password", Uuid.v4())
-                )
+                ),
+                json = get<Json>(),
+                lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
+                dataContext = get<CoroutineContext>(qualifier = dataQualifier),
+                dataScope = get<CoroutineScope>(qualifier = dataQualifier),
             )
         }
     } else {
