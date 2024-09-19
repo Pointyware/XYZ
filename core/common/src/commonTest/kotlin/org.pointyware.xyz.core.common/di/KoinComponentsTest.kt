@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.core.common.di
 
+import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.core.module.dsl.scopedOf
@@ -38,6 +39,9 @@ class KoinComponentsTest {
      * A dependency of the View
      */
     class ViewDep(val viewModelDep: ViewModelDep)
+
+    class FooDep()
+    class BarDep()
 
     @BeforeTest
     fun setUp() {
@@ -156,5 +160,20 @@ class KoinComponentsTest {
         assertFails("ViewDep should not be available in the ViewModelComponent") {
             viewModelComponent.scope.get<ViewDep>()
         }
+    }
+
+    @Test
+    fun `scopes override bindings`() {
+        loadKoinModules(module {
+            scope<ApplicationComponent> {
+                scopedOf(::FooDep)
+            }
+        })
+
+        val appComponent = ApplicationComponent()
+        val fooDep = appComponent.scope.get<FooDep>()
+        assertEquals(FooDep::class, fooDep::class, "Additional Scope definitions override bindings")
+        val appDep = appComponent.scope.get<AppDep>()
+        assertEquals(AppDep::class, appDep::class, "Existing bindings are still available")
     }
 }
