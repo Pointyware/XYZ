@@ -4,12 +4,25 @@
 
 package org.pointyware.xyz.feature.login.remote.fake
 
+import io.ktor.utils.io.charsets.Charsets
+import io.ktor.utils.io.core.toByteArray
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.io.Buffer
 import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
+import kotlinx.io.readByteArray
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import org.pointyware.xyz.core.data.LifecycleController
+import org.pointyware.xyz.core.data.LifecycleEvent
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.feature.login.remote.ProfileService
+import org.pointyware.xyz.feature.login.remote.fake.FakeAuthService.UserEntry
+import kotlin.coroutines.CoroutineContext
 
 /**
  * A test implementation of the [ProfileService] interface. Instead of relying on a remote service,
@@ -17,10 +30,53 @@ import org.pointyware.xyz.feature.login.remote.ProfileService
  */
 class FakeProfileService(
     private val profileFile: Path,
-    private val profiles: MutableMap<Uuid, Profile> = mutableMapOf()
+    private val profiles: MutableMap<Uuid, Profile> = mutableMapOf(),
+    private val defaultDelay: Long = 500,
+
+    private val json: Json,
+
+    private val lifecycleController: LifecycleController,
+    private val dataContext: CoroutineContext,
+    private val dataScope: CoroutineScope
 ): ProfileService {
 
-    // TODO: Implement file persistence for testing
+    init {
+        dataScope.launch {
+            loadFile(profileFile)
+
+            lifecycleController.events.collect { state ->
+                when (state) {
+                    LifecycleEvent.Stop -> {
+                        writeFile()
+                    }
+                    else -> { /* do nothing */ }
+                }
+            }
+        }
+    }
+
+    fun loadFile(file: Path) {
+        SystemFileSystem.metadataOrNull(file)?.let { metadata ->
+            val source = SystemFileSystem.source(file)
+
+            val buffer = Buffer()
+            source.readAtMostTo(buffer, Long.MAX_VALUE)
+            val byteArray = buffer.readByteArray()
+            val jsonString = byteArray.decodeToString()
+            val profiles = json.decodeFromString<Map<Uuid, Profile>>(jsonString)
+            this.profiles.putAll(profiles)
+        }
+    }
+
+    private fun writeFile() {
+        val sink = SystemFileSystem.sink(profileFile)
+        val jsonString = json.encodeToString(profiles)
+        val byteArray = jsonString.toByteArray(Charsets.UTF_8)
+        val buffer = Buffer()
+        buffer.write(byteArray)
+        sink.write(buffer, buffer.size)
+        sink.flush()
+    }
 
     override suspend fun createDriverProfile(userId: Uuid, profile: DriverProfile): Result<DriverProfile> {
         profiles[userId] = profile
