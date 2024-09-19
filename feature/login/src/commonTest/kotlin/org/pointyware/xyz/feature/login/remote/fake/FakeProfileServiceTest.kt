@@ -137,6 +137,7 @@ class FakeProfileServiceTest {
         - the lifecycle controller emits onStop
          */
         lifecycleController.onStop()
+        testScheduler.advanceUntilIdle()
 
         /*
         Then:
