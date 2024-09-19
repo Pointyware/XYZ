@@ -31,10 +31,12 @@ import org.pointyware.xyz.core.entities.profile.Disability
 import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.feature.login.data.Authorization
+import org.pointyware.xyz.feature.login.remote.ProfileService
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
@@ -89,19 +91,50 @@ class FakeProfileServiceTest {
          */
         profileFile.writeText(profilesJsonString)
         fakeProfileService.loadFile(profileFile)
+        val riderId = Uuid(
+            bytes = byteArrayOf(-74, -23, -37, 126, -61, -2, 78, 92,
+                14, 69, 46, 84, -83, 75, -70, -45)
+        )
+        val driverId = Uuid(
+            bytes = byteArrayOf(40, -78, 62, 32, 66, -57, 67, 9, -63,
+                43, 76, -57, -102, -101, -65, 80
+            )
+        )
 
         /*
         When:
-        - we retrieve a user profile by id
+        - we retrieve a rider by id
          */
-        val result = fakeProfileService.getProfile(Uuid.v4())
-
+        val riderResult = fakeProfileService.getProfile(riderId)
         /*
         Then:
-        - A success authorization should be returned with the userId
+        - A Rider should be returned with the userId
          */
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull() is RiderProfile)
+        assertTrue(riderResult.isSuccess)
+        assertTrue(riderResult.getOrNull() is RiderProfile)
+
+        /*
+        When:
+        - we retrieve a driver by id
+         */
+        val driverResult = fakeProfileService.getProfile(driverId)
+        /*
+        Then:
+        - A Rider should be returned with the userId
+         */
+        assertTrue(driverResult.isSuccess)
+        assertTrue(driverResult.getOrNull() is DriverProfile)
+
+        /*
+        When:
+        - we retrieve an unknown user by id
+         */
+        val randomResult = fakeProfileService.getProfile(Uuid.v4())
+        /*
+        Then:
+        - A failure should be returned
+         */
+        assertTrue(randomResult.isFailure)
     }
 
     @Test
