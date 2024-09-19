@@ -14,7 +14,8 @@ import org.pointyware.xyz.core.entities.ride.Accommodation
 /**
  * Externally-facing profile data.
  */
-interface Profile {
+@Serializable
+sealed interface Profile {
     val id: Uuid
     val name: Name
     val gender: Gender
