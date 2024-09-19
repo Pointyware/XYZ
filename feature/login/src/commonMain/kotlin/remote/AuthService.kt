@@ -88,6 +88,45 @@ class TestAuthService(
     private val dataContext: CoroutineContext,
     private val dataScope: CoroutineScope
 ): AuthService {
+
+    init {
+        dataScope.launch {
+            readFile()
+
+            lifecycleController.events.collect { state ->
+                when (state) {
+                    LifecycleEvent.Stop -> {
+                        writeFile()
+                    }
+                    else -> { /* do nothing */ }
+                }
+            }
+        }
+    }
+
+    private fun readFile() {
+        SystemFileSystem.metadataOrNull(accountsFile)?.let { metadata ->
+            val source = SystemFileSystem.source(accountsFile)
+
+            val buffer = Buffer()
+            source.readAtMostTo(buffer, Long.MAX_VALUE)
+            val byteArray = buffer.readByteArray()
+            val jsonString = byteArray.decodeToString()
+            val users = json.decodeFromString<Map<String, UserEntry>>(jsonString)
+            this.users.putAll(users)
+        }
+    }
+
+    private fun writeFile() {
+        val sink = SystemFileSystem.sink(accountsFile)
+        val jsonString = json.encodeToString(users)
+        val byteArray = jsonString.toByteArray(Charsets.UTF_8)
+        val buffer = Buffer()
+        buffer.write(byteArray)
+        sink.write(buffer, buffer.size)
+        sink.flush()
+    }
+
     private val entropy = Random.Default
     data class TestAuthorization(
         override val userId: Uuid,
