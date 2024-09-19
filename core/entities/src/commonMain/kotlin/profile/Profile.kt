@@ -5,10 +5,10 @@
 package org.pointyware.xyz.core.entities.profile
 
 import kotlinx.serialization.Serializable
-import org.pointyware.xyz.core.entities.Uuid
-import org.pointyware.xyz.core.entities.data.Uri
-import org.pointyware.xyz.core.entities.business.Company
 import org.pointyware.xyz.core.entities.Name
+import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.business.Business
+import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.ride.Accommodation
 
 /**
@@ -31,7 +31,7 @@ class DriverProfile(
     override val gender: Gender,
     override val picture: Uri,
     val accommodations: Set<Accommodation>,
-    val company: Company
+    val business: Business
 ): Profile
 
 /**
