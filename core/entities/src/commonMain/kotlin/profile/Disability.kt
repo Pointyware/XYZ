@@ -17,9 +17,14 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 sealed class Disability {
+    @Serializable
     data object Blind : Disability()
+    @Serializable
     data object Deaf : Disability()
+    @Serializable
     data object Mobility : Disability()
+    @Serializable
     data object ServiceAnimal : Disability()
+    @Serializable
     data object Allergy : Disability()
 }
