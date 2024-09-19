@@ -13,19 +13,13 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
-import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
-import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.navigation.StackNavigationController
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.login.RiderProfileCreationScreen
-import org.pointyware.xyz.feature.login.data.CompanyRepository
-import org.pointyware.xyz.feature.login.data.ProfileRepository
-import org.pointyware.xyz.feature.login.data.TestCompanyRepository
-import org.pointyware.xyz.feature.login.data.TestProfileRepository
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 import org.pointyware.xyz.shared.di.appModule
 import kotlin.test.AfterTest
@@ -38,32 +32,13 @@ import kotlin.test.Test
 @OptIn(ExperimentalTestApi::class)
 class RiderProfileCreationUiTest {
 
-    private lateinit var profileRepository: TestProfileRepository
-    private lateinit var companyRepository: TestCompanyRepository
-
-    private fun testFeatureProfileModule(
-        profileRepository: ProfileRepository,
-        companyRepository: CompanyRepository
-    ) = module {
-        single<ProfileRepository> { profileRepository }
-        single<CompanyRepository> { companyRepository }
-    }
-
     @BeforeTest
     fun setUp() {
-        profileRepository = TestProfileRepository()
-        companyRepository = TestCompanyRepository()
         startKoin {
             modules(
                 appModule()
             )
         }
-        loadKoinModules(listOf(
-            testFeatureProfileModule(
-                profileRepository,
-                companyRepository
-            )
-        ))
     }
 
     @AfterTest
