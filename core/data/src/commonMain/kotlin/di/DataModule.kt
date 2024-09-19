@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.scopedOf
@@ -34,6 +35,7 @@ fun coreDataModule(
     single<CoroutineScope>(qualifier = dataQualifier) { CoroutineScope(
         get<CoroutineContext>(dataQualifier) + SupervisorJob()
     ) }
+    single<Json> { Json { isLenient = true } }
 
     scope<WindowComponent> {
         scopedOf(::DefaultLifecycleController) { bind<LifecycleController>() }
