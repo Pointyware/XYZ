@@ -61,25 +61,16 @@ fun appModule(): Module = module {
     )
 }
 
-fun coreModule(
-    entitiesModule: Module = coreEntitiesModule(),
-    interactorsModule: Module = coreInteractorsModule(),
-    viewModelsModule: Module = coreViewModelsModule(),
-    dataModule: Module = coreDataModule(),
-    localModule: Module = coreLocalModule(),
-    remoteModule: Module = coreRemoteModule(),
-    navigationModule: Module = coreNavigationModule(),
-    uiModule: Module = coreUiModule(),
-) = module {
+fun coreModule() = module {
     includes(
-        entitiesModule,
-        interactorsModule,
-        viewModelsModule,
-        dataModule,
-        localModule,
-        remoteModule,
-        navigationModule,
-        uiModule,
+        coreEntitiesModule(),
+        coreInteractorsModule(),
+        coreViewModelsModule(),
+        coreDataModule(),
+        coreLocalModule(),
+        coreRemoteModule(),
+        coreNavigationModule(),
+        coreUiModule(),
     )
 }
 
