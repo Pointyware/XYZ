@@ -41,7 +41,7 @@ class FakeAuthService(
 
     init {
         dataScope.launch {
-            readFile()
+            loadFile(accountsFile)
 
             lifecycleController.events.collect { state ->
                 when (state) {
@@ -54,9 +54,9 @@ class FakeAuthService(
         }
     }
 
-    private fun readFile() {
-        SystemFileSystem.metadataOrNull(accountsFile)?.let { metadata ->
-            val source = SystemFileSystem.source(accountsFile)
+    fun loadFile(file: Path) {
+        SystemFileSystem.metadataOrNull(file)?.let { metadata ->
+            val source = SystemFileSystem.source(file)
 
             val buffer = Buffer()
             source.readAtMostTo(buffer, Long.MAX_VALUE)
