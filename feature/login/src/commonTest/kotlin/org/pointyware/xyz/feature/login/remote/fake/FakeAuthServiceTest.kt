@@ -6,8 +6,12 @@ package org.pointyware.xyz.feature.login.remote.fake
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlinx.io.Buffer
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
@@ -27,6 +31,7 @@ import kotlin.test.assertTrue
 /**
  *
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class FakeAuthServiceTest {
 
     lateinit var accountsFile: Path
@@ -40,6 +45,8 @@ class FakeAuthServiceTest {
         accountsFile = Path(tempDirectory, "accounts.json")
         lifecycleController = DefaultLifecycleController()
 
+        val testDispatcher = StandardTestDispatcher()
+
         fakeAuthService = FakeAuthService(
             accountsFile = accountsFile,
             users = mutableMapOf(),
@@ -47,14 +54,18 @@ class FakeAuthServiceTest {
             json = Json { isLenient = true },
 
             lifecycleController = lifecycleController,
-            dataContext = Dispatchers.IO,
-            dataScope = CoroutineScope(Dispatchers.IO)
+            dataContext = testDispatcher,
+            dataScope = CoroutineScope(testDispatcher + SupervisorJob())
         )
         println("Created file reference: $accountsFile")
+
+        Dispatchers.setMain(testDispatcher)
     }
 
     @AfterTest
     fun tearDown() {
+        Dispatchers.resetMain()
+
         println("Removing file reference: $accountsFile")
         SystemFileSystem.delete(accountsFile, mustExist = false)
     }
@@ -79,8 +90,10 @@ class FakeAuthServiceTest {
         /*
         When:
         - the lifecycle controller emits Stop
+        - the test waits for work to complete
          */
         lifecycleController.onStop()
+        testScheduler.advanceUntilIdle()
 
         /*
         Then:
