@@ -41,9 +41,7 @@ fun coreDataModule(
     ) }
     single<Json> { Json { isLenient = true } }
 
-    scope<WindowComponent> {
-        scopedOf(::DefaultLifecycleController) { bind<LifecycleController>() }
-    }
+    singleOf(::DefaultLifecycleController) { bind<LifecycleController>() }
 
     includes(
         repositoryModule
