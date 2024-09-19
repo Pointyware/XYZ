@@ -5,8 +5,12 @@
 package org.pointyware.xyz.feature.login.remote.fake
 
 import kotlinx.coroutines.test.runTest
+import kotlinx.io.Buffer
 import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.files.SystemTemporaryDirectory
+import kotlinx.io.readByteArray
+import kotlinx.serialization.json.Json
 import org.pointyware.xyz.core.data.DefaultLifecycleController
 import org.pointyware.xyz.core.data.LifecycleController
 import org.pointyware.xyz.core.entities.Uuid
@@ -16,10 +20,13 @@ import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.business.Individual
 import org.pointyware.xyz.core.entities.profile.Disability
+import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 /**
  * TODO: describe purpose/intent of FakeProfileServiceTest
@@ -88,6 +95,13 @@ class FakeProfileServiceTest {
         Then:
         - the FakeProfileService should save the users
          */
-
+        val fileContents = SystemFileSystem.source(profileFile)
+        val readBuffer = Buffer()
+        fileContents.readAtMostTo(readBuffer, Long.MAX_VALUE)
+        val fileContentsString = readBuffer.readByteArray().decodeToString()
+        val decodedProfiles = Json.decodeFromString<Map<Uuid, Profile>>(fileContentsString)
+        assertEquals(2, decodedProfiles.size)
+        assertEquals(driver1, decodedProfiles[driver1.id])
+        assertEquals(rider1, decodedProfiles[rider1.id])
     }
 }
