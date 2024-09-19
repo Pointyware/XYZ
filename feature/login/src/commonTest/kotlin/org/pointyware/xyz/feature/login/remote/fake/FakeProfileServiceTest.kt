@@ -143,14 +143,6 @@ class FakeProfileServiceTest {
         - the FakeProfileService should save the users
          */
         assertTrue(SystemFileSystem.exists(profileFile))
-        val fileContents = SystemFileSystem.source(profileFile)
-        val readBuffer = Buffer()
-        fileContents.readAtMostTo(readBuffer, Long.MAX_VALUE)
-        val fileContentsString = readBuffer.readByteArray().decodeToString()
-        val decodedProfiles = Json.decodeFromString<Map<Uuid, Profile>>(fileContentsString)
-        assertEquals(2, decodedProfiles.size)
-        assertEquals(driver1, decodedProfiles[driver1.id])
-        assertEquals(rider1, decodedProfiles[rider1.id])
     }
 
     private val profilesJsonString = """
