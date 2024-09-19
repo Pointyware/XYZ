@@ -4,6 +4,8 @@
 
 package org.pointyware.xyz.core.local
 
+import kotlinx.io.files.Path
+
 /**
  *
  */
@@ -13,16 +15,16 @@ class LocalMemoryDatabase(
 
     private val dataMap = mutableMapOf<Path, String>()
 
-    override fun save(path: Path, data: String) {
-        dataMap[root + path] = data
+    override fun save(key: String, data: String) {
+        dataMap[Path(root, key)] = data
     }
 
-    override fun load(path: Path): String? {
-        return dataMap[root + path]
+    override fun load(key: String): String? {
+        return dataMap[Path(root, key)]
     }
 
-    override fun delete(path: Path) {
-        dataMap.remove(root + path)
+    override fun delete(key: String) {
+        dataMap.remove(Path(root, key))
     }
 }
 
