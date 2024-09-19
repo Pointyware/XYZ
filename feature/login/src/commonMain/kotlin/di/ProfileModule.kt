@@ -92,6 +92,7 @@ private fun profileRemoteModule() = module {
     if (BuildInfo.isDebug) {
         single<ProfileService> {
             val profilePath = Path(get<Path>(qualifier = testDirectory), "profile.json")
+            println("Using fake profile service with file: $profilePath")
             FakeProfileService(profilePath)
         }
     } else {

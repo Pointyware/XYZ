@@ -68,6 +68,7 @@ fun featureLoginRemoteModule() = module {
     if (BuildInfo.isDebug) {
         single<AuthService> {
             val accountsFile = Path(get<Path>(qualifier = testDirectory), "accounts.json")
+            println("Using fake auth service with file: $accountsFile")
             FakeAuthService(
                 accountsFile = accountsFile,
                 users = mutableMapOf(),
