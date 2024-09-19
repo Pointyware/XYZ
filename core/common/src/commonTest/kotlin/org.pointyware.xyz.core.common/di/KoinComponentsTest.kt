@@ -38,7 +38,7 @@ class KoinComponentsTest {
     /**
      * A dependency of the View
      */
-    class ViewDep(val viewModelDep: ViewModelDep)
+    class ViewDep(val windowDep: WindowDep)
 
     class FooDep()
     class BarDep()
