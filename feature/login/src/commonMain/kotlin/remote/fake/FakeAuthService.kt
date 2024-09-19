@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.feature.login.remote
+package org.pointyware.xyz.feature.login.remote.fake
 
 import io.ktor.utils.io.charsets.Charsets
 import io.ktor.utils.io.core.toByteArray
@@ -19,13 +19,14 @@ import org.pointyware.xyz.core.data.LifecycleController
 import org.pointyware.xyz.core.data.LifecycleEvent
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.login.data.Authorization
+import org.pointyware.xyz.feature.login.remote.AuthService
 import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
 
 /**
  *
  */
-class TestAuthService(
+class FakeAuthService(
     private val accountsFile: Path,
     private val users: MutableMap<String, UserEntry> = mutableMapOf(),
     private val defaultDelay: Long = 500,

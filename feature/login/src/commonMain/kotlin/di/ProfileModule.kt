@@ -35,7 +35,7 @@ import org.pointyware.xyz.feature.login.remote.CompanyService
 import org.pointyware.xyz.feature.login.remote.KtorAuthService
 import org.pointyware.xyz.feature.login.remote.KtorProfileService
 import org.pointyware.xyz.feature.login.remote.ProfileService
-import org.pointyware.xyz.feature.login.remote.TestAuthService
+import org.pointyware.xyz.feature.login.remote.fake.FakeAuthService
 import org.pointyware.xyz.feature.login.remote.fake.FakeProfileService
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModelImpl
@@ -96,10 +96,10 @@ private fun profileRemoteModule() = module {
         }
         single<AuthService> {
             val accountsFile = Path(get<Path>(qualifier = testDirectory), "accounts.json")
-            TestAuthService(
+            FakeAuthService(
                 accountsFile = accountsFile,
                 users = mutableMapOf(
-                    "foo@bar.com" to TestAuthService.UserEntry("password", Uuid.v4())
+                    "foo@bar.com" to FakeAuthService.UserEntry("password", Uuid.v4())
                 ),
                 json = get<Json>(),
                 lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
