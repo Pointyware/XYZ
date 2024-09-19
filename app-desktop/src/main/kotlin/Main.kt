@@ -5,7 +5,6 @@
 package org.pointyware.xyz.desktop
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -18,35 +17,46 @@ import org.pointyware.xyz.shared.XyzApp
 import org.pointyware.xyz.shared.di.AppDependencies
 import org.pointyware.xyz.shared.di.setupKoin
 
-fun main() = application {
+/**
+ * Main entry point for the desktop application.
+ */
+fun main() {
+
     // Configure Koin Dependency Injection (actually Service Locator)
     setupKoin(platformModule = desktopModule())
+
     // Get the dependencies
-    val appComponent = remember { ApplicationComponent() }
-    val appDependencies = remember { appComponent.get<AppDependencies>() }
+    val appComponent = ApplicationComponent()
+    val appDependencies = appComponent.get<AppDependencies>()
 
-    val state = rememberWindowState()
-    // TODO: observe window state changes for configuration scope
+    application {
 
-    Window(
-        title = "My Application",
-        state = state,
-        onCloseRequest = {
-            appComponent.finish()
-            exitApplication()
+        val state = rememberWindowState()
+        // TODO: observe window state changes for configuration scope
+        println("Window state: ${state.size}")
+
+        Window(
+            title = "My Application",
+            state = state,
+            onCloseRequest = {
+                appComponent.finish()
+                exitApplication()
+            }
+        ) {
+            XyzApp(
+                dependencies = appDependencies,
+                isDarkTheme = isSystemInDarkTheme()
+            )
         }
-    ) {
-        XyzApp(
-            dependencies = appDependencies,
-            isDarkTheme = isSystemInDarkTheme()
+
+        Tray(
+            icon = painterResource(Res.drawable.tray_icon),
+            menu = {
+                Menu("File") {
+                }
+            }
         )
     }
 
-    Tray(
-        icon = painterResource(Res.drawable.tray_icon),
-        menu = {
-            Menu("File") {
-            }
-        }
-    )
+    // TODO: clean up after application closes
 }
