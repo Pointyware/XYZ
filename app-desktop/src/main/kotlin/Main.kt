@@ -33,7 +33,6 @@ fun main() {
 
         val state = rememberWindowState()
         // TODO: observe window state changes for configuration scope
-        println("Window state: ${state.size}")
 
         Window(
             title = "My Application",
