@@ -47,6 +47,8 @@ kotlin {
                 implementation(projects.core.remote)
 
                 implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.io.core)
+                implementation(libs.kotlinx.io.bytestring)
                 implementation(libs.koin.core)
 
                 api(libs.kotlinx.serialization)

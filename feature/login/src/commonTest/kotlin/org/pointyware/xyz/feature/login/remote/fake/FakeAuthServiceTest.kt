@@ -21,6 +21,7 @@ import kotlinx.io.files.SystemTemporaryDirectory
 import kotlinx.serialization.json.Json
 import org.pointyware.xyz.core.data.DefaultLifecycleController
 import org.pointyware.xyz.core.data.LifecycleController
+import org.pointyware.xyz.core.data.writeText
 import org.pointyware.xyz.feature.login.data.Authorization
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -156,13 +157,4 @@ class FakeAuthServiceTest {
           }
         }
     """.trimIndent()
-}
-
-private fun Path.writeText(accountsJsonString: String) {
-    val dataBuffer = Buffer().apply { write(accountsJsonString.toByteArray(Charsets.UTF_8)) }
-    SystemFileSystem.sink(this).use { sink ->
-        sink.write(dataBuffer, dataBuffer.size)
-        sink.flush()
-        sink.close()
-    }
 }
