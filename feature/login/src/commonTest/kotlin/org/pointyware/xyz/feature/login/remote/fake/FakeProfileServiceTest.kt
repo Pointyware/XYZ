@@ -29,19 +29,21 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 /**
- * TODO: describe purpose/intent of FakeProfileServiceTest
+ *
  */
 class FakeProfileServiceTest {
 
     lateinit var profileFile: Path
-    lateinit var fakeProfileService: FakeProfileService
     lateinit var lifecycleController: LifecycleController
+
+    lateinit var fakeProfileService: FakeProfileService
 
     @BeforeTest
     fun setUp() {
         val tempDirectory = SystemTemporaryDirectory
-        lifecycleController = DefaultLifecycleController()
+        profileFile = Path(tempDirectory, "profiles.json")
 
+        lifecycleController = DefaultLifecycleController()
         fakeProfileService = FakeProfileService(
             tempDirectory
         )
@@ -95,6 +97,7 @@ class FakeProfileServiceTest {
         Then:
         - the FakeProfileService should save the users
          */
+        assertTrue(SystemFileSystem.exists(profileFile))
         val fileContents = SystemFileSystem.source(profileFile)
         val readBuffer = Buffer()
         fileContents.readAtMostTo(readBuffer, Long.MAX_VALUE)
