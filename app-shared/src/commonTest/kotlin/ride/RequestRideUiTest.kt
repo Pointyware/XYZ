@@ -43,20 +43,6 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalTestApi::class)
 class RequestRideUiTest {
 
-    private fun testFeatureProfileModule(
-        profileRepository: ProfileRepository,
-        companyRepository: CompanyRepository
-    ) = module {
-        single<ProfileRepository> { profileRepository }
-        single<CompanyRepository> { companyRepository }
-    }
-
-    private fun testFeatureRideDataModule(
-        rideRepository: RideRequestRepository
-    ) = module {
-        single<RideRequestRepository> { rideRepository }
-    }
-
     @BeforeTest
     fun setUp() {
         startKoin {
