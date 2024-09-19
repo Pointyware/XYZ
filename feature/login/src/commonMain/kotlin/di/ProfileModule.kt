@@ -94,21 +94,7 @@ private fun profileRemoteModule() = module {
             val profilePath = Path(get<Path>(qualifier = testDirectory), "profile.json")
             FakeProfileService(profilePath)
         }
-        single<AuthService> {
-            val accountsFile = Path(get<Path>(qualifier = testDirectory), "accounts.json")
-            FakeAuthService(
-                accountsFile = accountsFile,
-                users = mutableMapOf(
-                    "foo@bar.com" to FakeAuthService.UserEntry("password", Uuid.v4())
-                ),
-                json = get<Json>(),
-                lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
-                dataContext = get<CoroutineContext>(qualifier = dataQualifier),
-                dataScope = get<CoroutineScope>(qualifier = dataQualifier),
-            )
-        }
     } else {
         singleOf(::KtorProfileService) { bind<ProfileService>() }
-        singleOf(::KtorAuthService) { bind<AuthService>() }
     }
 }
