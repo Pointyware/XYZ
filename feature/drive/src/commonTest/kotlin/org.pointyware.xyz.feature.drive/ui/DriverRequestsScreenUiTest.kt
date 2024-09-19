@@ -10,7 +10,9 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.printToLog
 import androidx.compose.ui.test.runComposeUiTest
 import kotlinx.datetime.Clock
 import org.koin.core.context.loadKoinModules
@@ -40,8 +42,10 @@ import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.core.ui.di.coreUiModule
 import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
 import org.pointyware.xyz.drive.data.RideRepository
+import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
 import org.pointyware.xyz.drive.data.TestRideRepository
 import org.pointyware.xyz.drive.di.featureDriveModule
+import org.pointyware.xyz.drive.entities.DriverRates
 import org.pointyware.xyz.drive.entities.Request
 import org.pointyware.xyz.drive.navigation.driverActiveRoute
 import org.pointyware.xyz.drive.ui.DriveScreen
@@ -60,6 +64,7 @@ import kotlin.time.Duration.Companion.minutes
 class DriverRequestsScreenUiTest {
 
     private lateinit var rideRepository: TestRideRepository
+    private lateinit var driverSettingsRepository: TestDriverSettingsRepository
 
     private val testRequest = Request(
         rideId = Uuid.v4(),
@@ -110,7 +115,12 @@ class DriverRequestsScreenUiTest {
         loadKoinModules(
             testDataModule(rideRepository)
         )
-
+        driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
+        driverSettingsRepository.setDriverRates(DriverRates(
+            maintenanceCost = 20L.dollarCents() per 1.0.kilometers(),
+            pickupCost = 0L.dollarCents() per 1.0.kilometers(),
+            dropoffCost = 100L.dollarCents() per 1.0.kilometers()
+        ))
     }
 
     @AfterTest
@@ -175,9 +185,9 @@ class DriverRequestsScreenUiTest {
             .assertExists()
         onNodeWithText("Walgreens")
             .assertExists()
-        onNodeWithText("0.5 km")
+        onNodeWithText(".50 km", substring = true)
             .assertExists()
-        onNodeWithText("$0.50")
+        onNodeWithText("$0.50", substring = true)
             .assertExists()
         onNodeWithText("Accept")
             .assertExists()
@@ -255,9 +265,9 @@ class DriverRequestsScreenUiTest {
             .assertExists()
         onNodeWithText("Walgreens")
             .assertExists()
-        onNodeWithText("0.5 km")
+        onNodeWithText(".50 km", substring = true)
             .assertExists()
-        onNodeWithText("$0.50")
+        onNodeWithText("$0.50", substring = true)
             .assertExists()
         onNodeWithText("Accept")
             .assertExists()
