@@ -50,11 +50,13 @@ class FakeAuthServiceTest {
             dataContext = Dispatchers.IO,
             dataScope = CoroutineScope(Dispatchers.IO)
         )
+        println("Created file reference: $accountsFile")
     }
 
     @AfterTest
     fun tearDown() {
-
+        println("Removing file reference: $accountsFile")
+        SystemFileSystem.delete(accountsFile, mustExist = false)
     }
 
     @Test
