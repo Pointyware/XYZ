@@ -4,6 +4,8 @@
 
 package org.pointyware.xyz.core.entities.profile
 
+import kotlinx.serialization.Serializable
+
 /**
  * Describes a rider disability that may restrict driver acceptance.
  *
@@ -13,6 +15,7 @@ package org.pointyware.xyz.core.entities.profile
  *
  * @see Accommodation
  */
+@Serializable
 sealed class Disability {
     data object Blind : Disability()
     data object Deaf : Disability()

@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -47,6 +48,8 @@ kotlin {
 
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.koin.core)
+
+                api(libs.kotlinx.serialization)
             }
         }
         val commonTest by getting {

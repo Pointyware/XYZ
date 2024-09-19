@@ -4,11 +4,13 @@
 
 package org.pointyware.xyz.core.entities.profile
 
+import kotlinx.serialization.Serializable
 import org.pointyware.xyz.core.common.StringLength
 
 /**
  *
  */
+@Serializable
 data class Name(
     @StringLength(1, 32)
     val given: String,

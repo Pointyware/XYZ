@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.core.entities.profile
 
+import kotlinx.serialization.Serializable
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.business.Company
@@ -22,6 +23,7 @@ interface Profile {
 /**
  * Profile data for a driver.
  */
+@Serializable
 class DriverProfile(
     override val id: Uuid,
     override val name: Name,
@@ -34,6 +36,7 @@ class DriverProfile(
 /**
  * Profile data for a rider.
  */
+@Serializable
 class RiderProfile(
     override val id: Uuid,
     override val name: Name,

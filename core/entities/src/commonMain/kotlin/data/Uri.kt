@@ -4,9 +4,12 @@
 
 package org.pointyware.xyz.core.entities.data
 
+import kotlinx.serialization.Serializable
+
 /**
  * Multiplatform implementation of URIs
  */
+@Serializable
 class Uri(
     val value: String
 ) {
@@ -14,6 +17,7 @@ class Uri(
         require(value.isNotBlank()) { "Uri cannot be blank" }
     }
 
+    @Serializable
     sealed class Protocol(val value: String) {
         data object File: Protocol("FILE")
         data object Http: Protocol("HTTP")
