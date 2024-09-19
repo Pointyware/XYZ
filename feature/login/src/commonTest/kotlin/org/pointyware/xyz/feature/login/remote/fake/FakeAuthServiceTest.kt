@@ -4,6 +4,8 @@
 
 package org.pointyware.xyz.feature.login.remote.fake
 
+import io.ktor.utils.io.charsets.Charsets
+import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,12 +18,10 @@ import kotlinx.io.Buffer
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.files.SystemTemporaryDirectory
-import kotlinx.io.readByteArray
 import kotlinx.serialization.json.Json
 import org.pointyware.xyz.core.data.DefaultLifecycleController
 import org.pointyware.xyz.core.data.LifecycleController
-import org.pointyware.xyz.core.entities.Uuid
-import org.pointyware.xyz.core.entities.profile.Profile
+import org.pointyware.xyz.feature.login.data.Authorization
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -71,8 +71,27 @@ class FakeAuthServiceTest {
     }
 
     @Test
-    fun `fake should load users from file when initializing`() {
+    fun `fake should load users from file when initializing`() = runTest {
+        /*
+        Given:
+        - some file with user text
+        - a FakeAuthService
+        - a lifecycle controller
+         */
+        accountsFile.writeText(accountsJsonString)
+        fakeAuthService.loadFile(accountsFile)
 
+        /*
+        When:
+        - a user attempts to login
+         */
+        val result = fakeAuthService.login("driver1@some.com", "password1")
+
+        /*
+        Then:
+        - A success authorization should be returned with the userId
+         */
+        assertTrue(result is Authorization)
     }
 
     @Test
@@ -100,5 +119,49 @@ class FakeAuthServiceTest {
         - the FakeProfileService should save the users
          */
         assertTrue(SystemFileSystem.exists(accountsFile))
+    }
+
+    private val accountsJsonString = """
+        {
+          "driver1@some.com": {
+            "password": "password1",
+            "id": {
+              "bytes": [94, -106, -108, -36, -52, -57, 65, 46, 115, -40, 98, -3, 90, 69, 121, -81]
+            }
+          },
+          "driver2@some.com": {
+            "password": "password2",
+            "id": {
+              "bytes": [94, -106, -108, -36, -52, -57, 65, 46, 115, -40, 98, -3, 90, 69, 121, -82]
+            }
+          },
+          "driver3@some.com": {
+            "password": "password3",
+            "id": {
+              "bytes": [94, -106, -108, -36, -52, -57, 65, 46, 115, -40, 98, -3, 90, 69, 121, -83]
+            }
+          },
+          "driver4@some.com": {
+            "password": "password4",
+            "id": {
+              "bytes": [94, -106, -108, -36, -52, -57, 65, 46, 115, -40, 98, -3, 90, 69, 121, -84]
+            }
+          },
+          "driver5@some.com": {
+            "password": "password5",
+            "id": {
+              "bytes": [94, -106, -108, -36, -52, -57, 65, 46, 115, -40, 98, -3, 90, 69, 121, -85]
+            }
+          }
+        }
+    """.trimIndent()
+}
+
+private fun Path.writeText(accountsJsonString: String) {
+    val dataBuffer = Buffer().apply { write(accountsJsonString.toByteArray(Charsets.UTF_8)) }
+    SystemFileSystem.sink(this).use { sink ->
+        sink.write(dataBuffer, dataBuffer.size)
+        sink.flush()
+        sink.close()
     }
 }
