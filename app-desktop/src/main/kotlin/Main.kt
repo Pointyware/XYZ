@@ -34,7 +34,7 @@ fun main() {
     lifecycleController.onStart()
     lifecycleController.onResume() // TODO: observe when window is shown/navigated to/focused
 
-    application {
+    application(exitProcessOnExit = false) {
 
         val state = rememberWindowState()
         // TODO: observe window state changes for configuration scope
