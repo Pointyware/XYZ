@@ -22,7 +22,7 @@ import org.pointyware.xyz.core.entities.profile.Profile as ProfileEntity
 interface ProfileService {
     suspend fun createDriverProfile(userId: Uuid, profile: DriverProfile): Result<DriverProfile>
     suspend fun createRiderProfile(userId: Uuid, profile: RiderProfile): Result<RiderProfile>
-    suspend fun getProfile(userId: Uuid): Result<ProfileEntity?>
+    suspend fun getProfile(userId: Uuid): Result<ProfileEntity>
     suspend fun updateProfile(userId: Uuid, profile: ProfileEntity): Result<ProfileEntity>
     suspend fun deleteProfile(userId: Uuid): Result<Unit>
 }
@@ -59,7 +59,7 @@ class KtorProfileService(
         }
     }
 
-    override suspend fun getProfile(userId: Uuid): Result<ProfileEntity?> {
+    override suspend fun getProfile(userId: Uuid): Result<ProfileEntity> {
         try {
             val response = client.get(Profile.Id(userId.toString()))
             return Result.success(response.body<ProfileEntity>())

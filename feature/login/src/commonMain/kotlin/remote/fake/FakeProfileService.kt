@@ -89,9 +89,11 @@ class FakeProfileService(
         return Result.success(profile)
     }
 
-    override suspend fun getProfile(userId: Uuid): Result<Profile?> {
-        profiles[userId].let {
+    override suspend fun getProfile(userId: Uuid): Result<Profile> {
+        profiles[userId]?.let {
             return Result.success(it)
+        } ?: run {
+            return Result.failure(Exception("Profile not found"))
         }
     }
 
