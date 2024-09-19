@@ -37,10 +37,7 @@ fun setupKoin(platformModule: Module) {
     }
 }
 
-fun appModule(
-    coreModule: Module = coreModule(),
-    featureModule: Module = featureModule(),
-): Module = module {
+fun appModule(): Module = module {
     singleOf(::ApplicationComponent) // only one application
 
     scope<ApplicationComponent> {
@@ -59,8 +56,8 @@ fun appModule(
 
     factoryOf(::KoinAppDependencies) { bind<AppDependencies>() }
     includes(
-        coreModule,
-        featureModule,
+        coreModule(),
+        featureModule(),
     )
 }
 
