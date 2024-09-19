@@ -6,15 +6,14 @@ package org.pointyware.xyz.feature.login.data
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
-import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.profile.DriverProfile
+import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.feature.login.local.AuthCache
 import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.remote.AuthService
 import org.pointyware.xyz.feature.login.remote.ProfileService
-import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import kotlin.coroutines.CoroutineContext
 
 /**
