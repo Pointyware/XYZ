@@ -76,7 +76,7 @@ class FakeProfileServiceTest {
         Dispatchers.resetMain()
 
         println("Removing file reference: $profileFile")
-//        SystemFileSystem.delete(profileFile, mustExist = false)
+        SystemFileSystem.delete(profileFile, mustExist = false)
     }
 
     @Test
@@ -148,7 +148,46 @@ class FakeProfileServiceTest {
 
     private val profilesJsonString = """
         [
-            
+          {
+            "type": "org.pointyware.xyz.core.entities.profile.DriverProfile",
+            "id": {
+              "bytes": [40, -78, 62, 32, 66, -57, 67, 9, -63, 43, 76, -57, -102, -101, -65, 80]
+            },
+            "name": {
+              "given": "John",
+              "middle": "",
+              "family": "Doe"
+            },
+            "gender": "Man",
+            "picture": {
+              "value": "https://example.com/johndoe.jpg"
+            },
+            "accommodations": [],
+            "business": {
+              "type": "org.pointyware.xyz.core.entities.business.Individual"
+            }
+          },
+          {
+            "type": "org.pointyware.xyz.core.entities.profile.RiderProfile",
+            "id": {
+              "bytes": [-74, -23, -37, 126, -61, -2, 78, 92, 14, 69, 46, 84, -83, 75, -70, -45]
+            },
+            "name": {
+              "given": "Jane",
+              "middle": "",
+              "family": "Doe"
+            },
+            "gender": "Woman",
+            "picture": {
+              "value": "https://example.com/janedoe.jpg"
+            },
+            "disabilities": [
+              {
+                "type": "org.pointyware.xyz.core.entities.profile.Disability.ServiceAnimal"
+              }
+            ],
+            "preferences": ""
+          }
         ]
     """.trimIndent()
 }
