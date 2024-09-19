@@ -132,35 +132,3 @@ class ProfileRepositoryImpl(
         }
     }
 }
-
-class TestProfileRepository(
-
-): ProfileRepository {
-    override suspend fun createUser(email: String, password: String): Result<Authorization> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun createDriverProfile(profile: DriverProfile): Result<DriverProfile> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun createRiderProfile(profile: RiderProfile): Result<RiderProfile> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateProfile(profile: Profile): Result<Profile> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun removeUser(email: String): Result<Unit> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getProfile(email: String): Result<Profile?> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun login(email: String, password: String): Result<Login> {
-        TODO("Not yet implemented")
-    }
-}
