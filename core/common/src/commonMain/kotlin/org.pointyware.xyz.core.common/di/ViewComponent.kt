@@ -8,11 +8,11 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.createScope
 import org.koin.core.scope.Scope
 
-class ViewComponent(private val viewModelComponent: ViewModelComponent): KoinScopeComponent {
-    override val scope: Scope by nestedScope(viewModelComponent)
+class ViewComponent(private val windowComponent: WindowComponent): KoinScopeComponent {
+    override val scope: Scope by nestedScope(windowComponent)
 
     fun finish() {
-        scope.unlink(viewModelComponent.scope)
+        scope.unlink(windowComponent.scope)
         scope.close()
     }
 }

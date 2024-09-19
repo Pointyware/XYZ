@@ -130,20 +130,18 @@ class KoinComponentsTest {
     }
 
     @Test
-    fun `view scope within view model scope`() {
+    fun `view scope within window scope`() {
         val appComponent = ApplicationComponent()
         val appDep = appComponent.scope.get<AppDep>()
         val windowComponent = WindowComponent(appComponent)
         val windowDep = windowComponent.scope.get<WindowDep>()
-        val viewModelComponent = ViewModelComponent(windowComponent)
-        val viewModelDep = viewModelComponent.scope.get<ViewModelDep>()
-        val viewComponent = ViewComponent(viewModelComponent)
+        val viewComponent = ViewComponent(windowComponent)
         assertEquals(viewComponent, viewComponent.scope.get<ViewComponent>(),
             "ViewComponent should be available in its own scope")
         val viewDep = viewComponent.scope.get<ViewDep>()
         assertEquals(ViewDep::class, viewDep::class)
-        val parent = viewComponent.scope.get<ViewModelComponent>()
-        assertEquals(viewModelComponent, parent, "ViewModelComponent should be available in the View Scope")
+        val parent = viewComponent.scope.get<WindowComponent>()
+        assertEquals(windowComponent, parent, "WindowComponent should be available in the View Scope")
 
         val appDepFromView = viewComponent.scope.get<AppDep>()
         assertEquals(appDep, appDepFromView, "AppDep should be the same instance in View Scope")
@@ -154,11 +152,6 @@ class KoinComponentsTest {
         assertEquals(windowDep, windowDepFromView, "WindowDep should be the same instance in View Scope")
         assertFails("ViewDep should not be available in the WindowComponent") {
             windowComponent.scope.get<ViewDep>()
-        }
-        val viewModelDepFromView = viewComponent.scope.get<ViewModelDep>()
-        assertEquals(viewModelDep, viewModelDepFromView, "ViewModelDep should be the same instance in View Scope")
-        assertFails("ViewDep should not be available in the ViewModelComponent") {
-            viewModelComponent.scope.get<ViewDep>()
         }
     }
 
