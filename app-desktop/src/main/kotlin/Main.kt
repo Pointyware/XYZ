@@ -12,6 +12,7 @@ import androidx.compose.ui.window.rememberWindowState
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.component.get
 import org.pointyware.xyz.core.common.di.ApplicationComponent
+import org.pointyware.xyz.core.data.LifecycleController
 import org.pointyware.xyz.desktop.di.desktopModule
 import org.pointyware.xyz.shared.XyzApp
 import org.pointyware.xyz.shared.di.AppDependencies
@@ -28,6 +29,10 @@ fun main() {
     // Get the dependencies
     val appComponent = ApplicationComponent()
     val appDependencies = appComponent.get<AppDependencies>()
+
+    val lifecycleController = appComponent.scope.get<LifecycleController>()
+    lifecycleController.onStart()
+    lifecycleController.onResume() // TODO: observe when window is shown/navigated to/focused
 
     application {
 
@@ -57,5 +62,6 @@ fun main() {
         )
     }
 
-    // TODO: clean up after application closes
+    lifecycleController.onPause() // TODO: observe when window is hidden/navigated away from/unfocused
+    lifecycleController.onStop()
 }
