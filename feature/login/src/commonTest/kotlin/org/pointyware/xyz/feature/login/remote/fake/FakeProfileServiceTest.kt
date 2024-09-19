@@ -4,7 +4,14 @@
 
 package org.pointyware.xyz.feature.login.remote.fake
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlinx.io.Buffer
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
@@ -13,6 +20,7 @@ import kotlinx.io.readByteArray
 import kotlinx.serialization.json.Json
 import org.pointyware.xyz.core.data.DefaultLifecycleController
 import org.pointyware.xyz.core.data.LifecycleController
+import org.pointyware.xyz.core.data.writeText
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.DriverProfile
@@ -22,6 +30,7 @@ import org.pointyware.xyz.core.entities.business.Individual
 import org.pointyware.xyz.core.entities.profile.Disability
 import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
+import org.pointyware.xyz.feature.login.data.Authorization
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -31,6 +40,7 @@ import kotlin.test.assertTrue
 /**
  *
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class FakeProfileServiceTest {
 
     lateinit var profileFile: Path
@@ -43,20 +53,55 @@ class FakeProfileServiceTest {
         val tempDirectory = SystemTemporaryDirectory
         profileFile = Path(tempDirectory, "profiles.json")
 
+        val testDispatcher = StandardTestDispatcher()
+
         lifecycleController = DefaultLifecycleController()
         fakeProfileService = FakeProfileService(
-            tempDirectory
+            profileFile = profileFile,
+            profiles = mutableMapOf(),
+
+            json = Json { isLenient = true },
+
+            lifecycleController = lifecycleController,
+            dataContext = testDispatcher,
+            dataScope = CoroutineScope(testDispatcher + SupervisorJob())
         )
+        println("Created file reference: $profileFile")
+
+        Dispatchers.setMain(testDispatcher)
     }
 
     @AfterTest
     fun tearDown() {
+        Dispatchers.resetMain()
 
+        println("Removing file reference: $profileFile")
+//        SystemFileSystem.delete(profileFile, mustExist = false)
     }
 
     @Test
-    fun `fake should load users from file when initializing`() {
+    fun `fake should load users from file when initializing`() = runTest {
+        /*
+        Given:
+        - some file with profile text
+        - a FakeProfileService
+        - a lifecycle controller
+         */
+        profileFile.writeText(profilesJsonString)
+        fakeProfileService.loadFile(profileFile)
 
+        /*
+        When:
+        - we retrieve a user profile by id
+         */
+        val result = fakeProfileService.getProfile(Uuid.v4())
+
+        /*
+        Then:
+        - A success authorization should be returned with the userId
+         */
+        assertTrue(result.isSuccess)
+        assertTrue(result.getOrNull() is RiderProfile)
     }
 
     @Test
@@ -107,4 +152,10 @@ class FakeProfileServiceTest {
         assertEquals(driver1, decodedProfiles[driver1.id])
         assertEquals(rider1, decodedProfiles[rider1.id])
     }
+
+    private val profilesJsonString = """
+        [
+            
+        ]
+    """.trimIndent()
 }
