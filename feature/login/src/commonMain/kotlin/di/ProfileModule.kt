@@ -36,7 +36,7 @@ import org.pointyware.xyz.feature.login.remote.KtorAuthService
 import org.pointyware.xyz.feature.login.remote.KtorProfileService
 import org.pointyware.xyz.feature.login.remote.ProfileService
 import org.pointyware.xyz.feature.login.remote.TestAuthService
-import org.pointyware.xyz.feature.login.remote.TestProfileService
+import org.pointyware.xyz.feature.login.remote.fake.FakeProfileService
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModelImpl
 import org.pointyware.xyz.feature.login.viewmodels.ProfileCreationViewModel
@@ -92,7 +92,7 @@ private fun profileRemoteModule() = module {
     if (BuildInfo.isDebug) {
         single<ProfileService> {
             val profilePath = Path(get<Path>(qualifier = testDirectory), "profile.json")
-            TestProfileService(profilePath)
+            FakeProfileService(profilePath)
         }
         single<AuthService> {
             val accountsFile = Path(get<Path>(qualifier = testDirectory), "accounts.json")
