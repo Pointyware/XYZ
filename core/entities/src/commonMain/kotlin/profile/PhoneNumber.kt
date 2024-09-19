@@ -4,10 +4,13 @@
 
 package org.pointyware.xyz.core.entities.profile
 
+import kotlinx.serialization.Serializable
 import org.pointyware.xyz.core.common.Regex
+
 /**
- * TODO: describe purpose/intent of PhoneNumber
+ * A sequence of digits (at least 1) representing a phone number.
  */
+@Serializable
 data class PhoneNumber(
     @Regex("^[0-9]+$")
     val sequence: String
