@@ -91,7 +91,8 @@ class FakeAuthServiceTest {
         Then:
         - A success authorization should be returned with the userId
          */
-        assertTrue(result is Authorization)
+        assertTrue(result.isSuccess)
+        assertTrue(result.getOrNull() is Authorization)
     }
 
     @Test
