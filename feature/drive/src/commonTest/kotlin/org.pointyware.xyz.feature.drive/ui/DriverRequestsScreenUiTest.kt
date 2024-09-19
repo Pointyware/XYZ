@@ -29,7 +29,7 @@ import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.geo.kilometers
 import org.pointyware.xyz.core.entities.profile.Gender
-import org.pointyware.xyz.core.entities.profile.Name
+import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.core.interactors.di.coreInteractorsModule
 import org.pointyware.xyz.core.navigation.XyzNavController

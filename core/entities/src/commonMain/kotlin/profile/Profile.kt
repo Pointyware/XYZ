@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.business.Company
+import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.ride.Accommodation
 
 /**

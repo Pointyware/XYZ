@@ -12,7 +12,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.Gender
-import org.pointyware.xyz.core.entities.profile.Name
+import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.viewmodels.KoinViewModel
 
 /**
