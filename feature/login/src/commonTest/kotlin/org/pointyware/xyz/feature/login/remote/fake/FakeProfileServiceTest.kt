@@ -127,14 +127,15 @@ class FakeProfileServiceTest {
 
         /*
         When:
-        - we retrieve an unknown user by id
+        - we retrieve a user with no profile
          */
         val randomResult = fakeProfileService.getProfile(Uuid.v4())
         /*
         Then:
         - A failure should be returned
          */
-        assertTrue(randomResult.isFailure)
+        assertTrue(randomResult.isSuccess)
+        assertEquals(null, randomResult.getOrNull())
     }
 
     @Test
