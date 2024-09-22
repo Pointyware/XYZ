@@ -11,7 +11,7 @@ import org.pointyware.xyz.core.navigation.di.NavigationDependencies
 import org.pointyware.xyz.core.navigation.toTypedKey
 import org.pointyware.xyz.drive.di.DriveDependencies
 import org.pointyware.xyz.drive.ui.ProviderDashboardScreen
-import org.pointyware.xyz.drive.ui.DriverHomeScreen
+import org.pointyware.xyz.drive.ui.ProviderHomeScreen
 import org.pointyware.xyz.drive.ui.DriverSettingsScreen
 
 val driverHomeRoute = "drive/home".toTypedKey<Unit>()
@@ -28,7 +28,7 @@ fun XyzRootScope.driveRouting(
 ) {
     location(driverHomeRoute) {
         val navController = remember { navigationDependencies.getNavController() }
-        DriverHomeScreen(navController = navController)
+        ProviderHomeScreen(navController = navController)
     }
     location(driverActiveRoute) {
         // TODO: replace with viewModel extension function that uses available (Koin)Scope

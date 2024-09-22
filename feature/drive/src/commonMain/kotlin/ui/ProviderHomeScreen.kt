@@ -16,7 +16,7 @@ import org.pointyware.xyz.drive.navigation.driverActiveRoute
 /**
  */
 @Composable
-fun DriverHomeScreen(
+fun ProviderHomeScreen(
     navController: XyzNavController,
 ) {
     Box(

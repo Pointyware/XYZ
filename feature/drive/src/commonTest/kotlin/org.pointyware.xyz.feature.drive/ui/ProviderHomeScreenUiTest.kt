@@ -18,7 +18,7 @@ import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.drive.navigation.driverActiveRoute
 import org.pointyware.xyz.drive.navigation.driverHomeRoute
-import org.pointyware.xyz.drive.ui.DriverHomeScreen
+import org.pointyware.xyz.drive.ui.ProviderHomeScreen
 import org.pointyware.xyz.feature.drive.test.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -29,7 +29,7 @@ import kotlin.test.assertEquals
  *
  */
 @OptIn(ExperimentalTestApi::class)
-class DriverHomeScreenUiTest {
+class ProviderHomeScreenUiTest {
 
     @BeforeTest
     fun setUp() {
@@ -54,7 +54,7 @@ class DriverHomeScreenUiTest {
             XyzTheme(
                 uiDependencies = EmptyTestUiDependencies()
             ) {
-                DriverHomeScreen(navController)
+                ProviderHomeScreen(navController)
             }
         }
 
