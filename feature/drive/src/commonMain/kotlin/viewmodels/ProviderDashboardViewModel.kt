@@ -90,4 +90,16 @@ class ProviderDashboardViewModel(
                 }
         }
     }
+
+    fun onPickUpRider() {
+        viewModelScope.launch {
+            repository.pickUpRider()
+                .onSuccess {
+
+                }
+                .onFailure {
+
+                }
+        }
+    }
 }

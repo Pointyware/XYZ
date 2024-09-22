@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
@@ -69,9 +71,9 @@ fun ProviderDashboardScreen(
                 }
                 is ProviderDashboardUiState.Accepted -> {
                     RideInfo(
-                        ride = capture.ride
+                        ride = capture.ride,
+                        onPickUpRider = { viewModel.onPickUpRider() },
                     )
-                    Text("Picking up ${capture.ride.rider.name.given}")
                 }
                 is ProviderDashboardUiState.RiderCanceled -> {
                     Text("RiderCanceled")
@@ -114,12 +116,21 @@ fun RideRequestList(
 
 @Composable
 fun RideInfo(
-    ride: Ride
+    ride: Ride,
+    onPickUpRider: () -> Unit,
 ) {
     Column(
         modifier = Modifier.semantics { contentDescription = "Rider Profile" }
     ) {
-        Text(text = ride.rider?.name?.toString() ?: "Rider Name")
+        val name = remember(ride) {
+            ride.rider?.name?.given ?: "Rider Name"
+        }
+        Text("Picking up $name")
+        Button(
+            onClick = onPickUpRider
+        ) {
+            Text("Pick Up")
+        }
 
         MessageInput(
             modifier = Modifier.fillMaxWidth()
