@@ -26,7 +26,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 /**
- * System/UI Test for Driver Profile Creation View
+ * System/UI Test for Rider Profile Creation View
  */
 @OptIn(ExperimentalTestApi::class)
 class RiderProfileCreationUiTest {

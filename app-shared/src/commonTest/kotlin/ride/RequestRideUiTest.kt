@@ -39,7 +39,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 /**
- * System/UI Test for Driver Profile Creation View
+ * System/UI Test for Rider Request Ride View
  */
 @OptIn(ExperimentalTestApi::class)
 class RequestRideUiTest {
