@@ -35,8 +35,6 @@ class ProviderDashboardViewModel(
         watchRequests()
     }
 
-    private val driverLocation = LatLong(0.0, 0.0) // TODO: get and update driver location
-
     private var requestsJob: Job? = null
     private fun watchRequests() {
         requestsJob?.cancel()
