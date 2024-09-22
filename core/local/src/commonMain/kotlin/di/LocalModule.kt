@@ -18,11 +18,15 @@ val testDirectory = named("test-directory")
  */
 fun coreLocalModule() = module {
 
-    if (BuildInfo.isDebug) {
-        factory<Path>(qualifier = testDirectory) {
-            Path("testing").also {
-                SystemFileSystem.createDirectories(it)
-            }
+}
+
+/**
+ * Defines dependencies for the core local module during tests.
+ */
+fun coreLocalTestModule() = module {
+    factory<Path>(qualifier = testDirectory) {
+        Path("testing").also {
+            SystemFileSystem.createDirectories(it)
         }
     }
 }
