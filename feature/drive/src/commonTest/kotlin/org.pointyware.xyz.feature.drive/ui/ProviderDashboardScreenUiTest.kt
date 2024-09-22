@@ -44,9 +44,9 @@ import org.pointyware.xyz.drive.entities.DriverRates
 import org.pointyware.xyz.drive.entities.Request
 import org.pointyware.xyz.drive.navigation.driverActiveRoute
 import org.pointyware.xyz.drive.ui.ProviderDashboardScreen
-import org.pointyware.xyz.drive.ui.ProviderDashboardScreenState
 import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.feature.drive.test.setupKoin
+import viewmodels.ProviderDashboardUiState
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -124,7 +124,7 @@ class ProviderDashboardScreenUiTest {
         - The ride filter is set to accept all requests
         - The view model state is Idle
          */
-        assertEquals(ProviderDashboardScreenState.AvailableRequests(emptyList()), providerDashboardViewModel.state.value, "initial state is idle")
+        assertEquals(ProviderDashboardUiState.AvailableRequests(emptyList()), providerDashboardViewModel.state.value, "initial state is idle")
 
         /*
         When:
@@ -266,7 +266,7 @@ class ProviderDashboardScreenUiTest {
         - The ride filter is set to accept all requests
         - The view model state is Idle
          */
-        assertEquals(ProviderDashboardScreenState.AvailableRequests(emptyList()), providerDashboardViewModel.state.value, "initial state is idle")
+        assertEquals(ProviderDashboardUiState.AvailableRequests(emptyList()), providerDashboardViewModel.state.value, "initial state is idle")
 
         /*
         When:

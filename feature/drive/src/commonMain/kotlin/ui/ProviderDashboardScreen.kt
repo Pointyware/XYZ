@@ -27,7 +27,7 @@ import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
-import viewmodels.ProviderDashboardScreenState
+import viewmodels.ProviderDashboardUiState
 
 /**
  * Displays a map with controls for managing trip requests and ride status.
@@ -37,7 +37,7 @@ fun ProviderDashboardScreen(
     viewModel: ProviderDashboardViewModel,
     navController: XyzNavController,
 ) {
-    val state: ProviderDashboardScreenState by viewModel.state.collectAsState()
+    val state: ProviderDashboardUiState by viewModel.state.collectAsState()
     val mapState: MapUiState by viewModel.mapState.collectAsState()
 
     Box(
@@ -60,32 +60,32 @@ fun ProviderDashboardScreen(
                 .align(Alignment.BottomCenter)
         ) {
             when (val capture = state) {
-                is ProviderDashboardScreenState.AvailableRequests -> {
+                is ProviderDashboardUiState.AvailableRequests -> {
                     RideRequestList(
                         requests = capture.requests,
                         onAccept = { viewModel.onAccept(it) },
                         onReject = { viewModel.onReject(it) },
                     )
                 }
-                is ProviderDashboardScreenState.Accepted -> {
+                is ProviderDashboardUiState.Accepted -> {
                     RideInfo(
                         ride = capture.ride
                     )
                     Text("Picking up ${capture.ride.rider.name.given}")
                 }
-                is ProviderDashboardScreenState.RiderCanceled -> {
+                is ProviderDashboardUiState.RiderCanceled -> {
                     Text("RiderCanceled")
                 }
-                is ProviderDashboardScreenState.InProgress -> {
+                is ProviderDashboardUiState.InProgress -> {
                     Text("InProgress")
                 }
-                is ProviderDashboardScreenState.RiderCanceledLate -> {
+                is ProviderDashboardUiState.RiderCanceledLate -> {
                     Text("RiderCanceledLate")
                 }
-                is ProviderDashboardScreenState.DriverCanceled -> {
+                is ProviderDashboardUiState.DriverCanceled -> {
                     Text("DriverCanceled")
                 }
-                is ProviderDashboardScreenState.Completed -> {
+                is ProviderDashboardUiState.Completed -> {
                     Text("Completed")
                 }
             }

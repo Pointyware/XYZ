@@ -8,45 +8,45 @@ import org.pointyware.xyz.core.entities.ride.PendingRide
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 
 /**
- * Represents the state of the provider dashboard.
+ * Represents the ui state of the provider dashboard.
  */
-sealed interface ProviderDashboardScreenState {
+sealed interface ProviderDashboardUiState {
     /**
      * The driver is available to accept requests is waiting for a new request.
      */
     data class AvailableRequests(
         val requests: List<RideRequestUiState>
-    ): ProviderDashboardScreenState
+    ): ProviderDashboardUiState
 
     /**
      * The driver has accepted a request and is on their way to pick up the passenger.
      */
     data class Accepted(
         val ride: PendingRide
-    ): ProviderDashboardScreenState
+    ): ProviderDashboardUiState
 
     /**
      * The rider has canceled the request before the driver arrived.
      */
-    data object RiderCanceled : ProviderDashboardScreenState
+    data object RiderCanceled : ProviderDashboardUiState
 
     /**
      * The driver has picked up the rider and is on their way to the destination.
      */
-    data object InProgress : ProviderDashboardScreenState
+    data object InProgress : ProviderDashboardUiState
 
     /**
      * The rider has canceled the request after the driver arrived.
      */
-    data object RiderCanceledLate : ProviderDashboardScreenState
+    data object RiderCanceledLate : ProviderDashboardUiState
 
     /**
      * The driver has canceled the request.
      */
-    data object DriverCanceled : ProviderDashboardScreenState
+    data object DriverCanceled : ProviderDashboardUiState
 
     /**
      * The ride has been completed.
      */
-    data object Completed : ProviderDashboardScreenState
+    data object Completed : ProviderDashboardUiState
 }

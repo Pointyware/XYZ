@@ -13,7 +13,7 @@ import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.drive.data.ProviderTripRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
-import viewmodels.ProviderDashboardScreenState
+import viewmodels.ProviderDashboardUiState
 
 /**
  * View model for the driver dashboard.
@@ -25,8 +25,8 @@ class ProviderDashboardViewModel(
     private val watchRatedRequests: WatchRatedRequests
 ): MapViewModelImpl() {
 
-    private val mutableState = MutableStateFlow<ProviderDashboardScreenState>(ProviderDashboardScreenState.AvailableRequests(emptyList()))
-    val state: StateFlow<ProviderDashboardScreenState> get() = mutableState
+    private val mutableState = MutableStateFlow<ProviderDashboardUiState>(ProviderDashboardUiState.AvailableRequests(emptyList()))
+    val state: StateFlow<ProviderDashboardUiState> get() = mutableState
 
     init {
         watchRequests()
@@ -41,7 +41,7 @@ class ProviderDashboardViewModel(
             watchRatedRequests.invoke()
                 .onSuccess { flow ->
                     flow.collect { requestList ->
-                        mutableState.value = ProviderDashboardScreenState.AvailableRequests(
+                        mutableState.value = ProviderDashboardUiState.AvailableRequests(
                             requests = requestList.map {
                                 val request = it.request
                                 RideRequestUiStateImpl(
@@ -71,7 +71,7 @@ class ProviderDashboardViewModel(
             repository.acceptRequest(request)
                 .onSuccess {
                     stopWatchingRequests()
-                    mutableState.value = ProviderDashboardScreenState.Accepted(it)
+                    mutableState.value = ProviderDashboardUiState.Accepted(it)
                 }
                 .onFailure {
                     TODO("Handle failure")
