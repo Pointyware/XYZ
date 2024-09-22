@@ -33,9 +33,9 @@ import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
-import org.pointyware.xyz.drive.data.DriverRideRepository
+import org.pointyware.xyz.drive.data.ProviderTripRepository
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
-import org.pointyware.xyz.drive.data.TestDriverRideRepository
+import org.pointyware.xyz.drive.data.TestProviderTripRepository
 import org.pointyware.xyz.drive.di.featureDriveDataTestModule
 import org.pointyware.xyz.drive.entities.DriverRates
 import org.pointyware.xyz.drive.entities.Request
@@ -56,7 +56,7 @@ import kotlin.time.Duration.Companion.minutes
 @OptIn(ExperimentalTestApi::class)
 class ProviderDashboardScreenUiTest {
 
-    private lateinit var rideRepository: TestDriverRideRepository
+    private lateinit var rideRepository: TestProviderTripRepository
     private lateinit var driverSettingsRepository: TestDriverSettingsRepository
 
     private lateinit var providerDashboardViewModel: ProviderDashboardViewModel
@@ -94,7 +94,7 @@ class ProviderDashboardScreenUiTest {
         ))
 
         val koin = getKoin()
-        rideRepository = koin.get<DriverRideRepository>() as TestDriverRideRepository
+        rideRepository = koin.get<ProviderTripRepository>() as TestProviderTripRepository
         driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
         driverSettingsRepository.setDriverRates(DriverRates(
             maintenanceCost = 20L.dollarCents() per 1.0.kilometers(),

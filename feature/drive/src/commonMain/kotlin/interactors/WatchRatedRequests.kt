@@ -7,13 +7,13 @@ package org.pointyware.xyz.drive.interactors
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.pointyware.xyz.drive.data.DriverSettingsRepository
-import org.pointyware.xyz.drive.data.DriverRideRepository
+import org.pointyware.xyz.drive.data.ProviderTripRepository
 
 /**
  *
  */
 class WatchRatedRequests(
-    private val repository: DriverRideRepository,
+    private val repository: ProviderTripRepository,
     private val driverSettingsRepository: DriverSettingsRepository
 ) {
 

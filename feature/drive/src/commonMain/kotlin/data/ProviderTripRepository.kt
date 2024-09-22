@@ -25,7 +25,7 @@ import org.pointyware.xyz.drive.remote.RideService
  * This repository serves as the access point to ride data from the driver perspective.
  * It mediates between a local cache and a remote service.
  */
-interface DriverRideRepository {
+interface ProviderTripRepository {
     /**
      * Watch for new trip requests that match the given [filter].
      */
@@ -57,10 +57,10 @@ data class Cancellation(
     val reason: String,
 )
 
-class DriverRideRepositoryImpl(
+class ProviderTripRepositoryImpl(
     private val rideService: RideService,
     private val rideCache: RideCache,
-): DriverRideRepository {
+): ProviderTripRepository {
 
     override suspend fun watchRequests(filter: RideFilter): Result<Flow<List<Request>>> {
         return rideService.createRideFilter(filter)
@@ -83,9 +83,9 @@ class DriverRideRepositoryImpl(
     }
 }
 
-class TestDriverRideRepository(
+class TestProviderTripRepository(
     val dataScope: CoroutineScope,
-): DriverRideRepository {
+): ProviderTripRepository {
 
     private val mutableNewRequests = MutableSharedFlow<Request>()
     private val mutableActiveRequests: MutableStateFlow<Set<Request>> = MutableStateFlow(emptySet())

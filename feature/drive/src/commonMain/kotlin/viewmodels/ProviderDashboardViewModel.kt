@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
-import org.pointyware.xyz.drive.data.DriverRideRepository
+import org.pointyware.xyz.drive.data.ProviderTripRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
 import org.pointyware.xyz.drive.ui.ProviderDashboardScreenState
 
@@ -21,7 +21,7 @@ import org.pointyware.xyz.drive.ui.ProviderDashboardScreenState
  * This includes accepting and rejecting requests, managing the ride, and completing or canceling the trip.
  */
 class ProviderDashboardViewModel(
-    private val repository: DriverRideRepository,
+    private val repository: ProviderTripRepository,
     private val watchRatedRequests: WatchRatedRequests
 ): MapViewModelImpl() {
 
