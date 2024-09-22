@@ -14,6 +14,8 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
@@ -102,14 +104,16 @@ class ProviderDashboardScreenUiTest {
         rideRepository = koin.get<ProviderTripRepository>() as TestProviderTripRepository
         driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
         locationService = koin.get()
+
+        providerDashboardViewModel = koin.get()
+        navController = koin.get()
+
         driverSettingsRepository.setDriverRates(DriverRates(
             maintenanceCost = 20L.dollarCents() per 1.0.kilometers(),
             pickupCost = 0L.dollarCents() per 1.0.kilometers(),
             dropoffCost = 100L.dollarCents() per 1.0.kilometers()
         ))
-
-        providerDashboardViewModel = koin.get()
-        navController = koin.get()
+        locationService.start()
     }
 
     @AfterTest
@@ -209,6 +213,7 @@ class ProviderDashboardScreenUiTest {
         - The pick up button is enabled
          */
         locationService.setLocation(LatLong(36.114579,-97.1184657))
+        runBlocking { delay(1000) }
         onNodeWithText("Pick Up")
             .assertIsEnabled()
 

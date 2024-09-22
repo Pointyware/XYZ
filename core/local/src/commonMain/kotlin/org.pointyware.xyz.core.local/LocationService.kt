@@ -58,7 +58,7 @@ class TestLocationService : LocationService {
     }
 
     override fun start() {
-        mutableState.value = LocationService.State.Running(LatLong(0.0, 0.0))
+        mutableState.value = LocationService.State.Running(latestLocation)
     }
 
     override fun stop() {
