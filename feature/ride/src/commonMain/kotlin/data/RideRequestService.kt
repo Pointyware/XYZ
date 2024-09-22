@@ -14,7 +14,7 @@ interface RideRequestService {
     /**
      * Searches for destinations that match the given query.
      */
-    suspend fun searchDestinations(query: String): Result<RideSearchResult>
+    suspend fun searchDestinations(query: String): Result<DestinationSearchResult>
 
     /**
      * Posts a ride to the service.
@@ -24,7 +24,7 @@ interface RideRequestService {
 
 class RideRequestServiceImpl : RideRequestService {
 
-    override suspend fun searchDestinations(query: String): Result<RideSearchResult> {
+    override suspend fun searchDestinations(query: String): Result<DestinationSearchResult> {
         TODO()
     }
 

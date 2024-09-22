@@ -18,20 +18,14 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilDoesNotExist
-import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
-import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.navigation.StackNavigationController
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
-import org.pointyware.xyz.feature.login.data.CompanyRepository
-import org.pointyware.xyz.feature.login.data.ProfileRepository
-import org.pointyware.xyz.feature.ride.data.RideRequestRepository
-import org.pointyware.xyz.feature.ride.ui.RideScreen
-import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
+import org.pointyware.xyz.feature.ride.ui.PassengerDashboardScreen
+import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
-import org.pointyware.xyz.shared.di.appModule
 import org.pointyware.xyz.shared.di.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -60,7 +54,7 @@ class RequestRideUiTest {
         val viewModel = di.get<RideViewModel>()
         val navController = di.get<StackNavigationController<Any, Any?>>()
 
-        assertEquals(RideUiState.Idle, viewModel.state.value, "Initial state is Idle")
+        assertEquals(PassengerDashboardUiState.Idle, viewModel.state.value, "Initial state is Idle")
 
         /*
         Given:
@@ -76,7 +70,7 @@ class RequestRideUiTest {
             XyzTheme(
                 uiDependencies = EmptyTestUiDependencies()
             ) {
-                RideScreen(
+                PassengerDashboardScreen(
                     viewModel,
                     navController
                 )

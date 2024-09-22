@@ -15,7 +15,7 @@ import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
  * Displays a map with controls for starting, monitoring, and canceling a ride.
  */
 @Composable
-fun RideScreen(
+fun PassengerDashboardScreen(
     viewModel: RideViewModel,
     navController: XyzNavController,
 ) {
@@ -24,7 +24,7 @@ fun RideScreen(
     val loadingState = viewModel.loadingState.collectAsState()
 
     val rideViewState = RideUiStateMapper.map(state.value to mapState.value)
-    RideView(
+    PassengerDashboardView(
         state = rideViewState,
         loadingState = loadingState.value,
         modifier = Modifier.fillMaxSize(),

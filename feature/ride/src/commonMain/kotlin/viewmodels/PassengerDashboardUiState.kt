@@ -12,12 +12,12 @@ import org.pointyware.xyz.core.viewmodels.BriefProfileUiState
 /**
  * Represents the state of a rider's UI.
  */
-sealed interface RideUiState {
+sealed interface PassengerDashboardUiState {
 
     /**
      * The rider is not currently requesting a ride.
      */
-    data object Idle: RideUiState
+    data object Idle: PassengerDashboardUiState
 
     /**
      * The rider is searching for a destination.
@@ -25,7 +25,7 @@ sealed interface RideUiState {
     data class Search(
         val query: String = "",
         val suggestions: List<Location>
-    ): RideUiState
+    ): PassengerDashboardUiState
 
     /**
      * The rider is confirming the ride details.
@@ -35,7 +35,7 @@ sealed interface RideUiState {
         val destination: Location,
         val route: Route?,
         val price: Currency?
-    ): RideUiState
+    ): PassengerDashboardUiState
 
     /**
      * The rider has posted the ride and is waiting for a driver.
@@ -43,7 +43,7 @@ sealed interface RideUiState {
     data class Posted(
         val route: Route,
         val price: Currency
-    ): RideUiState
+    ): PassengerDashboardUiState
 
     /**
      * The request has been accepted and the rider is waiting for the driver to arrive.
@@ -58,7 +58,7 @@ sealed interface RideUiState {
          */
         val eta: Int,
         val route: Route,
-    ): RideUiState
+    ): PassengerDashboardUiState
 
     /**
      * The rider is in the car and the ride is in progress.
@@ -67,5 +67,5 @@ sealed interface RideUiState {
         val driver: BriefProfileUiState,
         val route: Route,
         val eta: Int
-    ): RideUiState
+    ): PassengerDashboardUiState
 }

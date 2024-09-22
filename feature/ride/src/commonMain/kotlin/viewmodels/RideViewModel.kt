@@ -19,7 +19,7 @@ import org.pointyware.xyz.feature.ride.data.RideRequestRepository
 /**
  * Maintains the state of a rider UI and provides actions to update it.
  *
- * @see RideUiState
+ * @see PassengerDashboardUiState
  */
 class RideViewModel(
     private val rideRequestRepository: RideRequestRepository
@@ -33,16 +33,16 @@ class RideViewModel(
 
     private val mutableLoadingState = MutableStateFlow<LoadingUiState<Unit>>(LoadingUiState.Idle())
     val loadingState: StateFlow<LoadingUiState<Unit>> get() = mutableLoadingState
-    private val mutableState = MutableStateFlow<RideUiState>(RideUiState.Idle)
-    val state: StateFlow<RideUiState> get() = mutableState
+    private val mutableState = MutableStateFlow<PassengerDashboardUiState>(PassengerDashboardUiState.Idle)
+    val state: StateFlow<PassengerDashboardUiState> get() = mutableState
 
     fun startSearch() {
-        mutableState.value = RideUiState.Search("", emptyList())
+        mutableState.value = PassengerDashboardUiState.Search("", emptyList())
     }
 
     fun updateQuery(query: String) {
         mutableState.update {
-            if (it is RideUiState.Search) {
+            if (it is PassengerDashboardUiState.Search) {
                 it.copy(query = query)
             } else {
                 it
@@ -52,7 +52,7 @@ class RideViewModel(
 
     fun sendQuery() {
         mutableState.update {
-            if (it is RideUiState.Search) {
+            if (it is PassengerDashboardUiState.Search) {
                 it.copy(suggestions = listOf(
                     Location(lat = 36.1314561, long = -97.0605216, name = "Red Rock Bakery", address = "910 N Boomer Rd", zip = "74075"),
                     Location(lat = 36.1244264, long = -97.0583594, name = "Sonic", address = "215 N Main St", zip = "74075"),
@@ -74,7 +74,7 @@ class RideViewModel(
                     val rate = 120 // $1.20 per km
                     val price = (route.distance.to(LengthUnit.KILOMETERS).value * rate).toLong().dollarCents()
                     mutableState.update {
-                        if (it is RideUiState.Confirm) {
+                        if (it is PassengerDashboardUiState.Confirm) {
                             it.copy(route = route, price = price)
                         } else {
                             it
@@ -90,8 +90,8 @@ class RideViewModel(
 
     fun selectLocation(location: Location) {
         mutableState.update {
-            if (it is RideUiState.Search) {
-                RideUiState.Confirm(
+            if (it is PassengerDashboardUiState.Search) {
+                PassengerDashboardUiState.Confirm(
                     origin = userLocation,
                     destination = location,
                     route = null,
@@ -107,10 +107,10 @@ class RideViewModel(
 
     fun confirmDetails() {
         mutableState.update {
-            if (it is RideUiState.Confirm) {
+            if (it is PassengerDashboardUiState.Confirm) {
                 val route = it.route ?: return
                 val price = it.price ?: return
-                RideUiState.Posted(
+                PassengerDashboardUiState.Posted(
                     route = route,
                     price = price
                 )
@@ -124,7 +124,7 @@ class RideViewModel(
     fun cancelRide() {
         // TODO: send cancellation request to server
         mutableState.update {
-            RideUiState.Idle
+            PassengerDashboardUiState.Idle
         }
     }
 

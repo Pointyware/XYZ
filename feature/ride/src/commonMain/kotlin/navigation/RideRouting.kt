@@ -10,7 +10,7 @@ import org.pointyware.xyz.core.navigation.XyzRootScope
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
 import org.pointyware.xyz.core.navigation.toTypedKey
 import org.pointyware.xyz.feature.ride.di.RideDependencies
-import org.pointyware.xyz.feature.ride.ui.RideScreen
+import org.pointyware.xyz.feature.ride.ui.PassengerDashboardScreen
 
 val rideRoute = "ride".toTypedKey<Unit>()
 
@@ -27,7 +27,7 @@ fun XyzRootScope.rideRouting(
         val rideViewModel = remember { dependencies.getRideViewModel() }
         val navController = remember { navigationDependencies.getNavController() }
 
-        RideScreen(
+        PassengerDashboardScreen(
             viewModel = rideViewModel,
             navController = navController
         )

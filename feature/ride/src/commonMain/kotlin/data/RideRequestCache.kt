@@ -8,8 +8,8 @@ package org.pointyware.xyz.feature.ride.data
  *
  */
 interface RideRequestCache {
-    suspend fun saveDestinations(query: String, searchResult: RideSearchResult)
-    suspend fun getDestinations(query: String): RideSearchResult?
+    suspend fun saveDestinations(query: String, searchResult: DestinationSearchResult)
+    suspend fun getDestinations(query: String): DestinationSearchResult?
     suspend fun dropDestinations(query: String)
 }
 
@@ -17,13 +17,13 @@ class RideRequestCacheImpl(
 
 ): RideRequestCache {
 
-    private val queryCache = mutableMapOf<String, RideSearchResult>()
+    private val queryCache = mutableMapOf<String, DestinationSearchResult>()
 
-    override suspend fun saveDestinations(query: String, searchResult: RideSearchResult) {
+    override suspend fun saveDestinations(query: String, searchResult: DestinationSearchResult) {
         queryCache[query] = searchResult
     }
 
-    override suspend fun getDestinations(query: String): RideSearchResult? {
+    override suspend fun getDestinations(query: String): DestinationSearchResult? {
         return queryCache[query]
     }
 

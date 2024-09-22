@@ -7,7 +7,6 @@ package org.pointyware.xyz.feature.ride.data
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.datetime.Instant
-import org.pointyware.xyz.core.entities.geo.kilometers
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.geo.Route
@@ -17,7 +16,7 @@ import kotlin.time.Duration.Companion.milliseconds
  * Handles requests for rides.
  */
 interface RideRequestRepository {
-    suspend fun searchDestinations(query: String): Result<RideSearchResult>
+    suspend fun searchDestinations(query: String): Result<DestinationSearchResult>
     suspend fun findRoute(origin: Location, destination: Location): Result<Route>
     suspend fun requestRide(route: Route): Result<Ride>
     suspend fun scheduleRide(route: Route, time: Instant): Result<Ride>
@@ -31,7 +30,7 @@ class RideRequestRepositoryImpl(
     private val service: RideRequestService,
 ): RideRequestRepository {
 
-    override suspend fun searchDestinations(query: String): Result<RideSearchResult> {
+    override suspend fun searchDestinations(query: String): Result<DestinationSearchResult> {
         return service.searchDestinations(query)
             .onSuccess {
                 cache.saveDestinations(query, it)
@@ -91,7 +90,7 @@ class TestRideRequestRepository(
         return d[s.length][t.length]
     }
 
-    override suspend fun searchDestinations(query: String): Result<RideSearchResult> {
+    override suspend fun searchDestinations(query: String): Result<DestinationSearchResult> {
         val candidates = destinations.flatMap {
             val score = it.name.levenshtein(query)
             if (score < maximumLevenshteinDistance) {
@@ -101,7 +100,7 @@ class TestRideRequestRepository(
             }
         }.sortedBy { it.second }.map { it.first }
 
-        return Result.success(RideSearchResult(candidates))
+        return Result.success(DestinationSearchResult(candidates))
     }
 
     override suspend fun findRoute(origin: Location, destination: Location): Result<Route> {
