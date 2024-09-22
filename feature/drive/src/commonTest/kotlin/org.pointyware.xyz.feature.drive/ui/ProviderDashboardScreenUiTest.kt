@@ -31,6 +31,7 @@ import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
+import org.pointyware.xyz.drive.data.DriverRideRepository
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
 import org.pointyware.xyz.drive.data.TestDriverRideRepository
 import org.pointyware.xyz.drive.di.featureDriveDataTestModule
@@ -91,7 +92,7 @@ class ProviderDashboardScreenUiTest {
         ))
 
         val koin = getKoin()
-        rideRepository = koin.get<TestDriverRideRepository>()
+        rideRepository = koin.get<DriverRideRepository>() as TestDriverRideRepository
         driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
         driverSettingsRepository.setDriverRates(DriverRates(
             maintenanceCost = 20L.dollarCents() per 1.0.kilometers(),
@@ -175,6 +176,8 @@ class ProviderDashboardScreenUiTest {
         - The accept button is pressed
         Then:
         - The rider profile/messaging input is shown
+        - The request list is absent
+        - The provider status message displays "Picking up John"
          */
         onNodeWithText("Accept")
             .performClick()
@@ -182,6 +185,15 @@ class ProviderDashboardScreenUiTest {
             .assertExists()
         onNodeWithContentDescription("Message Input")
             .assertExists()
+        onNodeWithContentDescription("Ride Requests")
+            .assertDoesNotExist()
+        onNodeWithText("Picking up John")
+            .assertExists()
+
+        /*
+        When:
+        -
+         */
     }
 
     @Test
