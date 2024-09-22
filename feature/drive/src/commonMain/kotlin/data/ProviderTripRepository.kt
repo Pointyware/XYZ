@@ -87,7 +87,7 @@ class ProviderTripRepositoryImpl(
 
 class TestProviderTripRepository(
     private val locationService: LocationService,
-    val dataScope: CoroutineScope,
+    private val dataScope: CoroutineScope,
 ): ProviderTripRepository {
 
     private val mutableNewRequests = MutableSharedFlow<Request>()
