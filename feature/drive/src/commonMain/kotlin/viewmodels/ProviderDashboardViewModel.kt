@@ -13,7 +13,7 @@ import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.drive.data.ProviderTripRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
-import org.pointyware.xyz.drive.ui.ProviderDashboardScreenState
+import viewmodels.ProviderDashboardScreenState
 
 /**
  * View model for the driver dashboard.
