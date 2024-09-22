@@ -14,6 +14,7 @@ package org.pointyware.xyz.drive.data
  import kotlinx.datetime.Clock
  import org.pointyware.xyz.core.entities.Uuid
  import org.pointyware.xyz.core.entities.profile.DriverProfile
+ import org.pointyware.xyz.core.entities.ride.ActiveRide
  import org.pointyware.xyz.core.entities.ride.CompletedRide
  import org.pointyware.xyz.core.entities.ride.CompletingRide
  import org.pointyware.xyz.core.entities.ride.PendingRide
@@ -47,6 +48,11 @@ interface ProviderTripRepository {
     suspend fun rejectRequest(requestId: Uuid): Result<Unit>
 
     /**
+     * Pick up the rider for the active ride.
+     */
+    suspend fun pickUpRider(): Result<ActiveRide>
+
+    /**
      * Complete the active ride.
      */
     suspend fun completeRide(): Result<CompletedRide>
@@ -77,6 +83,10 @@ class ProviderTripRepositoryImpl(
     }
 
     override suspend fun rejectRequest(requestId: Uuid): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun pickUpRider(): Result<ActiveRide> {
         TODO("Not yet implemented")
     }
 
@@ -132,6 +142,18 @@ class TestProviderTripRepository(
         } else {
             Result.failure(IllegalStateException("Request not found"))
         }
+    }
+
+    override suspend fun pickUpRider(): Result<ActiveRide> {
+        activeRide?.let {
+            if (it is PendingRide) {
+                val activeRide = it.arrive(Clock.System.now())
+                this.activeRide = activeRide
+                return Result.success(activeRide)
+            } else {
+                return Result.failure(IllegalStateException("Active ride is not pending"))
+            }
+        } ?: return Result.failure(IllegalStateException("No active ride to pick up rider"))
     }
 
     override suspend fun completeRide(): Result<CompletedRide> {
