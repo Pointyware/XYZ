@@ -52,11 +52,25 @@ sealed interface ProviderDashboardScreenState {
      */
     data object RiderCanceled : ProviderDashboardScreenState
 
+    /**
+     * The driver has picked up the rider and is on their way to the destination.
+     */
     data object InProgress : ProviderDashboardScreenState
-    data object RiderCanceledLate : ProviderDashboardScreenState
-    data object DriverCanceled : ProviderDashboardScreenState
-    data object Completed : ProviderDashboardScreenState
 
+    /**
+     * The rider has canceled the request after the driver arrived.
+     */
+    data object RiderCanceledLate : ProviderDashboardScreenState
+
+    /**
+     * The driver has canceled the request.
+     */
+    data object DriverCanceled : ProviderDashboardScreenState
+
+    /**
+     * The ride has been completed.
+     */
+    data object Completed : ProviderDashboardScreenState
 }
 
 /**
