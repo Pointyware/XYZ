@@ -56,6 +56,9 @@ class DriverRequestsScreenUiTest {
     private lateinit var rideRepository: TestDriverRideRepository
     private lateinit var driverSettingsRepository: TestDriverSettingsRepository
 
+    private lateinit var driveViewModel: DriveViewModel
+    private lateinit var navController: XyzNavController
+
     private val testRequest = Request(
         rideId = Uuid.v4(),
         rider = RiderProfile(
@@ -95,6 +98,9 @@ class DriverRequestsScreenUiTest {
             pickupCost = 0L.dollarCents() per 1.0.kilometers(),
             dropoffCost = 100L.dollarCents() per 1.0.kilometers()
         ))
+
+        driveViewModel = koin.get()
+        navController = koin.get()
     }
 
     @AfterTest
@@ -104,16 +110,12 @@ class DriverRequestsScreenUiTest {
 
     @Test
     fun wait_for_request_and_accept() = runComposeUiTest {
-        val koin = getKoin()
-        val viewModel = koin.get<DriveViewModel>()
-        val navController = koin.get<XyzNavController>()
-
         /*
         Given:
         - The ride filter is set to accept all requests
         - The view model state is Idle
          */
-        assertEquals(DriveScreenState.AvailableRequests(emptyList()), viewModel.state.value, "initial state is idle")
+        assertEquals(DriveScreenState.AvailableRequests(emptyList()), driveViewModel.state.value, "initial state is idle")
 
         /*
         When:
@@ -127,7 +129,7 @@ class DriverRequestsScreenUiTest {
                 uiDependencies = EmptyTestUiDependencies()
             ) {
                 DriveScreen(
-                    viewModel = viewModel,
+                    viewModel = driveViewModel,
                     navController = navController
                 )
             }
@@ -184,16 +186,12 @@ class DriverRequestsScreenUiTest {
 
     @Test
     fun wait_for_request_and_reject() = runComposeUiTest {
-        val koin = getKoin()
-        val viewModel = koin.get<DriveViewModel>()
-        val navController = koin.get<XyzNavController>()
-
         /*
         Given:
         - The ride filter is set to accept all requests
         - The view model state is Idle
          */
-        assertEquals(DriveScreenState.AvailableRequests(emptyList()), viewModel.state.value, "initial state is idle")
+        assertEquals(DriveScreenState.AvailableRequests(emptyList()), driveViewModel.state.value, "initial state is idle")
 
         /*
         When:
@@ -207,7 +205,7 @@ class DriverRequestsScreenUiTest {
                 uiDependencies = EmptyTestUiDependencies()
             ) {
                 DriveScreen(
-                    viewModel = viewModel,
+                    viewModel = driveViewModel,
                     navController = navController
                 )
             }
