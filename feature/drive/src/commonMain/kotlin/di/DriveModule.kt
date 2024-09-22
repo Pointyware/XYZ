@@ -9,6 +9,12 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.dataQualifier
+import org.pointyware.xyz.core.entities.Name
+import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.business.Individual
+import org.pointyware.xyz.core.entities.data.Uri
+import org.pointyware.xyz.core.entities.profile.DriverProfile
+import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.drive.data.DriverSettingsRepository
 import org.pointyware.xyz.drive.data.DriverSettingsRepositoryImpl
 import org.pointyware.xyz.drive.data.ProviderTripRepository
@@ -37,7 +43,18 @@ fun featureDriveDataModule() = module {
 }
 
 fun featureDriveDataTestModule() = module {
-    single<ProviderTripRepository> { TestProviderTripRepository(get(), get(qualifier = dataQualifier)) }
+    single<DriverProfile> {
+        DriverProfile( // TODO:
+            id = Uuid.v4(),
+            name = Name("", "", ""),
+            gender = Gender.Man,
+            business = Individual,
+            picture = Uri.nullDevice,
+            accommodations = emptySet()
+        )
+    }
+
+    single<ProviderTripRepository> { TestProviderTripRepository(get(), get(), get(qualifier = dataQualifier)) }
     singleOf(::TestDriverSettingsRepository) { bind<DriverSettingsRepository>() }
 }
 
