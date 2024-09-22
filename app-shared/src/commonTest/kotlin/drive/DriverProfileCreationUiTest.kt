@@ -21,6 +21,7 @@ import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.login.DriverProfileCreationScreen
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import org.pointyware.xyz.shared.di.appModule
+import org.pointyware.xyz.shared.di.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -33,11 +34,7 @@ class DriverProfileCreationUiTest {
 
     @BeforeTest
     fun setUp() {
-        startKoin {
-            modules(
-                appModule()
-            )
-        }
+        setupKoin()
     }
 
     @AfterTest
