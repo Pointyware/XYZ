@@ -16,7 +16,9 @@ import org.pointyware.xyz.drive.interactors.WatchRatedRequests
 import org.pointyware.xyz.drive.ui.ProviderDashboardScreenState
 
 /**
- *
+ * View model for the driver dashboard.
+ * Defines events and state for the entire lifecycle of a Trip from the driver's perspective.
+ * This includes accepting and rejecting requests, managing the ride, and completing or canceling the trip.
  */
 class ProviderDashboardViewModel(
     private val repository: DriverRideRepository,
