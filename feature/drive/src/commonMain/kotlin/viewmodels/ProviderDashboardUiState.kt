@@ -22,7 +22,8 @@ sealed interface ProviderDashboardUiState {
      * The driver has accepted a request and is on their way to pick up the passenger.
      */
     data class Accepted(
-        val ride: PendingRide
+        val ride: PendingRide,
+        val atOrigin: Boolean,
     ): ProviderDashboardUiState
 
     /**
