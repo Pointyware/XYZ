@@ -17,6 +17,7 @@ class AndroidLocationService(
 ): LocationService {
 
     override fun start() {
+        // https://developer.android.com/develop/sensors-and-location/location/request-updates
         TODO("Inject FusedLocationProvider service; start location updates")
     }
 
