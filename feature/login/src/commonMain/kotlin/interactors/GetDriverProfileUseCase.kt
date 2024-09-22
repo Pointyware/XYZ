@@ -16,11 +16,6 @@ class GetDriverProfileUseCase(
 ) {
     suspend fun invoke(uuid: String): Result<DriverProfile> {
         return profileRepo.getProfile(uuid)
-            .map { profile ->
-                return when (profile) {
-                    is DriverProfile -> Result.success(profile)
-                    else -> Result.failure(Exception("Profile is not a DriverProfile"))
-                }
-            }
+            .mapCatching { it as DriverProfile }
     }
 }
