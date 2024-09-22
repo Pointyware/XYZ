@@ -37,7 +37,7 @@ fun featureDriveDataModule() = module {
 }
 
 fun featureDriveDataTestModule() = module {
-    single<ProviderTripRepository> { TestProviderTripRepository(get(qualifier = dataQualifier)) }
+    single<ProviderTripRepository> { TestProviderTripRepository(get(), get(qualifier = dataQualifier)) }
     singleOf(::TestDriverSettingsRepository) { bind<DriverSettingsRepository>() }
 }
 

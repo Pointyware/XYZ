@@ -15,6 +15,7 @@ import kotlinx.datetime.Clock
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.ride.activeRide
+import org.pointyware.xyz.core.local.org.pointyware.xyz.core.local.LocationService
 import org.pointyware.xyz.drive.RideFilter
 import org.pointyware.xyz.drive.entities.Request
 import org.pointyware.xyz.drive.local.RideCache
@@ -58,6 +59,7 @@ data class Cancellation(
 )
 
 class ProviderTripRepositoryImpl(
+    private val locationService: LocationService,
     private val rideService: RideService,
     private val rideCache: RideCache,
 ): ProviderTripRepository {
@@ -84,6 +86,7 @@ class ProviderTripRepositoryImpl(
 }
 
 class TestProviderTripRepository(
+    private val locationService: LocationService,
     val dataScope: CoroutineScope,
 ): ProviderTripRepository {
 
