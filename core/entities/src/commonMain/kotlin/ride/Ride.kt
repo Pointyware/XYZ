@@ -185,6 +185,24 @@ fun activeRide(
     timePosted = timePosted
 )
 
+/**
+ * Create a new ride that is waiting for a driver to accept it.
+ */
+fun planRide(
+    id: Uuid,
+    rider: RiderProfile,
+    plannedRoute: Route,
+    timePosted: Instant
+) = PlannedRide(
+    id = id,
+    rider = rider,
+    plannedRoute = plannedRoute,
+    timePosted = timePosted
+)
+
+/**
+ * A ride that has been planned by a rider and is waiting for a driver to accept it.
+ */
 data class PlannedRide(
     override val id: Uuid,
     override val rider: RiderProfile,
