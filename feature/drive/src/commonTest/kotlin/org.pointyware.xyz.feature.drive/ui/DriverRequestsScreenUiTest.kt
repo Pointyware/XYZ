@@ -80,13 +80,14 @@ class DriverRequestsScreenUiTest {
     @BeforeTest
     fun setUp() {
         setupKoin()
-        val koin = getKoin()
         loadKoinModules(listOf(
             featureDriveDataTestModule(), // override the data module to expose TestDriverSettingsRepository
             module {
                 single<Any>(qualifier = homeQualifier) { driverActiveRoute }
             },
         ))
+
+        val koin = getKoin()
         rideRepository = koin.get<TestDriverRideRepository>()
         driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
         driverSettingsRepository.setDriverRates(DriverRates(
