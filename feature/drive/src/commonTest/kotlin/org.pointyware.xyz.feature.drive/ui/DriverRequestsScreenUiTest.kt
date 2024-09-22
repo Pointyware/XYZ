@@ -44,6 +44,7 @@ import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
 import org.pointyware.xyz.drive.data.RideRepository
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
 import org.pointyware.xyz.drive.data.TestRideRepository
+import org.pointyware.xyz.drive.di.featureDriveDataTestModule
 import org.pointyware.xyz.drive.di.featureDriveModule
 import org.pointyware.xyz.drive.entities.DriverRates
 import org.pointyware.xyz.drive.entities.Request
@@ -92,13 +93,13 @@ class DriverRequestsScreenUiTest {
     fun setUp() {
         setupKoin()
         val koin = getKoin()
-        rideRepository = TestRideRepository(koin.get(qualifier = dataQualifier))
         loadKoinModules(listOf(
+            featureDriveDataTestModule(), // override the data module to expose TestDriverSettingsRepository
             module {
                 single<Any>(qualifier = homeQualifier) { driverActiveRoute }
-                single<RideRepository> { rideRepository }
             },
         ))
+        rideRepository = koin.get<TestRideRepository>()
         driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
         driverSettingsRepository.setDriverRates(DriverRates(
             maintenanceCost = 20L.dollarCents() per 1.0.kilometers(),

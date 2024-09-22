@@ -9,6 +9,7 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.xyz.core.common.BuildInfo
+import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.drive.data.DriverSettingsRepository
 import org.pointyware.xyz.drive.data.DriverSettingsRepositoryImpl
 import org.pointyware.xyz.drive.data.RideRepository
@@ -32,13 +33,12 @@ fun featureDriveModule() = module {
 }
 
 fun featureDriveDataModule() = module {
-
     singleOf(::RideRepositoryImpl) { bind<RideRepository>() }
     singleOf(::DriverSettingsRepositoryImpl) { bind<DriverSettingsRepository>() }
 }
 
 fun featureDriveDataTestModule() = module {
-    singleOf(::TestRideRepository) { bind<RideRepository>() }
+    single<RideRepository> { TestRideRepository(get(qualifier = dataQualifier)) }
     singleOf(::TestDriverSettingsRepository) { bind<DriverSettingsRepository>() }
 }
 

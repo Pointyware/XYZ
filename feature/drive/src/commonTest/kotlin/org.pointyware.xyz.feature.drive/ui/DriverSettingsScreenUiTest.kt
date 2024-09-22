@@ -22,8 +22,8 @@ import org.pointyware.xyz.core.entities.geo.LengthUnit
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
-import org.pointyware.xyz.drive.data.DriverSettingsRepository
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
+import org.pointyware.xyz.drive.di.featureDriveDataTestModule
 import org.pointyware.xyz.drive.entities.DriverRates
 import org.pointyware.xyz.drive.navigation.driverSettings
 import org.pointyware.xyz.drive.ui.DriverSettingsScreen
@@ -45,13 +45,14 @@ class DriverSettingsScreenUiTest {
     @BeforeTest
     fun setUp() {
         setupKoin()
-        driverSettingsRepository = TestDriverSettingsRepository()
         loadKoinModules(listOf(
+            featureDriveDataTestModule(),
             module {
                 single<Any>(qualifier = homeQualifier) { driverSettings }
-                single<DriverSettingsRepository> { driverSettingsRepository }
             }
         ))
+        val koin = getKoin()
+        driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
     }
 
     @AfterTest
