@@ -76,9 +76,9 @@ class ProviderDashboardScreenUiTest {
             disabilities = emptySet()
         ),
         route = Route(
-            start = Location(0.0, 0.0, "Walmart"),
+            start = Location(36.1145791,-97.1186917, "Walmart"),
             intermediates = emptyList(),
-            end = Location(1.0, 1.0, "Walgreens"),
+            end = Location(36.1160902,-97.0580495, "Walgreens"),
             distance = .5.kilometers(),
             duration = 1.0.minutes
         ),
