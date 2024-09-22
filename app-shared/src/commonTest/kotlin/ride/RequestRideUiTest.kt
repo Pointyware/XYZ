@@ -32,6 +32,7 @@ import org.pointyware.xyz.feature.ride.ui.RideScreen
 import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
 import org.pointyware.xyz.shared.di.appModule
+import org.pointyware.xyz.shared.di.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -45,11 +46,7 @@ class RequestRideUiTest {
 
     @BeforeTest
     fun setUp() {
-        startKoin {
-            modules(
-                appModule()
-            )
-        }
+        setupKoin()
     }
 
     @AfterTest
