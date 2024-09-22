@@ -45,9 +45,7 @@ sealed interface ProviderDashboardScreenState {
 }
 
 /**
- * * Displays a map with controls for managing ride requests and ride status.
- *
- * TODO: rename roles as Provider/Passenger/Trip
+ * Displays a map with controls for managing ride requests and ride status.
  */
 @Composable
 fun ProviderDashboardScreen(
