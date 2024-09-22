@@ -51,6 +51,7 @@ import org.pointyware.xyz.drive.navigation.driverActiveRoute
 import org.pointyware.xyz.drive.ui.DriveScreen
 import org.pointyware.xyz.drive.ui.DriveScreenState
 import org.pointyware.xyz.drive.viewmodels.DriveViewModel
+import org.pointyware.xyz.feature.drive.test.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -87,34 +88,17 @@ class DriverRequestsScreenUiTest {
         timePosted = Clock.System.now()
     )
 
-    private fun testDataModule(
-        testRideRepository: TestRideRepository
-    ) = module {
-        single<RideRepository> { testRideRepository }
-    }
-
     @BeforeTest
     fun setUp() {
-        startKoin {
-            modules(
-                coreUiModule(),
-                coreViewModelsModule(),
-                coreInteractorsModule(),
-                coreDataModule(),
-                coreEntitiesModule(),
-                coreNavigationModule(),
-
-                featureDriveModule(),
-                module {
-                    single<Any>(qualifier = homeQualifier) { driverActiveRoute }
-                }
-            )
-        }
+        setupKoin()
         val koin = getKoin()
         rideRepository = TestRideRepository(koin.get(qualifier = dataQualifier))
-        loadKoinModules(
-            testDataModule(rideRepository)
-        )
+        loadKoinModules(listOf(
+            module {
+                single<Any>(qualifier = homeQualifier) { driverActiveRoute }
+                single<RideRepository> { rideRepository }
+            },
+        ))
         driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
         driverSettingsRepository.setDriverRates(DriverRates(
             maintenanceCost = 20L.dollarCents() per 1.0.kilometers(),

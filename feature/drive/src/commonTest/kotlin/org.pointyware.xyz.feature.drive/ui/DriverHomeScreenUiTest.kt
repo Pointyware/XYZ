@@ -8,6 +8,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
+import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
@@ -26,6 +27,7 @@ import org.pointyware.xyz.drive.di.featureDriveModule
 import org.pointyware.xyz.drive.navigation.driverActiveRoute
 import org.pointyware.xyz.drive.navigation.driverHomeRoute
 import org.pointyware.xyz.drive.ui.DriverHomeScreen
+import org.pointyware.xyz.feature.drive.test.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -39,21 +41,12 @@ class DriverHomeScreenUiTest {
 
     @BeforeTest
     fun setUp() {
-        startKoin {
-            modules(
-                coreUiModule(),
-                coreViewModelsModule(),
-                coreInteractorsModule(),
-                coreDataModule(),
-                coreEntitiesModule(),
-                coreNavigationModule(),
-
-                featureDriveModule(),
-                module {
-                    single<Any>(qualifier = homeQualifier) { driverHomeRoute }
-                }
-            )
-        }
+        setupKoin()
+        loadKoinModules(listOf(
+            module {
+                single<Any>(qualifier = homeQualifier) { driverHomeRoute }
+            }
+        ))
     }
 
     @AfterTest
