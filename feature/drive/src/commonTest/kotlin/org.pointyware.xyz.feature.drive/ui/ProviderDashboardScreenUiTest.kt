@@ -29,6 +29,8 @@ import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.geo.kilometers
 import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.profile.RiderProfile
+import org.pointyware.xyz.core.local.di.coreLocalTestModule
+import org.pointyware.xyz.core.local.org.pointyware.xyz.core.local.TestLocationService
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
@@ -58,6 +60,7 @@ class ProviderDashboardScreenUiTest {
 
     private lateinit var rideRepository: TestProviderTripRepository
     private lateinit var driverSettingsRepository: TestDriverSettingsRepository
+    private lateinit var locationService: TestLocationService
 
     private lateinit var providerDashboardViewModel: ProviderDashboardViewModel
     private lateinit var navController: XyzNavController
@@ -87,6 +90,7 @@ class ProviderDashboardScreenUiTest {
     fun setUp() {
         setupKoin()
         loadKoinModules(listOf(
+            coreLocalTestModule(),
             featureDriveDataTestModule(), // override the data module to expose TestDriverSettingsRepository
             module {
                 single<Any>(qualifier = homeQualifier) { driverActiveRoute }
@@ -96,6 +100,7 @@ class ProviderDashboardScreenUiTest {
         val koin = getKoin()
         rideRepository = koin.get<ProviderTripRepository>() as TestProviderTripRepository
         driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
+        locationService = koin.get()
         driverSettingsRepository.setDriverRates(DriverRates(
             maintenanceCost = 20L.dollarCents() per 1.0.kilometers(),
             pickupCost = 0L.dollarCents() per 1.0.kilometers(),
