@@ -17,11 +17,12 @@ val testDirectory = named("test-directory")
  * Defines dependencies for the core local module.
  */
 fun coreLocalModule() = module {
-
+    // No :core:local dependencies for now
 }
 
 /**
  * Defines dependencies for the core local module during tests.
+ * TODO: This should be invoked by tests when local testing is needed.
  */
 fun coreLocalTestModule() = module {
     factory<Path>(qualifier = testDirectory) {
