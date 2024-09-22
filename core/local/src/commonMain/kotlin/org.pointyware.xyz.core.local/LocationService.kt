@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.drive.local
+package org.pointyware.xyz.core.local.org.pointyware.xyz.core.local
 
 import kotlinx.coroutines.flow.StateFlow
 import org.pointyware.xyz.core.entities.geo.Location
@@ -10,7 +10,7 @@ import org.pointyware.xyz.core.entities.geo.Location
 /**
  * Provides the current location of the driver and controls to start and stop location updates.
  */
-interface ProviderLocationService {
+interface LocationService {
 
     /**
      * Start location updates.
