@@ -23,8 +23,8 @@ class WatchRatedRequests(
         val location = driverSettingsRepository.getDriverLocation()
 
         return repository.watchRequests(filter)
-            .map {
-                it.map { request ->
+            .map { flow ->
+                flow.map { request ->
                     request.map {
                         EstimatedRequest(
                             it,
