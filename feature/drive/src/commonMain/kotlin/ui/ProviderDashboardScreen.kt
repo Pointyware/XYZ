@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.ride.PendingRide
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.AdView
@@ -28,15 +29,29 @@ import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 
+/**
+ * Represents the state of the provider dashboard.
+ */
 sealed interface ProviderDashboardScreenState {
+    /**
+     * The driver is available to accept requests is waiting for a new request.
+     */
     data class AvailableRequests(
         val requests: List<RideRequestUiState>
     ): ProviderDashboardScreenState
+
+    /**
+     * The driver has accepted a request and is on their way to pick up the passenger.
+     */
     data class Accepted(
-        val ride: Ride
+        val ride: PendingRide
     ): ProviderDashboardScreenState
+
+    /**
+     * The rider has canceled the request before the driver arrived.
+     */
     data object RiderCanceled : ProviderDashboardScreenState
-    data object Pickup : ProviderDashboardScreenState
+
     data object InProgress : ProviderDashboardScreenState
     data object RiderCanceledLate : ProviderDashboardScreenState
     data object DriverCanceled : ProviderDashboardScreenState
@@ -86,12 +101,10 @@ fun ProviderDashboardScreen(
                     RideInfo(
                         ride = capture.ride
                     )
+                    Text("Picking up ${capture.ride.rider.name.given}")
                 }
                 is ProviderDashboardScreenState.RiderCanceled -> {
                     Text("RiderCanceled")
-                }
-                is ProviderDashboardScreenState.Pickup -> {
-                    Text("Pickup")
                 }
                 is ProviderDashboardScreenState.InProgress -> {
                     Text("InProgress")
