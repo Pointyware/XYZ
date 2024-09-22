@@ -47,15 +47,14 @@ interface LocationService {
 class TestLocationService : LocationService {
 
     private var latestLocation: LatLong = LatLong(0.0, 0.0)
-    fun setLocation(location: Location) {
-        latestLocation = location.coordinates
+    fun setLocation(location: LatLong) {
+        latestLocation = location
         mutableState.update {
             when (it) {
-                is LocationService.State.Running -> LocationService.State.Running(location.coordinates)
+                is LocationService.State.Running -> LocationService.State.Running(location)
                 is LocationService.State.Stopped -> it
             }
         }
-        mutableState.value = LocationService.State.Running(location.coordinates)
     }
 
     override fun start() {
