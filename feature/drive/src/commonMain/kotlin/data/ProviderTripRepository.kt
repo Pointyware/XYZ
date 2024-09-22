@@ -4,22 +4,26 @@
 
 package org.pointyware.xyz.drive.data
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import org.pointyware.xyz.core.entities.Uuid
-import org.pointyware.xyz.core.entities.ride.Ride
-import org.pointyware.xyz.core.entities.ride.activeRide
-import org.pointyware.xyz.core.local.org.pointyware.xyz.core.local.LocationService
-import org.pointyware.xyz.drive.RideFilter
-import org.pointyware.xyz.drive.entities.Request
-import org.pointyware.xyz.drive.local.RideCache
-import org.pointyware.xyz.drive.remote.RideService
+ import kotlinx.coroutines.CoroutineScope
+ import kotlinx.coroutines.flow.Flow
+ import kotlinx.coroutines.flow.MutableSharedFlow
+ import kotlinx.coroutines.flow.MutableStateFlow
+ import kotlinx.coroutines.flow.map
+ import kotlinx.coroutines.flow.update
+ import kotlinx.coroutines.launch
+ import kotlinx.datetime.Clock
+ import org.pointyware.xyz.core.entities.Uuid
+ import org.pointyware.xyz.core.entities.profile.DriverProfile
+ import org.pointyware.xyz.core.entities.ride.CompletedRide
+ import org.pointyware.xyz.core.entities.ride.CompletingRide
+ import org.pointyware.xyz.core.entities.ride.PendingRide
+ import org.pointyware.xyz.core.entities.ride.Ride
+ import org.pointyware.xyz.core.entities.ride.planRide
+ import org.pointyware.xyz.core.local.org.pointyware.xyz.core.local.LocationService
+ import org.pointyware.xyz.drive.RideFilter
+ import org.pointyware.xyz.drive.entities.Request
+ import org.pointyware.xyz.drive.local.RideCache
+ import org.pointyware.xyz.drive.remote.RideService
 
 
 /**
@@ -35,7 +39,7 @@ interface ProviderTripRepository {
     /**
      * Accept the trip request with the given [requestId].
      */
-    suspend fun acceptRequest(requestId: Uuid): Result<Ride>
+    suspend fun acceptRequest(requestId: Uuid): Result<PendingRide>
 
     /**
      * Reject the trip request with the given [requestId].
@@ -45,7 +49,7 @@ interface ProviderTripRepository {
     /**
      * Complete the active ride.
      */
-    suspend fun completeRide(): Result<Ride>
+    suspend fun completeRide(): Result<CompletedRide>
 
     /**
      * Cancel the active ride.
@@ -68,7 +72,7 @@ class ProviderTripRepositoryImpl(
         return rideService.createRideFilter(filter)
     }
 
-    override suspend fun acceptRequest(requestId: Uuid): Result<Ride> {
+    override suspend fun acceptRequest(requestId: Uuid): Result<PendingRide> {
         TODO("Not yet implemented")
     }
 
@@ -76,7 +80,7 @@ class ProviderTripRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun completeRide(): Result<Ride> {
+    override suspend fun completeRide(): Result<CompletedRide> {
         TODO("Not yet implemented")
     }
 
@@ -86,6 +90,7 @@ class ProviderTripRepositoryImpl(
 }
 
 class TestProviderTripRepository(
+    private val driver: DriverProfile,
     private val locationService: LocationService,
     private val dataScope: CoroutineScope,
 ): ProviderTripRepository {
@@ -99,18 +104,21 @@ class TestProviderTripRepository(
         return Result.success(mutableActiveRequests.map { list -> list.filter(filter::accepts)})
     }
 
-    override suspend fun acceptRequest(requestId: Uuid): Result<Ride> {
+    override suspend fun acceptRequest(requestId: Uuid): Result<PendingRide> {
         val request = mutableActiveRequests.value.find { it.rideId == requestId }
         return if (request != null) {
             mutableActiveRequests.update { it - request }
-            val newRide = activeRide(
+            val plannedRide = planRide(
                 id = request.rideId,
                 rider = request.rider,
                 plannedRoute = request.route,
-                timePosted = request.timePosted,
+                timePosted = request.timePosted
+            )
+            val pendingRide = plannedRide.accept(
+                driver = driver,
                 timeAccepted = Clock.System.now()
             )
-            Result.success(newRide)
+            Result.success(pendingRide)
         } else {
             Result.failure(IllegalStateException("Request not found"))
         }
@@ -126,10 +134,11 @@ class TestProviderTripRepository(
         }
     }
 
-    override suspend fun completeRide(): Result<Ride> {
+    override suspend fun completeRide(): Result<CompletedRide> {
         activeRide?.let {
             activeRide = null
-            return Result.success(it)
+            if (it is CompletingRide) return Result.success(it.complete(Clock.System.now()))
+            else return Result.failure(IllegalStateException("Active ride is not completing"))
         } ?: return Result.failure(IllegalStateException("No active ride to complete"))
     }
 
