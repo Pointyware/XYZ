@@ -13,6 +13,7 @@ import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.business.Individual
 import org.pointyware.xyz.core.entities.data.Uri
+import org.pointyware.xyz.core.entities.geo.meters
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.drive.data.DriverSettingsRepository
@@ -22,6 +23,7 @@ import org.pointyware.xyz.drive.data.ProviderTripRepositoryImpl
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
 import org.pointyware.xyz.drive.data.TestProviderTripRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
+import org.pointyware.xyz.drive.org.pointyware.xyz.drive.interactors.WatchPickupDistance
 import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.DriverSettingsViewModel
 
@@ -65,4 +67,5 @@ fun featureDriveViewModelModule() = module {
 
 fun featureDriveInteractorsModule() = module {
     factoryOf(::WatchRatedRequests)
+    factory<WatchPickupDistance> { WatchPickupDistance(get(), 100.0.meters())}
 }
