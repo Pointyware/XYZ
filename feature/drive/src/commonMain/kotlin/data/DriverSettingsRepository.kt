@@ -61,10 +61,6 @@ class DriverSettingsRepositoryImpl(
     override fun getDriverLocation(): LatLong {
         TODO("Not yet implemented")
     }
-
-    override fun setDriverLocation(location: LatLong) {
-        TODO("Not yet implemented")
-    }
 }
 
 class TestDriverSettingsRepository(
@@ -96,9 +92,5 @@ class TestDriverSettingsRepository(
     private var location: LatLong = LatLong(0.0, 0.0)
     override fun getDriverLocation(): LatLong {
         return location
-    }
-
-    override fun setDriverLocation(location: LatLong) {
-        this.location = location
     }
 }
