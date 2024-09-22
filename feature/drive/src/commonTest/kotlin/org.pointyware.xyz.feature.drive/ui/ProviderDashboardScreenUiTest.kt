@@ -24,6 +24,7 @@ import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.business.Rate.Companion.per
 import org.pointyware.xyz.core.entities.business.dollarCents
 import org.pointyware.xyz.core.entities.data.Uri
+import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.geo.kilometers
@@ -207,7 +208,7 @@ class ProviderDashboardScreenUiTest {
         Then:
         - The pick up button is enabled
          */
-        // TODO: simulate the provider approaching the rider
+        locationService.setLocation(LatLong(36.114579,-97.1184657))
         onNodeWithText("Pick Up")
             .assertIsEnabled()
 
@@ -236,7 +237,7 @@ class ProviderDashboardScreenUiTest {
         - The provider status message displays "Dropping off John"
         - The drop off button is enabled
          */
-        // TODO: simulate the provider arriving at the destination
+        locationService.setLocation(LatLong(36.1162121,-97.0583766))
         onNodeWithText("Dropping off John")
             .assertExists()
         onNodeWithText("Drop Off")
