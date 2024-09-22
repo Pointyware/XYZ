@@ -33,8 +33,10 @@ interface DriverSettingsRepository {
      */
     fun setDriverRates(rates: DriverRates)
 
+    @Deprecated("Use ProviderTripRepository.getDriverLocation instead",
+        ReplaceWith("ProviderTripRepository.getDriverLocation()",
+            imports = ["org.pointyware.xyz.feature.drive.data.ProviderTripRepository"]))
     fun getDriverLocation(): LatLong
-    fun setDriverLocation(location: LatLong)
 }
 
 class DriverSettingsRepositoryImpl(
