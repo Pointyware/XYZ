@@ -8,6 +8,8 @@ import org.koin.dsl.module
 import org.pointyware.xyz.android.ads.AdMobController
 import org.pointyware.painteddogs.android.di.AndroidLoadingViewResources
 import org.pointyware.painteddogs.android.di.AndroidResources
+import org.pointyware.xyz.android.local.AndroidLocationService
+import org.pointyware.xyz.core.local.org.pointyware.xyz.core.local.LocationService
 import org.pointyware.xyz.core.ui.ads.AdsController
 import org.pointyware.xyz.core.ui.components.LoadingViewResources
 import org.pointyware.xyz.core.ui.design.Resources
@@ -22,4 +24,6 @@ fun androidModule() = module {
 
     factory<AdsController> { params -> AdMobController(params.get()) }
     factory<LoadingViewResources> { AndroidLoadingViewResources() }
+
+    factory<LocationService> { AndroidLocationService() }
 }
