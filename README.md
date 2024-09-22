@@ -1,9 +1,10 @@
 # XYZ
 Get your X from Y to Z
 
-## Users
-* Riders - Individuals, Groups, or Wards
-* Drivers - Owners or Operators
+## Roles
+* Passengers - Individuals, Groups, or Wards taking a trip.
+* Providers - Owners or Operators providing the service.
+* Managers - Fleet Managers or Dispatchers managing the service.
 
 ## Features
 * [Manage](./feature/manage/README.md)
