@@ -72,6 +72,7 @@ fun ProviderDashboardScreen(
                 is ProviderDashboardUiState.Accepted -> {
                     RideInfo(
                         ride = capture.ride,
+                        pickUpEnabled = capture.atOrigin,
                         onPickUpRider = { viewModel.onPickUpRider() },
                     )
                 }
@@ -117,6 +118,7 @@ fun RideRequestList(
 @Composable
 fun RideInfo(
     ride: Ride,
+    pickUpEnabled: Boolean,
     onPickUpRider: () -> Unit,
 ) {
     Column(
@@ -127,7 +129,8 @@ fun RideInfo(
         }
         Text("Picking up $name")
         Button(
-            onClick = onPickUpRider
+            onClick = onPickUpRider,
+            enabled = pickUpEnabled
         ) {
             Text("Pick Up")
         }
