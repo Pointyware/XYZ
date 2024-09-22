@@ -14,6 +14,7 @@ import org.pointyware.xyz.drive.data.DriverSettingsRepositoryImpl
 import org.pointyware.xyz.drive.data.RideRepository
 import org.pointyware.xyz.drive.data.RideRepositoryImpl
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
+import org.pointyware.xyz.drive.data.TestRideRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
 import org.pointyware.xyz.drive.viewmodels.DriveViewModel
 import org.pointyware.xyz.drive.viewmodels.DriverSettingsViewModel
@@ -33,11 +34,12 @@ fun featureDriveModule() = module {
 fun featureDriveDataModule() = module {
 
     singleOf(::RideRepositoryImpl) { bind<RideRepository>() }
-    if (BuildInfo.isDebug) {
-        singleOf(::TestDriverSettingsRepository) { bind<DriverSettingsRepository>() }
-    } else {
-        singleOf(::DriverSettingsRepositoryImpl) { bind<DriverSettingsRepository>() }
-    }
+    singleOf(::DriverSettingsRepositoryImpl) { bind<DriverSettingsRepository>() }
+}
+
+fun featureDriveDataTestModule() = module {
+    singleOf(::TestRideRepository) { bind<RideRepository>() }
+    singleOf(::TestDriverSettingsRepository) { bind<DriverSettingsRepository>() }
 }
 
 fun featureDriveViewModelModule() = module {
