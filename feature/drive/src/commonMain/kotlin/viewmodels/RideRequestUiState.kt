@@ -12,7 +12,7 @@ import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.drive.entities.DriverRates
 
 /**
- * Displays information about a new ride request: distance from driver, distance of route, and rider service rate.
+ * Displays information about a new trip request: distance from driver, distance of route, and rider service rate.
  */
 interface RideRequestUiState {
     val requestId: Uuid

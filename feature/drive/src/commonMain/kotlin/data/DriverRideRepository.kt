@@ -27,17 +27,17 @@ import org.pointyware.xyz.drive.remote.RideService
  */
 interface DriverRideRepository {
     /**
-     * Watch for new ride requests that match the given [filter].
+     * Watch for new trip requests that match the given [filter].
      */
     suspend fun watchRequests(filter: RideFilter): Result<Flow<List<Request>>>
 
     /**
-     * Accept the ride request with the given [requestId].
+     * Accept the trip request with the given [requestId].
      */
     suspend fun acceptRequest(requestId: Uuid): Result<Ride>
 
     /**
-     * Reject the ride request with the given [requestId].
+     * Reject the trip request with the given [requestId].
      */
     suspend fun rejectRequest(requestId: Uuid): Result<Unit>
 

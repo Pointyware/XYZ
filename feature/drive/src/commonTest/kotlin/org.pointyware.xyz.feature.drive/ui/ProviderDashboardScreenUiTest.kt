@@ -119,7 +119,7 @@ class ProviderDashboardScreenUiTest {
 
         /*
         When:
-        - The Drive Screen is presented
+        - The Provider Dashboard Screen is presented
         Then:
         - The Map is centered on the user
         - The requests list is present but empty
@@ -141,7 +141,7 @@ class ProviderDashboardScreenUiTest {
 
         /*
         When:
-        - A new ride request is received
+        - A new trip request is received
         Then:
         - The requests list is visible
         - The new request is shown in the list
@@ -195,7 +195,7 @@ class ProviderDashboardScreenUiTest {
 
         /*
         When:
-        - The Drive Screen is presented
+        - The Provider Dashboard Screen is presented
         Then:
         - The Map is centered on the user
         - The requests list is absent
@@ -217,7 +217,7 @@ class ProviderDashboardScreenUiTest {
 
         /*
         When:
-        - A new ride request is received
+        - A new trip request is received
         Then:
         - The requests list is visible
         - The new request is shown in the list

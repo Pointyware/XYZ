@@ -17,12 +17,12 @@ import org.pointyware.xyz.drive.entities.Request
 interface RideService {
 
     /**
-     * Returns a flow of ride requests that match the given [filter].
+     * Returns a flow of trip requests that match the given [filter].
      */
     suspend fun createRideFilter(filter: RideFilter): Result<Flow<List<Request>>>
 
     /**
-     * Accepts the ride request with the given [requestId].
+     * Accepts the trip request with the given [requestId].
      */
     suspend fun acceptRequest(requestId: Uuid): Result<Ride>
 

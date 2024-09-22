@@ -45,7 +45,7 @@ sealed interface ProviderDashboardScreenState {
 }
 
 /**
- * Displays a map with controls for managing ride requests and ride status.
+ * Displays a map with controls for managing trip requests and ride status.
  */
 @Composable
 fun ProviderDashboardScreen(
