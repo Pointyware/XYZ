@@ -5,6 +5,8 @@
 package org.pointyware.xyz.feature.drive.ui
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onChild
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
@@ -178,6 +180,7 @@ class ProviderDashboardScreenUiTest {
         - The rider profile/messaging input is shown
         - The request list is absent
         - The provider status message displays "Picking up John"
+        - The pick up button is present but disabled
          */
         onNodeWithText("Accept")
             .performClick()
@@ -189,11 +192,65 @@ class ProviderDashboardScreenUiTest {
             .assertDoesNotExist()
         onNodeWithText("Picking up John")
             .assertExists()
+        onNodeWithText("Pick Up")
+            .assertExists()
+            .assertIsNotEnabled()
 
         /*
         When:
-        -
+        - The provider approaches the rider
+        Then:
+        - The pick up button is enabled
          */
+        // TODO: simulate the provider approaching the rider
+        onNodeWithText("Pick Up")
+            .assertIsEnabled()
+
+        /*
+        When:
+        - The pick up button is pressed
+        Then:
+        - The provider status message displays "Driving John to Walgreens"
+        - The pick up button is absent
+        - The drop off button is present but disabled
+         */
+        onNodeWithText("Pick Up")
+            .performClick()
+        onNodeWithText("Driving John to Walgreens")
+            .assertExists()
+        onNodeWithText("Pick Up")
+            .assertDoesNotExist()
+        onNodeWithText("Drop Off")
+            .assertExists()
+            .assertIsNotEnabled()
+
+        /*
+        When:
+        - The provider arrives at the destination
+        Then:
+        - The provider status message displays "Dropping off John"
+        - The drop off button is enabled
+         */
+        // TODO: simulate the provider arriving at the destination
+        onNodeWithText("Dropping off John")
+            .assertExists()
+        onNodeWithText("Drop Off")
+            .assertIsEnabled()
+
+        /*
+        When:
+        - The drop off button is pressed
+        Then:
+        - The provider status message displays "Completed"
+        - The drop off button is absent
+        - The requests list is present
+         */
+        onNodeWithText("Drop Off")
+            .performClick()
+        onNodeWithText("Completed")
+            .assertExists()
+        onNodeWithContentDescription("Ride Requests")
+            .assertExists()
     }
 
     @Test
