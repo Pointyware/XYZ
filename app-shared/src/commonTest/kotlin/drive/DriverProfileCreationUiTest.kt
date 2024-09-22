@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.app.drive
+package org.pointyware.xyz.shared.drive
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsEnabled
