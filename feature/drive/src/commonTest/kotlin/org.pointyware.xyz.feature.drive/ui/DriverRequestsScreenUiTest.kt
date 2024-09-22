@@ -37,9 +37,9 @@ import org.pointyware.xyz.drive.di.featureDriveDataTestModule
 import org.pointyware.xyz.drive.entities.DriverRates
 import org.pointyware.xyz.drive.entities.Request
 import org.pointyware.xyz.drive.navigation.driverActiveRoute
-import org.pointyware.xyz.drive.ui.DriveScreen
-import org.pointyware.xyz.drive.ui.DriveScreenState
-import org.pointyware.xyz.drive.viewmodels.DriveViewModel
+import org.pointyware.xyz.drive.ui.ProviderDashboardScreen
+import org.pointyware.xyz.drive.ui.ProviderDashboardScreenState
+import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.feature.drive.test.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -48,7 +48,7 @@ import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.minutes
 
 /**
- *
+ * Tests for the DriveScreen composable
  */
 @OptIn(ExperimentalTestApi::class)
 class DriverRequestsScreenUiTest {
@@ -56,7 +56,7 @@ class DriverRequestsScreenUiTest {
     private lateinit var rideRepository: TestDriverRideRepository
     private lateinit var driverSettingsRepository: TestDriverSettingsRepository
 
-    private lateinit var driveViewModel: DriveViewModel
+    private lateinit var providerDashboardViewModel: ProviderDashboardViewModel
     private lateinit var navController: XyzNavController
 
     private val testRequest = Request(
@@ -99,7 +99,7 @@ class DriverRequestsScreenUiTest {
             dropoffCost = 100L.dollarCents() per 1.0.kilometers()
         ))
 
-        driveViewModel = koin.get()
+        providerDashboardViewModel = koin.get()
         navController = koin.get()
     }
 
@@ -115,7 +115,7 @@ class DriverRequestsScreenUiTest {
         - The ride filter is set to accept all requests
         - The view model state is Idle
          */
-        assertEquals(DriveScreenState.AvailableRequests(emptyList()), driveViewModel.state.value, "initial state is idle")
+        assertEquals(ProviderDashboardScreenState.AvailableRequests(emptyList()), providerDashboardViewModel.state.value, "initial state is idle")
 
         /*
         When:
@@ -128,8 +128,8 @@ class DriverRequestsScreenUiTest {
             XyzTheme(
                 uiDependencies = EmptyTestUiDependencies()
             ) {
-                DriveScreen(
-                    viewModel = driveViewModel,
+                ProviderDashboardScreen(
+                    viewModel = providerDashboardViewModel,
                     navController = navController
                 )
             }
@@ -191,7 +191,7 @@ class DriverRequestsScreenUiTest {
         - The ride filter is set to accept all requests
         - The view model state is Idle
          */
-        assertEquals(DriveScreenState.AvailableRequests(emptyList()), driveViewModel.state.value, "initial state is idle")
+        assertEquals(ProviderDashboardScreenState.AvailableRequests(emptyList()), providerDashboardViewModel.state.value, "initial state is idle")
 
         /*
         When:
@@ -204,8 +204,8 @@ class DriverRequestsScreenUiTest {
             XyzTheme(
                 uiDependencies = EmptyTestUiDependencies()
             ) {
-                DriveScreen(
-                    viewModel = driveViewModel,
+                ProviderDashboardScreen(
+                    viewModel = providerDashboardViewModel,
                     navController = navController
                 )
             }

@@ -10,7 +10,7 @@ import org.pointyware.xyz.core.navigation.XyzRootScope
 import org.pointyware.xyz.core.navigation.di.NavigationDependencies
 import org.pointyware.xyz.core.navigation.toTypedKey
 import org.pointyware.xyz.drive.di.DriveDependencies
-import org.pointyware.xyz.drive.ui.DriveScreen
+import org.pointyware.xyz.drive.ui.ProviderDashboardScreen
 import org.pointyware.xyz.drive.ui.DriverHomeScreen
 import org.pointyware.xyz.drive.ui.DriverSettingsScreen
 
@@ -35,7 +35,7 @@ fun XyzRootScope.driveRouting(
         val driveViewModel = remember { dependencies.getDriveViewModel() }
         val navController = remember { navigationDependencies.getNavController() }
 
-        DriveScreen(
+        ProviderDashboardScreen(
             viewModel = driveViewModel,
             navController = navController
         )

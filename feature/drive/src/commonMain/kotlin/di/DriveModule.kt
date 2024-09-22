@@ -16,7 +16,7 @@ import org.pointyware.xyz.drive.data.DriverRideRepositoryImpl
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
 import org.pointyware.xyz.drive.data.TestDriverRideRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
-import org.pointyware.xyz.drive.viewmodels.DriveViewModel
+import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.DriverSettingsViewModel
 
 /**
@@ -42,7 +42,7 @@ fun featureDriveDataTestModule() = module {
 }
 
 fun featureDriveViewModelModule() = module {
-    factoryOf(::DriveViewModel)
+    factoryOf(::ProviderDashboardViewModel)
     factoryOf(::DriverSettingsViewModel)
 }
 

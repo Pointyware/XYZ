@@ -13,18 +13,18 @@ import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.drive.data.DriverRideRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
-import org.pointyware.xyz.drive.ui.DriveScreenState
+import org.pointyware.xyz.drive.ui.ProviderDashboardScreenState
 
 /**
  *
  */
-class DriveViewModel(
+class ProviderDashboardViewModel(
     private val repository: DriverRideRepository,
     private val watchRatedRequests: WatchRatedRequests
 ): MapViewModelImpl() {
 
-    private val mutableState = MutableStateFlow<DriveScreenState>(DriveScreenState.AvailableRequests(emptyList()))
-    val state: StateFlow<DriveScreenState> get() = mutableState
+    private val mutableState = MutableStateFlow<ProviderDashboardScreenState>(ProviderDashboardScreenState.AvailableRequests(emptyList()))
+    val state: StateFlow<ProviderDashboardScreenState> get() = mutableState
 
     init {
         watchRequests()
@@ -39,7 +39,7 @@ class DriveViewModel(
             watchRatedRequests.invoke()
                 .onSuccess { flow ->
                     flow.collect { requestList ->
-                        mutableState.value = DriveScreenState.AvailableRequests(
+                        mutableState.value = ProviderDashboardScreenState.AvailableRequests(
                             requests = requestList.map {
                                 val request = it.request
                                 RideRequestUiStateImpl(
@@ -69,7 +69,7 @@ class DriveViewModel(
             repository.acceptRequest(request)
                 .onSuccess {
                     stopWatchingRequests()
-                    mutableState.value = DriveScreenState.Accepted(it)
+                    mutableState.value = ProviderDashboardScreenState.Accepted(it)
                 }
                 .onFailure {
                     TODO("Handle failure")

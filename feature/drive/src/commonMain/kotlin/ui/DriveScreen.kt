@@ -25,34 +25,36 @@ import org.pointyware.xyz.core.ui.AdView
 import org.pointyware.xyz.core.ui.AdViewState
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.viewmodels.MapUiState
-import org.pointyware.xyz.drive.viewmodels.DriveViewModel
+import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 
-sealed interface DriveScreenState {
+sealed interface ProviderDashboardScreenState {
     data class AvailableRequests(
         val requests: List<RideRequestUiState>
-    ): DriveScreenState
+    ): ProviderDashboardScreenState
     data class Accepted(
         val ride: Ride
-    ): DriveScreenState
-    data object RiderCanceled : DriveScreenState
-    data object Pickup : DriveScreenState
-    data object InProgress : DriveScreenState
-    data object RiderCanceledLate : DriveScreenState
-    data object DriverCanceled : DriveScreenState
-    data object Completed : DriveScreenState
+    ): ProviderDashboardScreenState
+    data object RiderCanceled : ProviderDashboardScreenState
+    data object Pickup : ProviderDashboardScreenState
+    data object InProgress : ProviderDashboardScreenState
+    data object RiderCanceledLate : ProviderDashboardScreenState
+    data object DriverCanceled : ProviderDashboardScreenState
+    data object Completed : ProviderDashboardScreenState
 
 }
 
 /**
- * Displays a map with controls for starting, monitoring, and canceling a ride.
+ * * Displays a map with controls for managing ride requests and ride status.
+ *
+ * TODO: rename roles as Provider/Passenger/Trip
  */
 @Composable
-fun DriveScreen(
-    viewModel: DriveViewModel,
+fun ProviderDashboardScreen(
+    viewModel: ProviderDashboardViewModel,
     navController: XyzNavController,
 ) {
-    val state: DriveScreenState by viewModel.state.collectAsState()
+    val state: ProviderDashboardScreenState by viewModel.state.collectAsState()
     val mapState: MapUiState by viewModel.mapState.collectAsState()
 
     Box(
@@ -75,34 +77,34 @@ fun DriveScreen(
                 .align(Alignment.BottomCenter)
         ) {
             when (val capture = state) {
-                is DriveScreenState.AvailableRequests -> {
+                is ProviderDashboardScreenState.AvailableRequests -> {
                     RideRequestList(
                         requests = capture.requests,
                         onAccept = { viewModel.onAccept(it) },
                         onReject = { viewModel.onReject(it) },
                     )
                 }
-                is DriveScreenState.Accepted -> {
+                is ProviderDashboardScreenState.Accepted -> {
                     RideInfo(
                         ride = capture.ride
                     )
                 }
-                is DriveScreenState.RiderCanceled -> {
+                is ProviderDashboardScreenState.RiderCanceled -> {
                     Text("RiderCanceled")
                 }
-                is DriveScreenState.Pickup -> {
+                is ProviderDashboardScreenState.Pickup -> {
                     Text("Pickup")
                 }
-                is DriveScreenState.InProgress -> {
+                is ProviderDashboardScreenState.InProgress -> {
                     Text("InProgress")
                 }
-                is DriveScreenState.RiderCanceledLate -> {
+                is ProviderDashboardScreenState.RiderCanceledLate -> {
                     Text("RiderCanceledLate")
                 }
-                is DriveScreenState.DriverCanceled -> {
+                is ProviderDashboardScreenState.DriverCanceled -> {
                     Text("DriverCanceled")
                 }
-                is DriveScreenState.Completed -> {
+                is ProviderDashboardScreenState.Completed -> {
                     Text("Completed")
                 }
             }
