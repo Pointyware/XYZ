@@ -10,42 +10,30 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.printToLog
 import androidx.compose.ui.test.runComposeUiTest
 import kotlinx.datetime.Clock
 import org.koin.core.context.loadKoinModules
-import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.xyz.core.data.di.coreDataModule
-import org.pointyware.xyz.core.data.di.dataQualifier
+import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.business.Rate.Companion.per
 import org.pointyware.xyz.core.entities.business.dollarCents
 import org.pointyware.xyz.core.entities.data.Uri
-import org.pointyware.xyz.core.entities.di.coreEntitiesModule
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.geo.kilometers
 import org.pointyware.xyz.core.entities.profile.Gender
-import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.profile.RiderProfile
-import org.pointyware.xyz.core.interactors.di.coreInteractorsModule
 import org.pointyware.xyz.core.navigation.XyzNavController
-import org.pointyware.xyz.core.navigation.di.coreNavigationModule
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
-import org.pointyware.xyz.core.ui.di.coreUiModule
-import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
-import org.pointyware.xyz.drive.data.RideRepository
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
-import org.pointyware.xyz.drive.data.TestRideRepository
+import org.pointyware.xyz.drive.data.TestDriverRideRepository
 import org.pointyware.xyz.drive.di.featureDriveDataTestModule
-import org.pointyware.xyz.drive.di.featureDriveModule
 import org.pointyware.xyz.drive.entities.DriverRates
 import org.pointyware.xyz.drive.entities.Request
 import org.pointyware.xyz.drive.navigation.driverActiveRoute
@@ -65,7 +53,7 @@ import kotlin.time.Duration.Companion.minutes
 @OptIn(ExperimentalTestApi::class)
 class DriverRequestsScreenUiTest {
 
-    private lateinit var rideRepository: TestRideRepository
+    private lateinit var rideRepository: TestDriverRideRepository
     private lateinit var driverSettingsRepository: TestDriverSettingsRepository
 
     private val testRequest = Request(
@@ -99,7 +87,7 @@ class DriverRequestsScreenUiTest {
                 single<Any>(qualifier = homeQualifier) { driverActiveRoute }
             },
         ))
-        rideRepository = koin.get<TestRideRepository>()
+        rideRepository = koin.get<TestDriverRideRepository>()
         driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
         driverSettingsRepository.setDriverRates(DriverRates(
             maintenanceCost = 20L.dollarCents() per 1.0.kilometers(),

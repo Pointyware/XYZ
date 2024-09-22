@@ -8,14 +8,13 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
-import org.pointyware.xyz.core.common.BuildInfo
 import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.drive.data.DriverSettingsRepository
 import org.pointyware.xyz.drive.data.DriverSettingsRepositoryImpl
-import org.pointyware.xyz.drive.data.RideRepository
-import org.pointyware.xyz.drive.data.RideRepositoryImpl
+import org.pointyware.xyz.drive.data.DriverRideRepository
+import org.pointyware.xyz.drive.data.DriverRideRepositoryImpl
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
-import org.pointyware.xyz.drive.data.TestRideRepository
+import org.pointyware.xyz.drive.data.TestDriverRideRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
 import org.pointyware.xyz.drive.viewmodels.DriveViewModel
 import org.pointyware.xyz.drive.viewmodels.DriverSettingsViewModel
@@ -33,12 +32,12 @@ fun featureDriveModule() = module {
 }
 
 fun featureDriveDataModule() = module {
-    singleOf(::RideRepositoryImpl) { bind<RideRepository>() }
+    singleOf(::DriverRideRepositoryImpl) { bind<DriverRideRepository>() }
     singleOf(::DriverSettingsRepositoryImpl) { bind<DriverSettingsRepository>() }
 }
 
 fun featureDriveDataTestModule() = module {
-    single<RideRepository> { TestRideRepository(get(qualifier = dataQualifier)) }
+    single<DriverRideRepository> { TestDriverRideRepository(get(qualifier = dataQualifier)) }
     singleOf(::TestDriverSettingsRepository) { bind<DriverSettingsRepository>() }
 }
 

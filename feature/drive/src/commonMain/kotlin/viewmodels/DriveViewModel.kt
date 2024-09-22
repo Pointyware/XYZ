@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
-import org.pointyware.xyz.drive.data.RideRepository
+import org.pointyware.xyz.drive.data.DriverRideRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
 import org.pointyware.xyz.drive.ui.DriveScreenState
 
@@ -19,7 +19,7 @@ import org.pointyware.xyz.drive.ui.DriveScreenState
  *
  */
 class DriveViewModel(
-    private val repository: RideRepository,
+    private val repository: DriverRideRepository,
     private val watchRatedRequests: WatchRatedRequests
 ): MapViewModelImpl() {
 

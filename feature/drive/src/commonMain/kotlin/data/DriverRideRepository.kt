@@ -8,7 +8,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -26,7 +25,7 @@ import org.pointyware.xyz.drive.remote.RideService
  * This repository serves as the access point to ride data from the driver perspective.
  * It mediates between a local cache and a remote service.
  */
-interface RideRepository {
+interface DriverRideRepository {
     /**
      * Watch for new ride requests that match the given [filter].
      */
@@ -58,10 +57,10 @@ data class Cancellation(
     val reason: String,
 )
 
-class RideRepositoryImpl(
+class DriverRideRepositoryImpl(
     private val rideService: RideService,
     private val rideCache: RideCache,
-): RideRepository {
+): DriverRideRepository {
 
     override suspend fun watchRequests(filter: RideFilter): Result<Flow<List<Request>>> {
         return rideService.createRideFilter(filter)
@@ -84,9 +83,9 @@ class RideRepositoryImpl(
     }
 }
 
-class TestRideRepository(
+class TestDriverRideRepository(
     val dataScope: CoroutineScope,
-): RideRepository {
+): DriverRideRepository {
 
     private val mutableNewRequests = MutableSharedFlow<Request>()
     private val mutableActiveRequests: MutableStateFlow<Set<Request>> = MutableStateFlow(emptySet())
