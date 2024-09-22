@@ -22,9 +22,9 @@ class WatchRatedRequests(
         val rates = driverSettingsRepository.getDriverRates()
         val location = driverSettingsRepository.getDriverLocation()
 
-        repository.watchRequests(filter)
-            .onSuccess { flow ->
-                val estimatedFlow = flow.map { request ->
+        return repository.watchRequests(filter)
+            .map {
+                it.map { request ->
                     request.map {
                         EstimatedRequest(
                             it,
@@ -33,11 +33,6 @@ class WatchRatedRequests(
                         )
                     }
                 }
-                return Result.success(estimatedFlow)
             }
-            .onFailure {
-                return Result.failure(it)
-            }
-        throw IllegalStateException("Unreachable code")
     }
 }
