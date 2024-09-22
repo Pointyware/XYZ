@@ -51,7 +51,7 @@ import kotlin.time.Duration.Companion.minutes
  * Tests for the DriveScreen composable
  */
 @OptIn(ExperimentalTestApi::class)
-class DriverRequestsScreenUiTest {
+class ProviderDashboardScreenUiTest {
 
     private lateinit var rideRepository: TestDriverRideRepository
     private lateinit var driverSettingsRepository: TestDriverSettingsRepository
