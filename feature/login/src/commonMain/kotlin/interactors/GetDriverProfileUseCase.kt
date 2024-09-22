@@ -15,14 +15,12 @@ class GetDriverProfileUseCase(
     private val profileRepo: ProfileRepository
 ) {
     suspend fun invoke(uuid: String): Result<DriverProfile> {
-        profileRepo.getProfile(uuid)
-            .onSuccess { profile ->
+        return profileRepo.getProfile(uuid)
+            .map { profile ->
                 return when (profile) {
                     is DriverProfile -> Result.success(profile)
                     else -> Result.failure(Exception("Profile is not a DriverProfile"))
                 }
             }
-            .onFailure { return Result.failure(it) }
-        return Result.failure(IllegalStateException("This should never happen"))
     }
 }
