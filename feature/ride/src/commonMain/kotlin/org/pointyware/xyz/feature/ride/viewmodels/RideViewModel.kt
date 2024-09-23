@@ -17,7 +17,7 @@ import org.pointyware.xyz.core.viewmodels.postError
 import org.pointyware.xyz.feature.ride.data.PaymentRepository
 import org.pointyware.xyz.feature.ride.data.RideRequestRepository
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
-import ui.PaymentSelectionViewState
+import org.pointyware.xyz.feature.ride.ui.PaymentSelectionViewState
 
 /**
  * Maintains the state of a rider UI and provides actions to update it.

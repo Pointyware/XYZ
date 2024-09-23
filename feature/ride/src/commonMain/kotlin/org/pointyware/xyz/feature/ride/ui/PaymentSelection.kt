@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package ui
+package org.pointyware.xyz.feature.ride.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column

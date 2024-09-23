@@ -8,7 +8,7 @@ import org.pointyware.xyz.core.entities.business.Currency
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.viewmodels.BriefProfileUiState
-import ui.PaymentSelectionViewState
+import org.pointyware.xyz.feature.ride.ui.PaymentSelectionViewState
 
 /**
  * Represents the state of a rider's UI.

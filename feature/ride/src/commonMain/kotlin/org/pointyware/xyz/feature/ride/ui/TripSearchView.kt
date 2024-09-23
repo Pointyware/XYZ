@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
-import ui.PaymentSelectionView
+import org.pointyware.xyz.feature.ride.ui.PaymentSelectionView
 
 data class TripSearchViewState(
     val isExpanded: Boolean,
