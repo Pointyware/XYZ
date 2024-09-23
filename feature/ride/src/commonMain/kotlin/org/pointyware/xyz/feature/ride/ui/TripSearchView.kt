@@ -233,8 +233,10 @@ fun AwaitingRideView(
             contentDescription = "Driver Profile"
         }
     ) {
-        Text("Driver: ${state.driver.name}")
-        Text("ETA: ${state.eta}")
+        Text("Driver is on the way")
+        state.driver.accommodations.forEach {
+            Text(text = it.name)
+        }
         MessageInput()
     }
 }
