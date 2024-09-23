@@ -106,7 +106,7 @@ class TestTripRepository(
     override val currentTrip: StateFlow<Ride?>
         get() = mutableCurrentTrip.asStateFlow()
 
-    private val mutableTripEvents = MutableSharedFlow<TripEvent>(replay = 1)
+    private val mutableTripEvents = MutableSharedFlow<TripEvent>()
     override val tripEvents: SharedFlow<TripEvent>
         get() = mutableTripEvents.asSharedFlow()
 
@@ -193,7 +193,9 @@ class TestTripRepository(
         mutableCurrentTrip.update {
             when (it) {
                 is PlannedRide -> {
-                    it.accept(driverProfile, Clock.System.now())
+                    it.accept(driverProfile, Clock.System.now()).also {
+                        mutableTripEvents.tryEmit(TripEvent.Accepted(driverProfile, it))
+                    }
                 }
                 else -> it
             }
@@ -204,7 +206,9 @@ class TestTripRepository(
         mutableCurrentTrip.update {
             when (it) {
                 is PendingRide -> {
-                    it.arrive(Clock.System.now())
+                    it.arrive(Clock.System.now()).also {
+                        mutableTripEvents.tryEmit(TripEvent.PickedUp)
+                    }
                 }
                 else -> it
             }
@@ -215,7 +219,9 @@ class TestTripRepository(
         mutableCurrentTrip.update {
             when (it) {
                 is ActiveRide -> {
-                    it.complete(Clock.System.now())
+                    it.complete(Clock.System.now()).also {
+                        mutableTripEvents.tryEmit(TripEvent.DroppedOff)
+                    }
                 }
                 else -> it
             }
