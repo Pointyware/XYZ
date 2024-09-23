@@ -118,7 +118,7 @@ class PassengerDashboardScreenUiTest {
         - The "Payment Selection" button transforms into the Payment Method Selection
          */
 
-        onNodeWithContentDescription("Select Payment Method")
+        onNodeWithText("Select Payment Method")
             .performClick()
 
         onNodeWithContentDescription("Payment Method Selection")
