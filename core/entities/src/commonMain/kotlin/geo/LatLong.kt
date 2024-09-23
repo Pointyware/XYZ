@@ -4,9 +4,8 @@
 
 package org.pointyware.xyz.core.entities.geo
 
-import kotlin.math.PI
 import kotlin.math.abs
-import kotlin.math.asin
+import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -32,7 +31,7 @@ data class LatLong(
 
         val lonDif = lon2 - lon1
 
-        val centralAngle = asin(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(lonDif))
+        val centralAngle = acos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(lonDif))
 
         return abs(EARTH_RADIUS * centralAngle).kilometers()
     }
