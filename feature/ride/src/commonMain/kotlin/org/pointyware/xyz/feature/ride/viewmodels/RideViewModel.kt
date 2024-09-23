@@ -138,14 +138,19 @@ class RideViewModel(
 
     fun onSelectPayment() {
         viewModelScope.launch {
-            val methods = paymentRepository.getPaymentMethods()
-            mutableState.update {
-                if (it is PassengerDashboardUiState.Search) {
-                    it.copy(paymentSelection = PaymentSelectionViewState.SelectPayment(methods))
-                } else {
-                    it
+            paymentRepository.getPaymentMethods()
+                .onSuccess { methods ->
+                    mutableState.update {
+                        if (it is PassengerDashboardUiState.Search) {
+                            it.copy(paymentSelection = PaymentSelectionViewState.SelectPayment(methods))
+                        } else {
+                            it
+                        }
+                    }
                 }
-            }
+                .onFailure {
+                    it.printStackTrace()
+                }
         }
     }
 
