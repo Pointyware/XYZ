@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.Uuid
@@ -194,7 +195,9 @@ class TestTripRepository(
             when (it) {
                 is PlannedRide -> {
                     it.accept(driverProfile, Clock.System.now()).also {
-                        mutableTripEvents.tryEmit(TripEvent.Accepted(driverProfile, it))
+                        dataScope.launch {
+                            mutableTripEvents.emit(TripEvent.Accepted(driverProfile, it))
+                        }
                     }
                 }
                 else -> it
