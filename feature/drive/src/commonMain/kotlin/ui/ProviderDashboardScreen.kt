@@ -93,7 +93,9 @@ fun ProviderDashboardScreen(
                     Text("DriverCanceled")
                 }
                 is ProviderDashboardUiState.Completed -> {
-                    Text("Completed")
+                    TripCompletionView(
+
+                    )
                 }
             }
         }
@@ -180,4 +182,11 @@ fun MessageInput(
         onValueChange = {},
         modifier = modifier.semantics { contentDescription = "Message Input" }
     )
+}
+
+@Composable
+fun TripCompletionView(
+    modifier: Modifier = Modifier,
+) {
+
 }
