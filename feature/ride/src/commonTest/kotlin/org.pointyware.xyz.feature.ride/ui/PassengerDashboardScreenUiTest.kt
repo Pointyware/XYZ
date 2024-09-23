@@ -18,6 +18,8 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilDoesNotExist
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
@@ -256,11 +258,14 @@ class PassengerDashboardScreenUiTest {
         When:
         - User clicks on the "Confirm Route" button
         Then:
+        - The "Hailing a driver" message is shown
         - The "Cancel Request" button is shown
          */
         onNodeWithText("Confirm Route")
             .performClick()
 
+        onNodeWithText("Hailing a driver")
+            .assertExists()
         onNodeWithText("Cancel Request")
             .assertExists()
             .assertIsEnabled()
@@ -275,6 +280,7 @@ class PassengerDashboardScreenUiTest {
          */
         tripRepository.acceptRequest(driverProfile)
 
+        runBlocking { delay(100) }
         onNodeWithContentDescription("Driver Profile")
             .assertExists()
         onNodeWithContentDescription("Message Input")
