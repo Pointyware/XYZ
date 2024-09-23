@@ -155,7 +155,32 @@ class TripViewModel(
                             }
                         }
                     }
-                    else -> {}
+                    is TripEvent.PickedUp -> {
+                        mutableState.update {
+                            if (it is PassengerDashboardUiState.Waiting) {
+//                                val eta  = event.pendingRide.route.eta // TODO: create eta use case
+                                PassengerDashboardUiState.Riding(
+                                    driver = event.driverProfile,
+                                    eta = 0,
+                                    route = it.route
+                                )
+                            } else {
+                                it
+                            }
+                        }
+                    }
+                    is TripEvent.DroppedOff -> {
+                        mutableState.update {
+                            if (it is PassengerDashboardUiState.Riding) {
+                                PassengerDashboardUiState.Arrived(
+                                    driver = event.driverProfile,
+                                    route = it.route
+                                )
+                            } else {
+                                it
+                            }
+                        }
+                    }
                 }
             }
         }
