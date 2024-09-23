@@ -38,7 +38,7 @@ fun PaymentSelectionView(
 ) {
     val contentDescription = remember(state) { when(state) {
         is PaymentSelectionViewState.SelectPayment -> {
-            "Select Payment Method"
+            "Payment Method Selection"
         }
         is PaymentSelectionViewState.PaymentSelected -> {
             "Payment Method"
