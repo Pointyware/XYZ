@@ -104,8 +104,6 @@ class ProviderDashboardScreenUiTest {
         rideRepository = koin.get<ProviderTripRepository>() as TestProviderTripRepository
         driverSettingsRepository = koin.get<TestDriverSettingsRepository>()
         locationService = koin.get()
-
-        providerDashboardViewModel = koin.get()
         navController = koin.get()
 
         driverSettingsRepository.setDriverRates(DriverRates(
@@ -114,6 +112,8 @@ class ProviderDashboardScreenUiTest {
             dropoffCost = 100L.dollarCents() per 1.0.kilometers()
         ))
         locationService.start()
+
+        providerDashboardViewModel = koin.get()
     }
 
     @AfterTest
