@@ -128,15 +128,17 @@ class PassengerDashboardScreenUiTest {
         When:
         - User selects a payment method - Bisa
         Then:
-        - The "Payment Method Selection" button transforms back into the "Payment Selection" button
+        - The "Payment Method Selection" form transforms back into the "Payment Method" form
         - The selected payment method is shown
          */
         onNodeWithText("Bisa", substring = true)
             .performClick()
 
-        onNodeWithContentDescription("Payment Selection")
+        onNodeWithContentDescription("Payment Method")
             .assertExists()
         onNodeWithText("Bisa", substring = true)
+            .assertExists()
+        onNodeWithText("Select Payment Method")
             .assertExists()
 
         /*
