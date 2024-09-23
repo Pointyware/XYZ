@@ -286,6 +286,12 @@ data class ActiveRide(
         )
     }
 
+    /**
+     * Currently skips separate [CompletingRide] state. We can either add a UI button for the driver to confirm when they have stopped at the pick up location or we can convert it automatically after the driver is within the expected range of the pick up location.
+     * Requiring driver interaction would mean they can only update the state after they have come to a stop...
+     * Updating automatically would mean we need to have a way to determine when the driver has arrived at the pick up location, for which we can use the distance between the driver and the pick up location or passenger? What if the passenger is not at the pick up location?
+     *
+     */
     fun complete(timeEnded: Instant): CompletedRide {
         return CompletedRide(
             id = id,
