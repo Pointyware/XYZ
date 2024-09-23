@@ -31,7 +31,7 @@ import org.pointyware.xyz.feature.ride.data.TripRepository
 import org.pointyware.xyz.feature.ride.di.featureRideDataTestModule
 import org.pointyware.xyz.feature.ride.entities.ExpirationDate
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
-import org.pointyware.xyz.feature.ride.local.TestPaymentStore
+import org.pointyware.xyz.feature.ride.local.FakePaymentStore
 import org.pointyware.xyz.feature.ride.navigation.rideRoute
 import org.pointyware.xyz.feature.ride.test.setupKoin
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
@@ -48,7 +48,7 @@ import kotlin.test.assertEquals
 class PassengerDashboardScreenUiTest {
 
     private lateinit var tripRepository: TripRepository
-    private lateinit var paymentStore: TestPaymentStore
+    private lateinit var paymentStore: FakePaymentStore
 
     private lateinit var viewModel: RideViewModel
     private lateinit var navController: XyzNavController

@@ -29,7 +29,7 @@ class PaymentStoreImpl(): PaymentStore {
     }
 }
 
-class TestPaymentStore(
+class FakePaymentStore(
     private val methods: MutableList<PaymentMethod> = mutableListOf()
 ): PaymentStore {
 

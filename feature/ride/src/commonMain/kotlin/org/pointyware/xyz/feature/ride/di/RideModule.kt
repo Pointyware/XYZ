@@ -9,7 +9,6 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.dataQualifier
-import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.ride.data.PaymentRepository
 import org.pointyware.xyz.feature.ride.data.PaymentRepositoryImpl
 import org.pointyware.xyz.feature.ride.data.TripCache
@@ -19,11 +18,9 @@ import org.pointyware.xyz.feature.ride.data.TripRepositoryImpl
 import org.pointyware.xyz.feature.ride.data.TripService
 import org.pointyware.xyz.feature.ride.data.TripServiceImpl
 import org.pointyware.xyz.feature.ride.data.TestTripRepository
-import org.pointyware.xyz.feature.ride.entities.ExpirationDate
-import org.pointyware.xyz.feature.ride.entities.PaymentMethod
 import org.pointyware.xyz.feature.ride.local.PaymentStore
 import org.pointyware.xyz.feature.ride.local.PaymentStoreImpl
-import org.pointyware.xyz.feature.ride.local.TestPaymentStore
+import org.pointyware.xyz.feature.ride.local.FakePaymentStore
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
 
 /**
@@ -54,6 +51,6 @@ fun featureRideDataModule() = module {
 fun featureRideDataTestModule() = module {
     single<TripRepository> { TestTripRepository(dataScope = get(qualifier = dataQualifier)) }
 
-    single { TestPaymentStore() }
-    single<PaymentStore> { get<TestPaymentStore>() }
+    single { FakePaymentStore() }
+    single<PaymentStore> { get<FakePaymentStore>() }
 }
