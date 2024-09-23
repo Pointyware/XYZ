@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.shared.ride
+package org.pointyware.xyz.feature.ride.ui
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assert
@@ -25,10 +25,9 @@ import org.pointyware.xyz.core.navigation.StackNavigationController
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.ride.di.featureRideDataTestModule
-import org.pointyware.xyz.feature.ride.ui.PassengerDashboardScreen
+import org.pointyware.xyz.feature.ride.test.setupKoin
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
-import org.pointyware.xyz.shared.di.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -38,7 +37,7 @@ import kotlin.test.assertEquals
  * System/UI Test for Rider Request Ride View
  */
 @OptIn(ExperimentalTestApi::class)
-class RequestRideUiTest {
+class PassengerDashboardScreenUiTest {
 
     @BeforeTest
     fun setUp() {
