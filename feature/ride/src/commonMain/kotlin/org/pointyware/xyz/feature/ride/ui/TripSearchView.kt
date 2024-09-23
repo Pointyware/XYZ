@@ -107,7 +107,10 @@ fun TripSearchView(
                 }
 
                 is PassengerDashboardUiState.Riding -> {
-                    ActiveRideView(state = state)
+                    ActiveRideView(
+                        state = state,
+                        onCancelTrip = onCancelRequest
+                    )
                 }
 
                 is PassengerDashboardUiState.Arrived -> {
@@ -243,10 +246,18 @@ fun AwaitingRideView(
 
 @Composable
 fun ActiveRideView(
-    state: PassengerDashboardUiState.Riding
+    state: PassengerDashboardUiState.Riding,
+    onCancelTrip: ()->Unit
 ) {
-    // Do nothing
-    // TODO: rider details
+    Column {
+        Text("Riding with ${state.driver.name}")
+        Text("ETA: ${state.eta}")
+
+        Button(onClick = onCancelTrip) {
+            Text("Cancel Ride")
+        }
+        MessageInput()
+    }
 }
 
 @Composable
