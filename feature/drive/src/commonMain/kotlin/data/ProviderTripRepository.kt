@@ -152,9 +152,9 @@ class TestProviderTripRepository(
                 this.activeRide = activeRide
                 return Result.success(activeRide)
             } else {
-                return Result.failure(IllegalStateException("Active ride is not pending"))
+                return Result.failure(IllegalStateException("Current trip is not pending"))
             }
-        } ?: return Result.failure(IllegalStateException("No active ride to pick up rider"))
+        } ?: return Result.failure(IllegalStateException("No current trip to pick up passenger"))
     }
 
     override suspend fun completeRide(): Result<CompletedRide> {
@@ -168,17 +168,17 @@ class TestProviderTripRepository(
                     return Result.success(it.complete(Clock.System.now()))
                 }
                 else -> {
-                    return Result.failure(IllegalStateException("Active ride is not active or completing"))
+                    return Result.failure(IllegalStateException("Current trip is not active or completing"))
                 }
             }
-        } ?: return Result.failure(IllegalStateException("No active ride to complete"))
+        } ?: return Result.failure(IllegalStateException("No current trip to complete"))
     }
 
     override suspend fun cancelRide(): Result<Cancellation> {
         return activeRide?.let {
             activeRide = null
-            Result.success(Cancellation(it, "Driver canceled"))
-        } ?: Result.failure(IllegalStateException("No active ride to cancel"))
+            Result.success(Cancellation(it, "Provider canceled"))
+        } ?: Result.failure(IllegalStateException("No current trip to cancel"))
     }
 
     fun addRequest(testRequest: Request) {
