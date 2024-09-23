@@ -108,7 +108,7 @@ class PassengerDashboardScreenUiTest {
         onNodeWithText("Confirm")
             .assertExists()
             .assertIsNotEnabled()
-        onNodeWithContentDescription("Payment Selection")
+        onNodeWithContentDescription("Payment Method")
             .assertExists()
 
         /*
@@ -118,7 +118,7 @@ class PassengerDashboardScreenUiTest {
         - The "Payment Selection" button transforms into the Payment Method Selection
          */
 
-        onNodeWithContentDescription("Payment Selection")
+        onNodeWithContentDescription("Select Payment Method")
             .performClick()
 
         onNodeWithContentDescription("Payment Method Selection")
