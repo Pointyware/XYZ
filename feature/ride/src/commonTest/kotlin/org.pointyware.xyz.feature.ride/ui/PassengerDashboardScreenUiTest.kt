@@ -138,7 +138,6 @@ class PassengerDashboardScreenUiTest {
             }
         }
 
-
         onNodeWithText("New Ride")
             .assertExists()
             .assertIsEnabled()
@@ -168,7 +167,6 @@ class PassengerDashboardScreenUiTest {
         Then:
         - The "Payment Selection" button transforms into the Payment Method Selection
          */
-
         onNodeWithText("Select Payment Method")
             .performClick()
 
@@ -201,6 +199,7 @@ class PassengerDashboardScreenUiTest {
          */
         onNodeWithText("Search")
             .performTextInput("Red Rock")
+
         onNodeWithText("Search")
             .assert(hasText("Red Rock"))
         onNodeWithText("Confirm")
@@ -214,6 +213,7 @@ class PassengerDashboardScreenUiTest {
          */
         onNodeWithText("Confirm")
             .performClick()
+
         onNodeWithContentDescription("Location Suggestions")
             .assertExists()
 
@@ -229,14 +229,13 @@ class PassengerDashboardScreenUiTest {
             .onChildren().filterToOne(hasText("Red Rock", substring = true))
             .assertExists()
             .performClick()
+
         // TODO: Assert that the map is updated
         onNodeWithContentDescription("Loading")
             .assertExists()
         onNodeWithText("Confirm Route")
             .assertExists()
             .assertIsNotEnabled()
-
-        waitUntilDoesNotExist(hasContentDescription("Loading"), 2000L)
 
         /*
         When:
@@ -245,6 +244,8 @@ class PassengerDashboardScreenUiTest {
         - The "Confirm Route" button is shown
         - The waiting indicator is no longer shown
          */
+        waitUntilDoesNotExist(hasContentDescription("Loading"), 2000L)
+
         onNodeWithText("Confirm Route")
             .assertExists()
             .assertIsEnabled()
@@ -259,6 +260,7 @@ class PassengerDashboardScreenUiTest {
          */
         onNodeWithText("Confirm Route")
             .performClick()
+
         onNodeWithText("Cancel Request")
             .assertExists()
             .assertIsEnabled()
