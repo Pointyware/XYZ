@@ -192,6 +192,7 @@ class ProviderDashboardScreenUiTest {
          */
         onNodeWithText("Accept")
             .performClick()
+
         onNodeWithContentDescription("Rider Profile")
             .assertExists()
         onNodeWithContentDescription("Message Input")
@@ -218,16 +219,22 @@ class ProviderDashboardScreenUiTest {
         When:
         - The pick up button is pressed
         Then:
-        - The provider status message displays "Driving John to Walgreens"
         - The pick up button is absent
+        - profile and messaging information is still present
+        - The provider status message displays "Driving John to Walgreens"
         - The drop off button is present but disabled
          */
         onNodeWithText("Pick Up")
             .performClick()
-        onNodeWithText("Driving John to Walgreens")
-            .assertExists()
+
         onNodeWithText("Pick Up")
             .assertDoesNotExist()
+        onNodeWithContentDescription("Rider Profile")
+            .assertExists()
+        onNodeWithContentDescription("Message Input")
+            .assertExists()
+        onNodeWithText("Driving John to Walgreens")
+            .assertExists()
         onNodeWithText("Drop Off")
             .assertExists()
             .assertIsNotEnabled()
