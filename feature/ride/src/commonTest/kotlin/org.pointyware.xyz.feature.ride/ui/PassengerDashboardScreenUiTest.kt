@@ -300,6 +300,7 @@ class PassengerDashboardScreenUiTest {
          */
         tripRepository.pickUpRider()
 
+        waitUntilExactlyOneExists(hasText("Cancel Ride"), 500L)
         onNodeWithText("Cancel Ride")
             .assertExists()
             .assertIsEnabled()
