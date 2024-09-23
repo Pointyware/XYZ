@@ -160,8 +160,17 @@ class TestProviderTripRepository(
     override suspend fun completeRide(): Result<CompletedRide> {
         activeRide?.let {
             activeRide = null
-            if (it is CompletingRide) return Result.success(it.complete(Clock.System.now()))
-            else return Result.failure(IllegalStateException("Active ride is not completing"))
+            when (it) {
+                is ActiveRide -> {
+                    return Result.success(it.complete(Clock.System.now()))
+                }
+                is CompletingRide -> {
+                    return Result.success(it.complete(Clock.System.now()))
+                }
+                else -> {
+                    return Result.failure(IllegalStateException("Active ride is not active or completing"))
+                }
+            }
         } ?: return Result.failure(IllegalStateException("No active ride to complete"))
     }
 
