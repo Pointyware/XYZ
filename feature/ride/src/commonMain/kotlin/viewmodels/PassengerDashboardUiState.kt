@@ -8,6 +8,7 @@ import org.pointyware.xyz.core.entities.business.Currency
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.viewmodels.BriefProfileUiState
+import ui.PaymentSelectionViewState
 
 /**
  * Represents the state of a rider's UI.
@@ -24,7 +25,8 @@ sealed interface PassengerDashboardUiState {
      */
     data class Search(
         val query: String = "",
-        val suggestions: List<Location>
+        val suggestions: List<Location>,
+        val paymentSelection: PaymentSelectionViewState
     ): PassengerDashboardUiState
 
     /**
