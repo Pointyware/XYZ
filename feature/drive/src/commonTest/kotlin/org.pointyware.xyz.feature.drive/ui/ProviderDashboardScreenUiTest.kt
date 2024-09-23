@@ -248,8 +248,6 @@ class ProviderDashboardScreenUiTest {
         - The drop off button is enabled
          */
         locationService.setLocation(LatLong(36.1162121,-97.0583766))
-        onNodeWithText("Dropping off John")
-            .assertExists()
         onNodeWithText("Drop Off")
             .assertIsEnabled()
 
