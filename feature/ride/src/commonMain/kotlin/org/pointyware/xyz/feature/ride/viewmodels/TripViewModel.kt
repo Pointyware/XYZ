@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.feature.ride.viewmodels
 
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -14,7 +15,9 @@ import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.core.viewmodels.postError
+import org.pointyware.xyz.core.viewmodels.toBriefProfileUiState
 import org.pointyware.xyz.feature.ride.data.PaymentRepository
+import org.pointyware.xyz.feature.ride.data.TripEvent
 import org.pointyware.xyz.feature.ride.data.TripRepository
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
 import org.pointyware.xyz.feature.ride.ui.PaymentSelectionViewState
@@ -117,10 +120,37 @@ class TripViewModel(
                 PassengerDashboardUiState.Posted(
                     route = route,
                     price = price
-                )
-                // TODO: listen for driver acceptance; update state
+                ).also {
+                    watchDriverAcceptance()
+                }
             } else {
                 it
+            }
+        }
+    }
+
+    private var driverAcceptanceJob: Job? = null
+    private fun watchDriverAcceptance() {
+        driverAcceptanceJob?.cancel()
+        driverAcceptanceJob = viewModelScope.launch {
+            tripRepository.tripEvents.collect { event ->
+                when (event) {
+                    is TripEvent.Accepted -> {
+                        mutableState.update {
+                            if (it is PassengerDashboardUiState.Posted) {
+//                                val eta  = event.pendingRide.route.eta // TODO: create eta use case
+                                PassengerDashboardUiState.Waiting(
+                                    driver = event.driverProfile.toBriefProfileUiState(),
+                                    eta = 0,
+                                    route = it.route
+                                )
+                            } else {
+                                it
+                            }
+                        }
+                    }
+                    else -> {}
+                }
             }
         }
     }
@@ -162,5 +192,10 @@ class TripViewModel(
                 it
             }
         }
+    }
+
+    override fun dispose() {
+        super.dispose()
+        driverAcceptanceJob?.cancel()
     }
 }

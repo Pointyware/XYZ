@@ -6,8 +6,11 @@ package org.pointyware.xyz.feature.ride.data
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.Clock
@@ -24,6 +27,15 @@ import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.ride.planRide
 import kotlin.time.Duration.Companion.milliseconds
 
+sealed interface TripEvent {
+    data class Accepted(
+        val driverProfile: DriverProfile,
+        val pendingRide: PendingRide
+    ): TripEvent
+    data object PickedUp: TripEvent
+    data object DroppedOff: TripEvent
+}
+
 /**
  * Handles trip search and scheduling.
  */
@@ -32,6 +44,11 @@ interface TripRepository {
      * The current trip being taken by the user.
      */
     val currentTrip: StateFlow<Ride?>
+
+    /**
+     * Events that occur during a trip.
+     */
+    val tripEvents: SharedFlow<TripEvent>
 
     suspend fun searchDestinations(query: String): Result<DestinationSearchResult>
     suspend fun findRoute(origin: Location, destination: Location): Result<Route>
@@ -48,6 +65,8 @@ class TripRepositoryImpl(
 ): TripRepository {
 
     override val currentTrip: StateFlow<Ride?>
+        get() = TODO("Not yet implemented")
+    override val tripEvents: SharedFlow<TripEvent>
         get() = TODO("Not yet implemented")
 
     override suspend fun searchDestinations(query: String): Result<DestinationSearchResult> {
@@ -86,6 +105,10 @@ class TestTripRepository(
     private val mutableCurrentTrip = MutableStateFlow(null as Ride?)
     override val currentTrip: StateFlow<Ride?>
         get() = mutableCurrentTrip.asStateFlow()
+
+    private val mutableTripEvents = MutableSharedFlow<TripEvent>(replay = 1)
+    override val tripEvents: SharedFlow<TripEvent>
+        get() = mutableTripEvents.asSharedFlow()
 
     private val maximumLevenshteinDistance = 20
 
