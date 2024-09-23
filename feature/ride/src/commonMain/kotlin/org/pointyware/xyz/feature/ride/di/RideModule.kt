@@ -59,7 +59,7 @@ fun featureRideDataTestModule() = module {
             PaymentMethod(
                 id = Uuid.v4(),
                 lastFour = "3456",
-                expiration = ExpirationDate(month = 12, year = 24),
+                expiration = ExpirationDate(month = 12, year = 2024),
                 cardholderName = "John Doe",
                 paymentProvider = "Bisa"
             )
