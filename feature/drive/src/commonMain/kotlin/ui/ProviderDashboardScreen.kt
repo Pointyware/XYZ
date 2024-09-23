@@ -26,6 +26,7 @@ import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.AdView
 import org.pointyware.xyz.core.ui.AdViewState
 import org.pointyware.xyz.core.ui.MapView
+import org.pointyware.xyz.core.ui.MessageInput
 import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
@@ -174,17 +175,6 @@ fun DeliveryInfo(
             modifier = Modifier.fillMaxWidth()
         )
     }
-}
-
-@Composable
-fun MessageInput(
-    modifier: Modifier = Modifier,
-) {
-    TextField(
-        value = "",
-        onValueChange = {},
-        modifier = modifier.semantics { contentDescription = "Message Input" }
-    )
 }
 
 @Composable
