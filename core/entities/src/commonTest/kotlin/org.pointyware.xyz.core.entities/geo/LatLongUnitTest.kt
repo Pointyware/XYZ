@@ -31,7 +31,7 @@ class LatLongUnitTest {
         Then:
         - The distance should be correct
          */
-        distance.value shouldBeLessThan  1.0
+        distance.value shouldBeLessThan  0.05
     }
 
     infix fun Double.shouldBeCloseTo(expected: Double) {
