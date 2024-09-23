@@ -94,7 +94,7 @@ fun ProviderDashboardScreen(
                 }
                 is ProviderDashboardUiState.Completed -> {
                     TripCompletionView(
-
+                        onConfirmCompletion = viewModel::onConfirmCompletion
                     )
                 }
             }
@@ -189,7 +189,14 @@ fun MessageInput(
 
 @Composable
 fun TripCompletionView(
-    modifier: Modifier = Modifier,
+    onConfirmCompletion: () -> Unit,
 ) {
-
+    Column {
+        Text("Trip Completed")
+        Button(
+            onClick = onConfirmCompletion,
+        ) {
+            Text("Done")
+        }
+    }
 }
