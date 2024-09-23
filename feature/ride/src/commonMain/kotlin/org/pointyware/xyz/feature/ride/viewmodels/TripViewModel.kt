@@ -113,18 +113,25 @@ class TripViewModel(
     }
 
     fun confirmDetails() {
-        mutableState.update {
-            if (it is PassengerDashboardUiState.Confirm) {
-                val route = it.route ?: return
-                val price = it.price ?: return
-                PassengerDashboardUiState.Posted(
-                    route = route,
-                    price = price
-                ).also {
-                    watchDriverAcceptance()
+        viewModelScope.launch {
+            mutableState.update { uiState ->
+                if (uiState is PassengerDashboardUiState.Confirm) {
+                    val route = uiState.route ?: return@launch
+                    val price = uiState.price ?: return@launch
+                    tripRepository.requestRide(uiState.route)
+                        .onFailure {
+                            it.printStackTrace()
+                            return@launch
+                        }
+                    PassengerDashboardUiState.Posted(
+                        route = route,
+                        price = price
+                    ).also {
+                        watchDriverAcceptance()
+                    }
+                } else {
+                    uiState
                 }
-            } else {
-                it
             }
         }
     }
