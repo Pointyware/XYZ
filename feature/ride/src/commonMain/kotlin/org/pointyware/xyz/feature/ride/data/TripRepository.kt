@@ -6,6 +6,7 @@ package org.pointyware.xyz.feature.ride.data
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.ride.Ride
@@ -13,9 +14,14 @@ import org.pointyware.xyz.core.entities.geo.Route
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
- * Handles requests for rides.
+ * Handles trip search and scheduling.
  */
 interface TripRepository {
+    /**
+     * The current trip being taken by the user.
+     */
+    val currentTrip: StateFlow<Ride?>
+
     suspend fun searchDestinations(query: String): Result<DestinationSearchResult>
     suspend fun findRoute(origin: Location, destination: Location): Result<Route>
     suspend fun requestRide(route: Route): Result<Ride>
@@ -29,6 +35,9 @@ class TripRepositoryImpl(
     private val cache: RideRequestCache,
     private val service: RideRequestService,
 ): TripRepository {
+
+    override val currentTrip: StateFlow<Ride?>
+        get() = TODO("Not yet implemented")
 
     override suspend fun searchDestinations(query: String): Result<DestinationSearchResult> {
         return service.searchDestinations(query)
@@ -60,6 +69,9 @@ class TestTripRepository(
     val destinations: MutableSet<Location> = mutableSetOf(),
     val dataScope: CoroutineScope,
 ): TripRepository {
+
+    override val currentTrip: StateFlow<Ride?>
+        get() = TODO("Not yet implemented")
 
     private val maximumLevenshteinDistance = 20
 
