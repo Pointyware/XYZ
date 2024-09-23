@@ -12,12 +12,12 @@ import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.ride.data.PaymentRepository
 import org.pointyware.xyz.feature.ride.data.PaymentRepositoryImpl
-import org.pointyware.xyz.feature.ride.data.RideRequestCache
-import org.pointyware.xyz.feature.ride.data.RideRequestCacheImpl
+import org.pointyware.xyz.feature.ride.data.TripCache
+import org.pointyware.xyz.feature.ride.data.TripCacheImpl
 import org.pointyware.xyz.feature.ride.data.TripRepository
 import org.pointyware.xyz.feature.ride.data.TripRepositoryImpl
-import org.pointyware.xyz.feature.ride.data.RideRequestService
-import org.pointyware.xyz.feature.ride.data.RideRequestServiceImpl
+import org.pointyware.xyz.feature.ride.data.TripService
+import org.pointyware.xyz.feature.ride.data.TripServiceImpl
 import org.pointyware.xyz.feature.ride.data.TestTripRepository
 import org.pointyware.xyz.feature.ride.entities.ExpirationDate
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
@@ -44,8 +44,8 @@ fun featureRideViewModelModule() = module {
 
 fun featureRideDataModule() = module {
     singleOf(::TripRepositoryImpl) { bind<TripRepository>() }
-    singleOf(::RideRequestCacheImpl) { bind<RideRequestCache>() }
-    singleOf(::RideRequestServiceImpl) { bind<RideRequestService>() }
+    singleOf(::TripCacheImpl) { bind<TripCache>() }
+    singleOf(::TripServiceImpl) { bind<TripService>() }
 
     singleOf(::PaymentRepositoryImpl) { bind<PaymentRepository>() }
     singleOf(::PaymentStoreImpl) { bind<PaymentStore>() }

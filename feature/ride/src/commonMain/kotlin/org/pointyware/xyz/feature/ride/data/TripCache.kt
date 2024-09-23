@@ -7,15 +7,15 @@ package org.pointyware.xyz.feature.ride.data
 /**
  *
  */
-interface RideRequestCache {
+interface TripCache {
     suspend fun saveDestinations(query: String, searchResult: DestinationSearchResult)
     suspend fun getDestinations(query: String): DestinationSearchResult?
     suspend fun dropDestinations(query: String)
 }
 
-class RideRequestCacheImpl(
+class TripCacheImpl(
 
-): RideRequestCache {
+): TripCache {
 
     private val queryCache = mutableMapOf<String, DestinationSearchResult>()
 

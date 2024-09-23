@@ -32,8 +32,8 @@ interface TripRepository {
  *
  */
 class TripRepositoryImpl(
-    private val cache: RideRequestCache,
-    private val service: RideRequestService,
+    private val cache: TripCache,
+    private val service: TripService,
 ): TripRepository {
 
     override val currentTrip: StateFlow<Ride?>
