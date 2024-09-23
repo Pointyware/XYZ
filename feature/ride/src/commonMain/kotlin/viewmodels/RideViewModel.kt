@@ -14,7 +14,10 @@ import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.core.viewmodels.postError
+import org.pointyware.xyz.feature.ride.data.PaymentRepository
 import org.pointyware.xyz.feature.ride.data.RideRequestRepository
+import org.pointyware.xyz.feature.ride.entities.PaymentMethod
+import ui.PaymentSelectionViewState
 
 /**
  * Maintains the state of a rider UI and provides actions to update it.
@@ -22,7 +25,8 @@ import org.pointyware.xyz.feature.ride.data.RideRequestRepository
  * @see PassengerDashboardUiState
  */
 class RideViewModel(
-    private val rideRequestRepository: RideRequestRepository
+    private val rideRequestRepository: RideRequestRepository,
+    private val paymentRepository: PaymentRepository
 ): MapViewModelImpl() {
 
     private val userLocation = Location(
@@ -37,7 +41,7 @@ class RideViewModel(
     val state: StateFlow<PassengerDashboardUiState> get() = mutableState
 
     fun startSearch() {
-        mutableState.value = PassengerDashboardUiState.Search("", emptyList())
+        mutableState.value = PassengerDashboardUiState.Search("", emptyList(), PaymentSelectionViewState.PaymentSelected(null))
     }
 
     fun updateQuery(query: String) {
@@ -130,5 +134,28 @@ class RideViewModel(
 
     fun clearError() {
         mutableLoadingState.value = LoadingUiState.Idle()
+    }
+
+    fun onSelectPayment() {
+        viewModelScope.launch {
+            val methods = paymentRepository.getPaymentMethods()
+            mutableState.update {
+                if (it is PassengerDashboardUiState.Search) {
+                    it.copy(paymentSelection = PaymentSelectionViewState.SelectPayment(methods))
+                } else {
+                    it
+                }
+            }
+        }
+    }
+
+    fun onPaymentSelected(paymentMethod: PaymentMethod) {
+        mutableState.update {
+            if (it is PassengerDashboardUiState.Search) {
+                it.copy(paymentSelection = PaymentSelectionViewState.PaymentSelected(paymentMethod))
+            } else {
+                it
+            }
+        }
     }
 }
