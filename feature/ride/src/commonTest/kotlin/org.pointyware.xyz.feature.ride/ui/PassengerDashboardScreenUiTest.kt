@@ -92,6 +92,7 @@ class PassengerDashboardScreenUiTest {
         Then:
         - The "New Ride" button transforms into the Search Bar
         - The "Confirm" search button is shown but disabled
+        - The payment selection is shown
          */
         onNodeWithText("New Ride")
             .performClick()
@@ -101,6 +102,36 @@ class PassengerDashboardScreenUiTest {
         onNodeWithText("Confirm")
             .assertExists()
             .assertIsNotEnabled()
+        onNodeWithContentDescription("Payment Selection")
+            .assertExists()
+
+        /*
+        When:
+        - User clicks on the "Payment Selection" button
+        Then:
+        - The "Payment Selection" button transforms into the Payment Method Selection
+         */
+
+        onNodeWithContentDescription("Payment Selection")
+            .performClick()
+
+        onNodeWithContentDescription("Payment Method Selection")
+            .assertExists()
+
+        /*
+        When:
+        - User selects a payment method - Bisa
+        Then:
+        - The "Payment Method Selection" button transforms back into the "Payment Selection" button
+        - The selected payment method is shown
+         */
+        onNodeWithText("Bisa", substring = true)
+            .performClick()
+
+        onNodeWithContentDescription("Payment Selection")
+            .assertExists()
+        onNodeWithText("Bisa", substring = true)
+            .assertExists()
 
         /*
         When:
@@ -172,5 +203,31 @@ class PassengerDashboardScreenUiTest {
         onNodeWithText("Cancel Request")
             .assertExists()
             .assertIsEnabled()
+
+        /*
+        When:
+        - A driver accepts the request
+        Then:
+        - The driver profile information is shown
+        - The messaging input is shown
+         */
+
+        /*
+        When:
+        - The driver picks up the rider
+        Then:
+        - The "Cancel Ride" button is shown
+        - The messaging input is shown
+        - The progress message is shown
+         */
+
+        /*
+        When:
+        - The driver drops off the rider
+        Then:
+        - The "Rate Driver" button is shown
+        - The messaging input is removed
+        - The progress message is removed
+         */
     }
 }
