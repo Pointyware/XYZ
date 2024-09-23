@@ -24,9 +24,12 @@ import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.business.Individual
 import org.pointyware.xyz.core.entities.data.Uri
+import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.profile.RiderProfile
+import org.pointyware.xyz.core.entities.ride.Accommodation
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
@@ -57,6 +60,8 @@ class PassengerDashboardScreenUiTest {
 
     private lateinit var viewModel: RideViewModel
     private lateinit var navController: XyzNavController
+
+    private lateinit var driverProfile: DriverProfile
 
     @BeforeTest
     fun setUp() {
@@ -92,6 +97,15 @@ class PassengerDashboardScreenUiTest {
 
         viewModel = koin.get()
         navController = koin.get()
+
+        driverProfile = DriverProfile(
+            id = Uuid.v4(),
+            name = Name("Test", "", "Driver"),
+            gender = Gender.Woman,
+            picture = Uri.nullDevice,
+            accommodations = setOf(Accommodation.AnimalFriendly),
+            business = Individual
+        )
     }
 
     @AfterTest
@@ -258,19 +272,37 @@ class PassengerDashboardScreenUiTest {
         - The messaging input is shown
         - The driver arriving message is shown
          */
-        // TODO: trigger ride accepted event in repo
+        tripRepository.acceptRequest(driverProfile)
 
-
+        onNodeWithContentDescription("Driver Profile")
+            .assertExists()
+        onNodeWithContentDescription("Message Input")
+            .assertExists()
+        onNodeWithText("Animal Friendly")
+            .assertExists()
+        onNodeWithText("Driver is on the way")
+            .assertExists()
 
         /*
         When:
         - The driver picks up the rider
         Then:
         - The "Cancel Ride" button is shown
+        - The driver profile information is shown
         - The messaging input is shown
         - The driver delivery message is shown
          */
-        // TODO: trigger ride picked up event in repo
+        tripRepository.pickUpRider()
+
+        onNodeWithText("Cancel Ride")
+            .assertExists()
+            .assertIsEnabled()
+        onNodeWithContentDescription("Driver Profile")
+            .assertExists()
+        onNodeWithContentDescription("Message Input")
+            .assertExists()
+        onNodeWithText("You're on your way!")
+            .assertExists()
 
         /*
         When:
@@ -279,8 +311,22 @@ class PassengerDashboardScreenUiTest {
         - The "Rate Driver" button is shown
         - The messaging input is removed
         - The progress message is removed
+        - The "You've arrived!" message is shown
+        - The "Done" button is shown
          */
-        // TODO: trigger ride completed event in repo
+        tripRepository.dropOffRider()
 
+        onNodeWithText("Rate Driver")
+            .assertExists()
+            .assertIsEnabled()
+        onNodeWithContentDescription("Message Input")
+            .assertDoesNotExist()
+        onNodeWithText("You're on your way!")
+            .assertDoesNotExist()
+        onNodeWithText("You've arrived!")
+            .assertExists()
+        onNodeWithText("Done")
+            .assertExists()
+            .assertIsEnabled()
     }
 }
