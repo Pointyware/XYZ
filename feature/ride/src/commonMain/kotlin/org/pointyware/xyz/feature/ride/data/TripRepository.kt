@@ -22,6 +22,7 @@ import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.core.entities.ride.ActiveRide
+import org.pointyware.xyz.core.entities.ride.CompletedRide
 import org.pointyware.xyz.core.entities.ride.PendingRide
 import org.pointyware.xyz.core.entities.ride.PlannedRide
 import org.pointyware.xyz.core.entities.ride.Ride
@@ -29,12 +30,21 @@ import org.pointyware.xyz.core.entities.ride.planRide
 import kotlin.time.Duration.Companion.milliseconds
 
 sealed interface TripEvent {
+    val driverProfile: DriverProfile
+    val ride: Ride
+
     data class Accepted(
-        val driverProfile: DriverProfile,
-        val pendingRide: PendingRide
+        override val driverProfile: DriverProfile,
+        override val ride: PendingRide
     ): TripEvent
-    data object PickedUp: TripEvent
-    data object DroppedOff: TripEvent
+    data class PickedUp(
+        override val driverProfile: DriverProfile,
+        override val ride: ActiveRide
+    ): TripEvent
+    data class DroppedOff(
+        override val driverProfile: DriverProfile,
+        override val ride: CompletedRide
+    ): TripEvent
 }
 
 /**
@@ -210,7 +220,7 @@ class TestTripRepository(
             when (it) {
                 is PendingRide -> {
                     it.arrive(Clock.System.now()).also {
-                        mutableTripEvents.tryEmit(TripEvent.PickedUp)
+                        mutableTripEvents.tryEmit(TripEvent.PickedUp(it.driver, it))
                     }
                 }
                 else -> it
@@ -223,7 +233,7 @@ class TestTripRepository(
             when (it) {
                 is ActiveRide -> {
                     it.complete(Clock.System.now()).also {
-                        mutableTripEvents.tryEmit(TripEvent.DroppedOff)
+                        mutableTripEvents.tryEmit(TripEvent.DroppedOff(it.driver, it))
                     }
                 }
                 else -> it
