@@ -49,7 +49,8 @@ fun featureRideDataModule() = module {
 }
 
 fun featureRideDataTestModule() = module {
-    single<TripRepository> { TestTripRepository(dataScope = get(qualifier = dataQualifier)) }
+    single<TestTripRepository> { TestTripRepository(dataScope = get(qualifier = dataQualifier)) }
+    single<TripRepository> { get<TestTripRepository>() }
 
     single { FakePaymentStore() }
     single<PaymentStore> { get<FakePaymentStore>() }

@@ -79,6 +79,8 @@ class TestTripRepository(
     val dataScope: CoroutineScope,
 ): TripRepository {
 
+    lateinit var riderProfile: RiderProfile
+
     private val mutableCurrentTrip = MutableStateFlow(null as Ride?)
     override val currentTrip: StateFlow<Ride?>
         get() = mutableCurrentTrip.asStateFlow()
@@ -150,14 +152,7 @@ class TestTripRepository(
     override suspend fun requestRide(route: Route): Result<Ride> {
         val plannedRide = planRide(
             id = Uuid.v4(),
-            rider = RiderProfile(
-                id = Uuid.v4(),
-                name = Name("Test", "", "Rider"),
-                gender = Gender.Man,
-                picture = Uri.nullDevice,
-                preferences = "",
-                disabilities = emptySet()
-            ),
+            rider = riderProfile,
             plannedRoute = route,
             timePosted = Clock.System.now(),
         )

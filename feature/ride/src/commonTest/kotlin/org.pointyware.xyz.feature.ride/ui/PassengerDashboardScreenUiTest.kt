@@ -22,11 +22,16 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
+import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.data.Uri
+import org.pointyware.xyz.core.entities.profile.Gender
+import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
+import org.pointyware.xyz.feature.ride.data.TestTripRepository
 import org.pointyware.xyz.feature.ride.data.TripRepository
 import org.pointyware.xyz.feature.ride.di.featureRideDataTestModule
 import org.pointyware.xyz.feature.ride.entities.ExpirationDate
@@ -47,7 +52,7 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalTestApi::class)
 class PassengerDashboardScreenUiTest {
 
-    private lateinit var tripRepository: TripRepository
+    private lateinit var tripRepository: TestTripRepository
     private lateinit var paymentStore: FakePaymentStore
 
     private lateinit var viewModel: RideViewModel
@@ -66,6 +71,14 @@ class PassengerDashboardScreenUiTest {
         val koin = getKoin()
 
         tripRepository = koin.get()
+        tripRepository.riderProfile = RiderProfile(
+            id = Uuid.v4(),
+            name = Name("Test", "", "Rider"),
+            gender = Gender.Man,
+            picture = Uri.nullDevice,
+            preferences = "",
+            disabilities = emptySet()
+        )
         paymentStore = koin.get()
         paymentStore.savePaymentMethod(
             PaymentMethod(
