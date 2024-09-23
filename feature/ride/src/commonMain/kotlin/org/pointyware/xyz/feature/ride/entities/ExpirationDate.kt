@@ -29,7 +29,7 @@ data class ExpirationDate(
 ) {
     init {
         require(month in MONTH_MIN..MONTH_MAX) { "Month must be between 1 and 12" }
-        require(year in YEAR_MIN .. YEAR_MAX) { "Year must be between 2024 and 3023" }
+        require(year in YEAR_MIN..YEAR_MAX) { "Year must be between 2024 and 3023" }
     }
 
     /**
