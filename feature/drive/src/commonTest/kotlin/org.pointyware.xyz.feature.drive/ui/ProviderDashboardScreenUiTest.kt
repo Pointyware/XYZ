@@ -227,6 +227,7 @@ class ProviderDashboardScreenUiTest {
         onNodeWithText("Pick Up")
             .performClick()
 
+        waitForIdle()
         onNodeWithText("Pick Up")
             .assertDoesNotExist()
         onNodeWithContentDescription("Rider Profile")

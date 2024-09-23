@@ -128,6 +128,7 @@ class TestProviderTripRepository(
                 driver = driver,
                 timeAccepted = Clock.System.now()
             )
+            activeRide = pendingRide
             Result.success(pendingRide)
         } else {
             Result.failure(IllegalStateException("Request not found"))
