@@ -140,4 +140,9 @@ class ProviderDashboardViewModel(
                 }
         }
     }
+
+    fun onConfirmCompletion() {
+        mutableState.value = ProviderDashboardUiState.AvailableRequests(emptyList())
+        watchRequests()
+    }
 }
