@@ -35,6 +35,8 @@ fun PassengerDashboardScreen(
         onConfirmDetails = { viewModel.confirmDetails() },
         onCancel = { viewModel.cancelRide() },
         onBack = { navController.goBack() },
-        clearError = { viewModel.clearError() }
+        clearError = { viewModel.clearError() },
+        onSelectPayment = viewModel::onSelectPayment,
+        onPaymentSelected = viewModel::onPaymentSelected
     )
 }
