@@ -14,8 +14,6 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
@@ -213,7 +211,6 @@ class ProviderDashboardScreenUiTest {
         - The pick up button is enabled
          */
         locationService.setLocation(LatLong(36.114579,-97.1184657))
-        runBlocking { delay(1000) }
         onNodeWithText("Pick Up")
             .assertIsEnabled()
 
