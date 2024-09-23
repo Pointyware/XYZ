@@ -252,7 +252,8 @@ data class PendingRide(
             timePosted = timePosted,
             driver = driver,
             timeAccepted = timeAccepted,
-            timeArrived = timeArrived
+            timeArrived = timeArrived,
+            timeStarted = timeArrived // TODO: part of differentiating arrival and departure
         )
     }
 }
@@ -265,7 +266,7 @@ data class ActiveRide(
     override val driver: DriverProfile,
     override val timeAccepted: Instant,
     override val timeArrived: Instant,
-    override val timeStarted: Instant? = null,
+    override val timeStarted: Instant, // TODO: differentiate between ActiveRide and CompletingRide?
     override val timeEnded: Instant? = null,
 ): Ride {
 
@@ -282,6 +283,20 @@ data class ActiveRide(
             timeAccepted = timeAccepted,
             timeArrived = timeArrived,
             timeStarted = timeStarted
+        )
+    }
+
+    fun complete(timeEnded: Instant): CompletedRide {
+        return CompletedRide(
+            id = id,
+            rider = rider,
+            plannedRoute = plannedRoute,
+            timePosted = timePosted,
+            driver = driver,
+            timeAccepted = timeAccepted,
+            timeArrived = timeArrived,
+            timeStarted = timeStarted,
+            timeEnded = timeEnded
         )
     }
 }
