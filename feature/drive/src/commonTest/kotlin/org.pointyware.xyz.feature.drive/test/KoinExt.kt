@@ -14,7 +14,7 @@ import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
 import org.pointyware.xyz.drive.di.featureDriveModule
 
 /**
- * TODO: describe purpose/intent of KoinExt
+ * Starts koin with the required modules for testing
  */
 fun setupKoin() {
     startKoin {

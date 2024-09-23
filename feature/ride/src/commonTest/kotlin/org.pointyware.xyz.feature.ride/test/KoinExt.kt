@@ -15,7 +15,7 @@ import org.pointyware.xyz.feature.ride.di.featureRideModule
 
 
 /**
- *
+ * Starts koin with the required modules for testing
  */
 fun setupKoin() {
     startKoin {
