@@ -58,7 +58,7 @@ class ProviderDashboardViewModel(
                     }
                 }
                 .onFailure {
-                    TODO("Handle failure")
+                    it.printStackTrace()
                 }
         }
     }
@@ -76,7 +76,7 @@ class ProviderDashboardViewModel(
                     watchDistance(it.plannedRoute.start.coordinates)
                 }
                 .onFailure {
-                    TODO("Handle failure")
+                    it.printStackTrace()
                 }
         }
     }
@@ -88,7 +88,7 @@ class ProviderDashboardViewModel(
 
                 }
                 .onFailure {
-                    TODO("Handle failure")
+                    it.printStackTrace()
                 }
         }
     }
@@ -123,7 +123,7 @@ class ProviderDashboardViewModel(
                     watchDistance(it.plannedRoute.end.coordinates)
                 }
                 .onFailure {
-
+                    it.printStackTrace()
                 }
         }
     }
@@ -136,7 +136,7 @@ class ProviderDashboardViewModel(
                     mutableState.value = ProviderDashboardUiState.Completed
                 }
                 .onFailure {
-
+                    it.printStackTrace()
                 }
         }
     }
