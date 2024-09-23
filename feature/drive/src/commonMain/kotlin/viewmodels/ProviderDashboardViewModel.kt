@@ -145,4 +145,10 @@ class ProviderDashboardViewModel(
         mutableState.value = ProviderDashboardUiState.AvailableRequests(emptyList())
         watchRequests()
     }
+
+    override fun dispose() {
+        super.dispose()
+        stopWatchingRequests()
+        stopWatchingDistance()
+    }
 }
