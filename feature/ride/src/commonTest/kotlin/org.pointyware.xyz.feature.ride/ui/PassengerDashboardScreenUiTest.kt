@@ -66,7 +66,7 @@ class PassengerDashboardScreenUiTest {
         val koin = getKoin()
 
         tripRepository = koin.get()
-        paymentStore = koin.get() as TestPaymentStore
+        paymentStore = koin.get()
         paymentStore.savePaymentMethod(
             PaymentMethod(
                 id = Uuid.v4(),
