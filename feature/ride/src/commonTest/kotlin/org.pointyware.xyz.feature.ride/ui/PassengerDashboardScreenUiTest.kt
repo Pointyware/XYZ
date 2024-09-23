@@ -18,8 +18,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilDoesNotExist
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import androidx.compose.ui.test.waitUntilExactlyOneExists
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
@@ -280,7 +279,7 @@ class PassengerDashboardScreenUiTest {
          */
         tripRepository.acceptRequest(driverProfile)
 
-        runBlocking { delay(100) }
+        waitUntilExactlyOneExists(hasContentDescription("Driver Profile"), 500L)
         onNodeWithContentDescription("Driver Profile")
             .assertExists()
         onNodeWithContentDescription("Message Input")
