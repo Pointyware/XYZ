@@ -29,9 +29,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.pointyware.xyz.core.entities.geo.Location
+import org.pointyware.xyz.core.ui.MessageInput
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
-import org.pointyware.xyz.feature.ride.ui.PaymentSelectionView
 
 data class TripSearchViewState(
     val isExpanded: Boolean,
@@ -216,6 +216,7 @@ fun PostedRideView(
     onCancelRequest: ()->Unit
 ) {
     Column {
+        // TODO: display route/rate details
         Text("Hailing a driver")
         Button(onClick = onCancelRequest) {
             Text("Cancel Request")
@@ -227,8 +228,15 @@ fun PostedRideView(
 fun AwaitingRideView(
     state: PassengerDashboardUiState.Waiting
 ) {
-    Text("Waiting for driver")
-    // TODO: rider details
+    Column(
+        modifier = Modifier.semantics {
+            contentDescription = "Driver Profile"
+        }
+    ) {
+        Text("Driver: ${state.driver.name}")
+        Text("ETA: ${state.eta}")
+        MessageInput()
+    }
 }
 
 @Composable
