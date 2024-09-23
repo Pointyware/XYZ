@@ -27,8 +27,11 @@ import org.pointyware.xyz.feature.login.di.featureLoginModule
 import org.pointyware.xyz.feature.login.di.featureProfileModule
 import org.pointyware.xyz.feature.ride.di.featureRideModule
 
-
-fun setupKoin(platformModule: Module) {
+/**
+ * Starts Koin with the standard application module, supported by the given platform module.
+ * @param platformModule A module with platform-specific dependencies.
+ */
+fun setupKoin(platformModule: Module = module {}) {
     startKoin {
         modules(
             appModule(),

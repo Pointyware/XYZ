@@ -44,6 +44,7 @@ kotlin {
                 implementation(projects.core.common)
                 implementation(projects.core.entities)
 
+                implementation(libs.kotlinx.coroutines)
                 implementation(libs.kotlinx.serialization)
                 api(libs.kotlinx.io.core)
                 api(libs.kotlinx.io.bytestring)
@@ -54,11 +55,17 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
+
+                implementation(libs.kotlinx.coroutinesTest)
             }
         }
 
         val jvmSharedMain by creating {
             dependsOn(commonMain)
+
+            dependencies {
+                implementation(libs.kotlinx.coroutinesCoreJvm)
+            }
         }
         val jvmSharedTest by creating {
             dependsOn(commonTest)
@@ -66,6 +73,10 @@ kotlin {
 
         val jvmMain by getting {
             dependsOn(jvmSharedMain)
+
+            dependencies {
+                implementation(libs.kotlinx.coroutinesSwing)
+            }
         }
         val jvmTest by getting {
             dependsOn(jvmSharedTest)
@@ -77,6 +88,10 @@ kotlin {
 
         val androidMain by getting {
             dependsOn(jvmSharedMain)
+
+            dependencies {
+                implementation(libs.kotlinx.coroutinesAndroid)
+            }
         }
         val androidUnitTest by getting {
             dependsOn(jvmSharedTest)

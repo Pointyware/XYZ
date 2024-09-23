@@ -19,7 +19,7 @@ import androidx.compose.ui.semantics.semantics
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 
 /**
- * Displays information about a new ride request: distance from driver, distance of route, and rider service rate.
+ * Displays information about a new trip request: distance from driver, distance of route, and rider service rate.
  */
 @Composable
 fun RideRequestView(

@@ -88,21 +88,20 @@ private fun profileLocalModule() = module {
 private fun profileRemoteModule() = module {
 
     singleOf(::CompanyService)
+    singleOf(::KtorProfileService) { bind<ProfileService>() }
+}
 
-    if (BuildInfo.isDebug) {
-        single<ProfileService> {
-            val profilePath = Path(get<Path>(qualifier = testDirectory), "profile.json")
-            println("Using fake profile service with file: $profilePath")
-            FakeProfileService(
-                profileFile = profilePath,
-                profiles = mutableMapOf(),
-                json = get<Json>(),
-                lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
-                dataContext = get<CoroutineContext>(qualifier = dataQualifier),
-                dataScope = get<CoroutineScope>(qualifier = dataQualifier),
-            )
-        }
-    } else {
-        singleOf(::KtorProfileService) { bind<ProfileService>() }
+fun profileRemoteTestModule() = module {
+    single<ProfileService> {
+        val profilePath = Path(get<Path>(qualifier = testDirectory), "profile.json")
+        println("Using fake profile service with file: $profilePath")
+        FakeProfileService(
+            profileFile = profilePath,
+            profiles = mutableMapOf(),
+            json = get<Json>(),
+            lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
+            dataContext = get<CoroutineContext>(qualifier = dataQualifier),
+            dataScope = get<CoroutineScope>(qualifier = dataQualifier),
+        )
     }
 }

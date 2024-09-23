@@ -17,7 +17,7 @@ import org.pointyware.xyz.core.viewmodels.ride.RiderProfileUiState
  *
  */
 @Composable
-fun RiderProfileView(
+fun PassengerProfileView(
     state: RiderProfileUiState,
     modifier: Modifier = Modifier,
 ) {

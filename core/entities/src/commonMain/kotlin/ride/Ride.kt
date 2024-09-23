@@ -185,6 +185,24 @@ fun activeRide(
     timePosted = timePosted
 )
 
+/**
+ * Create a new ride that is waiting for a driver to accept it.
+ */
+fun planRide(
+    id: Uuid,
+    rider: RiderProfile,
+    plannedRoute: Route,
+    timePosted: Instant
+) = PlannedRide(
+    id = id,
+    rider = rider,
+    plannedRoute = plannedRoute,
+    timePosted = timePosted
+)
+
+/**
+ * A ride that has been planned by a rider and is waiting for a driver to accept it.
+ */
 data class PlannedRide(
     override val id: Uuid,
     override val rider: RiderProfile,
@@ -234,7 +252,8 @@ data class PendingRide(
             timePosted = timePosted,
             driver = driver,
             timeAccepted = timeAccepted,
-            timeArrived = timeArrived
+            timeArrived = timeArrived,
+            timeStarted = timeArrived // TODO: part of differentiating arrival and departure
         )
     }
 }
@@ -247,7 +266,7 @@ data class ActiveRide(
     override val driver: DriverProfile,
     override val timeAccepted: Instant,
     override val timeArrived: Instant,
-    override val timeStarted: Instant? = null,
+    override val timeStarted: Instant, // TODO: differentiate between ActiveRide and CompletingRide?
     override val timeEnded: Instant? = null,
 ): Ride {
 
@@ -264,6 +283,26 @@ data class ActiveRide(
             timeAccepted = timeAccepted,
             timeArrived = timeArrived,
             timeStarted = timeStarted
+        )
+    }
+
+    /**
+     * Currently skips separate [CompletingRide] state. We can either add a UI button for the driver to confirm when they have stopped at the pick up location or we can convert it automatically after the driver is within the expected range of the pick up location.
+     * Requiring driver interaction would mean they can only update the state after they have come to a stop...
+     * Updating automatically would mean we need to have a way to determine when the driver has arrived at the pick up location, for which we can use the distance between the driver and the pick up location or passenger? What if the passenger is not at the pick up location?
+     *
+     */
+    fun complete(timeEnded: Instant): CompletedRide {
+        return CompletedRide(
+            id = id,
+            rider = rider,
+            plannedRoute = plannedRoute,
+            timePosted = timePosted,
+            driver = driver,
+            timeAccepted = timeAccepted,
+            timeArrived = timeArrived,
+            timeStarted = timeStarted,
+            timeEnded = timeEnded
         )
     }
 }

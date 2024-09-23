@@ -6,15 +6,15 @@ package org.pointyware.xyz.feature.ride.ui
 
 import org.pointyware.xyz.core.common.Mapper
 import org.pointyware.xyz.core.viewmodels.MapUiState
-import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
+import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
 
 /**
  *
  */
-object RideUiStateMapper: Mapper<Pair<RideUiState, MapUiState>, RideViewState> {
-    override fun map(input: Pair<RideUiState, MapUiState>): RideViewState {
+object RideUiStateMapper: Mapper<Pair<PassengerDashboardUiState, MapUiState>, PassengerDashboardViewState> {
+    override fun map(input: Pair<PassengerDashboardUiState, MapUiState>): PassengerDashboardViewState {
         val (state, mapState) = input
-        return RideViewState(
+        return PassengerDashboardViewState(
             ride = state,
             map = mapState
         )

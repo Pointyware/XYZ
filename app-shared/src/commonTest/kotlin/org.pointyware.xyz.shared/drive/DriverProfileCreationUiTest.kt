@@ -2,14 +2,13 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.app.ride
+package org.pointyware.xyz.shared.drive
 
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onSibling
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
@@ -19,9 +18,10 @@ import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.navigation.StackNavigationController
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
-import org.pointyware.xyz.feature.login.RiderProfileCreationScreen
-import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
+import org.pointyware.xyz.feature.login.DriverProfileCreationScreen
+import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
 import org.pointyware.xyz.shared.di.appModule
+import org.pointyware.xyz.shared.di.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -30,15 +30,11 @@ import kotlin.test.Test
  * System/UI Test for Driver Profile Creation View
  */
 @OptIn(ExperimentalTestApi::class)
-class RiderProfileCreationUiTest {
+class DriverProfileCreationUiTest {
 
     @BeforeTest
     fun setUp() {
-        startKoin {
-            modules(
-                appModule()
-            )
-        }
+        setupKoin()
     }
 
     @AfterTest
@@ -49,14 +45,14 @@ class RiderProfileCreationUiTest {
     @Test
     fun create_driver_profile() = runComposeUiTest {
         val di = getKoin()
-        val viewModel = di.get<RiderProfileCreationViewModel>()
+        val viewModel = di.get<DriverProfileCreationViewModel>()
         val navController = di.get<StackNavigationController<Any, Any?>>()
 
         setContent {
             XyzTheme(
                 uiDependencies = EmptyTestUiDependencies()
             ) {
-                RiderProfileCreationScreen(
+                DriverProfileCreationScreen(
                     viewModel,
                     navController
                 )
@@ -120,40 +116,16 @@ class RiderProfileCreationUiTest {
 
         /*
         When:
-        - User Taps "Add Disability"
-        Then:
-        - Disability Picker is shown
-         */
-        onNodeWithText("Add Disability")
-            .assertExists()
-            .performClick()
-        onNodeWithText("Disability Picker")
-            .assertExists()
-
-        /*
-        When:
         - User Taps "WheelchairAccess"
         Then:
-        - Dialog is closed and Mobility is added to list of disabilities
+        - WheelchairAccess is added to list of accommodations
          */
-        onNodeWithText("Mobility")
+        onNodeWithText("WheelchairAccess")
             .assertExists()
             .performClick()
-        onNodeWithText("Disability Picker")
-            .assertDoesNotExist()
-
-        /*
-        When:
-        - User Enters <preferences>
-        Then:
-        - Preferences are saved
-         */
-        onNodeWithText("Preferences")
+        onNodeWithText("WheelchairAccess")
             .assertExists()
-            .performTextInput("I don't like small-talk")
-        onNodeWithText("Preferences")
-            .assertExists()
-            .assert(hasText("I don't like small-talk"))
+            .onSibling().performClick()
 
         /*
         When:
@@ -161,8 +133,8 @@ class RiderProfileCreationUiTest {
         Then:
         - Driver Profile is created
           - Profile contains <given name>, <middle name>, <family name>, <birthdate>, <gender>
-          - Profile contains <disability>
-          - Profile contains <preferences>
+          - Profile contains <accommodation>
+          - Profile company is "Independent"
          */
         onNodeWithText("Submit")
             .assertExists()

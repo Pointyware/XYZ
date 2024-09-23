@@ -6,19 +6,19 @@ package org.pointyware.xyz.drive.di
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import org.pointyware.xyz.drive.viewmodels.DriveViewModel
+import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.DriverSettingsViewModel
 
 /**
  *
  */
 interface DriveDependencies {
-    fun getDriveViewModel(): DriveViewModel
+    fun getDriveViewModel(): ProviderDashboardViewModel
     fun getDriverSettingsViewModel(): DriverSettingsViewModel
 }
 
 class KoinDriveDependencies: DriveDependencies, KoinComponent {
-    override fun getDriveViewModel(): DriveViewModel {
+    override fun getDriveViewModel(): ProviderDashboardViewModel {
         return get()
     }
 

@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
@@ -25,34 +27,19 @@ import org.pointyware.xyz.core.ui.AdView
 import org.pointyware.xyz.core.ui.AdViewState
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.viewmodels.MapUiState
-import org.pointyware.xyz.drive.viewmodels.DriveViewModel
+import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
-
-sealed interface DriveScreenState {
-    data class AvailableRequests(
-        val requests: List<RideRequestUiState>
-    ): DriveScreenState
-    data class Accepted(
-        val ride: Ride
-    ): DriveScreenState
-    data object RiderCanceled : DriveScreenState
-    data object Pickup : DriveScreenState
-    data object InProgress : DriveScreenState
-    data object RiderCanceledLate : DriveScreenState
-    data object DriverCanceled : DriveScreenState
-    data object Completed : DriveScreenState
-
-}
+import viewmodels.ProviderDashboardUiState
 
 /**
- * Displays a map with controls for starting, monitoring, and canceling a ride.
+ * Displays a map with controls for managing trip requests and ride status.
  */
 @Composable
-fun DriveScreen(
-    viewModel: DriveViewModel,
+fun ProviderDashboardScreen(
+    viewModel: ProviderDashboardViewModel,
     navController: XyzNavController,
 ) {
-    val state: DriveScreenState by viewModel.state.collectAsState()
+    val state: ProviderDashboardUiState by viewModel.state.collectAsState()
     val mapState: MapUiState by viewModel.mapState.collectAsState()
 
     Box(
@@ -75,35 +62,40 @@ fun DriveScreen(
                 .align(Alignment.BottomCenter)
         ) {
             when (val capture = state) {
-                is DriveScreenState.AvailableRequests -> {
+                is ProviderDashboardUiState.AvailableRequests -> {
                     RideRequestList(
                         requests = capture.requests,
                         onAccept = { viewModel.onAccept(it) },
                         onReject = { viewModel.onReject(it) },
                     )
                 }
-                is DriveScreenState.Accepted -> {
+                is ProviderDashboardUiState.Accepted -> {
                     RideInfo(
-                        ride = capture.ride
+                        ride = capture.ride,
+                        pickUpEnabled = capture.atOrigin,
+                        onPickUpRider = viewModel::onPickUpRider,
                     )
                 }
-                is DriveScreenState.RiderCanceled -> {
+                is ProviderDashboardUiState.RiderCanceled -> {
                     Text("RiderCanceled")
                 }
-                is DriveScreenState.Pickup -> {
-                    Text("Pickup")
+                is ProviderDashboardUiState.InProgress -> {
+                    DeliveryInfo(
+                        ride = capture.ride,
+                        dropOffEnabled = capture.atDestination,
+                        onDropOffRider = viewModel::onDropOffRider
+                    )
                 }
-                is DriveScreenState.InProgress -> {
-                    Text("InProgress")
-                }
-                is DriveScreenState.RiderCanceledLate -> {
+                is ProviderDashboardUiState.RiderCanceledLate -> {
                     Text("RiderCanceledLate")
                 }
-                is DriveScreenState.DriverCanceled -> {
+                is ProviderDashboardUiState.DriverCanceled -> {
                     Text("DriverCanceled")
                 }
-                is DriveScreenState.Completed -> {
-                    Text("Completed")
+                is ProviderDashboardUiState.Completed -> {
+                    TripCompletionView(
+                        onConfirmCompletion = viewModel::onConfirmCompletion
+                    )
                 }
             }
         }
@@ -131,12 +123,52 @@ fun RideRequestList(
 
 @Composable
 fun RideInfo(
-    ride: Ride
+    ride: Ride,
+    pickUpEnabled: Boolean,
+    onPickUpRider: () -> Unit,
 ) {
     Column(
         modifier = Modifier.semantics { contentDescription = "Rider Profile" }
     ) {
-        Text(text = ride.rider?.name?.toString() ?: "Rider Name")
+        val name = remember(ride) {
+            ride.rider?.name?.given ?: "Rider Name"
+        }
+        Text("Picking up $name")
+        Button(
+            onClick = onPickUpRider,
+            enabled = pickUpEnabled
+        ) {
+            Text("Pick Up")
+        }
+
+        MessageInput(
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun DeliveryInfo(
+    ride: Ride,
+    dropOffEnabled: Boolean,
+    onDropOffRider: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.semantics { contentDescription = "Rider Profile" }
+    ) {
+        val name = remember(ride) {
+            ride.rider?.name?.given ?: "Rider Name"
+        }
+        val destination = remember(ride) {
+            ride.plannedRoute?.end?.name ?: "Destination"
+        }
+        Text("Driving $name to $destination")
+        Button(
+            onClick = onDropOffRider,
+            enabled = dropOffEnabled
+        ) {
+            Text("Drop Off")
+        }
 
         MessageInput(
             modifier = Modifier.fillMaxWidth()
@@ -153,4 +185,18 @@ fun MessageInput(
         onValueChange = {},
         modifier = modifier.semantics { contentDescription = "Message Input" }
     )
+}
+
+@Composable
+fun TripCompletionView(
+    onConfirmCompletion: () -> Unit,
+) {
+    Column {
+        Text("Trip Completed")
+        Button(
+            onClick = onConfirmCompletion,
+        ) {
+            Text("Done")
+        }
+    }
 }

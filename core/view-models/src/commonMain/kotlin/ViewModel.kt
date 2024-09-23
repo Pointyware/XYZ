@@ -10,7 +10,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
 /**
- * Defines base behavior for all view models.
+ * Defines basic behavior for all view models.
  */
 abstract class ViewModel {
 
@@ -21,6 +21,10 @@ abstract class ViewModel {
         CoroutineScope(Dispatchers.Main + SupervisorJob())
     }
 
+    /**
+     * Called when the view model will no longer be used.
+     * Cancels the coroutine scope. Use this to clean up resources.
+     */
     open fun dispose() {
         viewModelScope.coroutineContext.cancel()
     }

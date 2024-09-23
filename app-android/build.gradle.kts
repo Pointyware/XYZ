@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation(projects.core.entities)
+    implementation(projects.core.local)
     implementation(projects.core.ui)
 
     implementation(projects.feature.drive)

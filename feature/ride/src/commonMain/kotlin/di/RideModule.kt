@@ -36,17 +36,11 @@ fun featureRideViewModelModule() = module {
 }
 
 fun featureRideDataModule() = module {
-    if (BuildInfo.isDebug) {
-        single<RideRequestRepository> { TestRideRequestRepository(dataScope = get(qualifier = dataQualifier)) }
-    } else {
-        singleOf(::RideRequestRepositoryImpl) {
-            bind<RideRequestRepository>()
-        }
-    }
-    singleOf(::RideRequestCacheImpl) {
-        bind<RideRequestCache>()
-    }
-    singleOf(::RideRequestServiceImpl) {
-        bind<RideRequestService>()
-    }
+    singleOf(::RideRequestRepositoryImpl) { bind<RideRequestRepository>() }
+    singleOf(::RideRequestCacheImpl) { bind<RideRequestCache>() }
+    singleOf(::RideRequestServiceImpl) { bind<RideRequestService>() }
+}
+
+fun featureRideDataTestModule() = module {
+    single<RideRequestRepository> { TestRideRequestRepository(dataScope = get(qualifier = dataQualifier)) }
 }

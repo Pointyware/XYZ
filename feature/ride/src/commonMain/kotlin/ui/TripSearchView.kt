@@ -29,9 +29,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.pointyware.xyz.core.entities.geo.Location
-import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
+import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
 
-data class RideSearchViewState(
+data class TripSearchViewState(
     val isExpanded: Boolean,
     val query: String,
     val results: List<String>,
@@ -41,10 +41,10 @@ data class RideSearchViewState(
  * Presents like a Floating-Action-Button when collapsed and a search bar when expanded.
  */
 @Composable
-fun RideSearchView(
-    state: RideUiState,
+fun TripSearchView(
+    state: PassengerDashboardUiState,
     modifier: Modifier = Modifier,
-    onNewRide: ()->Unit,
+    onNewTrip: ()->Unit,
     onUpdateSearch: (String)-> Unit,
     onSendQuery: ()->Unit,
     onSelectLocation: (Location)->Unit,
@@ -52,8 +52,8 @@ fun RideSearchView(
     onCancelRequest: ()->Unit
 ) {
     val shape = when (state) {
-        is RideUiState.Idle,
-        is RideUiState.Waiting -> {
+        is PassengerDashboardUiState.Idle,
+        is PassengerDashboardUiState.Waiting -> {
             CircleShape
         }
         else -> {
@@ -69,11 +69,11 @@ fun RideSearchView(
             contentKey = { it::class }
         ) { state ->
             when (state) {
-                is RideUiState.Idle -> {
-                    IdleSearchView(onNewRide = onNewRide)
+                is PassengerDashboardUiState.Idle -> {
+                    IdleSearchView(onNewRide = onNewTrip)
                 }
 
-                is RideUiState.Search -> {
+                is PassengerDashboardUiState.Search -> {
                     ActiveSearchView(
                         state = state,
                         onUpdateSearch = onUpdateSearch,
@@ -82,25 +82,25 @@ fun RideSearchView(
                     )
                 }
 
-                is RideUiState.Confirm -> {
+                is PassengerDashboardUiState.Confirm -> {
                     SearchDetailsView(
                         state = state,
                         onConfirmDetails = onConfirmDetails,
                     )
                 }
 
-                is RideUiState.Posted -> {
+                is PassengerDashboardUiState.Posted -> {
                     PostedRideView(
                         state = state,
                         onCancelRequest = onCancelRequest
                     )
                 }
 
-                is RideUiState.Waiting -> {
+                is PassengerDashboardUiState.Waiting -> {
                     AwaitingRideView(state = state)
                 }
 
-                is RideUiState.Riding -> {
+                is PassengerDashboardUiState.Riding -> {
                     ActiveRideView(state = state)
                 }
             }
@@ -119,7 +119,7 @@ fun IdleSearchView(
 
 @Composable
 fun ActiveSearchView(
-    state: RideUiState.Search,
+    state: PassengerDashboardUiState.Search,
     onUpdateSearch: (String)->Unit,
     onSendQuery: ()->Unit,
     onSelectLocation: (Location)->Unit
@@ -162,7 +162,7 @@ fun ActiveSearchView(
 
 @Composable
 fun SearchDetailsView(
-    state: RideUiState.Confirm,
+    state: PassengerDashboardUiState.Confirm,
     onConfirmDetails: ()->Unit
 ) {
     Column(
@@ -193,7 +193,7 @@ fun SearchDetailsView(
 
 @Composable
 fun PostedRideView(
-    state: RideUiState.Posted,
+    state: PassengerDashboardUiState.Posted,
     onCancelRequest: ()->Unit
 ) {
     Column {
@@ -206,7 +206,7 @@ fun PostedRideView(
 
 @Composable
 fun AwaitingRideView(
-    state: RideUiState.Waiting
+    state: PassengerDashboardUiState.Waiting
 ) {
     Text("Waiting for driver")
     // TODO: rider details
@@ -214,7 +214,7 @@ fun AwaitingRideView(
 
 @Composable
 fun ActiveRideView(
-    state: RideUiState.Riding
+    state: PassengerDashboardUiState.Riding
 ) {
     // Do nothing
     // TODO: rider details

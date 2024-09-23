@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.app.ride
+package org.pointyware.xyz.shared.ride
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assert
@@ -18,38 +18,34 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilDoesNotExist
-import org.koin.core.context.startKoin
+import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
-import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.navigation.StackNavigationController
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
-import org.pointyware.xyz.feature.login.data.CompanyRepository
-import org.pointyware.xyz.feature.login.data.ProfileRepository
-import org.pointyware.xyz.feature.ride.data.RideRequestRepository
-import org.pointyware.xyz.feature.ride.ui.RideScreen
-import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
+import org.pointyware.xyz.feature.ride.di.featureRideDataTestModule
+import org.pointyware.xyz.feature.ride.ui.PassengerDashboardScreen
+import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
-import org.pointyware.xyz.shared.di.appModule
+import org.pointyware.xyz.shared.di.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 /**
- * System/UI Test for Driver Profile Creation View
+ * System/UI Test for Rider Request Ride View
  */
 @OptIn(ExperimentalTestApi::class)
 class RequestRideUiTest {
 
     @BeforeTest
     fun setUp() {
-        startKoin {
-            modules(
-                appModule()
-            )
-        }
+        setupKoin()
+        loadKoinModules(listOf(
+            featureRideDataTestModule()
+        ))
     }
 
     @AfterTest
@@ -63,7 +59,7 @@ class RequestRideUiTest {
         val viewModel = di.get<RideViewModel>()
         val navController = di.get<StackNavigationController<Any, Any?>>()
 
-        assertEquals(RideUiState.Idle, viewModel.state.value, "Initial state is Idle")
+        assertEquals(PassengerDashboardUiState.Idle, viewModel.state.value, "Initial state is Idle")
 
         /*
         Given:
@@ -79,7 +75,7 @@ class RequestRideUiTest {
             XyzTheme(
                 uiDependencies = EmptyTestUiDependencies()
             ) {
-                RideScreen(
+                PassengerDashboardScreen(
                     viewModel,
                     navController
                 )

@@ -16,10 +16,10 @@ import org.pointyware.xyz.core.ui.LoadingResultView
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.MapUiState
-import org.pointyware.xyz.feature.ride.viewmodels.RideUiState
+import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
 
-data class RideViewState(
-    val ride: RideUiState,
+data class PassengerDashboardViewState(
+    val ride: PassengerDashboardUiState,
     val map: MapUiState
 )
 
@@ -27,8 +27,8 @@ data class RideViewState(
  *
  */
 @Composable
-fun RideView(
-    state: RideViewState,
+fun PassengerDashboardView(
+    state: PassengerDashboardViewState,
     loadingState: LoadingUiState<Unit>,
     modifier: Modifier = Modifier,
     onStartSearch: ()->Unit,
@@ -59,10 +59,10 @@ fun RideView(
             onDismiss = clearError
         )
 
-        RideSearchView(
+        TripSearchView(
             state = state.ride,
             modifier = Modifier.align(Alignment.BottomEnd),
-            onNewRide = onStartSearch,
+            onNewTrip = onStartSearch,
             onUpdateSearch = onUpdateQuery,
             onSendQuery = onSendQuery,
             onSelectLocation = onSelectLocation,

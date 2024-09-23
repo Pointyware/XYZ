@@ -7,13 +7,13 @@ package org.pointyware.xyz.drive.interactors
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.pointyware.xyz.drive.data.DriverSettingsRepository
-import org.pointyware.xyz.drive.data.RideRepository
+import org.pointyware.xyz.drive.data.ProviderTripRepository
 
 /**
  *
  */
 class WatchRatedRequests(
-    private val repository: RideRepository,
+    private val repository: ProviderTripRepository,
     private val driverSettingsRepository: DriverSettingsRepository
 ) {
 
@@ -22,9 +22,9 @@ class WatchRatedRequests(
         val rates = driverSettingsRepository.getDriverRates()
         val location = driverSettingsRepository.getDriverLocation()
 
-        repository.watchRequests(filter)
-            .onSuccess { flow ->
-                val estimatedFlow = flow.map { request ->
+        return repository.watchRequests(filter)
+            .map { flow ->
+                flow.map { request ->
                     request.map {
                         EstimatedRequest(
                             it,
@@ -33,11 +33,6 @@ class WatchRatedRequests(
                         )
                     }
                 }
-                return Result.success(estimatedFlow)
             }
-            .onFailure {
-                return Result.failure(it)
-            }
-        throw IllegalStateException("Unreachable code")
     }
 }
