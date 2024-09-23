@@ -20,11 +20,14 @@ import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilDoesNotExist
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.navigation.StackNavigationController
+import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.ride.di.featureRideDataTestModule
+import org.pointyware.xyz.feature.ride.navigation.rideRoute
 import org.pointyware.xyz.feature.ride.test.setupKoin
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
 import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
@@ -43,7 +46,10 @@ class PassengerDashboardScreenUiTest {
     fun setUp() {
         setupKoin()
         loadKoinModules(listOf(
-            featureRideDataTestModule()
+            featureRideDataTestModule(),
+            module {
+                single<Any>(qualifier = homeQualifier) { rideRoute }
+            }
         ))
     }
 
