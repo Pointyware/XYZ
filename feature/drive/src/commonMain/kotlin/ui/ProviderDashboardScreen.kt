@@ -73,14 +73,18 @@ fun ProviderDashboardScreen(
                     RideInfo(
                         ride = capture.ride,
                         pickUpEnabled = capture.atOrigin,
-                        onPickUpRider = { viewModel.onPickUpRider() },
+                        onPickUpRider = viewModel::onPickUpRider,
                     )
                 }
                 is ProviderDashboardUiState.RiderCanceled -> {
                     Text("RiderCanceled")
                 }
                 is ProviderDashboardUiState.InProgress -> {
-                    Text("InProgress")
+                    DeliveryInfo(
+                        ride = capture.ride,
+                        dropOffEnabled = capture.atDestination,
+                        onDropOffRider = viewModel::onDropOffRider
+                    )
                 }
                 is ProviderDashboardUiState.RiderCanceledLate -> {
                     Text("RiderCanceledLate")
@@ -133,6 +137,32 @@ fun RideInfo(
             enabled = pickUpEnabled
         ) {
             Text("Pick Up")
+        }
+
+        MessageInput(
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun DeliveryInfo(
+    ride: Ride,
+    dropOffEnabled: Boolean,
+    onDropOffRider: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.semantics { contentDescription = "Rider Profile" }
+    ) {
+        val name = remember(ride) {
+            ride.rider?.name?.given ?: "Rider Name"
+        }
+        Text("Dropping off $name")
+        Button(
+            onClick = onDropOffRider,
+            enabled = dropOffEnabled
+        ) {
+            Text("Drop Off")
         }
 
         MessageInput(
