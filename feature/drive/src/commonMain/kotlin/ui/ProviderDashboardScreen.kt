@@ -159,7 +159,10 @@ fun DeliveryInfo(
         val name = remember(ride) {
             ride.rider?.name?.given ?: "Rider Name"
         }
-        Text("Dropping off $name")
+        val destination = remember(ride) {
+            ride.plannedRoute?.end?.name ?: "Destination"
+        }
+        Text("Driving $name to $destination")
         Button(
             onClick = onDropOffRider,
             enabled = dropOffEnabled
