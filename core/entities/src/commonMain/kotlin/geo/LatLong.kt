@@ -20,10 +20,6 @@ data class LatLong(
     val latitude: Double,
     val longitude: Double
 ) {
-    fun Double.toRadians(): Double {
-        return this * PI / 180
-    }
-
     /**
      * Calculate the distance between this location and another in kilometers assuming a
      * spherical Earth of radius [EARTH_RADIUS] km.
