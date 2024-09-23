@@ -49,7 +49,7 @@ fun PaymentSelectionView(
             this.contentDescription = contentDescription
         }
     ) {
-        AnimatedContent(targetState = state) { targetState ->
+        AnimatedContent(targetState = state, contentKey = { it::class }) { targetState ->
             when (targetState) {
                 is PaymentSelectionViewState.PaymentSelected -> {
                     val method = targetState.method
