@@ -6,11 +6,20 @@ package org.pointyware.xyz.feature.ride.data
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import org.pointyware.xyz.core.entities.Name
+import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.geo.Location
-import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.geo.Route
+import org.pointyware.xyz.core.entities.profile.Gender
+import org.pointyware.xyz.core.entities.profile.RiderProfile
+import org.pointyware.xyz.core.entities.ride.Ride
+import org.pointyware.xyz.core.entities.ride.planRide
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
@@ -70,8 +79,9 @@ class TestTripRepository(
     val dataScope: CoroutineScope,
 ): TripRepository {
 
+    private val mutableCurrentTrip = MutableStateFlow(null as Ride?)
     override val currentTrip: StateFlow<Ride?>
-        get() = TODO("Not yet implemented")
+        get() = mutableCurrentTrip.asStateFlow()
 
     private val maximumLevenshteinDistance = 20
 
@@ -138,11 +148,21 @@ class TestTripRepository(
     }
 
     override suspend fun requestRide(route: Route): Result<Ride> {
-        TODO("Not yet implemented")
-//        mutableNewRides.emit(ride)
-//        mutablePostedRides.update { it + ride }
-//        // no limiting criteria in tests
-//        return Result.success(ride)
+        val plannedRide = planRide(
+            id = Uuid.v4(),
+            rider = RiderProfile(
+                id = Uuid.v4(),
+                name = Name("Test", "", "Rider"),
+                gender = Gender.Man,
+                picture = Uri.nullDevice,
+                preferences = "",
+                disabilities = emptySet()
+            ),
+            plannedRoute = route,
+            timePosted = Clock.System.now(),
+        )
+        mutableCurrentTrip.value = plannedRide
+        return Result.success(plannedRide)
     }
 
     override suspend fun scheduleRide(route: Route, time: Instant): Result<Ride> {
