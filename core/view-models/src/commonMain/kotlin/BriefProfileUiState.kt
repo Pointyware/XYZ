@@ -18,14 +18,3 @@ interface BriefProfileUiState {
     val name: String
     val rating: Rating
 }
-
-data class BriefProfileUiStateWrapper(
-    private val profile: Profile
-): BriefProfileUiState {
-    override val id: Uuid = profile.id
-    override val image: Uri = profile.picture
-    override val name: String = profile.name.given
-    override val rating: Rating = Rating.FIVE // TODO: get from profile
-}
-
-fun Profile.toBriefProfileUiState(): BriefProfileUiState = BriefProfileUiStateWrapper(this)

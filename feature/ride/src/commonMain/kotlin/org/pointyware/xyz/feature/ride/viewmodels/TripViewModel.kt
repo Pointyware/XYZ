@@ -15,7 +15,6 @@ import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.core.viewmodels.postError
-import org.pointyware.xyz.core.viewmodels.toBriefProfileUiState
 import org.pointyware.xyz.feature.ride.data.PaymentRepository
 import org.pointyware.xyz.feature.ride.data.TripEvent
 import org.pointyware.xyz.feature.ride.data.TripRepository
@@ -147,7 +146,7 @@ class TripViewModel(
                             if (it is PassengerDashboardUiState.Posted) {
 //                                val eta  = event.pendingRide.route.eta // TODO: create eta use case
                                 PassengerDashboardUiState.Waiting(
-                                    driver = event.driverProfile.toBriefProfileUiState(),
+                                    driver = event.driverProfile,
                                     eta = 0,
                                     route = it.route
                                 )

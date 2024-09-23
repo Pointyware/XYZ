@@ -7,7 +7,7 @@ package org.pointyware.xyz.feature.ride.viewmodels
 import org.pointyware.xyz.core.entities.business.Currency
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
-import org.pointyware.xyz.core.viewmodels.BriefProfileUiState
+import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.feature.ride.ui.PaymentSelectionViewState
 
 /**
@@ -52,9 +52,9 @@ sealed interface PassengerDashboardUiState {
      */
     data class Waiting(
         /**
-         * The driver's name.
+         * The driver's information.
          */
-        val driver: BriefProfileUiState,
+        val driver: DriverProfile,
         /**
          * Driver's estimated time of arrival in minutes.
          */
@@ -66,7 +66,7 @@ sealed interface PassengerDashboardUiState {
      * The rider is in the car and the ride is in progress.
      */
     data class Riding(
-        val driver: BriefProfileUiState,
+        val driver: DriverProfile,
         val route: Route,
         val eta: Int
     ): PassengerDashboardUiState
@@ -75,7 +75,7 @@ sealed interface PassengerDashboardUiState {
      * The rider has arrived at the destination.
      */
     data class Arrived(
-        val driver: BriefProfileUiState,
+        val driver: DriverProfile,
         val route: Route
     ): PassengerDashboardUiState
 }
