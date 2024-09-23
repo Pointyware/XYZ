@@ -14,7 +14,7 @@ import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.drive.data.ProviderTripRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
-import org.pointyware.xyz.drive.org.pointyware.xyz.drive.interactors.WatchPickupDistance
+import org.pointyware.xyz.drive.org.pointyware.xyz.drive.interactors.WatchProviderDistance
 import viewmodels.ProviderDashboardUiState
 
 /**
@@ -25,7 +25,7 @@ import viewmodels.ProviderDashboardUiState
 class ProviderDashboardViewModel(
     private val repository: ProviderTripRepository,
     private val watchRatedRequests: WatchRatedRequests,
-    private val watchPickupDistance: WatchPickupDistance,
+    private val watchProviderDistance: WatchProviderDistance,
 ): MapViewModelImpl() {
 
     private val mutableState = MutableStateFlow<ProviderDashboardUiState>(ProviderDashboardUiState.AvailableRequests(emptyList()))
@@ -97,29 +97,30 @@ class ProviderDashboardViewModel(
     private fun watchPickupDistance(origin: LatLong) {
         distanceJob?.cancel()
         distanceJob = viewModelScope.launch {
-            watchPickupDistance.invoke(origin)
-                .collect { driverAtOrigin ->
+            watchProviderDistance.invoke(origin)
+                .collect { withinDistance ->
                     mutableState.update {
-                        if (it is ProviderDashboardUiState.Accepted) {
-                            it.copy(atOrigin = driverAtOrigin)
-                        } else {
-                            it
+                        when (it) {
+                            is ProviderDashboardUiState.Accepted -> it.copy(atOrigin = withinDistance)
+                            is ProviderDashboardUiState.InProgress -> it.copy(atDestination = withinDistance)
+                            else -> it
                         }
                     }
                 }
         }
     }
 
-    private fun stopWatchingPickupDistance() {
+    private fun stopWatchingDistance() {
         distanceJob?.cancel()
     }
 
     fun onPickUpRider() {
-        stopWatchingPickupDistance()
+        stopWatchingDistance()
         viewModelScope.launch {
             repository.pickUpRider()
                 .onSuccess {
-                    mutableState.value = ProviderDashboardUiState.InProgress
+                    watchPickupDistance(it.plannedRoute.end.coordinates)
+                    mutableState.value = ProviderDashboardUiState.InProgress(it, false)
                 }
                 .onFailure {
 

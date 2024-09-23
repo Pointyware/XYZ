@@ -10,16 +10,16 @@ import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.entities.geo.Length
 import org.pointyware.xyz.core.local.org.pointyware.xyz.core.local.LocationService
 
-class WatchPickupDistance(
+class WatchProviderDistance(
     private val locationService: LocationService,
-    private val pickUpDistance: Length
+    private val acceptedDistance: Length
 ) {
     fun invoke(pickupLocation: LatLong): Flow<Boolean> = locationService.state.map {
         when (it) {
             is LocationService.State.Stopped -> false
             is LocationService.State.Running -> {
                 val distance = it.location.distanceTo(pickupLocation)
-                distance <= pickUpDistance
+                distance <= acceptedDistance
             }
         }
     }

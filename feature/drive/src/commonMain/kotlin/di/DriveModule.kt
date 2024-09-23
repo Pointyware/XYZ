@@ -23,7 +23,7 @@ import org.pointyware.xyz.drive.data.ProviderTripRepositoryImpl
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
 import org.pointyware.xyz.drive.data.TestProviderTripRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
-import org.pointyware.xyz.drive.org.pointyware.xyz.drive.interactors.WatchPickupDistance
+import org.pointyware.xyz.drive.org.pointyware.xyz.drive.interactors.WatchProviderDistance
 import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.DriverSettingsViewModel
 
@@ -67,5 +67,5 @@ fun featureDriveViewModelModule() = module {
 
 fun featureDriveInteractorsModule() = module {
     factoryOf(::WatchRatedRequests)
-    factory<WatchPickupDistance> { WatchPickupDistance(get(), 100.0.meters())}
+    factory<WatchProviderDistance> { WatchProviderDistance(get(), 100.0.meters())}
 }

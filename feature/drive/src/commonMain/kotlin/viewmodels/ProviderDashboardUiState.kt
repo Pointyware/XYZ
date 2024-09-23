@@ -4,6 +4,7 @@
 
 package viewmodels
 
+import org.pointyware.xyz.core.entities.ride.ActiveRide
 import org.pointyware.xyz.core.entities.ride.PendingRide
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 
@@ -34,7 +35,10 @@ sealed interface ProviderDashboardUiState {
     /**
      * The driver has picked up the rider and is on their way to the destination.
      */
-    data object InProgress : ProviderDashboardUiState
+    data class InProgress(
+        val ride: ActiveRide,
+        val atDestination: Boolean
+    ): ProviderDashboardUiState
 
     /**
      * The rider has canceled the request after the driver arrived.
