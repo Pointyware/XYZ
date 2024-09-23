@@ -10,7 +10,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
 /**
- * Defines base behavior for all view models.
+ * Defines basic behavior for all view models.
  */
 abstract class ViewModel {
 
