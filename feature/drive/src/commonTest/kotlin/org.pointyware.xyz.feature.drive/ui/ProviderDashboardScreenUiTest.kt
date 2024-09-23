@@ -145,6 +145,7 @@ class ProviderDashboardScreenUiTest {
                 )
             }
         }
+
         onNodeWithContentDescription("Ride Requests")
             .assertExists()
             .onChild()
@@ -163,6 +164,7 @@ class ProviderDashboardScreenUiTest {
           - The request has a accept/reject buttons
          */
         rideRepository.addRequest(testRequest)
+
         waitForIdle()
         onNodeWithContentDescription("Ride Requests")
             .onChildren().onFirst().assertExists()
@@ -212,6 +214,7 @@ class ProviderDashboardScreenUiTest {
         - The pick up button is enabled
          */
         locationService.setLocation(LatLong(36.114579,-97.1184657))
+
         onNodeWithText("Pick Up")
             .assertIsEnabled()
 
@@ -248,6 +251,7 @@ class ProviderDashboardScreenUiTest {
         - The drop off button is enabled
          */
         locationService.setLocation(LatLong(36.1162121,-97.0583766))
+
         onNodeWithText("Drop Off")
             .assertIsEnabled()
 
@@ -256,13 +260,28 @@ class ProviderDashboardScreenUiTest {
         - The drop off button is pressed
         Then:
         - The provider status message displays "Completed"
+        - The confirm completion button is present
         - The drop off button is absent
-        - The requests list is present
          */
         onNodeWithText("Drop Off")
             .performClick()
-        onNodeWithText("Completed")
+
+        onNodeWithText("Trip Completed")
             .assertExists()
+        onNodeWithText("Done")
+            .assertExists()
+        onNodeWithText("Drop Off")
+            .assertDoesNotExist()
+
+        /*
+        When:
+        - The confirm completion button is pressed
+        Then:
+        - The requests list is present
+         */
+        onNodeWithText("Done")
+            .performClick()
+
         onNodeWithContentDescription("Ride Requests")
             .assertExists()
     }
