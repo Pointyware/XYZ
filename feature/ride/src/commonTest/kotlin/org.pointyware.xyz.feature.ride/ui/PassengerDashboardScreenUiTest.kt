@@ -22,10 +22,11 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.xyz.core.navigation.StackNavigationController
+import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
+import org.pointyware.xyz.feature.ride.data.TripRepository
 import org.pointyware.xyz.feature.ride.di.featureRideDataTestModule
 import org.pointyware.xyz.feature.ride.navigation.rideRoute
 import org.pointyware.xyz.feature.ride.test.setupKoin
@@ -42,6 +43,11 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalTestApi::class)
 class PassengerDashboardScreenUiTest {
 
+    private lateinit var tripRepository: TripRepository
+
+    private lateinit var viewModel: RideViewModel
+    private lateinit var navController: XyzNavController
+
     @BeforeTest
     fun setUp() {
         setupKoin()
@@ -51,6 +57,10 @@ class PassengerDashboardScreenUiTest {
                 single<Any>(qualifier = homeQualifier) { rideRoute }
             }
         ))
+
+        val koin = getKoin()
+        viewModel = koin.get()
+        navController = koin.get()
     }
 
     @AfterTest
@@ -60,22 +70,19 @@ class PassengerDashboardScreenUiTest {
 
     @Test
     fun request_ride() = runComposeUiTest {
-        val di = getKoin()
-        val viewModel = di.get<RideViewModel>()
-        val navController = di.get<StackNavigationController<Any, Any?>>()
-
-        assertEquals(PassengerDashboardUiState.Idle, viewModel.state.value, "Initial state is Idle")
-
         /*
         Given:
         - User is on the Ride Screen
         - UiState is Idle
+         */
+        assertEquals(PassengerDashboardUiState.Idle, viewModel.state.value, "Initial state is Idle")
+
+        /*
         When:
-        - No Events
+        - The Passenger Dashboard Screen is shown
         Then:
         - The "New Ride" button is shown
          */
-
         setContent {
             XyzTheme(
                 uiDependencies = EmptyTestUiDependencies()
@@ -218,7 +225,11 @@ class PassengerDashboardScreenUiTest {
         Then:
         - The driver profile information is shown
         - The messaging input is shown
+        - The driver arriving message is shown
          */
+        // TODO: trigger ride accepted event in repo
+
+
 
         /*
         When:
@@ -226,8 +237,9 @@ class PassengerDashboardScreenUiTest {
         Then:
         - The "Cancel Ride" button is shown
         - The messaging input is shown
-        - The progress message is shown
+        - The driver delivery message is shown
          */
+        // TODO: trigger ride picked up event in repo
 
         /*
         When:
@@ -237,5 +249,7 @@ class PassengerDashboardScreenUiTest {
         - The messaging input is removed
         - The progress message is removed
          */
+        // TODO: trigger ride completed event in repo
+
     }
 }
