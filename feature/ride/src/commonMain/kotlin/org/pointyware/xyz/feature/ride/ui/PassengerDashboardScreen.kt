@@ -9,14 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.XyzNavController
-import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
+import org.pointyware.xyz.feature.ride.viewmodels.TripViewModel
 
 /**
  * Displays a map with controls for starting, monitoring, and canceling a ride.
  */
 @Composable
 fun PassengerDashboardScreen(
-    viewModel: RideViewModel,
+    viewModel: TripViewModel,
     navController: XyzNavController,
 ) {
     val state = viewModel.state.collectAsState()

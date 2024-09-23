@@ -35,7 +35,6 @@ import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.ride.data.TestTripRepository
-import org.pointyware.xyz.feature.ride.data.TripRepository
 import org.pointyware.xyz.feature.ride.di.featureRideDataTestModule
 import org.pointyware.xyz.feature.ride.entities.ExpirationDate
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
@@ -43,7 +42,7 @@ import org.pointyware.xyz.feature.ride.local.FakePaymentStore
 import org.pointyware.xyz.feature.ride.navigation.rideRoute
 import org.pointyware.xyz.feature.ride.test.setupKoin
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
-import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
+import org.pointyware.xyz.feature.ride.viewmodels.TripViewModel
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -58,7 +57,7 @@ class PassengerDashboardScreenUiTest {
     private lateinit var tripRepository: TestTripRepository
     private lateinit var paymentStore: FakePaymentStore
 
-    private lateinit var viewModel: RideViewModel
+    private lateinit var viewModel: TripViewModel
     private lateinit var navController: XyzNavController
 
     private lateinit var driverProfile: DriverProfile

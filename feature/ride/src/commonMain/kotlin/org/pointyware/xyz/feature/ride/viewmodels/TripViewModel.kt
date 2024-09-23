@@ -24,7 +24,7 @@ import org.pointyware.xyz.feature.ride.ui.PaymentSelectionViewState
  *
  * @see PassengerDashboardUiState
  */
-class RideViewModel(
+class TripViewModel(
     private val tripRepository: TripRepository,
     private val paymentRepository: PaymentRepository
 ): MapViewModelImpl() {

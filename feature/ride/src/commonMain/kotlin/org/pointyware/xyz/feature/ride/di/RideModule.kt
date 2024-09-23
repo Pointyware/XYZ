@@ -21,7 +21,7 @@ import org.pointyware.xyz.feature.ride.data.TestTripRepository
 import org.pointyware.xyz.feature.ride.local.PaymentStore
 import org.pointyware.xyz.feature.ride.local.PaymentStoreImpl
 import org.pointyware.xyz.feature.ride.local.FakePaymentStore
-import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
+import org.pointyware.xyz.feature.ride.viewmodels.TripViewModel
 
 /**
  *
@@ -36,7 +36,7 @@ fun featureRideModule() = module {
 }
 
 fun featureRideViewModelModule() = module {
-    factoryOf(::RideViewModel)
+    factoryOf(::TripViewModel)
 }
 
 fun featureRideDataModule() = module {
