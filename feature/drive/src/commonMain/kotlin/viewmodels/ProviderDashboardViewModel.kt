@@ -127,4 +127,17 @@ class ProviderDashboardViewModel(
                 }
         }
     }
+
+    fun onDropOffRider() {
+        stopWatchingDistance()
+        viewModelScope.launch {
+            repository.completeRide()
+                .onSuccess {
+                    mutableState.value = ProviderDashboardUiState.Completed
+                }
+                .onFailure {
+
+                }
+        }
+    }
 }
