@@ -22,12 +22,16 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.ride.data.TripRepository
 import org.pointyware.xyz.feature.ride.di.featureRideDataTestModule
+import org.pointyware.xyz.feature.ride.entities.ExpirationDate
+import org.pointyware.xyz.feature.ride.entities.PaymentMethod
+import org.pointyware.xyz.feature.ride.local.TestPaymentStore
 import org.pointyware.xyz.feature.ride.navigation.rideRoute
 import org.pointyware.xyz.feature.ride.test.setupKoin
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
@@ -44,6 +48,7 @@ import kotlin.test.assertEquals
 class PassengerDashboardScreenUiTest {
 
     private lateinit var tripRepository: TripRepository
+    private lateinit var paymentStore: TestPaymentStore
 
     private lateinit var viewModel: RideViewModel
     private lateinit var navController: XyzNavController
@@ -59,6 +64,19 @@ class PassengerDashboardScreenUiTest {
         ))
 
         val koin = getKoin()
+
+        tripRepository = koin.get()
+        paymentStore = koin.get() as TestPaymentStore
+        paymentStore.savePaymentMethod(
+            PaymentMethod(
+                id = Uuid.v4(),
+                lastFour = "3456",
+                expiration = ExpirationDate(month = 12, year = 2024),
+                cardholderName = "John Doe",
+                paymentProvider = "Bisa"
+            )
+        )
+
         viewModel = koin.get()
         navController = koin.get()
     }

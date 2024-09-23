@@ -54,15 +54,5 @@ fun featureRideDataModule() = module {
 fun featureRideDataTestModule() = module {
     single<TripRepository> { TestTripRepository(dataScope = get(qualifier = dataQualifier)) }
 
-    single<PaymentStore> { TestPaymentStore(
-        methods = mutableListOf(
-            PaymentMethod(
-                id = Uuid.v4(),
-                lastFour = "3456",
-                expiration = ExpirationDate(month = 12, year = 2024),
-                cardholderName = "John Doe",
-                paymentProvider = "Bisa"
-            )
-        )
-    ) }
+    single<PaymentStore> { TestPaymentStore() }
 }
