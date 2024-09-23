@@ -73,7 +73,7 @@ class ProviderDashboardViewModel(
                 .onSuccess {
                     stopWatchingRequests()
                     mutableState.value = ProviderDashboardUiState.Accepted(it, false)
-                    watchPickupDistance(it.plannedRoute.start.coordinates)
+                    watchDistance(it.plannedRoute.start.coordinates)
                 }
                 .onFailure {
                     TODO("Handle failure")
@@ -94,7 +94,7 @@ class ProviderDashboardViewModel(
     }
 
     private var distanceJob: Job? = null
-    private fun watchPickupDistance(origin: LatLong) {
+    private fun watchDistance(origin: LatLong) {
         distanceJob?.cancel()
         distanceJob = viewModelScope.launch {
             watchProviderDistance.invoke(origin)
@@ -119,8 +119,8 @@ class ProviderDashboardViewModel(
         viewModelScope.launch {
             repository.pickUpRider()
                 .onSuccess {
-                    watchPickupDistance(it.plannedRoute.end.coordinates)
                     mutableState.value = ProviderDashboardUiState.InProgress(it, false)
+                    watchDistance(it.plannedRoute.end.coordinates)
                 }
                 .onFailure {
 
