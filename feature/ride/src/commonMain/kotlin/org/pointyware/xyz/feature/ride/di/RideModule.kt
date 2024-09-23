@@ -14,11 +14,11 @@ import org.pointyware.xyz.feature.ride.data.PaymentRepository
 import org.pointyware.xyz.feature.ride.data.PaymentRepositoryImpl
 import org.pointyware.xyz.feature.ride.data.RideRequestCache
 import org.pointyware.xyz.feature.ride.data.RideRequestCacheImpl
-import org.pointyware.xyz.feature.ride.data.RideRequestRepository
-import org.pointyware.xyz.feature.ride.data.RideRequestRepositoryImpl
+import org.pointyware.xyz.feature.ride.data.TripRepository
+import org.pointyware.xyz.feature.ride.data.TripRepositoryImpl
 import org.pointyware.xyz.feature.ride.data.RideRequestService
 import org.pointyware.xyz.feature.ride.data.RideRequestServiceImpl
-import org.pointyware.xyz.feature.ride.data.TestRideRequestRepository
+import org.pointyware.xyz.feature.ride.data.TestTripRepository
 import org.pointyware.xyz.feature.ride.entities.ExpirationDate
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
 import org.pointyware.xyz.feature.ride.local.PaymentStore
@@ -43,7 +43,7 @@ fun featureRideViewModelModule() = module {
 }
 
 fun featureRideDataModule() = module {
-    singleOf(::RideRequestRepositoryImpl) { bind<RideRequestRepository>() }
+    singleOf(::TripRepositoryImpl) { bind<TripRepository>() }
     singleOf(::RideRequestCacheImpl) { bind<RideRequestCache>() }
     singleOf(::RideRequestServiceImpl) { bind<RideRequestService>() }
 
@@ -52,7 +52,7 @@ fun featureRideDataModule() = module {
 }
 
 fun featureRideDataTestModule() = module {
-    single<RideRequestRepository> { TestRideRequestRepository(dataScope = get(qualifier = dataQualifier)) }
+    single<TripRepository> { TestTripRepository(dataScope = get(qualifier = dataQualifier)) }
 
     single<PaymentStore> { TestPaymentStore(
         methods = mutableListOf(

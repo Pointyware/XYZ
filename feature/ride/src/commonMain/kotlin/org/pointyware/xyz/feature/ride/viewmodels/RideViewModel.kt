@@ -15,7 +15,7 @@ import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.core.viewmodels.postError
 import org.pointyware.xyz.feature.ride.data.PaymentRepository
-import org.pointyware.xyz.feature.ride.data.RideRequestRepository
+import org.pointyware.xyz.feature.ride.data.TripRepository
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
 import org.pointyware.xyz.feature.ride.ui.PaymentSelectionViewState
 
@@ -25,7 +25,7 @@ import org.pointyware.xyz.feature.ride.ui.PaymentSelectionViewState
  * @see PassengerDashboardUiState
  */
 class RideViewModel(
-    private val rideRequestRepository: RideRequestRepository,
+    private val tripRepository: TripRepository,
     private val paymentRepository: PaymentRepository
 ): MapViewModelImpl() {
 
@@ -72,7 +72,7 @@ class RideViewModel(
     private fun findRoute(start: Location, end: Location) {
         mutableLoadingState.value = LoadingUiState.Loading()
         viewModelScope.launch {
-            rideRequestRepository.findRoute(start, end)
+            tripRepository.findRoute(start, end)
                 .onSuccess { route ->
                     // TODO: Calculate route and price; update state
                     val rate = 120 // $1.20 per km

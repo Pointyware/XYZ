@@ -15,7 +15,7 @@ import kotlin.time.Duration.Companion.milliseconds
 /**
  * Handles requests for rides.
  */
-interface RideRequestRepository {
+interface TripRepository {
     suspend fun searchDestinations(query: String): Result<DestinationSearchResult>
     suspend fun findRoute(origin: Location, destination: Location): Result<Route>
     suspend fun requestRide(route: Route): Result<Ride>
@@ -25,10 +25,10 @@ interface RideRequestRepository {
 /**
  *
  */
-class RideRequestRepositoryImpl(
+class TripRepositoryImpl(
     private val cache: RideRequestCache,
     private val service: RideRequestService,
-): RideRequestRepository {
+): TripRepository {
 
     override suspend fun searchDestinations(query: String): Result<DestinationSearchResult> {
         return service.searchDestinations(query)
@@ -56,10 +56,10 @@ class RideRequestRepositoryImpl(
 /**
  *
  */
-class TestRideRequestRepository(
+class TestTripRepository(
     val destinations: MutableSet<Location> = mutableSetOf(),
     val dataScope: CoroutineScope,
-): RideRequestRepository {
+): TripRepository {
 
     private val maximumLevenshteinDistance = 20
 
