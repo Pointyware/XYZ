@@ -214,6 +214,7 @@ class ProviderDashboardScreenUiTest {
         - The pick up button is enabled
          */
         locationService.setLocation(LatLong(36.114579,-97.1184657))
+        // TODO: refine Provider state transition for arrival/departure with Passenger
 
         onNodeWithText("Pick Up")
             .assertIsEnabled()
