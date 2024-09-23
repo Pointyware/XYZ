@@ -11,12 +11,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.Uuid
-import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
-import org.pointyware.xyz.core.entities.profile.Gender
+import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.ride.planRide
@@ -162,5 +160,17 @@ class TestTripRepository(
 
     override suspend fun scheduleRide(route: Route, time: Instant): Result<Ride> {
         TODO("Not yet implemented")
+    }
+
+    fun acceptRequest(driverProfile: DriverProfile) {
+        TODO("Not yet implemented")
+    }
+
+    fun pickUpRider() {
+        TODO()
+    }
+
+    fun dropOffRider() {
+        TODO()
     }
 }
