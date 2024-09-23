@@ -70,4 +70,12 @@ sealed interface PassengerDashboardUiState {
         val route: Route,
         val eta: Int
     ): PassengerDashboardUiState
+
+    /**
+     * The rider has arrived at the destination.
+     */
+    data class Arrived(
+        val driver: BriefProfileUiState,
+        val route: Route
+    ): PassengerDashboardUiState
 }

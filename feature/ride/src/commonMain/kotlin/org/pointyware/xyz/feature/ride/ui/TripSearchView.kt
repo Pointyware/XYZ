@@ -109,6 +109,10 @@ fun TripSearchView(
                 is PassengerDashboardUiState.Riding -> {
                     ActiveRideView(state = state)
                 }
+
+                is PassengerDashboardUiState.Arrived -> {
+                    CompletedRideView(state = state)
+                }
             }
         }
     }
@@ -233,4 +237,12 @@ fun ActiveRideView(
 ) {
     // Do nothing
     // TODO: rider details
+}
+
+@Composable
+fun CompletedRideView(
+    state: PassengerDashboardUiState.Arrived,
+    modifier: Modifier = Modifier,
+) {
+
 }
