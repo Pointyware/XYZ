@@ -6,24 +6,30 @@ package org.pointyware.xyz.feature.ride.entities
 
 import org.pointyware.xyz.core.common.IntRange
 
+private const val MONTH_MIN = 1
+private const val MONTH_MAX = 12
+private const val YEAR_MIN = 2024
+private const val YEAR_MAX = 3023
+
 /**
  * A payment expiration date, composed of a month and year.
  */
 data class ExpirationDate(
     /**
-     *
+     * The 1-indexed month of the expiration date.
      */
-    @IntRange(min = 1, max = 12)
+    @IntRange(min = MONTH_MIN, max = MONTH_MAX)
     val month: Byte,
+
     /**
-     *
+     * The year of the expiration date.
      */
-    @IntRange(min = 2024)
+    @IntRange(min = YEAR_MIN, max = YEAR_MAX)
     val year: Short
 ) {
     init {
-        require(month in 1..12) { "Month must be between 1 and 12" }
-        require(year >= 2024) { "Year must be 2024 or later" }
+        require(month in MONTH_MIN..MONTH_MAX) { "Month must be between 1 and 12" }
+        require(year in YEAR_MIN .. YEAR_MAX) { "Year must be between 2024 and 3023" }
     }
 
     /**
