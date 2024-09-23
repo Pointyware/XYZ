@@ -9,6 +9,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.Uuid
@@ -16,6 +17,9 @@ import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
+import org.pointyware.xyz.core.entities.ride.ActiveRide
+import org.pointyware.xyz.core.entities.ride.PendingRide
+import org.pointyware.xyz.core.entities.ride.PlannedRide
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.ride.planRide
 import kotlin.time.Duration.Companion.milliseconds
@@ -163,14 +167,35 @@ class TestTripRepository(
     }
 
     fun acceptRequest(driverProfile: DriverProfile) {
-        TODO("Not yet implemented")
+        mutableCurrentTrip.update {
+            when (it) {
+                is PlannedRide -> {
+                    it.accept(driverProfile, Clock.System.now())
+                }
+                else -> it
+            }
+        }
     }
 
     fun pickUpRider() {
-        TODO()
+        mutableCurrentTrip.update {
+            when (it) {
+                is PendingRide -> {
+                    it.arrive(Clock.System.now())
+                }
+                else -> it
+            }
+        }
     }
 
     fun dropOffRider() {
-        TODO()
+        mutableCurrentTrip.update {
+            when (it) {
+                is ActiveRide -> {
+                    it.complete(Clock.System.now())
+                }
+                else -> it
+            }
+        }
     }
 }
