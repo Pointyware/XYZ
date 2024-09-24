@@ -119,7 +119,8 @@ fun TripSearchView(
                 is PassengerDashboardUiState.Arrived -> {
                     CompletedRideView(
                         state = state,
-                        onRateDriver = onRateDriver
+                        onRateDriver = onRateDriver,
+                        onFinishTrip = onFinishTrip
                     )
                 }
             }
@@ -271,7 +272,8 @@ fun ActiveRideView(
 fun CompletedRideView(
     state: PassengerDashboardUiState.Arrived,
     modifier: Modifier = Modifier,
-    onRateDriver: ()->Unit
+    onRateDriver: ()->Unit,
+    onFinishTrip: ()->Unit,
 ) {
     Column(
         modifier = modifier
@@ -283,6 +285,11 @@ fun CompletedRideView(
             onClick = onRateDriver,
         ) {
             Text("Rate Driver")
+        }
+        Button(
+            onClick = onFinishTrip,
+        ) {
+            Text("Done")
         }
     }
 }
