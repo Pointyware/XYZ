@@ -9,7 +9,7 @@ import org.pointyware.xyz.core.entities.ride.Ride
 /**
  * Defines actions that can be performed on a remote service to request rides.
  */
-interface RideRequestService {
+interface TripService {
 
     /**
      * Searches for destinations that match the given query.
@@ -22,7 +22,7 @@ interface RideRequestService {
     suspend fun postRide(ride: Ride): Result<Ride>
 }
 
-class RideRequestServiceImpl : RideRequestService {
+class TripServiceImpl : TripService {
 
     override suspend fun searchDestinations(query: String): Result<DestinationSearchResult> {
         TODO()

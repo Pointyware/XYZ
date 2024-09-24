@@ -7,6 +7,7 @@ package org.pointyware.xyz.core.viewmodels
 import org.pointyware.xyz.core.entities.ride.Rating
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.entities.profile.Profile
 
 /**
  * A brief profile UI state. For more detail see [ProfileUiState].

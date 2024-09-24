@@ -16,6 +16,7 @@ import org.pointyware.xyz.core.ui.LoadingResultView
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.MapUiState
+import org.pointyware.xyz.feature.ride.entities.PaymentMethod
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
 
 data class PassengerDashboardViewState(
@@ -35,8 +36,13 @@ fun PassengerDashboardView(
     onUpdateQuery: (String)->Unit,
     onSendQuery: ()->Unit,
     onSelectLocation: (Location)->Unit,
+    onSelectPayment: ()->Unit,
+    onPaymentSelected: (PaymentMethod)->Unit,
     onConfirmDetails: ()->Unit,
     onCancel: ()->Unit,
+    onCancelTrip: ()->Unit,
+    onFinishTrip: ()->Unit,
+    onRateDriver: ()->Unit,
     onBack: ()->Unit,
     clearError: ()->Unit
 ) {
@@ -67,7 +73,12 @@ fun PassengerDashboardView(
             onSendQuery = onSendQuery,
             onSelectLocation = onSelectLocation,
             onConfirmDetails = onConfirmDetails,
-            onCancelRequest = onCancel
+            onSelectPayment = onSelectPayment,
+            onPaymentSelected = onPaymentSelected,
+            onCancelRequest = onCancel,
+            onCancelTrip = onCancelTrip,
+            onFinishTrip = onFinishTrip,
+            onRateDriver = onRateDriver,
         )
     }
 }

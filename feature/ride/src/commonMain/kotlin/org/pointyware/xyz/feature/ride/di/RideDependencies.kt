@@ -6,18 +6,18 @@ package org.pointyware.xyz.feature.ride.di
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
+import org.pointyware.xyz.feature.ride.viewmodels.TripViewModel
 
 /**
  *
  */
 interface RideDependencies {
-    fun getRideViewModel(): RideViewModel
+    fun getRideViewModel(): TripViewModel
 
 }
 
 class KoinRideDependencies: RideDependencies, KoinComponent {
-    override fun getRideViewModel(): RideViewModel {
+    override fun getRideViewModel(): TripViewModel {
         return get()
     }
 }

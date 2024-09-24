@@ -9,14 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.navigation.XyzNavController
-import org.pointyware.xyz.feature.ride.viewmodels.RideViewModel
+import org.pointyware.xyz.feature.ride.viewmodels.TripViewModel
 
 /**
  * Displays a map with controls for starting, monitoring, and canceling a ride.
  */
 @Composable
 fun PassengerDashboardScreen(
-    viewModel: RideViewModel,
+    viewModel: TripViewModel,
     navController: XyzNavController,
 ) {
     val state = viewModel.state.collectAsState()
@@ -28,13 +28,18 @@ fun PassengerDashboardScreen(
         state = rideViewState,
         loadingState = loadingState.value,
         modifier = Modifier.fillMaxSize(),
-        onStartSearch = { viewModel.startSearch() },
-        onUpdateQuery = { viewModel.updateQuery(it) },
-        onSendQuery = { viewModel.sendQuery() },
-        onSelectLocation = { viewModel.selectLocation(it) },
-        onConfirmDetails = { viewModel.confirmDetails() },
-        onCancel = { viewModel.cancelRide() },
-        onBack = { navController.goBack() },
-        clearError = { viewModel.clearError() }
+        onStartSearch = viewModel::startSearch,
+        onUpdateQuery = viewModel::updateQuery,
+        onSendQuery = viewModel::sendQuery,
+        onSelectLocation = viewModel::selectLocation,
+        onConfirmDetails = viewModel::confirmDetails,
+        onCancel = viewModel::cancelRide,
+        onSelectPayment = viewModel::onSelectPayment,
+        onPaymentSelected = viewModel::onPaymentSelected,
+        onCancelTrip = viewModel::onCancelTrip,
+        onRateDriver = viewModel::onRateDriver,
+        onFinishTrip = viewModel::onFinishTrip,
+        onBack = navController::goBack,
+        clearError = viewModel::clearError,
     )
 }

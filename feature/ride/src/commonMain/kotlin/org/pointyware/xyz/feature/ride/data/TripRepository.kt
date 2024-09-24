@@ -6,16 +6,61 @@ package org.pointyware.xyz.feature.ride.data
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.geo.Location
-import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.geo.Route
+import org.pointyware.xyz.core.entities.profile.DriverProfile
+import org.pointyware.xyz.core.entities.profile.RiderProfile
+import org.pointyware.xyz.core.entities.ride.ActiveRide
+import org.pointyware.xyz.core.entities.ride.CompletedRide
+import org.pointyware.xyz.core.entities.ride.PendingRide
+import org.pointyware.xyz.core.entities.ride.PlannedRide
+import org.pointyware.xyz.core.entities.ride.Ride
+import org.pointyware.xyz.core.entities.ride.planRide
 import kotlin.time.Duration.Companion.milliseconds
 
+sealed interface TripEvent {
+    val driverProfile: DriverProfile
+    val ride: Ride
+
+    data class Accepted(
+        override val driverProfile: DriverProfile,
+        override val ride: PendingRide
+    ): TripEvent
+    data class PickedUp(
+        override val driverProfile: DriverProfile,
+        override val ride: ActiveRide
+    ): TripEvent
+    data class DroppedOff(
+        override val driverProfile: DriverProfile,
+        override val ride: CompletedRide
+    ): TripEvent
+}
+
 /**
- * Handles requests for rides.
+ * Handles trip search and scheduling.
  */
-interface RideRequestRepository {
+interface TripRepository {
+    /**
+     * The current trip being taken by the user.
+     */
+    val currentTrip: StateFlow<Ride?>
+
+    /**
+     * Events that occur during a trip.
+     */
+    val tripEvents: SharedFlow<TripEvent>
+
     suspend fun searchDestinations(query: String): Result<DestinationSearchResult>
     suspend fun findRoute(origin: Location, destination: Location): Result<Route>
     suspend fun requestRide(route: Route): Result<Ride>
@@ -25,10 +70,15 @@ interface RideRequestRepository {
 /**
  *
  */
-class RideRequestRepositoryImpl(
-    private val cache: RideRequestCache,
-    private val service: RideRequestService,
-): RideRequestRepository {
+class TripRepositoryImpl(
+    private val cache: TripCache,
+    private val service: TripService,
+): TripRepository {
+
+    override val currentTrip: StateFlow<Ride?>
+        get() = TODO("Not yet implemented")
+    override val tripEvents: SharedFlow<TripEvent>
+        get() = TODO("Not yet implemented")
 
     override suspend fun searchDestinations(query: String): Result<DestinationSearchResult> {
         return service.searchDestinations(query)
@@ -56,10 +106,20 @@ class RideRequestRepositoryImpl(
 /**
  *
  */
-class TestRideRequestRepository(
+class TestTripRepository(
     val destinations: MutableSet<Location> = mutableSetOf(),
     val dataScope: CoroutineScope,
-): RideRequestRepository {
+): TripRepository {
+
+    lateinit var riderProfile: RiderProfile
+
+    private val mutableCurrentTrip = MutableStateFlow(null as Ride?)
+    override val currentTrip: StateFlow<Ride?>
+        get() = mutableCurrentTrip.asStateFlow()
+
+    private val mutableTripEvents = MutableSharedFlow<TripEvent>()
+    override val tripEvents: SharedFlow<TripEvent>
+        get() = mutableTripEvents.asSharedFlow()
 
     private val maximumLevenshteinDistance = 20
 
@@ -126,14 +186,62 @@ class TestRideRequestRepository(
     }
 
     override suspend fun requestRide(route: Route): Result<Ride> {
-        TODO("Not yet implemented")
-//        mutableNewRides.emit(ride)
-//        mutablePostedRides.update { it + ride }
-//        // no limiting criteria in tests
-//        return Result.success(ride)
+        val plannedRide = planRide(
+            id = Uuid.v4(),
+            rider = riderProfile,
+            plannedRoute = route,
+            timePosted = Clock.System.now(),
+        )
+        mutableCurrentTrip.value = plannedRide
+        return Result.success(plannedRide)
     }
 
     override suspend fun scheduleRide(route: Route, time: Instant): Result<Ride> {
         TODO("Not yet implemented")
+    }
+
+    fun acceptRequest(driverProfile: DriverProfile) {
+        mutableCurrentTrip.update {
+            when (it) {
+                is PlannedRide -> {
+                    it.accept(driverProfile, Clock.System.now()).also {
+                        dataScope.launch {
+                            mutableTripEvents.emit(TripEvent.Accepted(driverProfile, it))
+                        }
+                    }
+                }
+                else -> it
+            }
+        }
+    }
+
+    fun pickUpRider() {
+        mutableCurrentTrip.update {
+            when (it) {
+                is PendingRide -> {
+                    it.arrive(Clock.System.now()).also {
+                        dataScope.launch {
+                            mutableTripEvents.emit(TripEvent.PickedUp(it.driver, it))
+                        }
+                    }
+                }
+                else -> it
+            }
+        }
+    }
+
+    fun dropOffRider() {
+        mutableCurrentTrip.update {
+            when (it) {
+                is ActiveRide -> {
+                    it.complete(Clock.System.now()).also {
+                        dataScope.launch {
+                            mutableTripEvents.emit(TripEvent.DroppedOff(it.driver, it))
+                        }
+                    }
+                }
+                else -> it
+            }
+        }
     }
 }

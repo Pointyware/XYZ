@@ -7,13 +7,14 @@ package org.pointyware.xyz.feature.drive.ui
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onChild
-import androidx.compose.ui.test.onChildren
-import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.waitUntilDoesNotExist
+import androidx.compose.ui.test.waitUntilExactlyOneExists
 import kotlinx.datetime.Clock
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
@@ -165,11 +166,7 @@ class ProviderDashboardScreenUiTest {
          */
         rideRepository.addRequest(testRequest)
 
-        waitForIdle()
-        onNodeWithContentDescription("Ride Requests")
-            .onChildren().onFirst().assertExists()
-        onNodeWithText("John")
-            .assertExists()
+        waitUntilExactlyOneExists(hasText("John"))
         onNodeWithText("Walmart")
             .assertExists()
         onNodeWithText("Walgreens")
@@ -231,9 +228,7 @@ class ProviderDashboardScreenUiTest {
         onNodeWithText("Pick Up")
             .performClick()
 
-        waitForIdle()
-        onNodeWithText("Pick Up")
-            .assertDoesNotExist()
+        waitUntilDoesNotExist(hasText("Pick Up"))
         onNodeWithContentDescription("Rider Profile")
             .assertExists()
         onNodeWithContentDescription("Message Input")
@@ -253,6 +248,7 @@ class ProviderDashboardScreenUiTest {
          */
         locationService.setLocation(LatLong(36.1162121,-97.0583766))
 
+        waitUntilExactlyOneExists(hasText("Drop Off"))
         onNodeWithText("Drop Off")
             .assertIsEnabled()
 
@@ -331,11 +327,8 @@ class ProviderDashboardScreenUiTest {
           - The request has a accept/reject buttons
          */
         rideRepository.addRequest(testRequest)
-        waitForIdle()
-        onNodeWithContentDescription("Ride Requests")
-            .onChildren().onFirst().assertExists()
-        onNodeWithText("John")
-            .assertExists()
+
+        waitUntilExactlyOneExists(hasText("John"))
         onNodeWithText("Walmart")
             .assertExists()
         onNodeWithText("Walgreens")

@@ -24,7 +24,7 @@ sealed interface Ride {
     /**
      * The current status of the ride as it progresses through the system.
      */
-    val status: Status
+    val status: Status // TODO: remove; redundant
 
     /**
      * The time the ride was posted to the system by the rider.
@@ -108,6 +108,14 @@ sealed interface Ride {
          */
         data class Accepted(
             val timeToStart: Instant
+        ): Status, RouteProgress.Unrealized
+
+        /**
+         * The ride has been accepted by a driver for future completion.
+         * Possible transitions are [Active], [Ended]
+         */
+        data class AcceptedImmediate(
+            val timeAccepted: Instant
         ): Status, RouteProgress.Unrealized
 
         /**
@@ -242,7 +250,7 @@ data class PendingRide(
 ): Ride {
 
     override val status: Ride.Status
-        get() = Ride.Status.Immediate
+        get() = Ride.Status.AcceptedImmediate(timeAccepted)
 
     fun arrive(timeArrived: Instant): ActiveRide {
         return ActiveRide(
@@ -271,7 +279,7 @@ data class ActiveRide(
 ): Ride {
 
     override val status: Ride.Status
-        get() = Ride.Status.Active(TODO())
+        get() = Ride.Status.Active(plannedRoute)
 
     fun start(timeStarted: Instant): CompletingRide {
         return CompletingRide(
@@ -320,7 +328,7 @@ data class CompletingRide(
 ): Ride {
 
     override val status: Ride.Status
-        get() = Ride.Status.Active(TODO())
+        get() = Ride.Status.Active(plannedRoute)
 
     fun complete(timeEnded: Instant): CompletedRide {
         return CompletedRide(
@@ -349,5 +357,5 @@ data class CompletedRide(
     override val timeEnded: Instant,
 ): Ride {
     override val status: Ride.Status
-        get() = Ride.Status.Completed(TODO())
+        get() = Ride.Status.Completed(plannedRoute)
 }

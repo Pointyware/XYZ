@@ -29,6 +29,8 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.pointyware.xyz.core.entities.geo.Location
+import org.pointyware.xyz.core.ui.MessageInput
+import org.pointyware.xyz.feature.ride.entities.PaymentMethod
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
 
 data class TripSearchViewState(
@@ -49,7 +51,12 @@ fun TripSearchView(
     onSendQuery: ()->Unit,
     onSelectLocation: (Location)->Unit,
     onConfirmDetails: ()->Unit,
-    onCancelRequest: ()->Unit
+    onSelectPayment: () -> Unit,
+    onPaymentSelected: (PaymentMethod) -> Unit,
+    onCancelRequest: ()->Unit,
+    onCancelTrip: ()->Unit,
+    onRateDriver: () -> Unit,
+    onFinishTrip: ()->Unit,
 ) {
     val shape = when (state) {
         is PassengerDashboardUiState.Idle,
@@ -78,7 +85,9 @@ fun TripSearchView(
                         state = state,
                         onUpdateSearch = onUpdateSearch,
                         onSendQuery = onSendQuery,
-                        onSelectLocation = onSelectLocation
+                        onSelectLocation = onSelectLocation,
+                        onSelectPayment = onSelectPayment,
+                        onPaymentSelected = onPaymentSelected,
                     )
                 }
 
@@ -101,7 +110,18 @@ fun TripSearchView(
                 }
 
                 is PassengerDashboardUiState.Riding -> {
-                    ActiveRideView(state = state)
+                    ActiveRideView(
+                        state = state,
+                        onCancelTrip = onCancelRequest
+                    )
+                }
+
+                is PassengerDashboardUiState.Arrived -> {
+                    CompletedRideView(
+                        state = state,
+                        onRateDriver = onRateDriver,
+                        onFinishTrip = onFinishTrip
+                    )
                 }
             }
         }
@@ -122,39 +142,48 @@ fun ActiveSearchView(
     state: PassengerDashboardUiState.Search,
     onUpdateSearch: (String)->Unit,
     onSendQuery: ()->Unit,
-    onSelectLocation: (Location)->Unit
+    onSelectLocation: (Location)->Unit,
+    onSelectPayment: ()->Unit,
+    onPaymentSelected: (PaymentMethod)->Unit
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        TextField(
-            value = state.query,
-            onValueChange = onUpdateSearch,
-            label = { Text("Search") },
-            modifier = Modifier.weight(1f),
+    Column {
+        PaymentSelectionView(
+            state = state.paymentSelection,
+            onSelectPayment = onSelectPayment,
+            onPaymentSelected = onPaymentSelected
         )
-        Button(
-            onClick = {
-                onSendQuery()
-            },
-            enabled = state.query.isNotBlank()
+        Row(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Confirm")
-        }
-        var expanded by remember(state.suggestions) { mutableStateOf(state.suggestions.isNotEmpty()) }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.semantics { contentDescription = "Location Suggestions" },
-        ) {
-            state.suggestions.forEach { suggestion ->
-                DropdownMenuItem(
-                    text = { Text(suggestion.name) },
-                    onClick = {
-                        expanded = false
-                        onSelectLocation(suggestion)
-                    }
-                )
+            TextField(
+                value = state.query,
+                onValueChange = onUpdateSearch,
+                label = { Text("Search") },
+                modifier = Modifier.weight(1f),
+            )
+            Button(
+                onClick = {
+                    onSendQuery()
+                },
+                enabled = state.query.isNotBlank()
+            ) {
+                Text("Confirm")
+            }
+            var expanded by remember(state.suggestions) { mutableStateOf(state.suggestions.isNotEmpty()) }
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.semantics { contentDescription = "Location Suggestions" },
+            ) {
+                state.suggestions.forEach { suggestion ->
+                    DropdownMenuItem(
+                        text = { Text(suggestion.name) },
+                        onClick = {
+                            expanded = false
+                            onSelectLocation(suggestion)
+                        }
+                    )
+                }
             }
         }
     }
@@ -208,14 +237,59 @@ fun PostedRideView(
 fun AwaitingRideView(
     state: PassengerDashboardUiState.Waiting
 ) {
-    Text("Waiting for driver")
-    // TODO: rider details
+    Column(
+        modifier = Modifier.semantics {
+            contentDescription = "Driver Profile"
+        }
+    ) {
+        Text("Driver is on the way")
+        state.driver.accommodations.forEach {
+            Text(text = it.name)
+        }
+        MessageInput()
+    }
 }
 
 @Composable
 fun ActiveRideView(
-    state: PassengerDashboardUiState.Riding
+    state: PassengerDashboardUiState.Riding,
+    onCancelTrip: ()->Unit
 ) {
-    // Do nothing
-    // TODO: rider details
+    Column(
+        modifier = Modifier.semantics {
+            contentDescription = "Driver Profile"
+        }
+    ) {
+        Text(text = "You're on your way!")
+        Button(onClick = onCancelTrip) {
+            Text("Cancel Ride")
+        }
+        MessageInput()
+    }
+}
+
+@Composable
+fun CompletedRideView(
+    state: PassengerDashboardUiState.Arrived,
+    modifier: Modifier = Modifier,
+    onRateDriver: ()->Unit,
+    onFinishTrip: ()->Unit,
+) {
+    Column(
+        modifier = modifier
+    ) {
+        Text("You've arrived!")
+        Text("Thanks for riding with us!")
+
+        Button(
+            onClick = onRateDriver,
+        ) {
+            Text("Rate Driver")
+        }
+        Button(
+            onClick = onFinishTrip,
+        ) {
+            Text("Done")
+        }
+    }
 }

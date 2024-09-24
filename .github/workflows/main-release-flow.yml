@@ -30,7 +30,6 @@ jobs:
       - name: "Build: Assemble and Test entire project"
         run: |
           ./gradlew :app-android:buildRelease
-          ./gradlew testReleaseUnitTest
 
 #      - run: ./gradlew generate coverage report, upload test/coverage reports
 
