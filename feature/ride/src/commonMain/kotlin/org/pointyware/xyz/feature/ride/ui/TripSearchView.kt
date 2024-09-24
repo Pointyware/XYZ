@@ -248,10 +248,12 @@ fun ActiveRideView(
     state: PassengerDashboardUiState.Riding,
     onCancelTrip: ()->Unit
 ) {
-    Column {
-        Text("Riding with ${state.driver.name}")
-        Text("ETA: ${state.eta}")
-
+    Column(
+        modifier = Modifier.semantics {
+            contentDescription = "Driver Profile"
+        }
+    ) {
+        Text(text = "You're on your way!")
         Button(onClick = onCancelTrip) {
             Text("Cancel Ride")
         }
