@@ -276,7 +276,7 @@ fun CompletedRideView(
     Column(
         modifier = modifier
     ) {
-        Text("Arrived at destination")
+        Text("You've arrived!")
         Text("Thanks for riding with us!")
 
         Button(
