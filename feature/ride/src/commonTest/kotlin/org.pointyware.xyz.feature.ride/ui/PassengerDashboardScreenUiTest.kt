@@ -323,6 +323,7 @@ class PassengerDashboardScreenUiTest {
          */
         tripRepository.dropOffRider()
 
+        waitUntilExactlyOneExists(hasText("Rate Driver"), 500L)
         onNodeWithText("Rate Driver")
             .assertExists()
             .assertIsEnabled()
