@@ -225,6 +225,24 @@ class TripViewModel(
         }
     }
 
+    fun onCancelTrip() {
+        TODO("Not yet implemented")
+    }
+
+    fun onRateDriver() {
+        TODO("Not yet implemented")
+    }
+
+    fun onFinishTrip() {
+        mutableState.update {
+            if (it is PassengerDashboardUiState.Arrived) {
+                PassengerDashboardUiState.Idle
+            } else {
+                it
+            }
+        }
+    }
+
     override fun dispose() {
         super.dispose()
         driverAcceptanceJob?.cancel()

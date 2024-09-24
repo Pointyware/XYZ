@@ -40,6 +40,9 @@ fun PassengerDashboardView(
     onPaymentSelected: (PaymentMethod)->Unit,
     onConfirmDetails: ()->Unit,
     onCancel: ()->Unit,
+    onCancelTrip: ()->Unit,
+    onFinishTrip: ()->Unit,
+    onRateDriver: ()->Unit,
     onBack: ()->Unit,
     clearError: ()->Unit
 ) {
@@ -70,9 +73,12 @@ fun PassengerDashboardView(
             onSendQuery = onSendQuery,
             onSelectLocation = onSelectLocation,
             onConfirmDetails = onConfirmDetails,
-            onCancelRequest = onCancel,
             onSelectPayment = onSelectPayment,
-            onPaymentSelected = onPaymentSelected
+            onPaymentSelected = onPaymentSelected,
+            onCancelRequest = onCancel,
+            onCancelTrip = onCancelTrip,
+            onFinishTrip = onFinishTrip,
+            onRateDriver = onRateDriver,
         )
     }
 }

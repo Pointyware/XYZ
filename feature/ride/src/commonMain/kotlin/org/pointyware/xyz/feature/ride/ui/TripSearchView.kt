@@ -51,9 +51,12 @@ fun TripSearchView(
     onSendQuery: ()->Unit,
     onSelectLocation: (Location)->Unit,
     onConfirmDetails: ()->Unit,
-    onCancelRequest: ()->Unit,
     onSelectPayment: () -> Unit,
-    onPaymentSelected: (PaymentMethod) -> Unit
+    onPaymentSelected: (PaymentMethod) -> Unit,
+    onCancelRequest: ()->Unit,
+    onCancelTrip: ()->Unit,
+    onRateDriver: () -> Unit,
+    onFinishTrip: ()->Unit,
 ) {
     val shape = when (state) {
         is PassengerDashboardUiState.Idle,
@@ -114,7 +117,10 @@ fun TripSearchView(
                 }
 
                 is PassengerDashboardUiState.Arrived -> {
-                    CompletedRideView(state = state)
+                    CompletedRideView(
+                        state = state,
+                        onRateDriver = onRateDriver
+                    )
                 }
             }
         }
@@ -265,9 +271,18 @@ fun ActiveRideView(
 fun CompletedRideView(
     state: PassengerDashboardUiState.Arrived,
     modifier: Modifier = Modifier,
+    onRateDriver: ()->Unit
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         Text("Arrived at destination")
         Text("Thanks for riding with us!")
+
+        Button(
+            onClick = onRateDriver,
+        ) {
+            Text("Rate Driver")
+        }
     }
 }
