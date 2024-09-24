@@ -220,7 +220,9 @@ class TestTripRepository(
             when (it) {
                 is PendingRide -> {
                     it.arrive(Clock.System.now()).also {
-                        mutableTripEvents.tryEmit(TripEvent.PickedUp(it.driver, it))
+                        dataScope.launch {
+                            mutableTripEvents.emit(TripEvent.PickedUp(it.driver, it))
+                        }
                     }
                 }
                 else -> it
@@ -233,7 +235,9 @@ class TestTripRepository(
             when (it) {
                 is ActiveRide -> {
                     it.complete(Clock.System.now()).also {
-                        mutableTripEvents.tryEmit(TripEvent.DroppedOff(it.driver, it))
+                        dataScope.launch {
+                            mutableTripEvents.emit(TripEvent.DroppedOff(it.driver, it))
+                        }
                     }
                 }
                 else -> it
