@@ -219,7 +219,6 @@ fun PostedRideView(
     onCancelRequest: ()->Unit
 ) {
     Column {
-        // TODO: display route/rate details
         Text("Hailing a driver")
         Button(onClick = onCancelRequest) {
             Text("Cancel Request")
@@ -265,5 +264,8 @@ fun CompletedRideView(
     state: PassengerDashboardUiState.Arrived,
     modifier: Modifier = Modifier,
 ) {
-
+    Column {
+        Text("Arrived at destination")
+        Text("Thanks for riding with us!")
+    }
 }
