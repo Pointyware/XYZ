@@ -14,7 +14,7 @@ kotlinx-coroutines = "1.9.0"
 kotlinx-datetime = "0.6.0"
 kotlinx-io = "0.5.4"
 kotlinx-serialization = "1.8.1"
-kover = "1.9.1"
+kover = "0.9.1"
 ksp = "2.1.10-1.0.29"
 ktor = "2.3.12"
 material3 = "1.3.2"
@@ -71,10 +71,10 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
-androidApplication  = { id = "com.android.application", version.ref = "agp" }
-androidLibrary      = { id = "com.android.library", version.ref = "agp" }
+android-application  = { id = "com.android.application", version.ref = "agp" }
+android-library      = { id = "com.android.library", version.ref = "agp" }
 artifactRegistry    = { id = "com.google.cloud.artifactregistry.gradle-plugin", version.ref = "artifactRegistry" }
-composeMultiplatform    = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose-multiplatform    = { id = "org.jetbrains.compose", version.ref = "compose" }
 compose-compiler    = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 dokka               = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kotlinAndroid       = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

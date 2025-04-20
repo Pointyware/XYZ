@@ -4,7 +4,7 @@
 
 plugins {
     alias(libs.plugins.kotlinJvm)
-    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
 }
 
