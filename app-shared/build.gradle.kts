@@ -102,7 +102,7 @@ android {
     namespace = "org.pointyware.xyz.shared"
     compileSdk = 35
     defaultConfig {
-        minSdk = 21
+        minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }

@@ -89,6 +89,6 @@ android {
     namespace = "org.pointyware.xyz.core.navigation"
     compileSdk = 34
     defaultConfig {
-        minSdk = 21
+        minSdk = 24
     }
 }

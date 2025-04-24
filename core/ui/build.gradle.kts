@@ -116,6 +116,6 @@ android {
     namespace = "org.pointyware.xyz.core.ui"
     compileSdk = 34
     defaultConfig {
-        minSdk = 21
+        minSdk = 24
     }
 }
