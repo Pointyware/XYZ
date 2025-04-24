@@ -6,6 +6,8 @@ artifactRegistry = "2.2.0"
 coil = "3.0.0-alpha08"
 compose = "1.6.11"
 dokka = "1.9.20"
+gms-maps = "19.2.0"
+gms-maps-secrets = "2.0.1"
 jupiter = "5.10.2"
 koin = "3.5.6"
 koin-bom = "3.5.3"
@@ -24,9 +26,13 @@ playServicesAds = "24.2.0"
 truth = "1.1.3"
 turbine = "1.1.0"
 xyz = "0.1.0"
+appcompat = "1.7.0"
+constraintlayout = "2.1.4"
 
 [libraries]
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-composeTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
 androidx-composePreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose-ui" }
 androidx-composeTest = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "androidx-compose-ui" }
@@ -35,6 +41,7 @@ androidx-composeManifest = { module = "androidx.compose.ui:ui-test-manifest", ve
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt.coil3:coil-core", version.ref = "coil" }
 coil-networkKtor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil" }
+google-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "gms-maps" }
 jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jupiter" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
@@ -77,6 +84,7 @@ artifactRegistry    = { id = "com.google.cloud.artifactregistry.gradle-plugin", 
 compose-multiplatform    = { id = "org.jetbrains.compose", version.ref = "compose" }
 compose-compiler    = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 dokka               = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+gms-maps = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "gms-maps-secrets" }
 kotlinAndroid       = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinJvm           = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

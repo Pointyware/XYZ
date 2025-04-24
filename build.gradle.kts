@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.android.library).apply(false)
     alias(libs.plugins.compose.multiplatform).apply(false)
     alias(libs.plugins.compose.compiler).apply(false)
+    alias(libs.plugins.gms.maps).apply(false)
     alias(libs.plugins.kotlinAndroid).apply(false)
     alias(libs.plugins.kotlinMultiplatform).apply(false)
     alias(libs.plugins.kotlinJvm).apply(false)

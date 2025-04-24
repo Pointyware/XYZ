@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.gms.maps)
 }
 
 android {
@@ -36,6 +37,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -50,6 +55,9 @@ dependencies {
 
     implementation(libs.androidx.activityCompose)
     implementation(libs.androidx.composeMaterial3)
+    implementation(libs.google.maps)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
     debugImplementation(libs.androidx.composeTooling)
     implementation(libs.androidx.composePreview)
 
@@ -66,4 +74,11 @@ compose.resources {
     publicResClass = true
     packageOfResClass = "org.pointyware.xyz.android"
     generateResClass = always
+}
+
+secrets {
+    // Exclude from VC
+    propertiesFileName = "secrets.properties"
+    // This can be included and can be helpful for setting up a local dev environment
+    defaultPropertiesFileName = "local.defaults.properties"
 }
