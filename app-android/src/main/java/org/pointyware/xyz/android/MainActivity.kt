@@ -7,6 +7,7 @@ package org.pointyware.xyz.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.shared.XyzApp
