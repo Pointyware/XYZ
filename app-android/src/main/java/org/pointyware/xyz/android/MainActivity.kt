@@ -15,6 +15,7 @@ import org.pointyware.xyz.shared.di.AppDependencies
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         val koin = getKoin()
         val appDependencies = koin.get<AppDependencies>()
