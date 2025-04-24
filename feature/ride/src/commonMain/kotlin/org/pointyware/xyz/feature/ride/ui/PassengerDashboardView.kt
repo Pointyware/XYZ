@@ -55,7 +55,7 @@ fun PassengerDashboardView(
         )
 
         AdView(
-            state = AdViewState(unit = "ca-app-pub-7815756395963999/4805080719"),
+            state = AdViewState(unit = "ca-app-pub-4288081764974879/8417585021"),
             modifier = Modifier.align(Alignment.TopCenter)
         )
 
