@@ -152,6 +152,6 @@ android {
     namespace = "org.pointyware.xyz.feature.login"
     compileSdk = 34
     defaultConfig {
-        minSdk = 21
+        minSdk = 24
     }
 }

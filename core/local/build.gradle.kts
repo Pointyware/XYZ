@@ -103,6 +103,6 @@ android {
     namespace = "org.pointyware.xyz.core.local"
     compileSdk = 34
     defaultConfig {
-        minSdk = 21
+        minSdk = 24
     }
 }

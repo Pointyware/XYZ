@@ -149,6 +149,6 @@ android {
     namespace = "org.pointyware.xyz.feature.drive"
     compileSdk = 34
     defaultConfig {
-        minSdk = 21
+        minSdk = 24
     }
 }

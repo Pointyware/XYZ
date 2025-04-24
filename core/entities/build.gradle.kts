@@ -87,6 +87,6 @@ android {
     namespace = "org.pointyware.xyz.core.entities"
     compileSdk = 34
     defaultConfig {
-        minSdk = 21
+        minSdk = 24
     }
 }
