@@ -13,8 +13,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.xyz.koin)
-    alias(libs.plugins.xyz.kmp)
+//    alias(libs.plugins.xyz.koin)
+//    alias(libs.plugins.xyz.kmp)
 }
 
 kotlin {
@@ -106,9 +106,9 @@ android {
         targetSdk = 34
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+}
 
-    dependencies {
-        androidTestImplementation(libs.androidx.composeTest)
-        debugImplementation(libs.androidx.composeManifest)
-    }
+dependencies {
+    androidTestImplementation(libs.androidx.composeTest)
+    debugImplementation(libs.androidx.composeManifest)
 }
