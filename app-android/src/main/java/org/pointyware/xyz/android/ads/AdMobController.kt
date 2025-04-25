@@ -12,6 +12,7 @@ class AdMobController(
     private val context: Context
 ): AdsController {
     override suspend fun onAppStart() {
+        // TODO: when moving to EU, do not initialize ads until after consent
         MobileAds.initialize(context)
     }
 }
