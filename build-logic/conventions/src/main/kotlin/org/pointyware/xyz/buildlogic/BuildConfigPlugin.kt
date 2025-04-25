@@ -40,6 +40,8 @@ class BuildConfigPlugin: Plugin<Project> {
 
         target.tasks.withType<KotlinCompile>(KotlinCompile::class.java) {
             dependsOn("generateBuildConfig")
+
+            source(buildConfigFile)
         }
     }
 }
