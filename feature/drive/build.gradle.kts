@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.xyz.buildConfig)
 }
 
 kotlin {

@@ -94,3 +94,4 @@ ktor                = { id = "io.ktor.plugin", version.ref = "ktor" }
 
 xyz-koin = { id = "org.pointyware.xyz.koin-dependency-injection-convention" }
 xyz-kmp = { id = "org.pointyware.xyz.kmp-convention" }
+xyz-buildConfig = { id = "org.pointyware.xyz.build-config" }
