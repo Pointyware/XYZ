@@ -15,20 +15,23 @@ import java.io.File
 class BuildConfigPlugin: Plugin<Project> {
 
     override fun apply(target: Project) {
+        val buildConfigFile = File(
+            target.layout.buildDirectory.asFile.get(),
+            "generated/source/buildconfig/${target.name}/BuildConfig.kt"
+        )
+        val packageName = "${target.group}.${target.name}"
+        val group = target.group
+        val version = target.version
         target.tasks.register("generateBuildConfig") {
             doLast {
-                val buildConfigFile = File(
-                    target.layout.buildDirectory.asFile.get(),
-                    "generated/source/buildconfig/${target.name}/BuildConfig.kt"
-                )
                 buildConfigFile.parentFile.mkdirs()
                 buildConfigFile.writeText(
                     """
-                    package ${target.group}.${target.name}
+                    package $packageName
 
                     object BuildConfig {
-                        const val GROUP = "${target.group}"
-                        const val VERSION_STRING = "${target.version}"
+                        const val GROUP = "$group"
+                        const val VERSION_STRING = "$version"
                     }
                     """.trimIndent()
                 )
