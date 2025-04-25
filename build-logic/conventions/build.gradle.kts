@@ -19,14 +19,19 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("koin-dependency-injection-convention") {
+        register("koin-dependency-injection-convention") {
             id = "org.pointyware.xyz.koin-dependency-injection-convention"
             implementationClass = "org.pointyware.xyz.buildlogic.KoinDependencyInjectionConventionPlugin"
         }
 
-        create("kmp-convention") {
+        register("kmp-convention") {
             id = "org.pointyware.xyz.kmp-convention"
             implementationClass = "org.pointyware.xyz.buildlogic.KmpTargetsConventionPlugin"
+        }
+
+        register("build-config") {
+            id = "org.pointyware.xyz.build-config"
+            implementationClass = "org.pointyware.xyz.buildlogic.BuildConfigPlugin"
         }
     }
 }

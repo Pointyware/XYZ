@@ -22,6 +22,7 @@ plugins {
 
     alias(libs.plugins.xyz.koin).apply(false)
     alias(libs.plugins.xyz.kmp).apply(false)
+    alias(libs.plugins.xyz.buildConfig).apply(false)
     alias(libs.plugins.artifactRegistry).apply(false)
 }
 
