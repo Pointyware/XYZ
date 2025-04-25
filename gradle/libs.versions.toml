@@ -92,5 +92,5 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 ksp                 = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktor                = { id = "io.ktor.plugin", version.ref = "ktor" }
 
-xyz-koin = { id = "org.pointyware.xyz.koin-dependency-injection-convention", version = "0.1.0" }
-xyz-kmp = { id = "org.pointyware.xyz.kmp-convention", version = "0.1.0" }
+xyz-koin = { id = "org.pointyware.xyz.koin-dependency-injection-convention" }
+xyz-kmp = { id = "org.pointyware.xyz.kmp-convention" }
