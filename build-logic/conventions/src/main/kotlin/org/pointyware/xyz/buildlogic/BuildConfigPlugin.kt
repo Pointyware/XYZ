@@ -6,6 +6,8 @@ package org.pointyware.xyz.buildlogic
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.File
 
@@ -42,6 +44,11 @@ class BuildConfigPlugin: Plugin<Project> {
             dependsOn("generateBuildConfig")
 
             source(buildConfigFile)
+        }
+        target.extensions.configure(KotlinMultiplatformExtension::class.java) {
+            sourceSets.named("commonMain") {
+                kotlin.srcDirs(buildConfigFile.parentFile)
+            }
         }
     }
 }
