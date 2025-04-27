@@ -10,7 +10,7 @@ plugins {
 group = "org.pointyware.xyz.buildlogic"
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 dependencies {
