@@ -21,7 +21,7 @@ description = "XYZ API"
 version = libs.versions.xyz.get()
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
     dependencies {
         implementation(projects.core.entities)
 
