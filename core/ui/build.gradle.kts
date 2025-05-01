@@ -119,3 +119,8 @@ android {
         minSdk = 24
     }
 }
+
+dependencies {
+    debugImplementation(libs.androidx.composePreview)
+    implementation(libs.androidx.composeTooling)
+}
