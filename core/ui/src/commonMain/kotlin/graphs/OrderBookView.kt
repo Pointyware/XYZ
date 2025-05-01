@@ -37,7 +37,6 @@ fun DrawScope.drawRideHailBook(
     val width = size.width
     val height = size.height
     val centerX = width / 2f
-    val centerY = height / 2f
 
     // draw the center vertical axis
     drawLine(
