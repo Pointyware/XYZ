@@ -5,6 +5,7 @@
 package org.pointyware.xyz.android
 
 import android.app.Application
+import com.stripe.android.PaymentConfiguration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -30,5 +31,10 @@ class XyzApplication: Application() {
         startupScope.launch {
             adsController.onAppStart()
         }
+
+        PaymentConfiguration.init(
+            applicationContext,
+            BuildConfig.STRIPE_API_KEY
+        )
     }
 }
