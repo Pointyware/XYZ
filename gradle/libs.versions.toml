@@ -77,7 +77,7 @@ mockativeSymbolProcessor = { module = "io.mockative:mockative-processor", versio
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
 stripe-android = { module = "com.stripe:stripe-android", version.ref = "stripe-client" }
-stripe-connections = { module = "com.stripe:stripe-connections", version.ref = "stripe-client" }
+stripe-connections = { module = "com.stripe:financial-connections", version.ref = "stripe-client" }
 stripe-server = { module = "com.stripe:stripe-java", version.ref = "stripe-server" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
