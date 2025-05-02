@@ -30,6 +30,8 @@ kotlin {
         implementation(libs.ktor.server.core)
         implementation(libs.ktor.server.netty)
 
+        implementation(libs.stripe.server)
+
         implementation(libs.kotlinx.coroutines)
 
         testImplementation(libs.kotlin.test)
