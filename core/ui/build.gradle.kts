@@ -5,6 +5,7 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -117,9 +118,34 @@ compose.resources {
 
 android {
     namespace = "org.pointyware.xyz.core.ui"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 24
+    }
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        targetSdk = 35
+    }
+    buildFeatures {
+        buildConfig = true
+        compose = true
+    }
+    buildTypes {
+        val defaults = rootProject.file("local.defaults.properties")
+        val secrets = rootProject.file("secrets.properties")
+        val properties = Properties()
+        defaults.inputStream().use {
+            properties.load(it)
+        }
+        secrets.inputStream().use {
+            properties.load(it)
+        }
+        debug {
+            buildConfigField("String", "STRIPE_API_KEY", "\"${properties["STRIPE_API_KEY_TEST"]}\"")
+        }
+        release {
+            buildConfigField("String", "STRIPE_API_KEY", "\"${properties["STRIPE_API_KEY_LIVE"]}\"")
+        }
     }
 }
 
