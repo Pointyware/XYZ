@@ -53,9 +53,12 @@ dependencies {
     implementation(projects.feature.ride)
     implementation(projects.appShared)
 
+    implementation(libs.google.maps)
+    implementation(libs.stripe.android)
+    implementation(libs.stripe.connections)
+
     implementation(libs.androidx.activityCompose)
     implementation(libs.androidx.composeMaterial3)
-    implementation(libs.google.maps)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     debugImplementation(libs.androidx.composeTooling)
