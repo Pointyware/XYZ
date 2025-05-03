@@ -8,9 +8,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.fragment.compose.AndroidFragment
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.xyz.shared.XyzApp
 import org.pointyware.xyz.shared.di.AppDependencies
 
 class MainActivity : ComponentActivity() {
@@ -22,10 +25,21 @@ class MainActivity : ComponentActivity() {
         val appDependencies = koin.get<AppDependencies>()
 
         setContent {
-            XyzApp(
-                dependencies = appDependencies,
-                isDarkTheme = isSystemInDarkTheme()
-            )
+//            XyzApp(
+//                dependencies = appDependencies,
+//                isDarkTheme = isSystemInDarkTheme()
+//            )
+
+            AndroidFragment<SupportMapFragment> { mapFragment ->
+                mapFragment.getMapAsync { googleMap ->
+                    val mMap = googleMap
+
+                    // Add a marker in Sydney and move the camera
+                    val sydney = LatLng(-34.0, 151.0)
+                    mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+                }
+            }
         }
     }
 }
