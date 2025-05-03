@@ -23,6 +23,7 @@ version = libs.versions.xyz.get()
 kotlin {
     jvmToolchain(21)
     dependencies {
+        implementation(projects.core.data)
         implementation(projects.core.entities)
 
         implementation(libs.koin.ktor)
