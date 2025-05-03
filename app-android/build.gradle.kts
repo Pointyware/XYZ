@@ -86,6 +86,15 @@ compose.resources {
     generateResClass = always
 }
 
+/*
+ All properties will be read from both files, with propertiesFileName overwriting
+   properties from defaultPropertiesFileName if they are present in both, and then
+   added to the BuildConfig class.
+ This method therefore does not support debug/release specific properties. Including a release
+   key in the debug build could be a security issue, so if some API does not have a test mode
+   you should use a different key for the debug build, which will require a different
+   approach to prevent debug/release keys from being included in the same build.
+ */
 secrets {
     // Exclude from VC
     propertiesFileName = "secrets.properties"
