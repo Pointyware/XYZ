@@ -142,9 +142,11 @@ android {
         }
         debug {
             buildConfigField("String", "STRIPE_API_KEY", "\"${properties["STRIPE_API_KEY_TEST"]}\"")
+            buildConfigField("String", "STRIPE_BACKEND_URL", "\"${properties["STRIPE_STAGING_URL"]}\"")
         }
         release {
             buildConfigField("String", "STRIPE_API_KEY", "\"${properties["STRIPE_API_KEY_LIVE"]}\"")
+            buildConfigField("String", "STRIPE_BACKEND_URL", "\"${properties["STRIPE_PRODUCTION_URL"]}\"")
         }
     }
 }
