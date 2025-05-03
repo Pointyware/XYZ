@@ -99,9 +99,6 @@ kotlin {
             dependencies {
                 implementation(libs.androidx.composePreview)
                 implementation(libs.play.services.ads)
-
-                implementation(libs.stripe.android)
-                implementation(libs.stripe.connections)
             }
         }
         val androidUnitTest by getting {

@@ -69,6 +69,9 @@ kotlin {
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.koin.core)
+
+                implementation(libs.stripe.android)
+                implementation(libs.stripe.connections)
             }
         }
         val commonTest by getting {
