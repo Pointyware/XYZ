@@ -5,9 +5,9 @@
 package org.pointyware.xyz.android
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.compose.AndroidFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.shared.di.AppDependencies
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
