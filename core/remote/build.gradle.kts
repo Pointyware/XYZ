@@ -101,7 +101,7 @@ kotlin {
 
 android {
     namespace = "org.pointyware.xyz.core.remote"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 24
     }

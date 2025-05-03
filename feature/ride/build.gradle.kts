@@ -146,7 +146,7 @@ dependencies {
 
 android {
     namespace = "org.pointyware.xyz.feature.ride"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 24
     }
