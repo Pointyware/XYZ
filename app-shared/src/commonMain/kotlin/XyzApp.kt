@@ -27,6 +27,7 @@ import org.pointyware.xyz.feature.login.navigation.roleSelectionRoute
 import org.pointyware.xyz.feature.login.navigation.userProfileRoute
 import org.pointyware.xyz.feature.ride.navigation.rideRouting
 import org.pointyware.xyz.shared.di.AppDependencies
+import org.pointyware.xyz.shared.navigation.payments
 
 /**
  * The main entry point for the XYZ app.
@@ -95,6 +96,8 @@ fun XyzApp(
 
                 driveRouting(dependencies.getDriveDependencies(), dependencies.getNavigationDependencies())
                 rideRouting(dependencies.getRideDependencies(), dependencies.getNavigationDependencies())
+
+                payments()
             }
         }
     }
