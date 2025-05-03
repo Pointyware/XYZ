@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.Properties
+
 /*
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
@@ -20,6 +23,7 @@ tasks.named<Tar>("distTar") {
 description = "XYZ API"
 version = libs.versions.xyz.get()
 
+val buildConfigOutputFile = project.layout.buildDirectory.file("generated/source/buildConfig/org/pointyware/xyz/api/BuildConfig.kt")
 kotlin {
     jvmToolchain(21)
     dependencies {
@@ -38,6 +42,12 @@ kotlin {
         testImplementation(libs.kotlin.test)
         testImplementation(libs.kotlinx.coroutinesTest)
         testImplementation(libs.ktor.server.test.host)
+    }
+
+    sourceSets {
+        main {
+            kotlin.srcDirs(buildConfigOutputFile)
+        }
     }
 }
 
@@ -66,3 +76,29 @@ ktor {
 //        }
 //    }
 //}
+
+
+tasks.register("generateBuildConfig") {
+    val defaults = project.file("local.defaults.properties")
+    val secrets = project.file("secrets.properties")
+    val properties = Properties()
+    defaults.inputStream().use {
+        properties.load(it)
+    }
+    secrets.inputStream().use {
+        properties.load(it)
+    }
+    val propertiesString = properties.map { (key, value) ->
+        "    const val $key = \"$value\""
+    }.joinToString("\n")
+    val buildConfigString = """
+    package org.pointyware.xyz.api
+    object BuildConfig {
+    $propertiesString
+    }
+    """.trimIndent()
+}
+
+tasks.withType(KotlinCompile::class) {
+    dependsOn("generateBuildConfig")
+}
