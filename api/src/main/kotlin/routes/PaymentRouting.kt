@@ -9,7 +9,7 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.post
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.controllers.PaymentsController
-import org.pointyware.xyz.core.data.CustomerInfo
+import org.pointyware.xyz.core.data.dtos.CustomerInfo
 import org.pointyware.xyz.core.entities.ride.Ride
 
 fun Routing.payment() {

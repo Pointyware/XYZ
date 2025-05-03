@@ -1,4 +1,4 @@
-package org.pointyware.xyz.core.data
+package org.pointyware.xyz.core.data.dtos
 
 import kotlinx.serialization.Serializable
 
