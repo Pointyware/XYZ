@@ -9,24 +9,19 @@ import io.ktor.server.response.respondNullable
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.controllers.PaymentsController
 
 /**
  *
  */
-fun Routing.ride(
-    paymentsController: PaymentsController
-) {
+fun Routing.ride() {
     get("/ride") {
         call.respondNullable<String?>("Hi rider!")
     }
 
-    // Implemented per: https://docs.stripe.com/connect/direct-charges?platform=android#add-server-endpoint
     post("/ride/{id}/payment") {
         val id = call.parameters["id"]
-
-        paymentsController.getCustomer()
-
 
         call.respondNullable<String?>("Hi rider! $id")
     }
