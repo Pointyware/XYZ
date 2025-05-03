@@ -26,9 +26,15 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        debug {
+        }
+        release {
             isMinifyEnabled = false
         }
+    }
+    buildFeatures {
+        compose = true
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
