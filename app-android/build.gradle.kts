@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.composeMaterial3)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.fragmentCompose)
     debugImplementation(libs.androidx.composeTooling)
     implementation(libs.androidx.composePreview)
 
