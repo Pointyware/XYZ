@@ -16,10 +16,6 @@ plugins {
 
 kotlin {
     jvmToolchain(21)
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    compilerOptions {
-        apiVersion = KotlinVersion.KOTLIN_2_0
-    }
     jvm {
 
     }
@@ -128,8 +124,8 @@ android {
         compose = true
     }
     buildTypes {
-        val defaults = rootProject.file("local.defaults.properties")
-        val secrets = rootProject.file("secrets.properties")
+        val defaults = rootProject.file("stripe-secrets.defaults.properties")
+        val secrets = rootProject.file("stripe-secrets.properties")
         val properties = Properties()
         defaults.inputStream().use {
             properties.load(it)
