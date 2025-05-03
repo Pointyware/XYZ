@@ -14,6 +14,7 @@ import org.pointyware.xyz.api.controllers.PaymentsController
 import org.pointyware.xyz.api.controllers.StripePaymentsController
 import org.pointyware.xyz.api.routes.auth
 import org.pointyware.xyz.api.routes.drive
+import org.pointyware.xyz.api.routes.payment
 import org.pointyware.xyz.api.routes.profile
 import org.pointyware.xyz.api.routes.ride
 
@@ -40,6 +41,8 @@ fun main() {
 
             ride()
             drive()
+
+            payment()
         }
     }.start(wait = true)
 }
