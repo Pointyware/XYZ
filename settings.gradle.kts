@@ -22,6 +22,9 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "XYZ"
+include(
+    ":core-data-dtos"
+)
 include(":core:common")
 include(":core:data")
 include(":core:entities")
