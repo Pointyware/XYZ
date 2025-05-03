@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import org.pointyware.xyz.buildlogic.configureBuildConfigPlugin
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -18,10 +19,6 @@ plugins {
 
 kotlin {
     jvmToolchain(21)
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    compilerOptions {
-        apiVersion = KotlinVersion.KOTLIN_2_0
-    }
     jvm {
     }
     androidTarget {
@@ -153,3 +150,7 @@ android {
         minSdk = 24
     }
 }
+
+//configureBuildConfigPlugin {
+//    // don't configure anything and see how it goes
+//}
