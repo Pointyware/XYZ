@@ -9,6 +9,7 @@ captures
 .cxx
 local.properties
 secrets.properties
+stripe-secrets.properties
 xcuserdata
 
 ## Release Information
