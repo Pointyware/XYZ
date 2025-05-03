@@ -5,9 +5,10 @@ This module contains the API for all client applications, or the dynamic content
 
 ## Building
 
-### Cloud Build/Run
-`project.toml` defines the Docker image for the API, using Google's utility (can't remember the name ATM)
-
+### Deploying
+Build the Docker Image
+Upload to Artifact Registry
+Deploy to Cloud Run
 
 ## Payments Testing
 According to [Stripe docs](https://docs.stripe.com/payments/accept-a-payment-deferred?platform=web&type=payment#web-collect-payment-details), 
