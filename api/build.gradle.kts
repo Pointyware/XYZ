@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.Properties
-
 /*
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
@@ -11,6 +8,7 @@ plugins {
     alias(libs.plugins.ktor)
     `maven-publish`
 //    alias(libs.plugins.artifactRegistry)
+    alias(libs.plugins.xyz.buildConfig)
 }
 
 tasks.named<Zip>("distZip") {
