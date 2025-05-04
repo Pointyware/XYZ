@@ -10,7 +10,7 @@ import org.pointyware.painteddogs.android.di.AndroidLoadingViewResources
 import org.pointyware.painteddogs.android.di.AndroidResources
 import org.pointyware.xyz.android.local.AndroidLocationService
 import org.pointyware.xyz.core.local.org.pointyware.xyz.core.local.LocationService
-import org.pointyware.xyz.core.ui.ads.AdsController
+import org.pointyware.xyz.ui.ads.AdsController
 import org.pointyware.xyz.core.ui.components.LoadingViewResources
 import org.pointyware.xyz.core.ui.design.Resources
 import org.pointyware.xyz.shared.entities.SharedStringResources

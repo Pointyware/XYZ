@@ -6,7 +6,7 @@ package org.pointyware.xyz.android.ads
 
 import android.content.Context
 import com.google.android.gms.ads.MobileAds
-import org.pointyware.xyz.core.ui.ads.AdsController
+import org.pointyware.xyz.ui.ads.AdsController
 
 class AdMobController(
     private val context: Context

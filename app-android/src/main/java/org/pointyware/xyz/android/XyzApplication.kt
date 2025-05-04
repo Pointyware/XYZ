@@ -14,7 +14,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.getKoin
 import org.pointyware.xyz.android.di.androidModule
 import org.pointyware.xyz.core.ui.BuildConfig
-import org.pointyware.xyz.core.ui.ads.AdsController
+import org.pointyware.xyz.ui.ads.AdsController
 import org.pointyware.xyz.shared.di.setupKoin
 
 /**
