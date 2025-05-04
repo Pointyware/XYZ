@@ -1,7 +1,5 @@
 package org.pointyware.xyz.api.routes
 
-import com.stripe.model.PaymentIntent
-import com.stripe.param.PaymentIntentCreateParams
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respondNullable
@@ -10,44 +8,25 @@ import io.ktor.server.routing.post
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.controllers.PaymentsController
 import org.pointyware.xyz.core.data.dtos.CustomerInfo
-import org.pointyware.xyz.core.entities.ride.Ride
 
 fun Routing.payment() {
-
+    val koin = getKoin()
     // Implemented per: https://docs.stripe.com/connect/direct-charges?platform=android#add-server-endpoint
     post("/payment-intent") {
-
-        val koin = getKoin()
-        val rideRepository = koin.get<RideRepository>()
-        val paymentsController = koin.get<PaymentsController>()
-
+        // Collect Call Information
         val customerInfo = call.receive<CustomerInfo>()
 
-        val ride = rideRepository.getRideById(customerInfo.id)
-            .onSuccess {
+        // Create the Payment Intent for the Completed Ride
+        val paymentsController = koin.get<PaymentsController>()
 
-            }
-            .onFailure {
-
-            }
-
-        val paymentIntentCreateParams = PaymentIntentCreateParams.builder()
-            .setCustomer(customerInfo.id) // customer ID
-            .setAmount(1099L) // amount in cents
-            .setCurrency("usd") // currency
-            .build()
-
-        val intent = PaymentIntent.create(paymentIntentCreateParams)
+        val clientSecret = paymentsController.createPaymentIntent(customerInfo.id)
 
         val map = mapOf(
-            "client_secret" to intent.clientSecret,
+            "client_secret" to clientSecret,
         )
         call.respondNullable(map)
     }
 }
 
 class RideRepository {
-    fun getRideById(id: String): Result<Ride> {
-        TODO("Not yet implemented")
-    }
 }
