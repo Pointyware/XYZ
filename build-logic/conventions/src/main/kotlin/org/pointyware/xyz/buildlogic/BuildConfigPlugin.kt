@@ -100,7 +100,7 @@ $propertiesString
 /**
  * Must be called in the build script where the plugin is applied.
  */
-fun Project.configureBuildConfigPlugin(
+fun Project.buildConfig(
     action: Action<BuildConfigPluginExtension>
 ) {
     extensions.configure(BuildConfigPluginExtension::class.java, action)
