@@ -1,4 +1,4 @@
-package org.pointyware.xyz.core.ui.maps
+package org.pointyware.xyz.ui.maps
 
 import androidx.compose.runtime.Composable
 
