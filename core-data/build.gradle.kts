@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "core_entities"
+            baseName = "core_data"
             isStatic = true
             framework.add(this)
         }
@@ -41,18 +41,23 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.common)
+                implementation(projects.coreCommon)
+                implementation(projects.coreEntities)
+                implementation(projects.coreLocal)
+                implementation(projects.coreRemote)
 
-                implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.coroutines)
-
+                implementation(libs.kotlinx.io.core)
+                implementation(libs.kotlinx.io.bytestring)
                 implementation(libs.koin.core)
-                implementation(libs.kotlinx.serialization)
+
+                api(libs.kotlinx.serialization)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
+                implementation(libs.koin.test)
             }
         }
 
@@ -84,7 +89,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.pointyware.xyz.core.entities"
+    namespace = "org.pointyware.xyz.data"
     compileSdk = 35
     defaultConfig {
         minSdk = 24

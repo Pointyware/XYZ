@@ -14,19 +14,19 @@ java {
 }
 
 dependencies {
-    implementation(projects.core.common)
-    implementation(projects.core.data)
-    implementation(projects.core.entities)
-    implementation(projects.core.interactors)
-    implementation(projects.core.local)
-    implementation(projects.core.navigation)
-    implementation(projects.core.remote)
-    implementation(projects.core.ui)
-    implementation(projects.core.viewModels)
+    implementation(projects.coreCommon)
+    implementation(projects.coreData)
+    implementation(projects.coreEntities)
+    implementation(projects.coreInteractors)
+    implementation(projects.coreLocal)
+    implementation(projects.coreNavigation)
+    implementation(projects.coreRemote)
+    implementation(projects.coreUi)
+    implementation(projects.coreViewModels)
 
-    implementation(projects.feature.drive)
-    implementation(projects.feature.login)
-    implementation(projects.feature.ride)
+    implementation(projects.featureDrive)
+    implementation(projects.featureLogin)
+    implementation(projects.featureRide)
 
     implementation(projects.appShared)
 

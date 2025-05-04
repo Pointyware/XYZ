@@ -40,9 +40,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.common)
-                implementation(projects.core.entities)
-                implementation(projects.core.viewModels)
+                implementation(projects.coreCommon)
+                implementation(projects.coreEntities)
+                implementation(projects.coreViewModels)
 
                 implementation(compose.ui)
                 implementation(compose.material3)
@@ -112,12 +112,12 @@ kotlin {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "org.pointyware.xyz.core.ui"
+    packageOfResClass = "org.pointyware.xyz.ui"
     generateResClass = always
 }
 
 android {
-    namespace = "org.pointyware.xyz.core.ui"
+    namespace = "org.pointyware.xyz.ui"
     compileSdk = 35
     defaultConfig {
         minSdk = 24

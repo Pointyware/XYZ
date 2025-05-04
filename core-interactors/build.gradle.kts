@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -31,7 +30,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "core_data"
+            baseName = "core_interactors"
             isStatic = true
             framework.add(this)
         }
@@ -41,23 +40,16 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.common)
-                implementation(projects.core.entities)
-                implementation(projects.core.local)
-                implementation(projects.core.remote)
+                implementation(projects.coreCommon)
+                implementation(projects.coreEntities)
+                implementation(projects.coreData)
 
-                implementation(libs.kotlinx.coroutines)
-                implementation(libs.kotlinx.io.core)
-                implementation(libs.kotlinx.io.bytestring)
                 implementation(libs.koin.core)
-
-                api(libs.kotlinx.serialization)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
-                implementation(libs.koin.test)
             }
         }
 
@@ -89,7 +81,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.pointyware.xyz.core.data"
+    namespace = "org.pointyware.xyz.interactors"
     compileSdk = 35
     defaultConfig {
         minSdk = 24

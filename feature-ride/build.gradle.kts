@@ -51,15 +51,15 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.common)
-                implementation(projects.core.entities)
-                implementation(projects.core.interactors)
-                implementation(projects.core.data)
-                implementation(projects.core.local)
-                implementation(projects.core.remote)
-                implementation(projects.core.viewModels)
-                implementation(projects.core.navigation)
-                implementation(projects.core.ui)
+                implementation(projects.coreCommon)
+                implementation(projects.coreEntities)
+                implementation(projects.coreInteractors)
+                implementation(projects.coreData)
+                implementation(projects.coreLocal)
+                implementation(projects.coreRemote)
+                implementation(projects.coreViewModels)
+                implementation(projects.coreNavigation)
+                implementation(projects.coreUi)
 
                 implementation(libs.coil.core)
                 implementation(libs.coil.compose)
@@ -145,7 +145,7 @@ dependencies {
 }
 
 android {
-    namespace = "org.pointyware.xyz.feature.ride"
+    namespace = "org.pointyware.xyz.ride"
     compileSdk = 35
     defaultConfig {
         minSdk = 24

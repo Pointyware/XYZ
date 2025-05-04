@@ -9,6 +9,8 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -30,7 +32,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "core_interactors"
+            baseName = "core_navigation"
             isStatic = true
             framework.add(this)
         }
@@ -40,10 +42,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.common)
-                implementation(projects.core.entities)
-                implementation(projects.core.data)
+                implementation(projects.coreCommon)
+                implementation(projects.coreEntities)
 
+                implementation(libs.kotlinx.coroutines)
+
+                implementation(compose.ui)
+                implementation(compose.material3)
                 implementation(libs.koin.core)
             }
         }
@@ -81,7 +86,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.pointyware.xyz.core.interactors"
+    namespace = "org.pointyware.xyz.navigation"
     compileSdk = 35
     defaultConfig {
         minSdk = 24

@@ -23,22 +23,23 @@ dependencyResolutionManagement {
 
 rootProject.name = "XYZ"
 include(
-    ":core-data-dtos"
+    ":core-common",
+    ":core-data",
+    ":core-data-dtos",
+    ":core-entities",
+    ":core-interactors",
+    ":core-local",
+    ":core-navigation",
+    ":core-remote",
+    ":core-ui",
+    ":core-view-models"
 )
-include(":core:common")
-include(":core:data")
-include(":core:entities")
-include(":core:interactors")
-include(":core:local")
-include(":core:navigation")
-include(":core:remote")
-include(":core:ui")
-include(":core:view-models")
-
-include(":feature:manage")
-include(":feature:drive")
-include(":feature:login")
-include(":feature:ride")
+include(
+    ":feature-manage",
+    ":feature-drive",
+    ":feature-login",
+    ":feature-ride",
+)
 
 include(":api")
 include(":app-shared")

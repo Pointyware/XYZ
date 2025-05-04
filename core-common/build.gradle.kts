@@ -60,7 +60,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.pointyware.xyz.core.common"
+    namespace = "org.pointyware.xyz.common"
     compileSdk = 35
     defaultConfig {
         minSdk = 24
