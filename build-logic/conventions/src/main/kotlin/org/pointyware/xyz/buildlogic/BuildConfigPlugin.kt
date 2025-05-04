@@ -50,7 +50,7 @@ class BuildConfigPlugin: Plugin<Project> {
                 properties.setProperty(it.key, it.value)
             }
 
-            val packageName = target.group
+            val packageName = extension.packageName.get()
 
             val propertiesString = properties.map { (key, value) ->
                 "    const val $key = \"$value\""
