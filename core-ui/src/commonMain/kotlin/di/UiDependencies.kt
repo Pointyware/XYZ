@@ -8,9 +8,9 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.pointyware.xyz.core.ui.components.LoadingViewResources
 import org.pointyware.xyz.core.ui.design.Resources
-import org.pointyware.xyz.core.ui.Res
-import org.pointyware.xyz.core.ui.loading_content_description
-import org.pointyware.xyz.core.ui.tray_icon
+import org.pointyware.xyz.ui.Res
+import org.pointyware.xyz.ui.loading_content_description
+import org.pointyware.xyz.ui.tray_icon
 
 /**
  *
