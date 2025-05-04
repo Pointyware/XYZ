@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,13 +22,13 @@ import androidx.compose.ui.semantics.semantics
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.navigation.XyzNavController
-import org.pointyware.xyz.core.ui.AdView
-import org.pointyware.xyz.core.ui.AdViewState
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.ui.MessageInput
 import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
+import org.pointyware.xyz.ui.ads.AdView
+import org.pointyware.xyz.ui.ads.AdViewState
 import viewmodels.ProviderDashboardUiState
 
 /**

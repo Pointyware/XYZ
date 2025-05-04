@@ -10,14 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.entities.geo.Location
-import org.pointyware.xyz.core.ui.AdView
-import org.pointyware.xyz.core.ui.AdViewState
 import org.pointyware.xyz.core.ui.LoadingResultView
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
+import org.pointyware.xyz.ui.ads.AdView
+import org.pointyware.xyz.ui.ads.AdViewState
 
 data class PassengerDashboardViewState(
     val ride: PassengerDashboardUiState,
