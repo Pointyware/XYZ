@@ -30,7 +30,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "core_view_models"
+            baseName = "core_remote"
             isStatic = true
             framework.add(this)
         }
@@ -40,23 +40,31 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.common)
-                implementation(projects.core.entities)
-                implementation(projects.core.interactors)
+                implementation(projects.coreCommon)
+                implementation(projects.coreEntities)
 
-                implementation(libs.kotlinx.coroutines)
-                implementation(libs.kotlinx.dateTime)
                 implementation(libs.koin.core)
+
+                api(libs.ktor.client.core)
+                api(libs.ktor.client.contentNegotiation)
+                api(libs.ktor.client.resources)
+                api(libs.ktor.client.serialization)
+                api(libs.ktor.serialization.json)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
+                implementation(libs.ktor.client.mock)
             }
         }
 
         val jvmSharedMain by creating {
             dependsOn(commonMain)
+
+            dependencies {
+                implementation(libs.ktor.client.okhttp)
+            }
         }
         val jvmSharedTest by creating {
             dependsOn(commonTest)
@@ -79,11 +87,20 @@ kotlin {
         val androidUnitTest by getting {
             dependsOn(jvmSharedTest)
         }
+
+        val nativeMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.cio)
+            }
+        }
+        val nativeTest by getting {
+
+        }
     }
 }
 
 android {
-    namespace = "org.pointyware.xyz.core.viewmodels"
+    namespace = "org.pointyware.xyz.remote"
     compileSdk = 35
     defaultConfig {
         minSdk = 24

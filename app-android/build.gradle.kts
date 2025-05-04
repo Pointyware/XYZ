@@ -49,13 +49,13 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.entities)
-    implementation(projects.core.local)
-    implementation(projects.core.ui)
+    implementation(projects.coreEntities)
+    implementation(projects.coreLocal)
+    implementation(projects.coreUi)
 
-    implementation(projects.feature.drive)
-    implementation(projects.feature.login)
-    implementation(projects.feature.ride)
+    implementation(projects.featureDrive)
+    implementation(projects.featureLogin)
+    implementation(projects.featureRide)
     implementation(projects.appShared)
 
     implementation(libs.stripe.android)

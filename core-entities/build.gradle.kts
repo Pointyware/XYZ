@@ -9,8 +9,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.compose.multiplatform)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -32,7 +31,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "core_navigation"
+            baseName = "core_entities"
             isStatic = true
             framework.add(this)
         }
@@ -42,14 +41,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.common)
-                implementation(projects.core.entities)
+                implementation(projects.coreCommon)
 
+                implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.coroutines)
 
-                implementation(compose.ui)
-                implementation(compose.material3)
                 implementation(libs.koin.core)
+                implementation(libs.kotlinx.serialization)
             }
         }
         val commonTest by getting {
@@ -86,7 +84,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.pointyware.xyz.core.navigation"
+    namespace = "org.pointyware.xyz.entities"
     compileSdk = 35
     defaultConfig {
         minSdk = 24

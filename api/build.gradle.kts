@@ -28,7 +28,7 @@ kotlin {
     jvmToolchain(21)
     dependencies {
         implementation(projects.coreDataDtos)
-        implementation(projects.core.entities)
+        implementation(projects.coreEntities)
 
         implementation(libs.koin.ktor)
 

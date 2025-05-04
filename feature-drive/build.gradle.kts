@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import org.pointyware.xyz.buildlogic.configureBuildConfigPlugin
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -13,14 +14,11 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.xyz.buildConfig)
 }
 
 kotlin {
     jvmToolchain(21)
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    compilerOptions {
-        apiVersion = KotlinVersion.KOTLIN_2_0
-    }
     jvm {
     }
     androidTarget {
@@ -41,7 +39,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "feature_manage"
+            baseName = "feature_drive"
             isStatic = true
             framework.add(this)
         }
@@ -51,17 +49,15 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.common)
-                implementation(projects.core.entities)
-                implementation(projects.core.interactors)
-                implementation(projects.core.data)
-                implementation(projects.core.local)
-                implementation(projects.core.remote)
-                implementation(projects.core.viewModels)
-                implementation(projects.core.navigation)
-                implementation(projects.core.ui)
-
-                implementation(projects.feature.drive)
+                implementation(projects.coreCommon)
+                implementation(projects.coreEntities)
+                implementation(projects.coreInteractors)
+                implementation(projects.coreData)
+                implementation(projects.coreLocal)
+                implementation(projects.coreRemote)
+                implementation(projects.coreViewModels)
+                implementation(projects.coreNavigation)
+                implementation(projects.coreUi)
 
                 implementation(libs.coil.core)
                 implementation(libs.coil.compose)
@@ -80,6 +76,7 @@ kotlin {
                 implementation(libs.kotlin.test)
                 implementation(libs.koin.test)
                 implementation(libs.kotlinx.coroutinesTest)
+                implementation(libs.turbine)
 
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.uiTest)
@@ -147,9 +144,14 @@ dependencies {
 }
 
 android {
-    namespace = "org.pointyware.xyz.feature.manage"
+    namespace = "org.pointyware.xyz.drive"
     compileSdk = 35
     defaultConfig {
         minSdk = 24
     }
+}
+
+configureBuildConfigPlugin {
+    // don't configure anything and see how it goes
+    buildConfigField("Foo", "Bar")
 }

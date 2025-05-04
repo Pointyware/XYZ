@@ -75,7 +75,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.pointyware.xyz.core.data.dtos"
+    namespace = "org.pointyware.xyz.data.dtos"
     compileSdk = 35
     defaultConfig {
         minSdk = 24

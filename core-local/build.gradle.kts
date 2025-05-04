@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -30,7 +31,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "core_remote"
+            baseName = "core_local"
             isStatic = true
             framework.add(this)
         }
@@ -40,22 +41,22 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.common)
-                implementation(projects.core.entities)
+                implementation(projects.coreCommon)
+                implementation(projects.coreEntities)
+
+                implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.serialization)
+                api(libs.kotlinx.io.core)
+                api(libs.kotlinx.io.bytestring)
 
                 implementation(libs.koin.core)
-
-                api(libs.ktor.client.core)
-                api(libs.ktor.client.contentNegotiation)
-                api(libs.ktor.client.resources)
-                api(libs.ktor.client.serialization)
-                api(libs.ktor.serialization.json)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
-                implementation(libs.ktor.client.mock)
+
+                implementation(libs.kotlinx.coroutinesTest)
             }
         }
 
@@ -63,7 +64,7 @@ kotlin {
             dependsOn(commonMain)
 
             dependencies {
-                implementation(libs.ktor.client.okhttp)
+                implementation(libs.kotlinx.coroutinesCoreJvm)
             }
         }
         val jvmSharedTest by creating {
@@ -72,6 +73,10 @@ kotlin {
 
         val jvmMain by getting {
             dependsOn(jvmSharedMain)
+
+            dependencies {
+                implementation(libs.kotlinx.coroutinesSwing)
+            }
         }
         val jvmTest by getting {
             dependsOn(jvmSharedTest)
@@ -83,24 +88,19 @@ kotlin {
 
         val androidMain by getting {
             dependsOn(jvmSharedMain)
+
+            dependencies {
+                implementation(libs.kotlinx.coroutinesAndroid)
+            }
         }
         val androidUnitTest by getting {
             dependsOn(jvmSharedTest)
-        }
-
-        val nativeMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.cio)
-            }
-        }
-        val nativeTest by getting {
-
         }
     }
 }
 
 android {
-    namespace = "org.pointyware.xyz.core.remote"
+    namespace = "org.pointyware.xyz.local"
     compileSdk = 35
     defaultConfig {
         minSdk = 24
