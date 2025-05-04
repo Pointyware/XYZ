@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.gms.maps)
 }
 
 kotlin {
@@ -93,8 +94,14 @@ kotlin {
         val androidMain by getting {
             dependsOn(jvmSharedMain)
             dependencies {
+                implementation(libs.androidx.fragmentCompose)
+
                 implementation(libs.androidx.composePreview)
                 implementation(libs.play.services.ads)
+
+                implementation(libs.google.maps)
+                implementation(libs.stripe.android)
+                implementation(libs.stripe.connections)
             }
         }
         val androidUnitTest by getting {
@@ -147,4 +154,20 @@ android {
 dependencies {
     debugImplementation(libs.androidx.composePreview)
     implementation(libs.androidx.composeTooling)
+}
+
+/*
+ All properties will be read from both files, with propertiesFileName overwriting
+   properties from defaultPropertiesFileName if they are present in both, and then
+   added to the BuildConfig class.
+ This method therefore does not support debug/release specific properties. Including a release
+   key in the debug build could be a security issue, so if some API does not have a test mode
+   you should use a different key for the debug build, which will require a different
+   approach to prevent debug/release keys from being included in the same build.
+ */
+secrets {
+    // Exclude from VC
+    propertiesFileName = "secrets.properties"
+    // This can be included and can be helpful for setting up a local dev environment
+    defaultPropertiesFileName = "local.defaults.properties"
 }
