@@ -3,10 +3,9 @@
  */
 
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
-import org.pointyware.xyz.buildlogic.configureBuildConfigPlugin
+import org.pointyware.xyz.buildlogic.buildConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -151,8 +150,6 @@ android {
     }
 }
 
-configureBuildConfigPlugin {
+buildConfig {
     packageName = "org.pointyware.xyz.drive"
-    // don't configure anything and see how it goes
-    buildConfigField("Foo", "Bar")
 }

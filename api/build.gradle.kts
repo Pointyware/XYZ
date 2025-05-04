@@ -1,3 +1,5 @@
+import org.pointyware.xyz.buildlogic.buildConfig
+
 /*
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
@@ -67,3 +69,6 @@ ktor {
 //        }
 //    }
 //}
+buildConfig {
+    packageName = "org.pointyware.xyz.api"
+}
