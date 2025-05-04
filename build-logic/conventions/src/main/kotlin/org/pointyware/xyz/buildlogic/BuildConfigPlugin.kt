@@ -28,6 +28,7 @@ class BuildConfigPlugin: Plugin<Project> {
         val extension = target.extensions.create("buildConfig", BuildConfigPluginExtension::class.java)
         extension.defaultSecretsFileName.convention("secrets.defaults.properties")
         extension.secretsFileName.convention("secrets.properties")
+        extension.properties.convention(mapOf())
 
         target.tasks.register("generateBuildConfig") {
             group = "build"
@@ -44,6 +45,10 @@ class BuildConfigPlugin: Plugin<Project> {
             secretsFile.inputStream().use {
                 properties.load(it)
             }
+            extension.properties.get().forEach {
+                properties.setProperty(it.key, it.value)
+            }
+
             val packageName = "${target.group}.${target.name}"
 
             val propertiesString = properties.map { (key, value) ->
