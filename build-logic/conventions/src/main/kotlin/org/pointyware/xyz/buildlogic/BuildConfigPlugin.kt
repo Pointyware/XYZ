@@ -26,6 +26,7 @@ class BuildConfigPlugin: Plugin<Project> {
             "generated/source/buildconfig/${target.name}/BuildConfig.kt"
         )
         val extension = target.extensions.create("buildConfig", BuildConfigPluginExtension::class.java)
+        extension.packageName.convention("${target.group}")
         extension.defaultSecretsFileName.convention("secrets.defaults.properties")
         extension.secretsFileName.convention("secrets.properties")
         extension.properties.convention(mapOf())
@@ -49,7 +50,7 @@ class BuildConfigPlugin: Plugin<Project> {
                 properties.setProperty(it.key, it.value)
             }
 
-            val packageName = "${target.group}.${target.name}"
+            val packageName = target.group
 
             val propertiesString = properties.map { (key, value) ->
                 "    const val $key = \"$value\""
@@ -94,6 +95,8 @@ fun Project.configureBuildConfigPlugin(
  */
 abstract class BuildConfigPluginExtension {
 
+    @get:Input
+    abstract val packageName: Property<String>
     @get:Input
     abstract val defaultSecretsFileName: Property<String>
     @get:Input
