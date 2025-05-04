@@ -10,6 +10,7 @@ import org.gradle.api.Project
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.File
@@ -73,8 +74,13 @@ $propertiesString
 
             source(buildConfigFile)
         }
-        target.extensions.configure(KotlinMultiplatformExtension::class.java) {
+        target.extensions.findByType(KotlinMultiplatformExtension::class.java)?.apply {
             sourceSets.named("commonMain") {
+                kotlin.srcDirs(buildConfigFile.parentFile)
+            }
+        }
+        target.extensions.findByType(KotlinJvmProjectExtension::class.java)?.apply {
+            sourceSets.named("main") {
                 kotlin.srcDirs(buildConfigFile.parentFile)
             }
         }
