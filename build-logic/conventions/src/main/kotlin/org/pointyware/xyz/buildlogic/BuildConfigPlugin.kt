@@ -8,8 +8,10 @@ import org.gradle.api.Action
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.File
@@ -21,29 +23,33 @@ import java.util.Properties
 class BuildConfigPlugin: Plugin<Project> {
 
     override fun apply(target: Project) {
-        val buildConfigPluginExtension = target.extensions.getByType(BuildConfigPluginExtension::class.java)
-        val defaultSecretsName = buildConfigPluginExtension.defaultSecretsFileName.get()
-        val secretsFileName = buildConfigPluginExtension.secretsFileName.get()
-        val defaultSecretsFile = File(target.rootDir, defaultSecretsName)
-        val secretsFile = File(target.rootDir, secretsFileName)
-        val properties = Properties()
-        defaultSecretsFile.inputStream().use {
-            properties.load(it)
-        }
-        secretsFile.inputStream().use {
-            properties.load(it)
-        }
         val buildConfigFile = File(
             target.layout.buildDirectory.asFile.get(),
             "generated/source/buildconfig/${target.name}/BuildConfig.kt"
         )
-        val packageName = "${target.group}.${target.name}"
+        target.tasks.create("generateBuildConfig", BuildConfigPluginExtension::class.java) {
+            group = "build"
+            description = "Generates a BuildConfig file with the configured properties."
+            defaultSecretsFileName.convention("secrets.defaults.properties")
+            secretsFileName.convention("secrets.properties")
+        }
+        target.tasks.withType(BuildConfigPluginExtension::class.java) {
+            val defaultSecretsName = defaultSecretsFileName.get()
+            val secretsFileName = secretsFileName.get()
+            val defaultSecretsFile = target.file(defaultSecretsName)
+            val secretsFile = target.file(secretsFileName)
+            val properties = Properties()
+            defaultSecretsFile.inputStream().use {
+                properties.load(it)
+            }
+            secretsFile.inputStream().use {
+                properties.load(it)
+            }
+            val packageName = "${target.group}.${target.name}"
 
-        val propertiesString = properties.map { (key, value) ->
-            "    const val $key = \"$value\""
-        }.joinToString("\n")
-
-        target.tasks.register("generateBuildConfig") {
+            val propertiesString = properties.map { (key, value) ->
+                "    const val $key = \"$value\""
+            }.joinToString("\n")
             doLast {
                 buildConfigFile.parentFile.mkdirs()
                 buildConfigFile.writeText(
@@ -77,7 +83,7 @@ class BuildConfigPlugin: Plugin<Project> {
 fun Project.configureBuildConfigPlugin(
     action: Action<BuildConfigPluginExtension>
 ) {
-    val extension = extensions.create("buildConfig", BuildConfigPluginExtension::class.java)
+    val extension = extensions.getByType(BuildConfigPluginExtension::class)
     action.execute(extension)
 }
 
@@ -92,12 +98,7 @@ abstract class BuildConfigPluginExtension: DefaultTask() {
     abstract val secretsFileName: Property<String>
 
     @get:Input
-    abstract val properties: Property<Map<String, String>>
-
-    init {
-        defaultSecretsFileName.convention("secrets.defaults.properties")
-        secretsFileName.convention("secrets.properties")
-    }
+    abstract val properties: MapProperty<String, String>
 
     /**
      * Adds a build config field to the generated BuildConfig file.
