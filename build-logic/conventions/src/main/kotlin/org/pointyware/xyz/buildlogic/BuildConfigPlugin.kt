@@ -12,6 +12,8 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinMultiplatformPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.File
 import java.util.Properties
@@ -74,14 +76,22 @@ $propertiesString
 
             source(buildConfigFile)
         }
-        target.extensions.findByType(KotlinMultiplatformExtension::class.java)?.apply {
-            sourceSets.named("commonMain") {
-                kotlin.srcDirs(buildConfigFile.parentFile)
+        when {
+            // Support Kotlin Multiplatform projects
+            target.plugins.hasPlugin(KotlinMultiplatformPlugin::class.java) -> {
+                target.extensions.configure(KotlinMultiplatformExtension::class.java) {
+                    sourceSets.named("commonMain") {
+                        kotlin.srcDirs(buildConfigFile.parentFile)
+                    }
+                }
             }
-        }
-        target.extensions.findByType(KotlinJvmProjectExtension::class.java)?.apply {
-            sourceSets.named("main") {
-                kotlin.srcDirs(buildConfigFile.parentFile)
+            // Support Kotlin JVM projects
+            target.plugins.hasPlugin(KotlinPlatformJvmPlugin::class.java) -> {
+                target.extensions.configure(KotlinJvmProjectExtension::class.java) {
+                    sourceSets.named("main") {
+                        kotlin.srcDirs(buildConfigFile.parentFile)
+                    }
+                }
             }
         }
     }
