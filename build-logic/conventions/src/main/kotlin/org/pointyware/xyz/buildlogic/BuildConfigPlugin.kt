@@ -57,13 +57,13 @@ class BuildConfigPlugin: Plugin<Project> {
             doLast {
                 buildConfigFile.parentFile.mkdirs()
                 buildConfigFile.writeText(
-                    """
-                    package $packageName
+"""
+package $packageName
 
-                    object BuildConfig {
-                    $propertiesString
-                    }
-                    """.trimIndent()
+object BuildConfig {
+$propertiesString
+}
+"""
                 )
             }
         }
