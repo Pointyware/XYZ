@@ -5,13 +5,11 @@
 package org.pointyware.xyz.buildlogic
 
 import org.gradle.api.Action
-import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.File
@@ -27,15 +25,16 @@ class BuildConfigPlugin: Plugin<Project> {
             target.layout.buildDirectory.asFile.get(),
             "generated/source/buildconfig/${target.name}/BuildConfig.kt"
         )
-        target.tasks.create("generateBuildConfig", BuildConfigPluginExtension::class.java) {
+        val extension = target.extensions.create("buildConfig", BuildConfigPluginExtension::class.java)
+        extension.defaultSecretsFileName.convention("secrets.defaults.properties")
+        extension.secretsFileName.convention("secrets.properties")
+
+        target.tasks.register("generateBuildConfig") {
             group = "build"
             description = "Generates a BuildConfig file with the configured properties."
-            defaultSecretsFileName.convention("secrets.defaults.properties")
-            secretsFileName.convention("secrets.properties")
-        }
-        target.tasks.withType(BuildConfigPluginExtension::class.java) {
-            val defaultSecretsName = defaultSecretsFileName.get()
-            val secretsFileName = secretsFileName.get()
+
+            val defaultSecretsName = extension.defaultSecretsFileName.get()
+            val secretsFileName = extension.secretsFileName.get()
             val defaultSecretsFile = target.file(defaultSecretsName)
             val secretsFile = target.file(secretsFileName)
             val properties = Properties()
@@ -83,14 +82,13 @@ class BuildConfigPlugin: Plugin<Project> {
 fun Project.configureBuildConfigPlugin(
     action: Action<BuildConfigPluginExtension>
 ) {
-    val extension = extensions.getByType(BuildConfigPluginExtension::class)
-    action.execute(extension)
+    extensions.configure(BuildConfigPluginExtension::class.java, action)
 }
 
 /**
  * Defines the available properties and methods for the BuildConfig plugin.
  */
-abstract class BuildConfigPluginExtension: DefaultTask() {
+abstract class BuildConfigPluginExtension {
 
     @get:Input
     abstract val defaultSecretsFileName: Property<String>
