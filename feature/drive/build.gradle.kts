@@ -151,6 +151,7 @@ android {
     }
 }
 
-//configureBuildConfigPlugin {
-//    // don't configure anything and see how it goes
-//}
+configureBuildConfigPlugin {
+    // don't configure anything and see how it goes
+    buildConfigField("Foo", "Bar")
+}
