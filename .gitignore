@@ -1,17 +1,23 @@
 
-*.iml
+# Mac/iOS Files
 .DS_Store
-/.gradle/
-/.idea/
-/.kotlin/
-/build/
-captures
+xcuserdata
+
+# IntelliJ/Android Studio
+/build
+captures/
+
+*.iml
+.gradle
+.idea
+.kotlin
 .externalNativeBuild
 .cxx
+
+# Properties
 local.properties
 secrets.properties
 stripe-secrets.properties
-xcuserdata
 
 ## Release Information
 /release.keystore
