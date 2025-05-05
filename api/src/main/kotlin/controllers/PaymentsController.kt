@@ -5,7 +5,8 @@ import com.stripe.param.PaymentIntentCreateParams
 import org.pointyware.xyz.api.services.RideService
 
 /**
- *
+ * A payments controller is responsible for handling payment-related operations. These consist of
+ * initializing payments through intent objects, which can later be confirmed by the client.
  */
 interface PaymentsController {
     suspend fun getRideCost(rideId: String): Result<Long>
@@ -18,10 +19,10 @@ interface PaymentsController {
 }
 
 /**
- *
+ * Interacts with the Stripe API to create payment intents for completed rides.
  */
 class StripePaymentsController(
-    val rideService: RideService
+    private val rideService: RideService
 ): PaymentsController {
 
     override suspend fun getRideCost(rideId: String): Result<Long> {
