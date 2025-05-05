@@ -26,6 +26,11 @@ plugins {
     alias(libs.plugins.artifactRegistry).apply(false)
 }
 
+group = "org.pointyware.xyz"
+version = libs.versions.xyz.get()
+description = "Get your X from Y to Z!"
+status = BuildStatus.Debug
+
 tasks.dokkaHtmlMultiModule {
     moduleName.set("XYZ")
 }
@@ -45,7 +50,3 @@ subprojects {
         }
     }
 }
-
-group = "org.pointyware.xyz"
-version = libs.versions.xyz.get()
-status = BuildStatus.Debug
