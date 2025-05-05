@@ -3,7 +3,7 @@
  */
 
 import org.jetbrains.dokka.gradle.DokkaTask
-import org.pointyware.xyz.build.BuildStatus
+import org.pointyware.xyz.build.ClientBuild
 import java.net.URL
 
 plugins {
@@ -29,7 +29,7 @@ plugins {
 group = "org.pointyware.xyz"
 version = libs.versions.xyz.get()
 description = "Get your X from Y to Z!"
-status = BuildStatus.Debug
+status = ClientBuild.Debug
 
 tasks.dokkaHtmlMultiModule {
     moduleName.set("XYZ")
