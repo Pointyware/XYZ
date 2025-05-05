@@ -13,7 +13,7 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 import org.pointyware.xyz.api.controllers.PaymentsController
-import org.pointyware.xyz.api.controllers.StripePaymentsController
+import org.pointyware.xyz.api.controllers.PaymentsControllerImpl
 import org.pointyware.xyz.api.routes.auth
 import org.pointyware.xyz.api.routes.drive
 import org.pointyware.xyz.api.routes.payment
@@ -29,7 +29,7 @@ fun main() {
     startKoin {
         modules(
             module {
-                factoryOf(::StripePaymentsController) {
+                factoryOf(::PaymentsControllerImpl) {
                     bind<PaymentsController>()
                 }
             }

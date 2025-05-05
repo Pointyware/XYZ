@@ -1,8 +1,7 @@
 package org.pointyware.xyz.api.controllers
 
-import com.stripe.model.PaymentIntent
-import com.stripe.param.PaymentIntentCreateParams
 import org.pointyware.xyz.api.services.RideService
+import org.pointyware.xyz.api.services.StripeService
 
 /**
  * A payments controller is responsible for handling payment-related operations. These consist of
@@ -21,8 +20,9 @@ interface PaymentsController {
 /**
  * Interacts with the Stripe API to create payment intents for completed rides.
  */
-class StripePaymentsController(
-    private val rideService: RideService
+class PaymentsControllerImpl(
+    private val rideService: RideService,
+    private val stripeService: StripeService
 ): PaymentsController {
 
     override suspend fun getRideCost(rideId: String): Result<Long> {
@@ -32,15 +32,7 @@ class StripePaymentsController(
     override suspend fun createPaymentIntent(rideId: String): Result<String> {
         return rideService.getRideById(rideId)
             .map {
-                val paymentIntentCreateParams = PaymentIntentCreateParams.builder()
-                    .setCustomer(it.riderId) // customer ID
-                    .setAmount(it.cost) // amount in cents
-                    .setCurrency("usd") // currency
-                    .build()
-
-                val intent = PaymentIntent.create(paymentIntentCreateParams)
-
-                intent.clientSecret
+                stripeService.createPaymentIntent(it.riderId, it.cost)
             }
     }
 }
