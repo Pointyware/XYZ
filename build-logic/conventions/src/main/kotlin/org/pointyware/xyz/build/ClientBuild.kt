@@ -5,25 +5,25 @@ import org.gradle.api.Project
 /**
  * Defines the available values for project build status.
  */
-enum class BuildStatus {
+enum class ClientBuild {
     Debug,
     Release
 }
 
 /**
- * Executes the given action only if the project status is [BuildStatus.Debug].
+ * Executes the given action only if the project status is [ClientBuild.Debug].
  */
 fun Project.debug(action: ()->Unit) {
-    if (status == BuildStatus.Debug) {
+    if (status == ClientBuild.Debug) {
         action()
     }
 }
 
 /**
- * Executes the given action only if the project status is [BuildStatus.Release].
+ * Executes the given action only if the project status is [ClientBuild.Release].
  */
 fun Project.release(action: ()->Unit) {
-    if (status == BuildStatus.Release) {
+    if (status == ClientBuild.Release) {
         action()
     }
 }
