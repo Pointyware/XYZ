@@ -27,6 +27,3 @@ fun Routing.payment() {
         call.respondNullable(map)
     }
 }
-
-class RideRepository {
-}
