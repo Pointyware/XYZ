@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
     `maven-publish`
-//    alias(libs.plugins.artifactRegistry)
+    alias(libs.plugins.artifactRegistry)
     alias(libs.plugins.xyz.buildConfig)
 }
 
@@ -54,21 +54,25 @@ ktor {
     }
 }
 
-//publishing {
-//    publications {
-//        create<MavenPublication>("maven") {
-//            groupId = "org.pointyware.replace-me"
-//            artifactId = "replace-me-api"
-//            from(components["java"])
-//        }
-//    }
-//    repositories {
-//        maven {
-//            val releaseURL = "artifactregistry://us-central1-maven.pkg.dev/<project-id>/<repo>"
-//            url = uri(releaseURL)
-//        }
-//    }
-//}
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = group.toString()
+            artifactId = "api"
+            from(components["java"])
+        }
+    }
+    repositories {
+        maven {
+            val gCloudRegion = "us-south1"
+            val gCloudProject = "xyz-debug"
+            val gCloudRepo = "docker-repo"
+            val releaseURL = "artifactregistry://$gCloudRegion-maven.pkg.dev/$gCloudProject/$gCloudRepo"
+            url = uri(releaseURL)
+        }
+    }
+}
+
 buildConfig {
     packageName = "org.pointyware.xyz.api"
 }
