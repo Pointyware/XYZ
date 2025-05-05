@@ -9,6 +9,8 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.routing
 import org.koin.core.context.GlobalContext.startKoin
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 import org.pointyware.xyz.api.controllers.PaymentsController
 import org.pointyware.xyz.api.controllers.StripePaymentsController
@@ -27,8 +29,8 @@ fun main() {
     startKoin {
         modules(
             module {
-                factory<PaymentsController> {
-                    StripePaymentsController()
+                factoryOf(::StripePaymentsController) {
+                    bind<PaymentsController>()
                 }
             }
         )
