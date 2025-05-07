@@ -1,3 +1,4 @@
+import org.pointyware.xyz.build.ServerEnvironment
 import org.pointyware.xyz.build.release
 import org.pointyware.xyz.buildlogic.buildConfig
 
@@ -23,6 +24,7 @@ tasks.named<Tar>("distTar") {
 
 description = "XYZ API"
 version = libs.versions.xyz.get()
+status = ServerEnvironment.Staging
 
 kotlin {
     jvmToolchain(21)
