@@ -73,7 +73,7 @@ publishing {
         maven {
             val gCloudRegion = "us-south1"
             val gCloudRepo = "docker-repo"
-            url = uri(artifactRegistryUrl(gCloudRegion, "xyz-debug", gCloudRepo))
+            url = uri(artifactRegistryUrl(gCloudRegion, "xyz-staging", gCloudRepo))
             release {
                 url = uri(artifactRegistryUrl(gCloudRegion, "xyz-release", gCloudRepo))
             }
