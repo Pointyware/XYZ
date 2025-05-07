@@ -1,3 +1,4 @@
+import org.pointyware.xyz.build.release
 import org.pointyware.xyz.buildlogic.buildConfig
 
 /*
@@ -54,6 +55,10 @@ ktor {
     }
 }
 
+private fun artifactRegistryUrl(region: String, project: String, repo: String): String {
+    return "artifactregistry://$region-maven.pkg.dev/$project/$repo"
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -65,10 +70,11 @@ publishing {
     repositories {
         maven {
             val gCloudRegion = "us-south1"
-            val gCloudProject = "xyz-debug"
             val gCloudRepo = "docker-repo"
-            val releaseURL = "artifactregistry://$gCloudRegion-maven.pkg.dev/$gCloudProject/$gCloudRepo"
-            url = uri(releaseURL)
+            url = uri(artifactRegistryUrl(gCloudRegion, "xyz-debug", gCloudRepo))
+            release {
+                url = uri(artifactRegistryUrl(gCloudRegion, "xyz-release", gCloudRepo))
+            }
         }
     }
 }
