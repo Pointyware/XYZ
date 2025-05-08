@@ -3,3 +3,9 @@
 /local.properties
 /secrets.properties
 build
+
+secrets.properties
+stripe-secrets.properties
+gradle.properties
+gradle/wrapper
+.idea
