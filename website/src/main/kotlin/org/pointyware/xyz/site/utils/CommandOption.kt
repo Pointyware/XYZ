@@ -1,5 +1,6 @@
 package org.pointyware.xyz.site.utils
 
+import org.pointyware.xyz.site.dsl.ProgramOutput
 import java.io.File
 
 /**

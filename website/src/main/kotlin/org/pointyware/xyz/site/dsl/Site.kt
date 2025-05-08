@@ -4,7 +4,6 @@ import kotlinx.html.HTML
 import kotlinx.html.dom.createHTMLDocument
 import kotlinx.html.dom.write
 import kotlinx.html.html
-import org.pointyware.xyz.site.utils.ProgramOutput
 import org.pointyware.xyz.site.utils.sanitizeHtmlFileName
 import java.io.File
 

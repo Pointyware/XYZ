@@ -8,9 +8,9 @@ import kotlinx.html.p
 import kotlinx.html.script
 import kotlinx.html.style
 import kotlinx.html.unsafe
+import org.pointyware.xyz.site.dsl.ProgramOutput.PrintOutput
 import org.pointyware.xyz.site.dsl.site
 import org.pointyware.xyz.site.utils.ProgramInputs
-import org.pointyware.xyz.site.utils.ProgramOutput.PrintOutput
 import org.pointyware.xyz.site.utils.consumeArgs
 
 /**
