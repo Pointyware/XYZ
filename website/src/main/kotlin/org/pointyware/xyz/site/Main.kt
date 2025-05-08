@@ -1,7 +1,9 @@
 package org.pointyware.xyz.site
 
 import kotlinx.html.body
+import kotlinx.html.div
 import kotlinx.html.head
+import kotlinx.html.p
 import org.pointyware.xyz.site.ProgramOutput.PrintOutput
 import org.pointyware.xyz.site.dsl.site
 import java.io.File
@@ -28,7 +30,16 @@ fun main(vararg args: String) {
 
                 }
                 body {
+                    div(
+                        classes = ""
+                    ) {
 
+                    }
+                    p(
+                        classes = ""
+                    ) {
+
+                    }
                 }
             }
         }
