@@ -8,9 +8,10 @@ import kotlinx.html.p
 import kotlinx.html.script
 import kotlinx.html.style
 import kotlinx.html.unsafe
-import org.pointyware.xyz.site.ProgramOutput.PrintOutput
 import org.pointyware.xyz.site.dsl.site
-import java.io.File
+import org.pointyware.xyz.site.utils.ProgramInputs
+import org.pointyware.xyz.site.utils.ProgramOutput.PrintOutput
+import org.pointyware.xyz.site.utils.consumeArgs
 
 /**
  * How to use:
@@ -86,65 +87,4 @@ fun main(vararg args: String) {
             }
         }
     }
-}
-
-data class ProgramInputs(
-    val output: ProgramOutput
-)
-
-enum class CommandOption(
-    val longName: String,
-    val shortName: String,
-    val description: String,
-    val defaultValue: String = "",
-    val onMatch: (Iterator<String>, ProgramInputs)->ProgramInputs
-) {
-    Output(
-        longName = "out",
-        shortName = "o",
-        description = "",
-        defaultValue = "",
-        onMatch = { args, inputs ->
-            if (args.hasNext()) {
-                inputs.copy(output = ProgramOutput.FileOutput(File(args.next())))
-            } else {
-                throw IllegalArgumentException("Missing argument for ${Output.longName}")
-            }
-        }
-    )
-}
-
-private fun Iterator<String>.consumeArgs(inputs: ProgramInputs): ProgramInputs {
-    var latestInputs = inputs
-    var unrecognizedArgs = mutableListOf<String>()
-    while (hasNext()) { // Continue to consume command options until all args are consumed
-        val arg = next()
-        when {
-            arg.startsWith("--") -> {
-                val longOption = arg.substring(2)
-                CommandOption.entries.forEach {
-                    if (it.longName == longOption) {
-                        latestInputs = it.onMatch(this, latestInputs)
-                        return@forEach
-                    }
-                }
-            }
-            arg.startsWith("-") -> {
-                val shortOption = arg.substring(1)
-                CommandOption.entries.forEach {
-                    if (it.shortName == shortOption) {
-                        latestInputs = it.onMatch(this, latestInputs)
-                        return@forEach
-                    }
-                }
-            }
-            else -> {
-                unrecognizedArgs += arg
-            }
-        }
-    }
-    if (unrecognizedArgs.isNotEmpty()) {
-        println("Unrecognized arguments: ${unrecognizedArgs.joinToString(", ")}")
-    }
-    return latestInputs
 }

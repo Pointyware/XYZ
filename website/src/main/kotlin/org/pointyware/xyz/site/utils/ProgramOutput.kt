@@ -1,4 +1,4 @@
-package org.pointyware.xyz.site
+package org.pointyware.xyz.site.utils
 
 import java.io.File
 import java.io.PrintStream
