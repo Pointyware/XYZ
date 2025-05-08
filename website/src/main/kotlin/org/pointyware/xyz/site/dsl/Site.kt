@@ -4,6 +4,7 @@ import kotlinx.html.HTML
 import kotlinx.html.dom.createHTMLDocument
 import kotlinx.html.dom.write
 import kotlinx.html.html
+import org.pointyware.xyz.site.ProgramOutput
 import org.pointyware.xyz.site.utils.sanitizeHtmlFileName
 import java.io.File
 
@@ -11,17 +12,17 @@ import java.io.File
  * The main unit of our DSL API.
  */
 interface BranchScope {
-    val directory: File // TODO: change to Output Object which allows for outputting to arbitrary streams
+    /**
+     * Controls the abstract location of this branch within the larger hierarchy.
+     */
+    val location: ProgramOutput
 
     fun branch(
         segment: String,
         block: BranchScope.() -> Unit
     ) {
-        val branchDirectory = File(directory, segment)
-        if (!branchDirectory.exists()) {
-            branchDirectory.mkdirs()
-        }
-        DirectoryScope(branchDirectory).block()
+        val branch = location.branch(segment)
+        DirectoryScope(branch).block()
     }
 
     /**
@@ -46,10 +47,22 @@ interface BranchScope {
         block: HTML.() -> Unit
     ) {
         val sanitizedFileName = sanitizeHtmlFileName(name)
-        val pageFile = File(directory, sanitizedFileName)
+
         val doc = createHTMLDocument().html(block = block)
-        pageFile.outputStream().bufferedWriter().use {
-            it.write(document = doc)
+
+        when (val capture = location) {
+            is ProgramOutput.FileOutput -> {
+                val pageFile = File(capture.file, sanitizedFileName)
+                pageFile.outputStream().bufferedWriter().use {
+                    it.write(document = doc)
+                }
+            }
+            is ProgramOutput.PrintOutput -> {
+                capture.stream.println("Printing page: ${capture.path}")
+                capture.stream.bufferedWriter().use {
+                    it.write(document = doc)
+                }
+            }
         }
     }
 }
@@ -58,7 +71,7 @@ interface BranchScope {
  *
  */
 data class DirectoryScope(
-    override val directory: File
+    override val location: ProgramOutput
 ): BranchScope
 
 /**
@@ -73,7 +86,7 @@ data class DirectoryScope(
  * What we want to achieve is the ability to determine the root of a folder hierarchy, and then
  * build up a hierarchy of endpoints, where each
  */
-fun site(root: File, block: DirectoryScope.() -> Unit) {
+fun site(root: ProgramOutput, block: DirectoryScope.() -> Unit) {
     val site = DirectoryScope(root)
     site.block()
 }
