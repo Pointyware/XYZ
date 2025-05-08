@@ -1,11 +1,11 @@
-package org.pointyware.xyz.site.utils
+package org.pointyware.xyz.site.dsl
 
 import java.io.File
 import java.io.PrintStream
 
 /**
  * Defines the available program outputs.
- * To control with program arguments, see [CommandOption.Output].
+ * To control with program arguments, see [org.pointyware.xyz.site.utils.CommandOption.Output].
  */
 sealed interface ProgramOutput {
     fun branch(segment: String): ProgramOutput
