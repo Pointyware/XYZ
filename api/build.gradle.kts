@@ -37,6 +37,8 @@ kotlin {
         implementation(libs.ktor.server.core)
         implementation(libs.ktor.server.netty)
 
+        implementation(libs.postgresql)
+
         implementation(libs.stripe.server)
 
         implementation(libs.kotlinx.coroutines)
