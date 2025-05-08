@@ -2,13 +2,15 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import org.pointyware.xyz.build.local
+import org.pointyware.xyz.build.release
+import org.pointyware.xyz.build.staging
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.xyz.buildConfig)
 }
 
 kotlin {
@@ -101,5 +103,20 @@ android {
     compileSdk = 35
     defaultConfig {
         minSdk = 24
+    }
+}
+
+buildConfig {
+    local {
+        addString("API_HOST_URI", "\"\"")
+        addString("API_HOST_SECURE", "\"false\"")
+    }
+    staging {
+        addString("API_HOST_URI", "\"api-staging.xyz.pointyware.org\"")
+        addString("API_HOST_SECURE", "\"true\"")
+    }
+    release {
+        addString("API_HOST_URI", "\"api.xyz.pointyware.org\"")
+        addString("API_HOST_SECURE", "\"true\"")
     }
 }
