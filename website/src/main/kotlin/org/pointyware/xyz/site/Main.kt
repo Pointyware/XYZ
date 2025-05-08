@@ -26,6 +26,7 @@ fun main(vararg args: String) {
     site(inputs.output) {
         branch("privacy-policy") {
             index {
+                // Consider: https://github.com/allangomes/kotlinwind.css/tree/dev in place of kotlinx.css
                 head {
 
                 }
