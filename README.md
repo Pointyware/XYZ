@@ -11,6 +11,27 @@ Get your X from Y to Z
 * [Drive](./feature/drive/README.md)
 * [Ride](./feature/ride/README.md)
 
+## Contributing
+
+To get started, you'll need to first set up some credentials for the app by ensuring you have the following files with the given variables.
+
+### Environment Variables and Secrets
+- `./secrets.properties` - This will need to be created in the root of the project.
+  - MAPS_API_KEY
+  - AD_MOB_APP_ID
+- `./local.defaults.properties` - defines defaults for the above, checked in VC
+  - 
+- `./stripe-secrets.properties` - This will need to be created in the root of the project.
+  - STRIPE_API_KEY_TEST
+  - STRIPE_API_KEY_LIVE
+  - STRIPE_STAGING_URL
+  - STRIPE_PRODUCTION_URL
+- `./stripe-secrets.defaults.properties` - defines defaults for the above, checked in VC
+- `~/.gradle/gradle.properties` - user global gradle properties
+  - 
+- `./.gradle/gradle.properties` - project gradle properties
+  -
+
 ## Modularization
 
 ```mermaid
