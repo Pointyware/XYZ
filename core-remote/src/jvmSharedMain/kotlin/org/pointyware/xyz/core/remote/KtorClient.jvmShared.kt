@@ -22,8 +22,8 @@ actual fun getClient(): HttpClient {
         install(Resources)
         install(ContentNegotiation) { json() }
         defaultRequest {
-            host = "api.xyz.pointyware.org"
-            url { protocol = URLProtocol.HTTPS }
+            host = HOST_URI
+            url { protocol = HOST_PROTOCOL }
             contentType(ContentType.Application.Json)
         }
         engine {
