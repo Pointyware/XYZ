@@ -26,21 +26,22 @@ interface BranchScope {
     }
 
     /**
-     *
+     * Creates an html page resource with the standard index.html file name.
      */
     fun index(
         block: HTML.() -> Unit
     ) = page(name = "index.html", block = block)
 
     /**
-     *
+     * Creates an html page resource with the standard error.html file name.
      */
     fun error(
         block: HTML.() -> Unit
     ) = page(name = "error.html", block = block)
 
     /**
-     *
+     * Creates an html page resource with the given file name. First ensures that the filename
+     * does not contain certain characters and ends with .html; see [sanitizeHtmlFileName].
      */
     fun page(
         name: String,
@@ -69,7 +70,7 @@ interface BranchScope {
 }
 
 /**
- *
+ * Represents each branch as a directory in the file system (or virtual path in the case of [ProgramOutput.PrintOutput].
  */
 data class DirectoryScope(
     override val location: ProgramOutput
