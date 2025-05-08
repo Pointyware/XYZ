@@ -27,6 +27,7 @@ material3 = "1.3.2"
 mockative = "2.0.1"
 mockk = "1.13.12"
 playServicesAds = "24.2.0"
+postgresql = "42.7.5"
 stripe-client = "21.12.0"
 stripe-server = "29.0.0"
 truth = "1.4.4"
@@ -81,6 +82,7 @@ mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 mockativeSymbolProcessor = { module = "io.mockative:mockative-processor", version.ref = "mockative" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 stripe-android = { module = "com.stripe:stripe-android", version.ref = "stripe-client" }
 stripe-connections = { module = "com.stripe:financial-connections", version.ref = "stripe-client" }
 stripe-server = { module = "com.stripe:stripe-java", version.ref = "stripe-server" }
