@@ -151,10 +151,9 @@ abstract class BuildConfigPluginExtension {
         }
     }
 
-    fun loadProperties(fileName: String, block: LoadPropertiesScope.() -> Unit) {
-        val file = File(fileName)
+    fun loadProperties(file: File, block: LoadPropertiesScope.() -> Unit) {
         if (!file.exists()) {
-            throw IllegalArgumentException("File $fileName does not exist.")
+            throw IllegalArgumentException("File ${file.name} does not exist.")
         }
         val properties = Properties()
         file.inputStream().use {
@@ -164,7 +163,7 @@ abstract class BuildConfigPluginExtension {
         try {
             scope.block()
         } catch (e: Exception) {
-            throw IllegalArgumentException("Error loading properties from $fileName: ${e.message}", e)
+            throw IllegalArgumentException("Error loading properties from ${file.name}: ${e.message}", e)
         }
     }
 }

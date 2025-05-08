@@ -110,7 +110,7 @@ android {
 status = ServerEnvironment.Local
 buildConfig {
     packageName = "org.pointyware.xyz.remote"
-    loadProperties("secrets.properties") {
+    loadProperties(project.file("secrets.properties")) {
         local {
             addStringAlias("API_HOST_URI", "API_HOST_LOCAL")
             addString("API_HOST_SECURE", "\"false\"")
