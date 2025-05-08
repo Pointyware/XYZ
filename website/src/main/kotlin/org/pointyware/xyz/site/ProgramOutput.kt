@@ -1,7 +1,7 @@
 package org.pointyware.xyz.site
 
 import java.io.File
-import java.io.OutputStream
+import java.io.PrintStream
 
 /**
  * Defines the available program outputs.
@@ -18,9 +18,9 @@ sealed interface ProgramOutput {
             return FileOutput(branchFile)
         }
     }
-    data class StreamOutput(val path: String, val stream: OutputStream): ProgramOutput {
+    data class PrintOutput(val path: String, val stream: PrintStream): ProgramOutput {
         override fun branch(segment: String): ProgramOutput {
-            return StreamOutput(path = "$path/$segment", stream = stream)
+            return PrintOutput(path = "$path/$segment", stream = stream)
         }
     }
 }
