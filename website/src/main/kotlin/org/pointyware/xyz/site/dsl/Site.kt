@@ -32,11 +32,21 @@ interface BranchScope {
     ) = page(name = "index.html", block = block)
 
     /**
+     * Copies the resource file indicated by [resourceFile] into a file named index.html.
+     */
+    fun index(resourceFile: String) = page(name = "index.html", resourceFile = resourceFile)
+
+    /**
      * Creates an html page resource with the standard error.html file name.
      */
     fun error(
         block: HTML.() -> Unit
     ) = page(name = "error.html", block = block)
+
+    /**
+     * Copies the resource file indicated by [resourceFile] into a file named error.html.
+     */
+    fun error(resourceFile: String) = page(name = "error.html", resourceFile = resourceFile)
 
     /**
      * Creates an html page resource with the given file name. First ensures that the filename
@@ -62,6 +72,38 @@ interface BranchScope {
                 capture.stream.bufferedWriter().let {
                     it.write(document = doc)
                     it.flush() // ensure buffer is cleared because we'll just let GC clean up since we don't want to close the underlying stream
+                }
+            }
+        }
+    }
+
+    /**
+     * Copies the resource file indicated by [resourceFile] into a file with the given [name].
+     */
+    fun page(
+        name: String,
+        resourceFile: String
+    ) {
+        val sanitizedFileName = sanitizeHtmlFileName(name)
+        val sourceInputStream = this.javaClass.classLoader.getResourceAsStream(resourceFile)
+            ?: throw IllegalArgumentException("Resource file not found: $resourceFile")
+
+        when (val capture = location) {
+            is ProgramOutput.FileOutput -> {
+                val pageFile = File(capture.file, sanitizedFileName)
+                pageFile.outputStream().use { outputStream ->
+                    sourceInputStream.use { fileStream ->
+                        fileStream.copyTo(outputStream)
+                    }
+                }
+            }
+            is ProgramOutput.PrintOutput -> {
+                capture.stream.println("Printing page: ${capture.path}")
+                capture.stream.let { printStream ->
+                    sourceInputStream.use { fileStream ->
+                        fileStream.copyTo(printStream)
+                    }
+                    printStream.flush() // ensure buffer is cleared because we'll just let GC clean up since we don't want to close the underlying stream
                 }
             }
         }
