@@ -3,6 +3,7 @@
  */
 
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import org.pointyware.xyz.build.ServerEnvironment
 import org.pointyware.xyz.build.local
 import org.pointyware.xyz.build.release
 import org.pointyware.xyz.build.staging
@@ -106,17 +107,21 @@ android {
     }
 }
 
+status = ServerEnvironment.Local
 buildConfig {
-    local {
-        addString("API_HOST_URI", "\"\"")
-        addString("API_HOST_SECURE", "\"false\"")
-    }
-    staging {
-        addString("API_HOST_URI", "\"api-staging.xyz.pointyware.org\"")
-        addString("API_HOST_SECURE", "\"true\"")
-    }
-    release {
-        addString("API_HOST_URI", "\"api.xyz.pointyware.org\"")
-        addString("API_HOST_SECURE", "\"true\"")
+    packageName = "org.pointyware.xyz.remote"
+    loadProperties("secrets.properties") {
+        local {
+            addStringAlias("API_HOST_URI", "API_HOST_LOCAL")
+            addString("API_HOST_SECURE", "\"false\"")
+        }
+        staging {
+            addStringAlias("API_HOST_URI", "API_HOST_STAGING")
+            addString("API_HOST_SECURE", "\"true\"")
+        }
+        release {
+            addStringAlias("API_HOST_URI", "API_HOST_RELEASE")
+            addString("API_HOST_SECURE", "\"true\"")
+        }
     }
 }
