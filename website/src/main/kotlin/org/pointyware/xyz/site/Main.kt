@@ -1,10 +1,10 @@
 package org.pointyware.xyz.site
 
-import kotlinx.html.dom.createHTMLDocument
-import kotlinx.html.dom.write
-import kotlinx.html.html
+import kotlinx.html.body
+import kotlinx.html.head
+import org.pointyware.xyz.site.ProgramOutput.PrintOutput
+import org.pointyware.xyz.site.dsl.site
 import java.io.File
-import java.io.OutputStream
 
 /**
  * How to use:
@@ -14,28 +14,35 @@ import java.io.OutputStream
 fun main(vararg args: String) {
     // Declare Program defaults explicitly for parity with documentation 👍
     var inputs = ProgramInputs(
-        output = System.out
+        output = PrintOutput("/", System.out)
     )
 
     // Process Arguments
     inputs = args.iterator().consumeArgs(inputs)
 
-    // Render Single Document For Now - Developing Site DSL ATM
-    val htmlPage = createHTMLDocument().html {
-
-    }
-
-    inputs.output.site {
+    // Render Site
+    site(inputs.output) {
         branch("privacy-policy") {
+            index {
+                head {
 
+                }
+                body {
+
+                }
+            }
         }
 
         branch("terms-of-service") {
+            index {
+                head {
 
+                }
+                body {
+
+                }
+            }
         }
-    }
-    inputs.output.bufferedWriter().use {
-        it.write(document = htmlPage)
     }
 }
 
@@ -66,7 +73,9 @@ enum class CommandOption(
 }
 
 private fun Iterator<String>.consumeArgs(inputs: ProgramInputs): ProgramInputs {
-    if (hasNext()) {
+    var latestInputs = inputs
+    var unrecognizedArgs = mutableListOf<String>()
+    while (hasNext()) { // Continue to consume command options until all args are consumed
         val arg = next()
         when {
             arg.startsWith("--") -> {
@@ -87,8 +96,13 @@ private fun Iterator<String>.consumeArgs(inputs: ProgramInputs): ProgramInputs {
                     }
                 }
             }
+            else -> {
+                unrecognizedArgs += arg
+            }
         }
-    } else {
-        inputs
     }
+    if (unrecognizedArgs.isNotEmpty()) {
+        println("Unrecognized arguments: ${unrecognizedArgs.joinToString(", ")}")
+    }
+    return latestInputs
 }
