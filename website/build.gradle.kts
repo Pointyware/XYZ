@@ -17,7 +17,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines)
     implementation(libs.koin.core)
 
-    implementation(libs.kotlinx.html)
+    implementation(libs.kotlinx.html.jvm)
 
     testImplementation(libs.kotlin.test)
 }
