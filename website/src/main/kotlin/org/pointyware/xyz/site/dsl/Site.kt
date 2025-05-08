@@ -59,8 +59,9 @@ interface BranchScope {
             }
             is ProgramOutput.PrintOutput -> {
                 capture.stream.println("Printing page: ${capture.path}")
-                capture.stream.bufferedWriter().use {
+                capture.stream.bufferedWriter().let {
                     it.write(document = doc)
+                    it.flush() // ensure buffer is cleared because we'll just let GC clean up since we don't want to close the underlying stream
                 }
             }
         }
