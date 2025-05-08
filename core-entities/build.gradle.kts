@@ -14,10 +14,7 @@ plugins {
 
 kotlin {
     jvmToolchain(21)
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    compilerOptions {
-        apiVersion = KotlinVersion.KOTLIN_2_0
-    }
+
     jvm {
 
     }
