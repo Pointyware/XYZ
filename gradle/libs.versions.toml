@@ -17,6 +17,7 @@ koin-bom = "3.5.3"
 kotlin = "2.1.10"
 kotlinx-coroutines = "1.9.0"
 kotlinx-datetime = "0.6.0"
+kotlinx-html = "0.12.0"
 kotlinx-io = "0.5.4"
 kotlinx-serialization = "1.8.1"
 kover = "0.9.1"
@@ -60,6 +61,8 @@ kotlinx-coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines
 kotlinx-coroutinesCoreJvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutinesSwing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-css = { module = "org.jetbrains.kotlinx:kotlinx-css", version.ref = "kotlinx-html" }
+kotlinx-html = { module = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinx-html" }
 kotlinx-io-core = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinx-io" }
 kotlinx-io-bytestring = { module = "org.jetbrains.kotlinx:kotlinx-io-bytestring", version.ref = "kotlinx-io" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
