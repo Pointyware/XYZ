@@ -94,7 +94,7 @@ private fun Iterator<String>.consumeArgs(inputs: ProgramInputs): ProgramInputs {
                 val longOption = arg.substring(2)
                 CommandOption.entries.forEach {
                     if (it.longName == longOption) {
-
+                        latestInputs = it.onMatch(this, latestInputs)
                         return@forEach
                     }
                 }
@@ -103,7 +103,7 @@ private fun Iterator<String>.consumeArgs(inputs: ProgramInputs): ProgramInputs {
                 val shortOption = arg.substring(1)
                 CommandOption.entries.forEach {
                     if (it.shortName == shortOption) {
-
+                        latestInputs = it.onMatch(this, latestInputs)
                         return@forEach
                     }
                 }
