@@ -3,6 +3,7 @@ package org.pointyware.xyz.site
 import kotlinx.html.dom.createHTMLDocument
 import kotlinx.html.dom.write
 import kotlinx.html.html
+import java.io.File
 import java.io.OutputStream
 
 /**
@@ -24,29 +25,44 @@ fun main(vararg args: String) {
 
     }
 
+    inputs.output.site {
+        branch("privacy-policy") {
+
+        }
+
+        branch("terms-of-service") {
+
+        }
+    }
     inputs.output.bufferedWriter().use {
         it.write(document = htmlPage)
     }
 }
 
 data class ProgramInputs(
-    val output: OutputStream
+    val output: ProgramOutput
 )
 
-data class CommandOption(
-    val name: String,
+enum class CommandOption(
+    val longName: String,
     val shortName: String,
     val description: String,
-    val defaultValue: String = ""
+    val defaultValue: String = "",
+    val onMatch: (Iterator<String>, ProgramInputs)->ProgramInputs
 ) {
-    companion object {
-        val Output = CommandOption(
-            name = "out",
-            shortName = "o",
-            description = "",
-            defaultValue = "",
-        )
-    }
+    Output(
+        longName = "out",
+        shortName = "o",
+        description = "",
+        defaultValue = "",
+        onMatch = { args, inputs ->
+            if (args.hasNext()) {
+                inputs.copy(output = ProgramOutput.FileOutput(File(args.next())))
+            } else {
+                throw IllegalArgumentException("Missing argument for ${Output.longName}")
+            }
+        }
+    )
 }
 
 private fun Iterator<String>.consumeArgs(inputs: ProgramInputs): ProgramInputs {
@@ -55,12 +71,21 @@ private fun Iterator<String>.consumeArgs(inputs: ProgramInputs): ProgramInputs {
         when {
             arg.startsWith("--") -> {
                 val longOption = arg.substring(2)
-                // TODO: match against names
-                CommandOption.Output.name
+                CommandOption.entries.forEach {
+                    if (it.longName == longOption) {
+
+                        return@forEach
+                    }
+                }
             }
             arg.startsWith("-") -> {
                 val shortOption = arg.substring(1)
-                CommandOption.Output.shortName
+                CommandOption.entries.forEach {
+                    if (it.shortName == shortOption) {
+
+                        return@forEach
+                    }
+                }
             }
         }
     } else {
