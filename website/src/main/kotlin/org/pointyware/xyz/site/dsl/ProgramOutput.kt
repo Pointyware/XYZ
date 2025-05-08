@@ -10,11 +10,15 @@ import java.io.PrintStream
 sealed interface ProgramOutput {
     fun branch(segment: String): ProgramOutput
     data class FileOutput(val file: File): ProgramOutput {
+
+        init {
+            if (!file.exists()) {
+                file.mkdirs()
+            }
+        }
+
         override fun branch(segment: String): ProgramOutput {
             val branchFile = File(file, segment)
-            if (!branchFile.exists()) {
-                branchFile.mkdirs()
-            }
             return FileOutput(branchFile)
         }
     }
