@@ -73,9 +73,9 @@ publishing {
         maven {
             val gCloudRegion = "us-south1"
             val gCloudRepo = "docker-repo"
-            url = uri(artifactRegistryUrl(gCloudRegion, "xyz-staging", gCloudRepo))
+            url = uri(artifactRegistryUrl(gCloudRegion, project.properties.getOrDefault("GCLOUD_ID_XYZ_STAGING", "xyz").toString(), gCloudRepo))
             release {
-                url = uri(artifactRegistryUrl(gCloudRegion, "xyz-release", gCloudRepo))
+                url = uri(artifactRegistryUrl(gCloudRegion, project.properties.getOrDefault("GCLOUD_ID_XYZ_RELEASE", "xyz").toString(), gCloudRepo))
             }
         }
     }
