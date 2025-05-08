@@ -5,6 +5,11 @@
 package org.pointyware.xyz.core.remote
 
 import io.ktor.client.HttpClient
+import io.ktor.http.URLProtocol
+import org.pointyware.xyz.remote.BuildConfig
+
+internal const val HOST_URI = BuildConfig.API_HOST_URI
+internal val HOST_PROTOCOL = if (BuildConfig.API_HOST_SECURE.parseBoolean()) { URLProtocol.HTTPS } else { URLProtocol.HTTP }
 
 /**
  * Creates a ktor client for any platform.
