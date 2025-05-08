@@ -14,7 +14,7 @@ import java.io.File
 
 /**
  * How to use:
- * -out <filepath> | the default is System.out
+ * -out <filepath> | the default is System.out with a virtual root at "/"
  *
  */
 fun main(vararg args: String) {
