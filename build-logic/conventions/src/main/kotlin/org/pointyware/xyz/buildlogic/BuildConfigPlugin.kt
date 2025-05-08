@@ -121,10 +121,33 @@ abstract class BuildConfigPluginExtension {
     @get:Input
     abstract val properties: MapProperty<String, String>
 
-    /**
-     * Adds a build config field to the generated BuildConfig file.
-     */
-    fun buildConfigField(name: String, value: String) {
+    fun addString(name: String, value: String) {
         properties.set(properties.get() + (name to value))
+    }
+
+    inner class LoadPropertiesScope(
+        private val properties: Properties
+    ) {
+        fun addString(key: String) {
+            val value = properties.getProperty(key)
+            if (value != null) {
+                addString(key, value)
+            } else {
+                throw IllegalArgumentException("Key $key not found in properties file.")
+            }
+        }
+    }
+
+    fun loadProperties(fileName: String, block: LoadPropertiesScope.() -> Unit) {
+        val file = File(fileName)
+        if (!file.exists()) {
+            throw IllegalArgumentException("File $fileName does not exist.")
+        }
+        val properties = Properties()
+        file.inputStream().use {
+            properties.load(it)
+        }
+        val scope = LoadPropertiesScope(properties)
+        scope.block()
     }
 }
