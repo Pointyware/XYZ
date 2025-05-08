@@ -136,6 +136,19 @@ abstract class BuildConfigPluginExtension {
                 throw IllegalArgumentException("Key $key not found in properties file.")
             }
         }
+
+        /**
+         * Retrieves the property associated with [alias] and retains it under the given [key] for
+         * writing to the output BuildConfig.
+         */
+        fun addStringAlias(key: String, alias: String) {
+            val value = properties.getProperty(alias)
+            if (value != null) {
+                addString(key, value)
+            } else {
+                throw IllegalArgumentException("Key $alias not found in properties file.")
+            }
+        }
     }
 
     fun loadProperties(fileName: String, block: LoadPropertiesScope.() -> Unit) {
