@@ -86,7 +86,8 @@ data class DirectoryScope(
  * the path to the endpoint and the page name.
  *
  * What we want to achieve is the ability to determine the root of a folder hierarchy, and then
- * build up a hierarchy of endpoints, where each
+ * build up a hierarchy of endpoints, where each terminal endpoint contains at least one page
+ * (usually an index.html file).
  */
 fun site(root: ProgramOutput, block: DirectoryScope.() -> Unit) {
     val site = DirectoryScope(root)
