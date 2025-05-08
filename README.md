@@ -19,6 +19,7 @@ To get started, you'll need to first set up some credentials for the app by ensu
 - `./secrets.properties` - This will need to be created in the root of the project.
   - MAPS_API_KEY
   - AD_MOB_APP_ID
+  - APP_LOVIN_API_KEY
 - `./local.defaults.properties` - defines defaults for the above, checked in VC
   - 
 - `./stripe-secrets.properties` - This will need to be created in the root of the project.
