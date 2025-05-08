@@ -18,7 +18,6 @@ dependencies {
     implementation(libs.koin.core)
 
     implementation(libs.kotlinx.html)
-    implementation(libs.kotlinx.css)
 
     testImplementation(libs.kotlin.test)
 }
