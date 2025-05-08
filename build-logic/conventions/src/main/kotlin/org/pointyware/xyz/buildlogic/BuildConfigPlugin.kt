@@ -161,6 +161,10 @@ abstract class BuildConfigPluginExtension {
             properties.load(it)
         }
         val scope = LoadPropertiesScope(properties)
-        scope.block()
+        try {
+            scope.block()
+        } catch (e: Exception) {
+            throw IllegalArgumentException("Error loading properties from $fileName: ${e.message}", e)
+        }
     }
 }
