@@ -7,13 +7,13 @@ package org.pointyware.xyz.buildlogic
 import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.logging.LogLevel
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.problems.internal.impl.logger
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinMultiplatformPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.File
 import java.util.Properties
@@ -78,7 +78,8 @@ $propertiesString
         }
         when {
             // Support Kotlin Multiplatform projects
-            target.plugins.hasPlugin(KotlinMultiplatformPlugin::class.java) -> {
+            target.pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform") -> {
+                logger.log(LogLevel.INFO, "Configuring Kotlin Multiplatform extension")
                 target.extensions.configure(KotlinMultiplatformExtension::class.java) {
                     sourceSets.named("commonMain") {
                         kotlin.srcDirs(buildConfigFile.parentFile)
@@ -86,12 +87,16 @@ $propertiesString
                 }
             }
             // Support Kotlin JVM projects
-            target.plugins.hasPlugin(KotlinPlatformJvmPlugin::class.java) -> {
+            target.pluginManager.hasPlugin("org.jetbrains.kotlin.jvm") -> {
+                logger.log(LogLevel.INFO, "Configuring Kotlin JVM extension")
                 target.extensions.configure(KotlinJvmProjectExtension::class.java) {
                     sourceSets.named("main") {
                         kotlin.srcDirs(buildConfigFile.parentFile)
                     }
                 }
+            }
+            else -> {
+                logger.log(LogLevel.ERROR, "Unsupported project type. Please apply the Kotlin Multiplatform or Kotlin JVM plugin.")
             }
         }
     }
