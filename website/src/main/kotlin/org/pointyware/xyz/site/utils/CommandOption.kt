@@ -35,7 +35,7 @@ enum class CommandOption(
 }
 
 /**
- *
+ * Consumes arguments provided by a string iterator and updates the program inputs accordingly.
  */
 fun Iterator<String>.consumeArgs(inputs: ProgramInputs): ProgramInputs {
     var latestInputs = inputs
