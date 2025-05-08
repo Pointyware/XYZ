@@ -30,6 +30,9 @@ fun main(vararg args: String) {
     // Render Site
     site(inputs.output) {
         branch("privacy-policy") {
+            index(resourceFile = "docs/privacy-policy.html")
+        }
+        branch("") {
             index {
                 // Consider: https://github.com/allangomes/kotlinwind.css/tree/dev in place of kotlinx.css
                 head {
@@ -77,14 +80,7 @@ fun main(vararg args: String) {
         }
 
         branch("terms-of-service") {
-            index {
-                head {
-
-                }
-                body {
-
-                }
-            }
+            index(resourceFile = "docs/terms-of-service.html")
         }
     }
 }
