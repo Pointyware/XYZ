@@ -130,7 +130,7 @@ abstract class BuildConfigPluginExtension {
         properties.set(properties.get() + (name to value))
     }
 
-    inner class LoadPropertiesScope(
+    inner class FromPropertiesScope(
         private val properties: Properties
     ) {
         fun addString(key: String) {
@@ -156,7 +156,11 @@ abstract class BuildConfigPluginExtension {
         }
     }
 
-    fun loadProperties(file: File, block: LoadPropertiesScope.() -> Unit) {
+    /**
+     * Loads properties from the given [file] and executes the provided [block] in the context of
+     * a [FromPropertiesScope] with the loaded properties.
+     */
+    fun fromProperties(file: File, block: FromPropertiesScope.() -> Unit) {
         if (!file.exists()) {
             throw IllegalArgumentException("File ${file.name} does not exist.")
         }
@@ -164,7 +168,7 @@ abstract class BuildConfigPluginExtension {
         file.inputStream().use {
             properties.load(it)
         }
-        val scope = LoadPropertiesScope(properties)
+        val scope = FromPropertiesScope(properties)
         try {
             scope.block()
         } catch (e: Exception) {
