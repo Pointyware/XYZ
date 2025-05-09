@@ -3,6 +3,7 @@ package org.pointyware.xyz.api.services
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertNotEquals
 
 class PaymentsServiceUnitTest {
 
@@ -19,6 +20,8 @@ class PaymentsServiceUnitTest {
 
     @Test
     fun testCreatePaymentIntent() {
-        serviceUnderTest.createPaymentIntent("some-user-id", 100L)
+        val result = serviceUnderTest.createPaymentIntent("some-user-id", 100L)
+
+        assertNotEquals("", result.getOrThrow())
     }
 }
