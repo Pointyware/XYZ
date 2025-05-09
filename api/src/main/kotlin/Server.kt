@@ -14,6 +14,7 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 import org.pointyware.xyz.api.controllers.PaymentsController
 import org.pointyware.xyz.api.controllers.PaymentsControllerImpl
+import org.pointyware.xyz.api.di.apiModule
 import org.pointyware.xyz.api.routes.auth
 import org.pointyware.xyz.api.routes.drive
 import org.pointyware.xyz.api.routes.payment
@@ -28,11 +29,7 @@ fun main() {
 
     startKoin {
         modules(
-            module {
-                factoryOf(::PaymentsControllerImpl) {
-                    bind<PaymentsController>()
-                }
-            }
+            apiModule()
         )
     }
 
