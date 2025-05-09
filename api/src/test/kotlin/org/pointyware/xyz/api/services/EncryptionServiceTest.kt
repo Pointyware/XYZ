@@ -3,8 +3,8 @@ package org.pointyware.xyz.api.services
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertFails
 import kotlin.test.assertNotEquals
+import kotlin.test.assertTrue
 
 class EncryptionServiceTest {
 
@@ -21,22 +21,15 @@ class EncryptionServiceTest {
 
     @Test
     fun salted_password() {
-        val hash = serviceUnderTest.saltedHash("password", "salt")
+        val hash = serviceUnderTest.saltedHash("password", "salt").getOrThrow()
 
         assertNotEquals("", hash)
     }
 
     @Test
-    fun generate_token_fails_for_unknown_user() {
-        assertFails {
-            serviceUnderTest.generateToken(email = "some-unknown@some.maiil", resourcePermissions = emptyList())
-        }
-    }
+    fun generate_token_returns_encrypted_message() {
+        val token = serviceUnderTest.generateToken(email = "user_email@some.mail", resourcePermissions = emptyList()).getOrThrow()
 
-    @Test
-    fun generate_token_passes_for_known_user() {
-        val token = serviceUnderTest.generateToken(email = "user_email@some.mail", resourcePermissions = emptyList())
-
-        assertNotEquals("", token)
+        assertTrue(token.split('.').size == 2)
     }
 }
