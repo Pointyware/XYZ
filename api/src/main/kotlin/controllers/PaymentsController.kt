@@ -1,7 +1,7 @@
 package org.pointyware.xyz.api.controllers
 
+import org.pointyware.xyz.api.services.PaymentsService
 import org.pointyware.xyz.api.services.RideService
-import org.pointyware.xyz.api.services.StripeService
 
 /**
  * A payments controller is responsible for handling payment-related operations. These consist of
@@ -22,17 +22,16 @@ interface PaymentsController {
  */
 class PaymentsControllerImpl(
     private val rideService: RideService,
-    private val stripeService: StripeService
+    private val paymentsService: PaymentsService
 ): PaymentsController {
 
     override suspend fun getRideCost(rideId: String): Result<Long> {
         return rideService.getRideCost(rideId)
     }
 
-    override suspend fun createPaymentIntent(rideId: String): Result<String> {
-        return rideService.getRideById(rideId)
-            .map {
-                stripeService.createPaymentIntent(it.riderId, it.cost)
+    override suspend fun createPaymentIntent(rideId: String): Result<String> =
+        rideService.getRideById(rideId) // ride may not exist
+            .mapCatching {
+                paymentsService.createPaymentIntent(it.riderId, it.cost).getOrThrow()
             }
-    }
 }
