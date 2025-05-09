@@ -27,7 +27,7 @@ To get started, you'll need to first set up some credentials for the app by ensu
   - STRIPE_API_KEY_LIVE
   - STRIPE_STAGING_URL
   - STRIPE_PRODUCTION_URL
-- `./stripe-secrets.defaults.properties` - defines defaults for the above, checked in VC
+- `./stripe-local.defaults.properties` - defines defaults for the above, checked in VC
 - `~/.gradle/gradle.properties` - user global gradle properties
   - 
 - `./.gradle/gradle.properties` - project gradle properties
