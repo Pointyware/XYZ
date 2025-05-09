@@ -5,7 +5,7 @@ import org.pointyware.xyz.api.services.UserService
 import org.pointyware.xyz.core.data.dtos.Authorization
 
 /**
- *
+ * Controller for handling authentication-related operations that return authorization tokens.
  */
 //@AdapterLayer
 interface AuthController {
