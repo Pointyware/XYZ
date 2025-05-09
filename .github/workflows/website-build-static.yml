@@ -17,7 +17,7 @@ jobs:
       - name: "Checkout Project"
         uses: actions/checkout@v4
         with:
-          path: "XYZ"
+          path: ''
       - name: "Setup Java 21"
         uses: actions/setup-java@v4
         with:
@@ -33,7 +33,7 @@ jobs:
       - name: "Checkout Static Site"
         uses: actions/checkout@v4
         with:
-          path: "XYZ-static-site"
+          path: ''
           repository: 'Pointyware/XYZ-static-site'
           token: ${{ secrets.XYZ_STATIC_SITE_UPLOAD_TOKEN }}
 
