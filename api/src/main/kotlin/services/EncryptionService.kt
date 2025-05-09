@@ -23,14 +23,25 @@ class EncryptionServiceImpl(
     // TODO: inject JVM encryption dependencies
 ): EncryptionService {
 
-    private val cipher = Cipher.getInstance("AES_256/CBC/NoPadding")
+    private val asymmetricCipher = Cipher.getInstance("RSA/NONE/PKCS1Padding")
+    private val symmetricCipher = Cipher.getInstance("AES_256/CBC/NoPadding")
     /*
     TODO: load the server pass-key from a secure location
      */
 
     override fun saltedHash(password: String, salt: String): String {
-        TODO("Implement salted hash generation")
+        val hashInput = password + salt
+        val hash = symmetricCipher.doFinal(hashInput.toByteArray())
+        return hash.joinToString("") { String.format("%02x", it) }
     }
 
-    ˆ
+    override fun generateToken(email: String, resourcePermissions: List<String>): String {
+        val emailHash = asymmetricCipher.doFinal(email.toByteArray())
+        val permissionString = resourcePermissions.joinToString(",")
+        val permissionHash = asymmetricCipher.doFinal(permissionString.toByteArray())
+
+        return emailHash.toHexString() + "." + permissionHash.toHexString()
+    }
+
+    private fun ByteArray.toHexString() = this.joinToString("") { String.format("%02x", it) }
 }
