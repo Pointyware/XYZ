@@ -47,3 +47,4 @@ jobs:
       - name: "Commit Static Site"
         run: |
           git commit -m "Update static site" --allow-empty
+          git push
