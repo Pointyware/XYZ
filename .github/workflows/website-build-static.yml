@@ -46,5 +46,7 @@ jobs:
           cd XYZ-static-site
           rm -rf ./*
           cp -r ../XYZ/website/build/static-site/* ./
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
           git commit -m "Update static site" --allow-empty
           git push
