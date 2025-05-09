@@ -21,14 +21,5 @@ fun main(vararg args: String) {
     inputs = args.iterator().consumeArgs(inputs)
 
     // Render Site
-    site(inputs.output) {
-        homePage()
-        branch("privacy-policy") {
-            index(resourceFile = "docs/privacy-policy.html")
-        }
-
-        branch("terms-of-service") {
-            index(resourceFile = "docs/terms-of-service.html")
-        }
-    }
+    buildSite(inputs.output)
 }
