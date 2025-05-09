@@ -4,16 +4,18 @@
 
 package org.pointyware.xyz.api.routes
 
-import io.ktor.server.application.call
-import io.ktor.server.response.respondNullable
 import io.ktor.server.routing.Routing
-import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.put
+import org.koin.mp.KoinPlatform.getKoin
 
 /**
- *
+ * Routes drive endpoint requests to the appropriate controller.
  */
 fun Routing.drive() {
-    get("/drive") {
-        call.respondNullable<String?>("Hi Driver!")
-    }
+    val koin = getKoin()
+    post("/drive/start") {}
+    put("/drive/status") {}
+    post("/drive/accept") {}
+    post("/drive/stop") {}
 }
