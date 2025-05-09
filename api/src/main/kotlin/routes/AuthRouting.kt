@@ -4,20 +4,35 @@
 
 package org.pointyware.xyz.api.routes
 
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
+import io.ktor.server.response.respondNullable
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Routing
-import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import org.koin.mp.KoinPlatform.getKoin
+import org.pointyware.xyz.api.controllers.AuthController
+import org.pointyware.xyz.core.data.dtos.LoginInfo
 
 /**
  * Directs auth requests to the appropriate controller.
  */
 fun Routing.auth() {
-    post("/auth/login") {
-        TODO("access sql database to authenticate user")
+    val koin = getKoin()
+    post<LoginInfo>("/auth/login") { info ->
+        val authService = koin.get<AuthController>()
+
+        authService.login(info.email, info.password)
+            .onSuccess { call.respondNullable(it) }
+            .onFailure { call.respondText(it.message ?: "Unknown error") }
+        call.respondText("Unreachable", status = HttpStatusCode.InternalServerError)
     }
-    post("/auth/create") {
-        TODO("access sql database to create user")
+    post<LoginInfo>("/auth/create") { info ->
+        val authService = koin.get<AuthController>()
+
+        authService.createUser(info.email, info.password)
+            .onSuccess { call.respondNullable(it) }
+            .onFailure { call.respondText(it.message ?: "Unknown error") }
+        call.respondText("Unreachable", status = HttpStatusCode.InternalServerError)
     }
 }
