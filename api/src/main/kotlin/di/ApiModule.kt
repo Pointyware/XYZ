@@ -29,6 +29,10 @@ fun apiModule() = module {
     )
 }
 
+/**
+ * This module provides implementations for all controllers. Controllers depend on services,
+ * but those are provided separately by [servicesModule].
+ */
 fun controllersModule() = module {
     singleOf(::AuthControllerImpl) { bind<AuthController>() }
     singleOf(::OrderControllerImpl) { bind<OrderController>() }
@@ -36,7 +40,8 @@ fun controllersModule() = module {
 }
 
 /**
- * This module provides implementations for all services.
+ * This module provides implementations for all services, including any framework-specific
+ * dependencies, e.g. [postgresModule] is included.
  */
 fun servicesModule() = module {
     singleOf(::PostgresUserService) { bind<UserService>() }
