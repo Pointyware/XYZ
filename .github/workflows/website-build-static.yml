@@ -40,14 +40,11 @@ jobs:
           repository: 'Pointyware/XYZ-static-site'
           token: ${{ secrets.XYZ_STATIC_SITE_UPLOAD_TOKEN }}
 
-      - name: "Copy Static Site"
+      - name: "Copy and Commit Static Site"
         run: |
           pwd
           cd XYZ-static-site
           rm -rf ./*
           cp -r ../XYZ/website/build/static-site/* ./
-
-      - name: "Commit Static Site"
-        run: |
           git commit -m "Update static site" --allow-empty
           git push
