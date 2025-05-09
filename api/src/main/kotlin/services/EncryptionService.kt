@@ -34,8 +34,9 @@ class EncryptionServiceImpl(
     TODO: load the server pass-key from a secure location
      */
 
-    override fun generateSalt(): Result<String> {
-        TODO("Not yet implemented")
+    override fun generateSalt(): Result<String> = runCatching {
+        val nonce = ByteArray(16)
+        nonce.toHexString()
     }
 
     override fun saltedHash(password: String, salt: String): Result<String> = runCatching {
