@@ -7,6 +7,11 @@ import javax.crypto.Cipher
  */
 interface EncryptionService {
     /**
+     *  Generates a random salt value.
+     */
+    fun generateSalt(): Result<String>
+
+    /**
      * Generates a salted hash of the given password using the given salt.
      */
     fun saltedHash(password: String, salt: String): Result<String>
@@ -28,6 +33,10 @@ class EncryptionServiceImpl(
     /*
     TODO: load the server pass-key from a secure location
      */
+
+    override fun generateSalt(): Result<String> {
+        TODO("Not yet implemented")
+    }
 
     override fun saltedHash(password: String, salt: String): Result<String> = runCatching {
         val hashInput = password + salt

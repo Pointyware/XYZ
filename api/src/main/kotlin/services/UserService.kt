@@ -22,6 +22,14 @@ interface UserService {
      */
     suspend fun generateAuthorization(email: String): Result<Authorization>
 
+    /**
+     * Creates a new user with the given email, password hash, and salt.
+     */
+    suspend fun createUser(email: String, hash: String, salt: String): Result<Unit>
+
+    /**
+     * Exception thrown when user credentials are missing for the given email.
+     */
     class MissingCredentialsException(val email: String) : Exception("Missing credentials for email: $email")
 }
 
@@ -75,5 +83,17 @@ class PostgresUserService(
             setString(2, authorization.token)
         }.executeUpdate()
         authorization
+    }
+
+    override suspend fun createUser(email: String, hash: String, salt: String): Result<Unit> {
+        return runCatching {
+            connection.prepareStatement(
+                "INSERT INTO users (email, pass_hash, salt) VALUES (?, ?, ?)"
+            ).apply {
+                setString(1, email)
+                setString(2, hash)
+                setString(3, salt)
+            }.executeUpdate()
+        }
     }
 }

@@ -27,7 +27,11 @@ class AuthControllerImpl(
         }
     }
 
-    override suspend fun createUser(email: String, password: String): Result<Authorization> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun createUser(email: String, password: String): Result<Authorization> =
+        encryptionService.generateSalt().mapCatching { salt ->
+            val hash = encryptionService.saltedHash(password, salt).getOrThrow()
+
+            userService.createUser(email, hash, salt).getOrThrow()
+            userService.generateAuthorization(email).getOrThrow()
+        }
 }
