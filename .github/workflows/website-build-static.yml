@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "website/**" # only run on changes to website
 
 jobs:
   build:
