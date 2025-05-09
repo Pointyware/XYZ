@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-class EncryptionServiceTest {
+class EncryptionServiceUnitTest {
 
     private lateinit var serviceUnderTest: EncryptionService
     @BeforeTest
