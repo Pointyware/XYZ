@@ -30,7 +30,7 @@ jobs:
       - name: "Build: Static Website"
         run: |
           pwd
-          ./gradlew :website:run --args="--out build/static-site"
+          ./XYZ/gradlew :website:run --args="--out build/static-site"
 
       - name: "Checkout Static Site"
         uses: actions/checkout@v4
@@ -41,6 +41,7 @@ jobs:
 
       - name: "Copy Static Site"
         run: |
+          pwd
           rm -rf ./*
           cp -r ../XYZ/website/build/static-site/* ./XYZ-static-site/
 
