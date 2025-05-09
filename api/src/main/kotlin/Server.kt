@@ -25,8 +25,6 @@ fun main() {
 
     val port = System.getenv("PORT")?.toInt() ?: 8080
 
-    Stripe.apiKey = System.getenv("STRIPE_API_KEY")
-
     startKoin {
         modules(
             apiModule()
