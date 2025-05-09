@@ -29,6 +29,7 @@ jobs:
 
       - name: "Build: Static Website"
         run: |
+          pwd
           ./gradlew :website:run --args="--out build/static-site"
 
       - name: "Checkout Static Site"
