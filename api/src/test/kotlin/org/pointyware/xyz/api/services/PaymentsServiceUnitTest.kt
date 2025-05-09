@@ -10,7 +10,7 @@ class PaymentsServiceUnitTest {
 
     @BeforeTest
     fun setUp() {
-        serviceUnderTest = StripeService()
+        serviceUnderTest = StripePaymentsService()
     }
 
     @AfterTest
