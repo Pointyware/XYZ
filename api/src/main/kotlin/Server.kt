@@ -4,16 +4,10 @@
 
 package org.pointyware.xyz.api
 
-import com.stripe.Stripe
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.routing
 import org.koin.core.context.GlobalContext.startKoin
-import org.koin.core.module.dsl.bind
-import org.koin.core.module.dsl.factoryOf
-import org.koin.dsl.module
-import org.pointyware.xyz.api.controllers.PaymentsController
-import org.pointyware.xyz.api.controllers.PaymentsControllerImpl
 import org.pointyware.xyz.api.di.apiModule
 import org.pointyware.xyz.api.routes.auth
 import org.pointyware.xyz.api.routes.drive
