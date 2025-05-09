@@ -11,6 +11,7 @@ import org.pointyware.xyz.api.controllers.PaymentsController
 import org.pointyware.xyz.api.controllers.PaymentsControllerImpl
 import org.pointyware.xyz.api.controllers.OrderControllerImpl
 import org.pointyware.xyz.api.databases.PostgresConnectionFactory
+import org.pointyware.xyz.api.services.PaymentsService
 import org.pointyware.xyz.api.services.PostgresRideService
 import org.pointyware.xyz.api.services.PostgresUserService
 import org.pointyware.xyz.api.services.RideService
@@ -40,7 +41,7 @@ fun controllersModule() = module {
 fun servicesModule() = module {
     singleOf(::PostgresUserService) { bind<UserService>() }
     singleOf(::PostgresRideService) { bind<RideService>() }
-    singleOf(::StripeService)
+    singleOf(::StripeService) { bind<PaymentsService>() }
 
     includes(
         postgresModule()
