@@ -23,7 +23,7 @@ class EncryptionServiceImpl(
     // TODO: inject JVM encryption dependencies
 ): EncryptionService {
 
-    private val asymmetricCipher = Cipher.getInstance("RSA/NONE/PKCS1Padding")
+    private val asymmetricCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
     private val symmetricCipher = Cipher.getInstance("AES_256/CBC/NoPadding")
     /*
     TODO: load the server pass-key from a secure location
