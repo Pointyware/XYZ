@@ -31,14 +31,14 @@ class PostgresUserService(
 
     override suspend fun getUserCredentials(email: String): UserCredentials {
         val userCredentials: UserCredentials = connection.prepareStatement(
-            "SELECT * FROM user_credentials WHERE email = ?"
+            "SELECT * FROM users WHERE email = ?"
         ).apply {
             setString(1, email)
         }.executeQuery().use { resultSet ->
             if (resultSet.next()) {
                 UserCredentials(
                     email = resultSet.getString("email"),
-                    hash = resultSet.getString("hash"),
+                    hash = resultSet.getString("pass_hash"),
                     salt = resultSet.getString("salt")
                 )
             } else {
@@ -49,9 +49,20 @@ class PostgresUserService(
     }
 
     override suspend fun generateAuthorization(email: String): Authorization {
+        val userPermissions = connection.prepareStatement(
+            "SELECT * FROM user_permissions WHERE email = ?"
+        ).apply {
+            setString(1, email)
+        }.executeQuery().use { resultSet ->
+            if (resultSet.next()) {
+                resultSet.getString("permissions").split(",")
+            } else {
+                emptyList()
+            }
+        }
         val authorization = Authorization(
             email = email,
-            token = encryptionService.generateToken(email)
+            token = encryptionService.generateToken(email, userPermissions)
         )
         connection.prepareStatement(
             "INSERT INTO authorizations (email, token) VALUES (?, ?)"
