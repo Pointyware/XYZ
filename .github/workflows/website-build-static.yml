@@ -43,7 +43,7 @@ jobs:
       - name: "Copy Static Site"
         run: |
           pwd
-          cd ../XYZ-static-site
+          cd XYZ-static-site
           rm -rf ./*
           cp -r ../XYZ/website/build/static-site/* ./
 
