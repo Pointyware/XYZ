@@ -30,6 +30,7 @@ jobs:
       - name: "Build: Static Website"
         run: |
           cd XYZ
+          touch stripe-secrets.properties
           ./gradlew :website:run --args="--out build/static-site"
 
       - name: "Checkout Static Site"
