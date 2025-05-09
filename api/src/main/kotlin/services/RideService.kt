@@ -1,6 +1,7 @@
 package org.pointyware.xyz.api.services
 
 import org.pointyware.xyz.core.data.dtos.RideInfo
+import java.sql.Connection
 
 interface RideService {
     suspend fun getRideById(id: String): Result<RideInfo>
@@ -8,7 +9,7 @@ interface RideService {
 }
 
 class PostgresRideService(
-    private val dbConnection: Any // TODO: Replace with actual DB connection type
+    private val connection: Connection
 ): RideService {
     override suspend fun getRideById(id: String): Result<RideInfo> {
         return TODO("")
