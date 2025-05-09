@@ -38,6 +38,7 @@ kotlin {
         implementation(libs.ktor.server.netty)
 
         implementation(libs.postgresql)
+        implementation(libs.bouncyCastle)
 
         implementation(libs.stripe.server)
 
