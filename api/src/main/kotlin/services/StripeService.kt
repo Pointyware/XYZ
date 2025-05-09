@@ -4,7 +4,7 @@ import com.stripe.model.PaymentIntent
 import com.stripe.param.PaymentIntentCreateParams
 
 class StripeService {
-    fun createPaymentIntent(rideId: String, cost: Long): String {
+    fun createPaymentIntent(rideId: String, cost: Long): Result<String> = runCatching {
         val paymentIntentCreateParams = PaymentIntentCreateParams.builder()
             .setCustomer(rideId) // customer ID
             .setAmount(cost) // amount in cents
@@ -13,6 +13,6 @@ class StripeService {
 
         val intent = PaymentIntent.create(paymentIntentCreateParams)
 
-        return intent.clientSecret
+        intent.clientSecret
     }
 }

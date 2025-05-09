@@ -4,6 +4,10 @@ import org.pointyware.xyz.api.services.EncryptionService
 import org.pointyware.xyz.api.services.UserService
 import org.pointyware.xyz.core.data.dtos.Authorization
 
+/**
+ *
+ */
+//@AdapterLayer
 interface AuthController {
     suspend fun login(email: String, password: String): Result<Authorization>
     suspend fun createUser(email: String, password: String): Result<Authorization>
@@ -14,12 +18,12 @@ class AuthControllerImpl(
     private val encryptionService: EncryptionService
 ): AuthController {
     override suspend fun login(email: String, password: String): Result<Authorization> = runCatching {
-        val credentials = userService.getUserCredentials(email)
-        val hash = encryptionService.saltedHash(password, credentials.salt)
-        return if (credentials.hash == hash) {
-            Result.success(userService.generateAuthorization(email))
+        val credentials = userService.getUserCredentials(email).getOrThrow()
+        val hash = encryptionService.saltedHash(password, credentials.salt).getOrThrow()
+        if (credentials.hash == hash) {
+            userService.generateAuthorization(email).getOrThrow()
         } else {
-            Result.failure(Exception("Invalid credentials"))
+            throw Exception("Invalid credentials")
         }
     }
 

@@ -15,8 +15,12 @@ interface UserService {
      * Fetches the user credentials for the given email.
      * @throws MissingCredentialsException if the email is invalid.
      */
-    suspend fun getUserCredentials(email: String): UserCredentials
-    suspend fun generateAuthorization(email: String): Authorization
+    suspend fun getUserCredentials(email: String): Result<UserCredentials>
+
+    /**
+     * Generates an authorization token for the user with the given email.
+     */
+    suspend fun generateAuthorization(email: String): Result<Authorization>
 
     class MissingCredentialsException(val email: String) : Exception("Missing credentials for email: $email")
 }
@@ -29,7 +33,7 @@ class PostgresUserService(
     private val connection: Connection
 ) : UserService {
 
-    override suspend fun getUserCredentials(email: String): UserCredentials {
+    override suspend fun getUserCredentials(email: String): Result<UserCredentials> = runCatching {
         val userCredentials: UserCredentials = connection.prepareStatement(
             "SELECT * FROM users WHERE email = ?"
         ).apply {
@@ -45,10 +49,10 @@ class PostgresUserService(
                 throw UserService.MissingCredentialsException(email)
             }
         }
-        return userCredentials
+        userCredentials
     }
 
-    override suspend fun generateAuthorization(email: String): Authorization {
+    override suspend fun generateAuthorization(email: String): Result<Authorization> = runCatching {
         val userPermissions = connection.prepareStatement(
             "SELECT * FROM user_permissions WHERE email = ?"
         ).apply {
@@ -62,7 +66,7 @@ class PostgresUserService(
         }
         val authorization = Authorization(
             email = email,
-            token = encryptionService.generateToken(email, userPermissions)
+            token = encryptionService.generateToken(email, userPermissions).getOrThrow()
         )
         connection.prepareStatement(
             "INSERT INTO authorizations (email, token) VALUES (?, ?)"
@@ -70,6 +74,6 @@ class PostgresUserService(
             setString(1, email)
             setString(2, authorization.token)
         }.executeUpdate()
-        return authorization
+        authorization
     }
 }

@@ -9,14 +9,14 @@ interface EncryptionService {
     /**
      * Generates a salted hash of the given password using the given salt.
      */
-    fun saltedHash(password: String, salt: String): String
+    fun saltedHash(password: String, salt: String): Result<String>
 
     /**
      * Generates an authorization token with the given resource permissions list. These are
      * implementation dependent, but usually come in a form like "api_bid:read,write;api_ask:read"
      * or abbreviated forms like "bid:rw;ask:r".
      */
-    fun generateToken(email: String, resourcePermissions: List<String>): String
+    fun generateToken(email: String, resourcePermissions: List<String>): Result<String>
 }
 
 class EncryptionServiceImpl(
@@ -29,18 +29,18 @@ class EncryptionServiceImpl(
     TODO: load the server pass-key from a secure location
      */
 
-    override fun saltedHash(password: String, salt: String): String {
+    override fun saltedHash(password: String, salt: String): Result<String> = runCatching {
         val hashInput = password + salt
         val hash = symmetricCipher.doFinal(hashInput.toByteArray())
-        return hash.joinToString("") { String.format("%02x", it) }
+        hash.toHexString()
     }
 
-    override fun generateToken(email: String, resourcePermissions: List<String>): String {
+    override fun generateToken(email: String, resourcePermissions: List<String>): Result<String> = runCatching {
         val emailHash = asymmetricCipher.doFinal(email.toByteArray())
         val permissionString = resourcePermissions.joinToString(",")
         val permissionHash = asymmetricCipher.doFinal(permissionString.toByteArray())
 
-        return emailHash.toHexString() + "." + permissionHash.toHexString()
+        emailHash.toHexString() + "." + permissionHash.toHexString()
     }
 
     private fun ByteArray.toHexString() = this.joinToString("") { String.format("%02x", it) }
