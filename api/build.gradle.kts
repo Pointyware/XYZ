@@ -88,9 +88,9 @@ buildConfig {
     packageName = "org.pointyware.xyz.api"
 
     fromProperties(project.file("secrets.properties")) {
-        addStringAlias("STRIPE_API_KEY_TEST", "STRIPE_API_KEY")
+        addStringAlias("STRIPE_API_KEY", "STRIPE_API_KEY_TEST")
         release {
-            addStringAlias("STRIPE_API_KEY_LIVE", "STRIPE_API_KEY")
+            addStringAlias("STRIPE_API_KEY", "STRIPE_API_KEY_LIVE")
         }
     }
 }
