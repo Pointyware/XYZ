@@ -17,7 +17,7 @@ jobs:
       - name: "Checkout Project"
         uses: actions/checkout@v4
         with:
-          path: ''
+          path: 'XYZ'
       - name: "Setup Java 21"
         uses: actions/setup-java@v4
         with:
@@ -28,19 +28,19 @@ jobs:
 
       - name: "Build: Static Website"
         run: |
-          XYZ/gradlew :website:run --args="--out build/static-site"
+          ./gradlew :website:run --args="--out build/static-site"
 
       - name: "Checkout Static Site"
         uses: actions/checkout@v4
         with:
-          path: ''
+          path: "XYZ-static-site"
           repository: 'Pointyware/XYZ-static-site'
           token: ${{ secrets.XYZ_STATIC_SITE_UPLOAD_TOKEN }}
 
       - name: "Copy Static Site"
         run: |
-          rm -rf ./XYZ-static-site/*
-          cp -r ./XYZ/website/build/static-site/* ./XYZ-static-site/
+          rm -rf ./*
+          cp -r ../XYZ/website/build/static-site/* ./XYZ-static-site/
 
       - name: "Commit Static Site"
         run: |
