@@ -30,7 +30,7 @@ class BuildConfigPlugin: Plugin<Project> {
         )
         val extension = target.extensions.create("buildConfig", BuildConfigPluginExtension::class.java)
         extension.packageName.convention("${target.group}")
-        extension.defaultSecretsFileName.convention("secrets.defaults.properties")
+        extension.defaultSecretsFileName.convention("local.defaults.properties")
         extension.secretsFileName.convention("secrets.properties")
         extension.properties.convention(mapOf())
 

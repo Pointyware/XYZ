@@ -131,7 +131,7 @@ android {
         compose = true
     }
     buildTypes {
-        val defaults = rootProject.file("stripe-secrets.defaults.properties")
+        val defaults = rootProject.file("stripe-local.defaults.properties")
         val secrets = rootProject.file("stripe-secrets.properties")
         val properties = Properties()
         defaults.inputStream().use {
