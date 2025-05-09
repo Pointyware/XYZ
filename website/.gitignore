@@ -1,2 +1,4 @@
-/build/
+/build/*
 /static-site/
+
+!/build/static-site/
