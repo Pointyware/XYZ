@@ -5,6 +5,7 @@
 package org.pointyware.xyz.api.routes
 
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.server.response.respondNullable
 import io.ktor.server.response.respondText
@@ -16,23 +17,31 @@ import org.pointyware.xyz.core.data.dtos.LoginInfo
 
 /**
  * Directs auth requests to the appropriate controller.
+ *
+ * For now, we only have one app to authenticate against, so we don't need a dedicated auth server.
+ *
+ * In the future, we will have a dedicated auth server under the subdomain `auth.pointyware.org`.
  */
 fun Routing.auth() {
     val koin = getKoin()
     post<LoginInfo>("/auth/login") { info ->
-        val authService = koin.get<AuthController>()
+        val authController = koin.get<AuthController>()
 
-        authService.login(info.email, info.password)
-            .onSuccess { call.respondNullable(it) }
-            .onFailure { call.respondText(it.message ?: "Unknown error") }
-        call.respondText("Unreachable", status = HttpStatusCode.InternalServerError)
+        call.respondResult(authController.login(info.email, info.password))
     }
     post<LoginInfo>("/auth/create") { info ->
-        val authService = koin.get<AuthController>()
+        val authController = koin.get<AuthController>()
 
-        authService.createUser(info.email, info.password)
-            .onSuccess { call.respondNullable(it) }
-            .onFailure { call.respondText(it.message ?: "Unknown error") }
-        call.respondText("Unreachable", status = HttpStatusCode.InternalServerError)
+        call.respondResult(authController.createUser(info.email, info.password))
     }
+}
+
+/**
+ * Passes the result along as a 200 OK response if successful, or a 500 Internal Server Error if not.
+ */
+private suspend inline fun <reified T> ApplicationCall.respondResult(result: Result<T>) {
+    result
+        .onSuccess { respondNullable(it) }
+        .onFailure { respondText(it.message ?: "Unknown error", status = HttpStatusCode.InternalServerError) }
+    respondText("Unreachable", status = HttpStatusCode.InternalServerError)
 }
