@@ -3,6 +3,7 @@ package org.pointyware.xyz.api.services
 import com.stripe.Stripe
 import com.stripe.model.PaymentIntent
 import com.stripe.param.PaymentIntentCreateParams
+import org.pointyware.xyz.api.BuildConfig
 
 /**
  * A payments service is responsible for handling payment-related operations. These consist of
@@ -24,7 +25,7 @@ class StripePaymentsService(
 ): PaymentsService {
 
     init {
-        Stripe.apiKey = System.getenv("STRIPE_API_KEY") ?: throw IllegalStateException("Stripe API key not set")
+        Stripe.apiKey = BuildConfig.STRIPE_API_KEY
     }
 
     override fun createPaymentIntent(customerId: String, cost: Long): Result<String> = runCatching {
