@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "/website/**" # only run on changes to website
+      - "website/**" # only run on changes to website
 
 jobs:
   build:
