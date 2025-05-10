@@ -18,7 +18,7 @@ class AuthServiceUnitTest {
     fun setUp() {
         connection = PostgresConnectionFactory().createConnection()
         encryptionService = EncryptionServiceImpl()
-        unitUnderTest = PostgresUserService(encryptionService, connection)
+        unitUnderTest = UserServiceImpl(encryptionService, connection)
     }
 
     @AfterTest
