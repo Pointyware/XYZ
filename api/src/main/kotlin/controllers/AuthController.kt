@@ -18,6 +18,8 @@ class AuthControllerImpl(
     private val encryptionService: EncryptionService
 ): AuthController {
     override suspend fun login(email: String, password: String): Result<Authorization> = runCatching {
+        // This kind of logic does not belong in the controller (adapter layer); it should be in the
+        // service (domain layer).
         val credentials = userService.getUserCredentials(email).getOrThrow()
         val hash = encryptionService.saltedHash(password, credentials.salt).getOrThrow()
         if (credentials.hash == hash) {
