@@ -1,10 +1,7 @@
 package org.pointyware.xyz.api.services
 
-import org.pointyware.xyz.api.model.UserCredentials
-import org.pointyware.xyz.api.services.UserService.ExistingEmailException
-import org.pointyware.xyz.api.services.UserService.InvalidCredentialsException
+import org.pointyware.xyz.api.databases.AuthDatabase
 import org.pointyware.xyz.core.data.dtos.Authorization
-import java.sql.Connection
 
 /**
  * Service for managing user credentials and authorizations.
@@ -41,45 +38,18 @@ interface UserService {
 /**
  *
  */
-class PostgresUserService(
+class UserServiceImpl(
     private val encryptionService: EncryptionService,
-    // TODO: replace with database abstractions; the service should not be managing data
-    //   directly
-    private val connection: Connection,
+    private val authDatabase: AuthDatabase
 ) : UserService {
-
-    /**
-     * Fetches the user credentials for the given email.
-     * @throws InvalidCredentialsException if the email is invalid.
-     */
-    private fun getUserCredentials(email: String): Result<UserCredentials> = runCatching {
-        // TODO: replace with database abstractions; the service should not be managing data
-        //   directly
-        val userCredentials: UserCredentials = connection.prepareStatement(
-            "SELECT * FROM users WHERE email = ?"
-        ).apply {
-            setString(1, email)
-        }.executeQuery().use { resultSet ->
-            if (resultSet.next()) {
-                UserCredentials(
-                    email = resultSet.getString("email"),
-                    hash = resultSet.getString("pass_hash"),
-                    salt = resultSet.getString("salt")
-                )
-            } else {
-                throw UserService.InvalidCredentialsException(email)
-            }
-        }
-        userCredentials
-    }
 
     override suspend fun validateCredentials(
         email: String,
         password: String
     ): Authorization {
-        val credentials = getUserCredentials(email).getOrThrow()
+        val credentials = authDatabase.users.getUserByEmail(email)
         val hash = encryptionService.saltedHash(password, credentials.salt).getOrThrow()
-        return if (credentials.hash == hash) {
+        return if (credentials.passwordHash == hash) {
             generateAuthorization(email).getOrThrow()
         } else {
             throw Exception("Invalid credentials")
@@ -89,58 +59,20 @@ class PostgresUserService(
     /**
      * Generates an authorization token for the user with the given email.
      */
-    private fun generateAuthorization(email: String): Result<Authorization> = runCatching {
-        // TODO: replace with database abstractions; the service should not be managing data
-        //   directly
-        val userPermissions = connection.prepareStatement(
-            "SELECT * FROM user_permissions WHERE email = ?"
-        ).apply {
-            setString(1, email)
-        }.executeQuery().use { resultSet ->
-            if (resultSet.next()) {
-                resultSet.getString("permissions").split(",")
-            } else {
-                emptyList()
-            }
-        }
-        val authorization = Authorization(
-            email = email,
-            token = encryptionService.generateToken(email, userPermissions).getOrThrow()
-        )
-        connection.prepareStatement(
-            "INSERT INTO authorizations (email, token) VALUES (?, ?)"
-        ).apply {
-            setString(1, email)
-            setString(2, authorization.token)
-        }.executeUpdate()
+    private suspend fun generateAuthorization(email: String): Result<Authorization> = runCatching {
+        val credentials = authDatabase.users.getUserByEmail(email)
+        val userPermissions = credentials.resourcePermissions
+        val token = encryptionService.generateToken(email, userPermissions).getOrThrow()
+        val authorization = Authorization(email = email, token = token)
+        authDatabase.users.insertAuthorization(email = email, token = authorization.token)
         authorization
-    }
-
-    /**
-     * Creates a new user with the given email, password hash, and salt.
-     *
-     * @throws ExistingEmailException
-     */
-    private fun createUser(email: String, hash: String, salt: String): Result<Unit> {
-        // TODO: replace with database abstractions; the service should not be managing data
-        //   directly
-        return runCatching {
-            connection.prepareStatement(
-                "INSERT INTO users (email, pass_hash, salt) VALUES (?, ?, ?)"
-            ).apply {
-                setString(1, email)
-                setString(2, hash)
-                setString(3, salt)
-            }.executeUpdate()
-            Unit
-        }
     }
 
     override suspend fun createUser(email: String, password: String): Authorization {
         val salt = encryptionService.generateSalt().getOrThrow()
         val hash = encryptionService.saltedHash(password, salt).getOrThrow()
 
-        createUser(email, hash, salt).getOrThrow()
+        authDatabase.users.createUser(email, hash, salt, listOf())
         return generateAuthorization(email).getOrThrow()
     }
 }
