@@ -1,0 +1,16 @@
+# Default ignored files
+/artifacts/
+/caches/
+/modules/
+
+/AndroidProjectSystem.xml
+/compiler.xml
+/deploymentTargetSelector.xml
+/gradle.xml
+/kotlinc.xml
+/migrations.xml
+/misc.xml
+/modules.xml
+/runConfigurations.xml
+/vcs.xml
+/workspace.xml

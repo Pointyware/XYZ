@@ -9,7 +9,6 @@ captures/
 
 *.iml
 .gradle
-.idea
 .kotlin
 .externalNativeBuild
 .cxx
