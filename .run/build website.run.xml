@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="build website" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="org.pointyware.xyz.site.MainKt" />
+    <module name="XYZ.website.main" />
+    <option name="PROGRAM_PARAMETERS" value="--out website/build/static-site" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
