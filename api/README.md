@@ -17,7 +17,11 @@ before using each.
 
 #### Local
 Set the environment variable for the server url to the hostname of your development machine (this
-relies on DHCP being enabled on your local area network), e.g. `Your-Dev-Machine.local`. 
+relies on DHCP being enabled on your local area network), e.g. `Your-Dev-Machine.local`.
+
+See https://arminreiter.com/2022/01/create-your-own-certificate-authority-ca-using-openssl/ for
+assistance setting up a local certificate authority. This is required for the local server to
+serve "secure" content. Otherwise, disable secure protocols if possible.
 
 #### Staging
 Ensure that 
