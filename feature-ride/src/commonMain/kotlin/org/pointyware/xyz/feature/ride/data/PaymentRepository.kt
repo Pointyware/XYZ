@@ -17,27 +17,15 @@ class PaymentRepositoryImpl(
     private val paymentStore: PaymentStore
 ) : PaymentRepository {
 
-    override suspend fun getPaymentMethods(): Result<List<PaymentMethod>> {
-        return try {
-            Result.success(paymentStore.getPaymentMethods())
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    override suspend fun getPaymentMethods(): Result<List<PaymentMethod>> = runCatching {
+        paymentStore.getPaymentMethods()
     }
 
-    override suspend fun savePaymentMethod(paymentMethod: PaymentMethod): Result<Unit> {
-        return try {
-            Result.success(paymentStore.savePaymentMethod(paymentMethod))
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    override suspend fun savePaymentMethod(paymentMethod: PaymentMethod): Result<Unit> = runCatching {
+        paymentStore.savePaymentMethod(paymentMethod)
     }
 
-    override suspend fun removePaymentMethod(paymentMethod: PaymentMethod): Result<Unit> {
-        return try {
-            Result.success(paymentStore.removePaymentMethod(paymentMethod))
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    override suspend fun removePaymentMethod(paymentMethod: PaymentMethod): Result<Unit> = runCatching {
+        paymentStore.removePaymentMethod(paymentMethod)
     }
 }
