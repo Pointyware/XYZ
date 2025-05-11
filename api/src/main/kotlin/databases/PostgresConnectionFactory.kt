@@ -20,7 +20,7 @@ class PostgresConnectionFactory {
         password: String = BuildConfig.POSTGRES_PASSWORD
     ): Connection {
         return DriverManager.getConnection(
-            "jdbc:postgresql:$host:$port/$$db", user, password
+            "jdbc:postgresql://$host:$port/$db", user, password
         ).also { connection ->
             connection.autoCommit = false
         }
