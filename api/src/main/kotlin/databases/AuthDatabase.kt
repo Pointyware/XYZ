@@ -2,6 +2,7 @@ package org.pointyware.xyz.api.databases
 
 import org.pointyware.xyz.api.model.UserCredentials
 import org.pointyware.xyz.api.services.UserService
+import java.sql.Connection
 
 /**
  * This represents the authentication/authorization server for our users that may
@@ -38,11 +39,11 @@ data class UserDto(
 )
 
 class AuthDatabaseImpl(
-    private val connectionFactory: PostgresConnectionFactory
+    private val connectionProvider: () -> Connection
 ) : AuthDatabase {
 
     private val connection by lazy {
-        connectionFactory.createConnection()
+        connectionProvider.invoke()
     }
 
     override val users: AuthDao
