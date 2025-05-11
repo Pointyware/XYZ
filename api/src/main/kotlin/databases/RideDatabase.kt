@@ -1,5 +1,7 @@
 package org.pointyware.xyz.api.databases
 
+import java.sql.Connection
+
 /**
  * Proposed organization - the database is the top-level entry point to the database. It provides
  * access to several data-access objects (DAOs) that are used to interact with specific tables in the
@@ -41,11 +43,11 @@ data class RideDto(
  *  https://jdbc.postgresql.org/
  */
 class RideDatabaseImpl(
-    private val connectionFactory: PostgresConnectionFactory
+    private val connectionProvider: () -> Connection
 ) : RideDatabase {
 
     private val connection by lazy {
-        connectionFactory.createConnection()
+        connectionProvider.invoke()
     }
 
     override val rides: RideDao
