@@ -9,6 +9,10 @@ staging should both use the test stripe environment, while production should use
 
 ### Stripe Setup
 
+### Postgres Setup
+The resources folder contains scripts used to initialize our database and schema. The admin scripts
+should be run with the postgres user and will create a set of user roles and databases, as well
+as the appropriate grants for all roles.
 
 ### Deploying
 Deploying should in general be as simple as setting the server environment project status and running
