@@ -1,6 +1,5 @@
 package org.pointyware.xyz.api.controllers
 
-import org.pointyware.xyz.api.services.EncryptionService
 import org.pointyware.xyz.api.services.UserService
 import org.pointyware.xyz.core.data.dtos.Authorization
 
@@ -13,9 +12,11 @@ interface AuthController {
     suspend fun createUser(email: String, password: String): Result<Authorization>
 }
 
+/**
+ *
+ */
 class AuthControllerImpl(
-    private val userService: UserService,
-    private val encryptionService: EncryptionService
+    private val userService: UserService
 ): AuthController {
     override suspend fun login(email: String, password: String): Result<Authorization> = runCatching {
         userService.validateCredentials(email, password)
