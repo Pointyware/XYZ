@@ -7,9 +7,9 @@ Get your X from Y to Z
 * Managers - Fleet Managers or Dispatchers managing the service.
 
 ## Features
-* [Manage](./feature/manage/README.md)
-* [Drive](./feature/drive/README.md)
-* [Ride](./feature/ride/README.md)
+* [Manage](./feature-manage/README.md)
+* [Drive](./feature-drive/README.md)
+* [Ride](./feature-ride/README.md)
 
 ## Contributing
 
