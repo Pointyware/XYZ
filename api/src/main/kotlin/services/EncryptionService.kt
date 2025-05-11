@@ -24,6 +24,10 @@ interface EncryptionService {
     fun generateToken(email: String, resourcePermissions: List<String>): Result<String>
 }
 
+/**
+ * Implements [EncryptionService] using the Java Cryptography Architecture (JCA) and the
+ * Java Cryptography Extension (JCE).
+ */
 class EncryptionServiceImpl(
     // TODO: inject JVM encryption dependencies
 ): EncryptionService {
