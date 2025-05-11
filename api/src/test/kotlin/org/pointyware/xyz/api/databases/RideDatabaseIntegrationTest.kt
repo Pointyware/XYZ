@@ -16,6 +16,19 @@ class RideDatabaseIntegrationTest {
 
     @BeforeTest
     fun setUp() {
+        val adminConnection = PostgresConnectionFactory().createConnection(
+            host = "localhost",
+            port = 5432,
+            db = "postgres",
+            user = "postgres",
+        )
+        // Setup users, database, and privileges
+
+        // Close the admin connection
+        // Open admin connection to new database
+
+        // Create tables on the database
+
         connection = PostgresConnectionFactory().createConnection(
             host = "localhost",
             port = 5432,
@@ -28,14 +41,14 @@ class RideDatabaseIntegrationTest {
         ).use {
             it.execute()
         }
-        val authInitFile = javaClass.classLoader?.getResource("postgres/auth_init.sql")
+        val authInitFile = javaClass.classLoader?.getResource("postgres/admin/init.sql")
         val rideInitFile = javaClass.classLoader?.getResource("postgres/rides_init.sql")
 
         authInitFile?.let {
             connection.prepareStatement(it.readText()).use { statement ->
                 statement.execute()
             }
-        } ?: throw IllegalStateException("Could not find auth_init.sql file")
+        } ?: throw IllegalStateException("Could not find admin/init.sql file")
         rideInitFile?.let {
             connection.prepareStatement(it.readText()).use { statement ->
                 statement.execute()
