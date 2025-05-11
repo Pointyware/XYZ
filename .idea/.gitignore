@@ -5,6 +5,7 @@
 
 /AndroidProjectSystem.xml
 /compiler.xml
+/dbnavigator.xml
 /deploymentTargetSelector.xml
 /gradle.xml
 /kotlinc.xml
