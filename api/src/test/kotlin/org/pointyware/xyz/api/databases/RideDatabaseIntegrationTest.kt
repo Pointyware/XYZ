@@ -20,7 +20,7 @@ class RideDatabaseIntegrationTest {
             host = "localhost",
             port = 5432,
             db = "xyz",
-            user = "xyz-android"
+            user = "xyz_android"
         )
         // drop the database (if any)
         connection.prepareStatement(
