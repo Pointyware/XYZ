@@ -8,7 +8,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE user_permissions(
-    user_id INT FOREIGN KEY REFERENCES users(id),
+    user_id INT REFERENCES users(id),
     permission TEXT NOT NULL
 );
 
