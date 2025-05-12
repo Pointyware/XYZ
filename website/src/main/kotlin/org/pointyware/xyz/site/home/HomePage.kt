@@ -67,7 +67,7 @@ fun DirectoryScope.homePage() {
 
             footer {
                 p {
-                    text("© 2023 Pointyware LLC")
+                    text("© 2025 Pointyware LLC")
                 }
                 p {
                     text("This site is powered by Kotlin and kotlinx.html.")
