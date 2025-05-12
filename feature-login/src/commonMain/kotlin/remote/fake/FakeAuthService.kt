@@ -16,8 +16,6 @@ import kotlinx.io.readByteArray
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.pointyware.xyz.core.data.LifecycleController
-import org.pointyware.xyz.core.data.LifecycleEvent
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.feature.login.data.Authorization
 import org.pointyware.xyz.feature.login.remote.AuthService
@@ -34,7 +32,6 @@ class FakeAuthService(
 
     private val json: Json,
 
-    private val lifecycleController: LifecycleController,
     private val dataContext: CoroutineContext,
     private val dataScope: CoroutineScope
 ): AuthService {
@@ -43,14 +40,14 @@ class FakeAuthService(
         dataScope.launch {
             loadFile(accountsFile)
 
-            lifecycleController.events.collect { state ->
-                when (state) {
-                    LifecycleEvent.Stop -> {
-                        writeFile()
-                    }
-                    else -> { /* do nothing */ }
-                }
-            }
+//            lifecycleController.events.collect { state ->
+//                when (state) {
+//                    LifecycleEvent.Stop -> {
+//                        writeFile() // TODO: trigger file write before closing program
+//                    }
+//                    else -> { /* do nothing */ }
+//                }
+//            }
         }
     }
 

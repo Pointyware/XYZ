@@ -11,7 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.navigation.XyzNavController
+import androidx.navigation.NavHostController
 import org.pointyware.xyz.core.ui.LoadingResultView
 import org.pointyware.xyz.feature.login.ride.ui.RiderProfileCreationView
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
@@ -22,7 +22,7 @@ import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 @Composable
 fun RiderProfileCreationScreen(
     viewModel: RiderProfileCreationViewModel,
-    navController: XyzNavController
+    navController: NavHostController
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
