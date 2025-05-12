@@ -11,12 +11,8 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.bind
-import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import org.pointyware.xyz.core.data.DefaultLifecycleController
-import org.pointyware.xyz.core.data.LifecycleController
 import kotlin.coroutines.CoroutineContext
 
 val dataQualifier = named("data-scope")
@@ -35,8 +31,6 @@ fun coreDataModule(
                 + get<CoroutineExceptionHandler>()
     ) }
     single<Json> { Json { isLenient = true } }
-
-    singleOf(::DefaultLifecycleController) { bind<LifecycleController>() }
 
     includes(
         repositoryModule
