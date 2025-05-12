@@ -105,6 +105,7 @@ class CssScope(
 class StyleScope() {
     var color: String? = null
     var backgroundColor: String? = null
+    var textAlign: String? = null
     var fontSize: String? = null
     var fontFamily: String? = null
     var margin: String? = null
@@ -116,6 +117,7 @@ class StyleScope() {
         return listOfNotNull(
             color?.let { "color: $it;" },
             backgroundColor?.let { "background-color: $it;" },
+            textAlign?.let { "text-align: $it;" },
             fontSize?.let { "font-size: $it;" },
             fontFamily?.let { "font-family: $it;" },
             margin?.let { "margin: $it;" },
