@@ -14,6 +14,10 @@ The resources folder contains scripts used to initialize our database and schema
 should be run with the postgres user and will create a set of user roles and databases, as well
 as the appropriate grants for all roles.
 
+```shell
+psql --file=./src/main/resources/postgresql/admin/init.sql --username=postgres --no-password
+```
+
 ### Deploying
 Deploying should in general be as simple as setting the server environment project status and running
 the deploy task. Each environment has its own authorization scheme, so some setup will be required
