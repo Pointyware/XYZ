@@ -63,6 +63,10 @@ fun DirectoryScope.homePage() {
                 h1 {
                     text("Welcome to the XYZ Site")
                 }
+
+                p {
+
+                }
             }
 
             footer {
@@ -70,7 +74,12 @@ fun DirectoryScope.homePage() {
                     text("© 2025 Pointyware LLC")
                 }
                 p {
-                    text("This site is powered by Kotlin and kotlinx.html.")
+                    text("This site is powered by Kotlin and kotlinx.html. - view the source code on GitHub: ")
+                    a(
+                        href = "https://github.com/Pointyware/XYZ"
+                    ) {
+                        text("github.com/Pointyware/XYZ")
+                    }
                 }
                 p {
                     a(
