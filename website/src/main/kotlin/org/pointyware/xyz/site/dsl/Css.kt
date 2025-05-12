@@ -92,6 +92,14 @@ class CssScope(
         styleScope.styles()
         output.add(name, styleScope)
     }
+
+    fun String.cls(styles: StyleScope.() -> Unit) {
+        tag(".$this", styles)
+    }
+
+    fun String.id(styles: StyleScope.() -> Unit) {
+        tag("#$this", styles)
+    }
 }
 
 class StyleScope() {
