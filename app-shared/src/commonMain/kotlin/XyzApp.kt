@@ -47,7 +47,6 @@ fun XyzApp(
         userProfileRoute to "Profile",
     )
     XyzTheme(
-        uiDependencies = dependencies.getUiDependencies(),
         isDark = isDarkTheme
     ) {
         val currentLocation = navController.currentLocation.collectAsState()
