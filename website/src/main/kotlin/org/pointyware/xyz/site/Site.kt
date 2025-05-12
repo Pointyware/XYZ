@@ -20,5 +20,6 @@ fun buildSite(
         branch("terms-of-service") {
             index(resourceFile = "docs/terms-of-service.html")
         }
+        file("CNAME", "CNAME")
     }
 }
