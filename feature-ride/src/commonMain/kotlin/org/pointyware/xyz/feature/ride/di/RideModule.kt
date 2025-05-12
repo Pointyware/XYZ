@@ -27,8 +27,6 @@ import org.pointyware.xyz.feature.ride.viewmodels.TripViewModel
  *
  */
 fun featureRideModule() = module {
-    single<RideDependencies> { KoinRideDependencies() }
-
     includes(
         featureRideViewModelModule(),
         featureRideDataModule()
