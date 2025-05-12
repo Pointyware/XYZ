@@ -15,7 +15,9 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.pointyware.xyz.core.ui.design.GrayedOut
-import org.pointyware.xyz.core.ui.design.LocalResources
+import org.pointyware.xyz.ui.Res
+import org.pointyware.xyz.ui.loading_content_description
+import org.pointyware.xyz.ui.tray_icon
 
 interface LoadingViewResources {
     val loadingIcon: DrawableResource
@@ -29,14 +31,13 @@ interface LoadingViewResources {
 fun LoadingView(
     modifier: Modifier = Modifier,
 ) {
-    val uiDependencies = LocalResources.current.loadingViewResources
     Box(
         modifier = modifier
             .background(color = GrayedOut)
     ) {
         Image(
-            painter = painterResource(uiDependencies.loadingIcon),
-            contentDescription = stringResource(uiDependencies.loadingContentDescription),
+            painter = painterResource(Res.drawable.tray_icon),
+            contentDescription = stringResource(Res.string.loading_content_description),
             modifier = Modifier.fillMaxSize()
         )
     }
