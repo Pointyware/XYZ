@@ -57,7 +57,6 @@ fun appModule(): Module = module {
         // dependencies used only within views
     }
 
-    factoryOf(::KoinAppDependencies) { bind<AppDependencies>() }
     includes(
         coreModule(),
         featureModule(),
