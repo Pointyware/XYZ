@@ -16,17 +16,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import navigation.loginRoute
 import navigation.loginRouting
-import org.pointyware.xyz.core.navigation.LocationRoot
-import org.pointyware.xyz.core.navigation.NamedLocation
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.drive.navigation.driveRouting
 import org.pointyware.xyz.feature.login.navigation.profileRouting
 import org.pointyware.xyz.feature.login.navigation.roleSelectionRoute
 import org.pointyware.xyz.feature.login.navigation.userProfileRoute
 import org.pointyware.xyz.feature.ride.navigation.rideRouting
-import org.pointyware.xyz.shared.di.AppDependencies
 import org.pointyware.xyz.shared.navigation.payments
 
 /**
@@ -35,11 +35,10 @@ import org.pointyware.xyz.shared.navigation.payments
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun XyzApp(
-    dependencies: AppDependencies,
     isDarkTheme: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val navController = dependencies.getNavigationDependencies().getNavController()
+    val navController = rememberNavController()
 
     val titleMap = mapOf(
         loginRoute to "Login",
@@ -49,7 +48,7 @@ fun XyzApp(
     XyzTheme(
         isDark = isDarkTheme
     ) {
-        val currentLocation = navController.currentLocation.collectAsState()
+        val currentEntry = navController.currentBackStackEntryAsState()
         Scaffold(
             modifier = modifier,
             topBar = {
@@ -62,41 +61,34 @@ fun XyzApp(
 //                        scrolledContainerColor =
 //                    ),
                     navigationIcon = {
-                        val stack = navController.backList.collectAsState()
+                        val stack = navController.currentBackStack.collectAsState()
                         if (stack.value.isNotEmpty()) {
-                            IconButton(onClick = { navController.goBack() }) {
+                            IconButton(onClick = { navController.popBackStack() }) {
                                 Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Profile")
                             }
                         }
                     },
                     title = {
-                        val location = currentLocation.value
-                        val name = when(location) {
-                            is NamedLocation -> {
-                                location.name
-                            }
-                            else -> {
-                                titleMap[location] ?: location.toString()
-                            }
-                        }
-                        Text(text = name)
+                        val location = currentEntry.value
+                        Text(text = location?.destination?.displayName ?: "")
                     },
                     actions = {
                     },
                 )
             },
         ) { paddingValues ->
-            LocationRoot(
+            NavHost(
                 navController = navController,
+                startDestination = loginRoute,
                 modifier = Modifier.padding(paddingValues),
             ) {
-                loginRouting(dependencies.getLoginDependencies(), dependencies.getNavigationDependencies())
-                profileRouting(dependencies.getProfileDependencies(), dependencies.getNavigationDependencies())
+                loginRouting(navController)
+                profileRouting(navController)
 
-                driveRouting(dependencies.getDriveDependencies(), dependencies.getNavigationDependencies())
-                rideRouting(dependencies.getRideDependencies(), dependencies.getNavigationDependencies())
+                driveRouting(navController)
+                rideRouting(navController)
 
-                payments()
+                payments(navController)
             }
         }
     }

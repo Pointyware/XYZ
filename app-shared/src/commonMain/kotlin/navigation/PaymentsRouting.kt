@@ -1,16 +1,17 @@
 package org.pointyware.xyz.shared.navigation
 
 import androidx.compose.runtime.Composable
-import org.pointyware.xyz.core.navigation.XyzRootScope
-import org.pointyware.xyz.core.navigation.toTypedKey
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
 import org.pointyware.xyz.ui.PaymentSheet
 
-val paymentsRoute = "payment-sheet".toTypedKey<Unit>()
+val paymentsRoute = "payment-sheet"
 
-@Composable
-fun XyzRootScope.payments() {
-
-    location(paymentsRoute) {
+fun NavGraphBuilder.payments(
+    navController: NavHostController
+) {
+    composable(paymentsRoute) {
         PaymentSheet()
     }
 }
