@@ -108,6 +108,38 @@ interface BranchScope {
             }
         }
     }
+
+    /**
+     * Copies the resource file indicated by [resourceFile] into a file with the given [name],
+     * unsanitized.
+     */
+    fun file(
+        name: String,
+        resourceFile: String
+    ) {
+        val sourceInputStream = this.javaClass.classLoader.getResourceAsStream(resourceFile)
+            ?: throw IllegalArgumentException("Resource file not found: $resourceFile")
+
+        when (val capture = location) {
+            is ProgramOutput.FileOutput -> {
+                val pageFile = File(capture.file, name)
+                pageFile.outputStream().use { outputStream ->
+                    sourceInputStream.use { fileStream ->
+                        fileStream.copyTo(outputStream)
+                    }
+                }
+            }
+            is ProgramOutput.PrintOutput -> {
+                capture.stream.println("Printing file: ${capture.path}/$name")
+                capture.stream.let { printStream ->
+                    sourceInputStream.use { fileStream ->
+                        fileStream.copyTo(printStream)
+                    }
+                    printStream.flush() // ensure buffer is cleared because we'll just let GC clean up since we don't want to close the underlying stream
+                }
+            }
+        }
+    }
 }
 
 /**
