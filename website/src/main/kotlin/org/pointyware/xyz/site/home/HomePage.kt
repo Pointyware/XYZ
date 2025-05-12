@@ -3,11 +3,11 @@ package org.pointyware.xyz.site.home
 import kotlinx.html.ScriptType
 import kotlinx.html.body
 import kotlinx.html.div
+import kotlinx.html.h1
 import kotlinx.html.head
 import kotlinx.html.p
 import kotlinx.html.script
 import kotlinx.html.style
-import kotlinx.html.unsafe
 import org.pointyware.xyz.site.dsl.DirectoryScope
 import org.pointyware.xyz.site.dsl.css
 
@@ -15,6 +15,7 @@ import org.pointyware.xyz.site.dsl.css
  * Renders the home page of the site.
  */
 fun DirectoryScope.homePage() {
+    val centerClass = "center"
     index {
         // Consider: https://github.com/allangomes/kotlinwind.css/tree/dev in place of kotlinx.css
         head {
@@ -32,6 +33,9 @@ fun DirectoryScope.homePage() {
                     p {
                         color = "#666"
                     }
+                    centerClass.cls {
+                        this.textAlign = "center"
+                    }
                 }
             }
             script(
@@ -46,14 +50,16 @@ fun DirectoryScope.homePage() {
         }
         body {
             div(
-                classes = ""
+                classes = centerClass
             ) {
-
+                h1 {
+                    text("Welcome to the XYZ Site")
+                }
             }
             p(
                 classes = ""
             ) {
-
+                text("This is a simple example of a home page.")
             }
         }
     }
