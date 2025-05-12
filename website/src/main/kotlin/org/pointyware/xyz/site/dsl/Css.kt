@@ -1,17 +1,69 @@
 package org.pointyware.xyz.site.dsl
 
 import kotlinx.html.STYLE
-import kotlinx.html.Unsafe
 import kotlinx.html.unsafe
 
 /**
  * Configures a style tag for cascading stylesheets and then
  */
 fun STYLE.css(
+    throwOnConflict: Boolean = true,
+    mediaType: CssMediaType = CssMediaType.ALL,
     block: CssScope.() -> Unit,
 ) {
+    type = "text/css"
+    media = mediaType.value
     unsafe {
-        CssScope(this).block()
+        // Construct receiver data structure
+        val ast = AbstractStylesheet(throwOnConflict = throwOnConflict)
+        // Process DSL to build up AST
+        CssScope(ast).block()
+        // Output final AST
+        raw(ast.stylesheet())
+    }
+}
+
+/**
+ * Represents one of the available HTML media-presentation optimization types.
+ */
+enum class CssMediaType(val value: String) {
+    /**
+     * The default media type, used when no other media type is specified.
+     */
+    ALL("all"),
+
+    /**
+     * Optimized for presentation on screens, tablets, etc.
+     */
+    SCREEN("screen"),
+
+    /**
+     * Optimized for print previews and printing.
+     */
+    PRINT("print")
+}
+
+/**
+ * An abstract representation of a cascading stylesheet.
+ */
+class AbstractStylesheet(
+    private val throwOnConflict: Boolean,
+) {
+    val outputMap = mutableMapOf<String, StyleScope>()
+
+    fun add(key: String, styles: StyleScope) {
+        if (throwOnConflict) {
+            if (outputMap.containsKey(key)) {
+                throw IllegalStateException("Duplicate key: $key")
+            }
+        }
+        outputMap[key] = styles
+    }
+
+    fun stylesheet(): String {
+        return outputMap.entries.joinToString("\n") { (key, value) ->
+            "$key {\n${value.styleBlock()}\n}"
+        }
     }
 }
 
@@ -19,7 +71,7 @@ fun STYLE.css(
  * Defines the root scope of our Css DSL.
  */
 class CssScope(
-    private val output: Unsafe
+    private val output: AbstractStylesheet
 ) {
     fun body(styles: StyleScope.() -> Unit) {
         tag("body", styles)
@@ -36,9 +88,7 @@ class CssScope(
     fun tag(name: String, styles: StyleScope.() -> Unit) {
         val styleScope = StyleScope()
         styleScope.styles()
-        output.raw("$name {\n")
-        output.raw(styleScope.styleBlock())
-        output.raw("}\n")
+        output.add(name, styleScope)
     }
 }
 
