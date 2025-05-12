@@ -24,14 +24,12 @@ import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
 import org.pointyware.xyz.drive.data.TestProviderTripRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
 import org.pointyware.xyz.drive.org.pointyware.xyz.drive.interactors.WatchProviderDistance
-import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.DriverSettingsViewModel
+import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 
 /**
  */
 fun featureDriveModule() = module {
-    single<DriveDependencies> { KoinDriveDependencies() }
-
     includes(
         featureDriveDataModule(),
         featureDriveViewModelModule(),

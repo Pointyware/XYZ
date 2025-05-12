@@ -6,44 +6,38 @@ package org.pointyware.xyz.drive.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import org.pointyware.xyz.core.navigation.XyzRootScope
-import org.pointyware.xyz.core.navigation.di.NavigationDependencies
-import org.pointyware.xyz.core.navigation.toTypedKey
-import org.pointyware.xyz.drive.di.DriveDependencies
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
+import org.koin.mp.KoinPlatform.getKoin
+import org.pointyware.xyz.drive.ui.DriverSettingsScreen
 import org.pointyware.xyz.drive.ui.ProviderDashboardScreen
 import org.pointyware.xyz.drive.ui.ProviderHomeScreen
-import org.pointyware.xyz.drive.ui.DriverSettingsScreen
+import org.pointyware.xyz.drive.viewmodels.DriverSettingsViewModel
+import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 
-val driverHomeRoute = "drive/home".toTypedKey<Unit>()
-val driverActiveRoute = "drive/active".toTypedKey<Unit>()
-val driverSettings = "drive/settings".toTypedKey<Unit>()
+val driverHomeRoute = "drive/home"
+val driverActiveRoute = "drive/active"
+val driverSettings = "drive/settings"
 
 /**
  *
  */
-@Composable
-fun XyzRootScope.driveRouting(
-    dependencies: DriveDependencies,
-    navigationDependencies: NavigationDependencies
+fun NavGraphBuilder.driveRouting(
+    navController: NavHostController
 ) {
-    location(driverHomeRoute) {
-        val navController = remember { navigationDependencies.getNavController() }
+    composable(driverHomeRoute) {
         ProviderHomeScreen(navController = navController)
     }
-    location(driverActiveRoute) {
-        // TODO: replace with viewModel extension function that uses available (Koin)Scope
-        val driveViewModel = remember { dependencies.getDriveViewModel() }
-        val navController = remember { navigationDependencies.getNavController() }
-
+    composable(driverActiveRoute) {
         ProviderDashboardScreen(
-            viewModel = driveViewModel,
+            viewModel = remember { getKoin().get<ProviderDashboardViewModel>() },
             navController = navController
         )
     }
-    location(driverSettings) {
-        // TODO: replace with viewModel extension function that uses available (Koin)Scope
-        val driveViewModel = remember { dependencies.getDriverSettingsViewModel() }
-
-        DriverSettingsScreen(viewModel = driveViewModel)
+    composable(driverSettings) {
+        DriverSettingsScreen(
+            viewModel = remember { getKoin().get<DriverSettingsViewModel>() }
+        )
     }
 }

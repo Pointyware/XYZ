@@ -8,68 +8,65 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.entities.Uuid
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
+import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.entities.profile.Role
-import org.pointyware.xyz.core.navigation.XyzRootScope
-import org.pointyware.xyz.core.navigation.di.NavigationDependencies
-import org.pointyware.xyz.core.navigation.toTypedKey
 import org.pointyware.xyz.feature.login.DriverProfileCreationScreen
 import org.pointyware.xyz.feature.login.RiderProfileCreationScreen
-import org.pointyware.xyz.feature.login.di.ProfileDependencies
 import org.pointyware.xyz.feature.login.ui.RoleSelectionView
 import org.pointyware.xyz.feature.login.ui.UserProfileScreen
+import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
+import org.pointyware.xyz.feature.login.viewmodels.ProfileViewModel
+import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 
-val roleSelectionRoute = "profile/create/role".toTypedKey<Unit>()
-val driverCreationRoute = "profile/create/driver".toTypedKey<Unit>()
-val riderCreationRoute = "profile/create/ride".toTypedKey<Unit>()
-val userProfileRoute = "profile/{userId}".toTypedKey<Uuid>()
+val roleSelectionRoute = "profile/create/role"
+val driverCreationRoute = "profile/create/driver"
+val riderCreationRoute = "profile/create/ride"
+val userProfileRoute = "profile/{userId}"
 
 /**
  * Sets up all routes for home navigation.
  */
-@Composable
-fun XyzRootScope.profileRouting(
-    profileDependencies: ProfileDependencies,
-    navigationDependencies: NavigationDependencies
+fun NavGraphBuilder.profileRouting(
+    navController: NavHostController,
 ) {
-
-    val navController = remember { navigationDependencies.getNavController() }
     companyRouting(
         navController
     )
 
-    location(roleSelectionRoute) {
+    composable(roleSelectionRoute) {
         RoleSelectionView(
             modifier = Modifier.fillMaxSize(),
             onConfirm = {
                 when (it) {
                     Role.Rider -> {
-                        navController.navigateTo(riderCreationRoute)
+                        navController.navigate(riderCreationRoute)
                     }
                     Role.Driver -> {
-                        navController.navigateTo(driverCreationRoute)
+                        navController.navigate(driverCreationRoute)
                     }
                 }
             }
         )
     }
-    location(driverCreationRoute) {
-        // TODO: replace with viewModel extension function that uses available (Koin)Scope
-        val driverProfileViewModel = remember { profileDependencies.getDriverProfileCreationViewModel() }
+    composable(driverCreationRoute) {
+        val driverProfileViewModel = remember { getKoin().get<DriverProfileCreationViewModel>() }
         DriverProfileCreationScreen(
             viewModel = driverProfileViewModel,
             navController = navController,
         )
     }
-    location(riderCreationRoute) {
-        val riderProfileViewModel = remember { profileDependencies.getRiderProfileCreationViewModel() }
+    composable(riderCreationRoute) {
+        val riderProfileViewModel = remember { getKoin().get<RiderProfileCreationViewModel>() }
         RiderProfileCreationScreen(
             viewModel = riderProfileViewModel,
             navController = navController,
         )
     }
-    location(userProfileRoute) {
-        val profileViewModel = remember { profileDependencies.getProfileViewModel() }
+    composable(userProfileRoute) {
+        val profileViewModel = remember { getKoin().get<ProfileViewModel>() }
         UserProfileScreen(
             viewModel = profileViewModel,
             navController = navController,
