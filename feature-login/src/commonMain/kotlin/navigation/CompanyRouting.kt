@@ -5,9 +5,10 @@
 package org.pointyware.xyz.feature.login.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.entities.Uuid
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
 import org.pointyware.xyz.drive.ui.CompanyProfileCreationView
 import org.pointyware.xyz.drive.ui.CompanyProfileView
 
@@ -17,11 +18,11 @@ val companyViewingRoute = "company/{id}"
 /**
  *
  */
-fun XyzRootScope.companyRouting(
+fun NavGraphBuilder.companyRouting(
     navController: NavHostController
 ) {
 
-    location(companyCreationRoute) {
+    composable(companyCreationRoute) {
         // TODO: replace with viewModel extension function that uses available (Koin)Scope
         CompanyProfileCreationView(
             state = TODO(),
@@ -38,7 +39,7 @@ fun XyzRootScope.companyRouting(
         )
     }
 
-    location(companyViewingRoute) {
+    composable(companyViewingRoute) {
 
         CompanyProfileView(
             state = TODO(),
