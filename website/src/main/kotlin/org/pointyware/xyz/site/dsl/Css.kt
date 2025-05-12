@@ -1,17 +1,19 @@
 package org.pointyware.xyz.site.dsl
 
 import kotlinx.html.STYLE
+import kotlinx.html.StyleType
 import kotlinx.html.unsafe
 
 /**
- * Configures a style tag for cascading stylesheets and then
+ * Configures a style tag for cascading stylesheets and the given [mediaType], then executes the
+ * given [block] in the context of a [CssScope] before outputting the result to the [STYLE] tag.
  */
 fun STYLE.css(
     throwOnConflict: Boolean = true,
     mediaType: CssMediaType = CssMediaType.ALL,
     block: CssScope.() -> Unit,
 ) {
-    type = "text/css"
+    type = StyleType.textCss
     media = mediaType.value
     unsafe {
         // Construct receiver data structure
