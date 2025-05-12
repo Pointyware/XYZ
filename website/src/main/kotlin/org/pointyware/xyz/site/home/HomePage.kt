@@ -9,6 +9,7 @@ import kotlinx.html.script
 import kotlinx.html.style
 import kotlinx.html.unsafe
 import org.pointyware.xyz.site.dsl.DirectoryScope
+import org.pointyware.xyz.site.dsl.css
 
 /**
  * Renders the home page of the site.
@@ -18,21 +19,19 @@ fun DirectoryScope.homePage() {
         // Consider: https://github.com/allangomes/kotlinwind.css/tree/dev in place of kotlinx.css
         head {
             style {
-                unsafe {
-                    raw("""
-                                body {
-                                    background-color: #f0f0f0;
-                                    font-family: Arial, sans-serif;
-                                    margin: 0;
-                                    padding: 20px;
-                                }
-                                h1 {
-                                    color: #333;
-                                }
-                                p {
-                                    color: #666;
-                                }
-                            """.trimIndent())
+                css {
+                    body {
+                        backgroundColor = "#f0f0f0"
+                        fontFamily = "Arial, sans-serif"
+                        margin = "0"
+                        padding = "20px"
+                    }
+                    h1 {
+                        color = "#333"
+                    }
+                    p {
+                        color = "#666"
+                    }
                 }
             }
             script(
