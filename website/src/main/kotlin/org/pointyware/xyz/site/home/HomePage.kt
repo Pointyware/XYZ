@@ -61,7 +61,7 @@ fun DirectoryScope.homePage() {
                 classes = centerClass
             ) {
                 h1 {
-                    text("Welcome to the XYZ Site")
+                    text("XYZ - Get your X from Y to Z")
                 }
 
                 p {
