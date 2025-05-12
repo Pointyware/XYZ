@@ -66,18 +66,18 @@ fun featureLoginRemoteModule() = module {
 }
 
 fun featureLoginRemoteTestModule() = module {
-    single<AuthService> {
-        val accountsFile = Path(get<Path>(qualifier = testDirectory), "accounts.json")
-        println("Using fake auth service with file: $accountsFile")
-        FakeAuthService(
-            accountsFile = accountsFile,
-            users = mutableMapOf(),
-            json = get<Json>(),
-            lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
-            dataContext = get<CoroutineContext>(qualifier = dataQualifier),
-            dataScope = get<CoroutineScope>(qualifier = dataQualifier),
-        )
-    }
+//    single<AuthService> {
+//        val accountsFile = Path(get<Path>(qualifier = testDirectory), "accounts.json")
+//        println("Using fake auth service with file: $accountsFile")
+//        FakeAuthService(
+//            accountsFile = accountsFile,
+//            users = mutableMapOf(),
+//            json = get<Json>(),
+//            lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
+//            dataContext = get<CoroutineContext>(qualifier = dataQualifier),
+//            dataScope = get<CoroutineScope>(qualifier = dataQualifier),
+//        )
+//    }
 }
 
 fun featureLoginLocalModule() = module {
