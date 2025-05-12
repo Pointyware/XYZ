@@ -1,8 +1,10 @@
 package org.pointyware.xyz.site.home
 
 import kotlinx.html.ScriptType
+import kotlinx.html.a
 import kotlinx.html.body
 import kotlinx.html.div
+import kotlinx.html.footer
 import kotlinx.html.h1
 import kotlinx.html.head
 import kotlinx.html.p
@@ -16,6 +18,8 @@ import org.pointyware.xyz.site.dsl.css
  */
 fun DirectoryScope.homePage() {
     val centerClass = "center"
+    val privacyPolicyLinkClass = "privacy-policy-link"
+    val termsOfServiceLinkClass = "terms-of-service-link"
     index {
         // Consider: https://github.com/allangomes/kotlinwind.css/tree/dev in place of kotlinx.css
         head {
@@ -35,6 +39,10 @@ fun DirectoryScope.homePage() {
                     }
                     centerClass.cls {
                         this.textAlign = "center"
+                    }
+                    privacyPolicyLinkClass.cls {
+                    }
+                    termsOfServiceLinkClass.cls {
                     }
                 }
             }
@@ -56,10 +64,30 @@ fun DirectoryScope.homePage() {
                     text("Welcome to the XYZ Site")
                 }
             }
-            p(
-                classes = ""
-            ) {
-                text("This is a simple example of a home page.")
+
+            footer {
+                p {
+                    text("© 2023 Pointyware LLC")
+                }
+                p {
+                    text("This site is powered by Kotlin and kotlinx.html.")
+                }
+                p {
+                    a(
+                        href = "/privacy-policy.html",
+                        classes = privacyPolicyLinkClass
+                    ) {
+                        text("XYZ Privacy Policy")
+                    }
+                }
+                p {
+                    a(
+                        href = "/terms-of-service.html",
+                        classes = termsOfServiceLinkClass
+                    ) {
+                        text("XYZ Terms of Service")
+                    }
+                }
             }
         }
     }
