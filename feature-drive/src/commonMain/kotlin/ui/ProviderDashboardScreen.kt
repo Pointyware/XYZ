@@ -19,9 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.navigation.NavHostController
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
-import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.ui.MessageInput
 import org.pointyware.xyz.core.viewmodels.MapUiState
@@ -37,7 +37,7 @@ import viewmodels.ProviderDashboardUiState
 @Composable
 fun ProviderDashboardScreen(
     viewModel: ProviderDashboardViewModel,
-    navController: XyzNavController,
+    navController: NavHostController,
 ) {
     val state: ProviderDashboardUiState by viewModel.state.collectAsState()
     val mapState: MapUiState by viewModel.mapState.collectAsState()
