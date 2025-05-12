@@ -77,7 +77,7 @@ fun DirectoryScope.homePage() {
                         href = "./privacy-policy",
                         classes = privacyPolicyLinkClass
                     ) {
-                        text("XYZ Privacy Policy")
+                        text("Privacy Policy")
                     }
                 }
                 p {
@@ -85,7 +85,7 @@ fun DirectoryScope.homePage() {
                         href = "./terms-of-service",
                         classes = termsOfServiceLinkClass
                     ) {
-                        text("XYZ Terms of Service")
+                        text("Terms of Service")
                     }
                 }
             }
