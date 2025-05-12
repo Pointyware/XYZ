@@ -36,9 +36,9 @@ class CssScope(
     fun tag(name: String, styles: StyleScope.() -> Unit) {
         val styleScope = StyleScope()
         styleScope.styles()
-        output.raw("$name {")
+        output.raw("$name {\n")
         output.raw(styleScope.styleBlock())
-        output.raw("}")
+        output.raw("}\n")
     }
 }
 
@@ -62,6 +62,6 @@ class StyleScope() {
             padding?.let { "padding: $it;" },
             border?.let { "border: $it;" },
             display?.let { "display: $it;" }
-        ).joinToString("\n")
+        ).joinToString("\n") + "\n"
     }
 }
