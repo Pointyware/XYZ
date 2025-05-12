@@ -37,11 +37,11 @@ fun DirectoryScope.homePage() {
             script(
                 type = ScriptType.textJavaScript,
             ) {
-                unsafe {
-                    raw("""
-                                console.log("Hello, World!");
-                            """.trimIndent())
-                }
+//                unsafe {
+//                    raw("""
+//                                console.log("Hello, World!");
+//                            """.trimIndent())
+//                }
             }
         }
         body {
