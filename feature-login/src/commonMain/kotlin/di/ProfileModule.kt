@@ -13,7 +13,6 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.xyz.core.common.BuildInfo
 import org.pointyware.xyz.core.common.di.ApplicationComponent
-import org.pointyware.xyz.core.data.LifecycleController
 import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.local.di.testDirectory
@@ -46,8 +45,6 @@ import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 import kotlin.coroutines.CoroutineContext
 
 fun featureProfileModule() = module {
-    singleOf(::KoinProfileDependencies) { bind<ProfileDependencies>() }
-
     includes(
         profileDataModule(),
         profileInteractorsModule(),

@@ -10,8 +10,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.navigation.NavOptions
-import org.pointyware.xyz.core.navigation.XyzNavController
+import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
+import androidx.navigation.navOptions
 import org.pointyware.xyz.core.ui.LoadingResultView
 import org.pointyware.xyz.drive.navigation.driverHomeRoute
 import org.pointyware.xyz.feature.login.navigation.roleSelectionRoute
@@ -27,7 +28,7 @@ import org.pointyware.xyz.feature.ride.navigation.rideRoute
 @Composable
 fun AuthorizationScreen(
     authorizationViewModel: AuthorizationViewModel,
-    navController: XyzNavController,
+    navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
     val authorizationState by authorizationViewModel.state.collectAsState()
@@ -60,7 +61,7 @@ fun AuthorizationScreen(
                         driverHomeRoute
                     }
                 }
-                navController.navigateTo(location, navOptions = NavOptions(clearBackStack = true))
+                navController.navigate(location, navOptions = navOptions { launchSingleTop = true })
             },
             onDismiss = authorizationViewModel::onDismissError
         )

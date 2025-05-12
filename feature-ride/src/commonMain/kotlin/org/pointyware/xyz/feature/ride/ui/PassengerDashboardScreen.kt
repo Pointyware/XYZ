@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.navigation.XyzNavController
+import androidx.navigation.NavHostController
 import org.pointyware.xyz.feature.ride.viewmodels.TripViewModel
 
 /**
@@ -17,7 +17,7 @@ import org.pointyware.xyz.feature.ride.viewmodels.TripViewModel
 @Composable
 fun PassengerDashboardScreen(
     viewModel: TripViewModel,
-    navController: XyzNavController,
+    navController: NavHostController,
 ) {
     val state = viewModel.state.collectAsState()
     val mapState = viewModel.mapState.collectAsState()
@@ -39,7 +39,7 @@ fun PassengerDashboardScreen(
         onCancelTrip = viewModel::onCancelTrip,
         onRateDriver = viewModel::onRateDriver,
         onFinishTrip = viewModel::onFinishTrip,
-        onBack = navController::goBack,
+        onBack = navController::popBackStack,
         clearError = viewModel::clearError,
     )
 }

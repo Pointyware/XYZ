@@ -6,7 +6,7 @@ package org.pointyware.xyz.feature.login.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.navigation.XyzNavController
+import androidx.navigation.NavHostController
 import org.pointyware.xyz.feature.login.viewmodels.ProfileViewModel
 
 /**
@@ -15,7 +15,7 @@ import org.pointyware.xyz.feature.login.viewmodels.ProfileViewModel
 @Composable
 fun UserProfileScreen(
     viewModel: ProfileViewModel,
-    navController: XyzNavController,
+    navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
     /*

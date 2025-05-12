@@ -10,21 +10,21 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.navigation.XyzNavController
+import androidx.navigation.NavHostController
 import org.pointyware.xyz.drive.navigation.driverActiveRoute
 
 /**
  */
 @Composable
 fun ProviderHomeScreen(
-    navController: XyzNavController,
+    navController: NavHostController,
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         Button(
             onClick = {
-                navController.navigateTo(driverActiveRoute)
+                navController.navigate(driverActiveRoute)
             }
         ) {
             Text("Start Taking Requests")
