@@ -89,16 +89,16 @@ private fun profileRemoteModule() = module {
 }
 
 fun profileRemoteTestModule() = module {
-    single<ProfileService> {
-        val profilePath = Path(get<Path>(qualifier = testDirectory), "profile.json")
-        println("Using fake profile service with file: $profilePath")
-        FakeProfileService(
-            profileFile = profilePath,
-            profiles = mutableMapOf(),
-            json = get<Json>(),
-            lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
-            dataContext = get<CoroutineContext>(qualifier = dataQualifier),
-            dataScope = get<CoroutineScope>(qualifier = dataQualifier),
-        )
-    }
+//    single<ProfileService> {
+//        val profilePath = Path(get<Path>(qualifier = testDirectory), "profile.json")
+//        println("Using fake profile service with file: $profilePath")
+//        FakeProfileService(
+//            profileFile = profilePath,
+//            profiles = mutableMapOf(),
+//            json = get<Json>(),
+//            lifecycleController = get<ApplicationComponent>().scope.get<LifecycleController>(),
+//            dataContext = get<CoroutineContext>(qualifier = dataQualifier),
+//            dataScope = get<CoroutineScope>(qualifier = dataQualifier),
+//        )
+//    }
 }
