@@ -49,6 +49,7 @@ kotlin {
 
                 implementation(compose.ui)
                 implementation(compose.material3)
+                api(libs.compose.navigation)
                 implementation(libs.koin.core)
             }
         }
