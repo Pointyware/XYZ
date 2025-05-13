@@ -10,9 +10,13 @@ import org.pointyware.xyz.api.controllers.OrderController
 import org.pointyware.xyz.api.controllers.PaymentsController
 import org.pointyware.xyz.api.controllers.PaymentsControllerImpl
 import org.pointyware.xyz.api.controllers.OrderControllerImpl
+import org.pointyware.xyz.api.databases.AuthDatabase
+import org.pointyware.xyz.api.databases.AuthDatabaseImpl
 import org.pointyware.xyz.api.databases.PostgresConnectionFactory
+import org.pointyware.xyz.api.databases.RideDatabase
+import org.pointyware.xyz.api.databases.RideDatabaseImpl
 import org.pointyware.xyz.api.services.PaymentsService
-import org.pointyware.xyz.api.services.PostgresRideService
+import org.pointyware.xyz.api.services.RideServiceImpl
 import org.pointyware.xyz.api.services.UserServiceImpl
 import org.pointyware.xyz.api.services.RideService
 import org.pointyware.xyz.api.services.StripePaymentsService
@@ -25,7 +29,8 @@ import java.sql.Connection
 fun apiModule() = module {
     includes(
         controllersModule(),
-        servicesModule()
+        servicesModule(),
+        databasesModule()
     )
 }
 
@@ -45,8 +50,17 @@ fun controllersModule() = module {
  */
 fun servicesModule() = module {
     singleOf(::UserServiceImpl) { bind<UserService>() }
-    singleOf(::PostgresRideService) { bind<RideService>() }
+    singleOf(::RideServiceImpl) { bind<RideService>() }
     singleOf(::StripePaymentsService) { bind<PaymentsService>() }
+}
+
+/**
+ * This module provides implementations for all databases, including any framework-specific
+ * dependencies, e.g. [postgresModule] is included.
+ */
+fun databasesModule() = module {
+    singleOf(::AuthDatabaseImpl) { bind<AuthDatabase>() }
+    singleOf(::RideDatabaseImpl) { bind<RideDatabase>() }
 
     includes(
         postgresModule()
