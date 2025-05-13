@@ -11,6 +11,7 @@ import io.ktor.server.response.respondNullable
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.post
+import io.ktor.server.routing.route
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.controllers.AuthController
 import org.pointyware.xyz.core.data.dtos.LoginInfo
@@ -24,15 +25,17 @@ import org.pointyware.xyz.core.data.dtos.LoginInfo
  */
 fun Routing.auth() {
     val koin = getKoin()
-    post<LoginInfo>("/auth/login") { info ->
-        val authController = koin.get<AuthController>()
+    route("/auth") {
+        post<LoginInfo>("/login") { info ->
+            val authController = koin.get<AuthController>()
 
-        call.respondResult(authController.login(info.email, info.password))
-    }
-    post<LoginInfo>("/auth/create") { info ->
-        val authController = koin.get<AuthController>()
+            call.respondResult(authController.login(info.email, info.password))
+        }
+        post<LoginInfo>("/create") { info ->
+            val authController = koin.get<AuthController>()
 
-        call.respondResult(authController.createUser(info.email, info.password))
+            call.respondResult(authController.createUser(info.email, info.password))
+        }
     }
 }
 

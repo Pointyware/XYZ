@@ -7,15 +7,18 @@ package org.pointyware.xyz.api.routes
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import io.ktor.server.routing.route
 
 /**
  * Directs auth requests to the appropriate controller.
  */
 fun Routing.profile() {
-    post("/profile") {
-        TODO("Create profile with arguments")
-    }
-    get("/profile/{id}") {
-        TODO("Get profile information")
+    route("/profile") {
+        post {
+            TODO("Create profile with arguments")
+        }
+        get("/{id}") {
+            TODO("Get profile information")
+        }
     }
 }

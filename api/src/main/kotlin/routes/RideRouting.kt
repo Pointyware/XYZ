@@ -9,20 +9,20 @@ import io.ktor.server.response.respondNullable
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.xyz.api.controllers.PaymentsController
+import io.ktor.server.routing.route
 
 /**
  *
  */
 fun Routing.ride() {
-    get("/ride") {
-        call.respondNullable<String?>("Hi rider!")
-    }
+    route("/ride") {
+        get {
+            call.respondNullable<String?>("Hi rider!")
+        }
+        post("/{id}/payment") {
+            val id = call.parameters["id"]
 
-    post("/ride/{id}/payment") {
-        val id = call.parameters["id"]
-
-        call.respondNullable<String?>("Hi rider! $id")
+            call.respondNullable<String?>("Hi rider! $id")
+        }
     }
 }
