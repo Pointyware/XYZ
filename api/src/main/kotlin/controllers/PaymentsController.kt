@@ -18,7 +18,7 @@ interface PaymentsController {
 }
 
 /**
- * Interacts with the Stripe API to create payment intents for completed rides.
+ * Interacts with the [RideService] and [PaymentsService] to manage ride payment.
  */
 class PaymentsControllerImpl(
     private val rideService: RideService,
