@@ -1,15 +1,15 @@
 package org.pointyware.xyz.api.services
 
+import org.pointyware.xyz.api.databases.RideDatabase
 import org.pointyware.xyz.core.data.dtos.RideInfo
-import java.sql.Connection
 
 interface RideService {
     suspend fun getRideById(id: String): Result<RideInfo>
     suspend fun getRideCost(id: String): Result<Long>
 }
 
-class PostgresRideService(
-    private val connection: Connection
+class RideServiceImpl(
+    private val rideDatabase: RideDatabase
 ): RideService {
     override suspend fun getRideById(id: String): Result<RideInfo> {
         return TODO("")
