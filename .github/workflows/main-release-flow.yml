@@ -27,6 +27,12 @@ jobs:
       - name: "Setup Gradle"
         uses: gradle/actions/setup-gradle@v3
 
+      - name: "Setup Secrets"
+        run: |
+          touch ./secrets.properties
+          touch ./stripe-secrets.properties
+          touch ./api/secrets.properties
+
       - name: "Build: Assemble and Test entire project"
         run: |
           ./gradlew :app-android:buildRelease
