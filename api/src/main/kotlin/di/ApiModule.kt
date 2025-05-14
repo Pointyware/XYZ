@@ -10,6 +10,8 @@ import org.pointyware.xyz.api.controllers.OrderController
 import org.pointyware.xyz.api.controllers.PaymentsController
 import org.pointyware.xyz.api.controllers.PaymentsControllerImpl
 import org.pointyware.xyz.api.controllers.OrderControllerImpl
+import org.pointyware.xyz.api.controllers.RideController
+import org.pointyware.xyz.api.controllers.RideControllerImpl
 import org.pointyware.xyz.api.databases.AuthDatabase
 import org.pointyware.xyz.api.databases.AuthDatabaseImpl
 import org.pointyware.xyz.api.databases.PostgresConnectionFactory
@@ -42,6 +44,7 @@ fun controllersModule() = module {
     singleOf(::AuthControllerImpl) { bind<AuthController>() }
     singleOf(::OrderControllerImpl) { bind<OrderController>() }
     singleOf(::PaymentsControllerImpl) { bind<PaymentsController>() }
+    singleOf(::RideControllerImpl) { bind<RideController>() }
 }
 
 /**
@@ -74,6 +77,7 @@ fun postgresModule() = module {
     // We don't need to retain the factory
     factoryOf(::PostgresConnectionFactory)
 
-    // We need to retain a single connection, wherever it is requested
-    single<Connection> { get<PostgresConnectionFactory>().createConnection() }
+    single<()->Connection> {
+        { get<PostgresConnectionFactory>().createConnection() }
+    }
 }
