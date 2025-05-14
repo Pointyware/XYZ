@@ -23,10 +23,10 @@ fun Routing.drive() {
         val rideController = koin.get<RideController>()
 
         post("/start") {
-            // TODO: get bid info
+
         }
         put("/status") {
-            // TODO: get bid update
+
         }
         post("/accept") {
 
