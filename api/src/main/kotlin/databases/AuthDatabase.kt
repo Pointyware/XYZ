@@ -67,7 +67,12 @@ class AuthDatabaseImpl(
                 userId: String,
                 resourcePermissions: List<String>
             ) {
-                TODO("Not yet implemented")
+                connection.prepareStatement(
+                    "INSERT INTO user_permissions (email, permissions) VALUES (?, ?)"
+                ).apply {
+                    setString(1, userId)
+                    setString(2, resourcePermissions.joinToString(","))
+                }.executeUpdate()
             }
 
             override suspend fun getUserByEmail(email: String): UserDto {
@@ -107,11 +112,22 @@ class AuthDatabaseImpl(
             }
 
             override suspend fun updateUser(user: UserDto) {
-                TODO("Not yet implemented")
+                connection.prepareStatement(
+                    "UPDATE users SET email = ?, pass_hash = ?, salt = ? WHERE id = ?"
+                ).apply {
+                    setString(1, user.email)
+                    setString(2, user.passwordHash)
+                    setString(3, user.salt)
+                    setString(4, user.id)
+                }.executeUpdate()
             }
 
             override suspend fun deleteUser(userId: String) {
-                TODO("Not yet implemented")
+                connection.prepareStatement(
+                    "DELETE FROM users WHERE id = ?"
+                ).apply {
+                    setString(1, userId)
+                }.executeUpdate()
             }
 
             override suspend fun insertAuthorization(email: String, token: String) {
