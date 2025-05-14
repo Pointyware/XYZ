@@ -42,6 +42,7 @@ kotlin {
             dependencies {
                 implementation(projects.coreCommon)
                 implementation(projects.coreEntities)
+                implementation(projects.coreDataDtos)
 
                 implementation(libs.koin.core)
 
