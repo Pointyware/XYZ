@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.coreData)
     implementation(projects.coreEntities)
     implementation(projects.coreLocal)
     implementation(projects.coreUi)

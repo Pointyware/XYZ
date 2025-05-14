@@ -40,11 +40,6 @@ fun XyzApp(
 ) {
     val navController = rememberNavController()
 
-    val titleMap = mapOf(
-        loginRoute to "Login",
-        roleSelectionRoute to "New Account",
-        userProfileRoute to "Profile",
-    )
     XyzTheme(
         isDark = isDarkTheme
     ) {

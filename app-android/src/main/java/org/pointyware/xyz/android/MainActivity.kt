@@ -9,21 +9,16 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.fragment.app.FragmentActivity
-import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.shared.XyzApp
-import org.pointyware.xyz.shared.di.AppDependencies
 
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val koin = getKoin()
-        val appDependencies = koin.get<AppDependencies>()
 
         setContent {
             XyzApp(
-                dependencies = appDependencies,
                 isDarkTheme = isSystemInDarkTheme()
             )
         }
