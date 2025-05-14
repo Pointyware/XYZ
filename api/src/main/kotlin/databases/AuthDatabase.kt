@@ -13,6 +13,9 @@ interface AuthDatabase {
     val users: AuthDao
 }
 
+/**
+ * This interface represents the data access object (DAO) for user authentication and authorization.
+ */
 interface AuthDao {
     suspend fun createUser(
         email: String,
@@ -30,6 +33,9 @@ interface AuthDao {
     suspend fun insertAuthorization(email: String, token: String)
 }
 
+/**
+ * This data class facilitates data transfer between the database and the application.
+ */
 data class UserDto(
     val id: String,
     val email: String,
