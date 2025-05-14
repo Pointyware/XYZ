@@ -32,10 +32,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: "Setup Secrets"
-        run: |
-          touch ./secrets.properties
-          touch ./stripe-secrets.properties
-          touch ./api/secrets.properties
+        uses: ./.github/actions/setup-secrets
 
       - name: "Generate Documentation"
         run: ./gradlew dokka

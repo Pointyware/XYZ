@@ -1,0 +1,30 @@
+name: ""
+description: ""
+inputs:
+  stripe-secrets:
+    description: "Stripe secrets"
+    required: false
+    default: ${{ secrets.STRIPE_SECRETS }}
+  root-secrets:
+    description: "Root secrets"
+    required: false
+    default: ${{ secrets.ROOT_SECRETS }}
+  api-secrets:
+    description: "API secrets"
+    required: false
+    default: ${{ secrets.API_SECRETS }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Create root secrets"
+      run: |
+        echo "${{ inputs.root-secrets }}" > ./secrets.properties
+
+    - name: "Create API secrets"
+      run: |
+        echo "${{ inputs.api }}" > ./api/secrets.properties
+
+    - name: "Create Stripe secrets"
+      run: |
+        echo "${{ inputs.root-secrets }}" > ./stripe-secrets.properties
