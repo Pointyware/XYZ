@@ -53,6 +53,7 @@ kotlin {
                 implementation(projects.coreEntities)
                 implementation(projects.coreInteractors)
                 implementation(projects.coreData)
+                implementation(projects.coreDataDtos)
                 implementation(projects.coreLocal)
                 implementation(projects.coreRemote)
                 implementation(projects.coreViewModels)
