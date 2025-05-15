@@ -36,7 +36,9 @@ data class RideDto(
     val startLocation: String,
     val endLocation: String,
     val cost: Long,
-    val status: String
+    val status: String,
+    val driverId: String,
+    val riderId: String,
 )
 
 /**
@@ -66,7 +68,7 @@ class RideDatabaseImpl(
 
             override suspend fun getRideById(id: String): RideDto {
                 connection.prepareStatement(
-                    "SELECT id, start_location, end_location, cost, status FROM rides WHERE id = ?"
+                    "SELECT id, start_location, end_location, cost, status, rider_id, driver_id FROM rides WHERE id = ?"
                 ).apply {
                     setString(1, id)
                 }.executeQuery().use { resultSet ->
@@ -76,7 +78,9 @@ class RideDatabaseImpl(
                             startLocation = resultSet.getString("start_location"),
                             endLocation = resultSet.getString("end_location"),
                             cost = resultSet.getLong("cost"),
-                            status = resultSet.getString("status")
+                            status = resultSet.getString("status"),
+                            riderId = resultSet.getString("rider_id"),
+                            driverId = resultSet.getString("driver_id"),
                         )
                     } else {
                         throw NoSuchElementException("No ride found with id: $id")
