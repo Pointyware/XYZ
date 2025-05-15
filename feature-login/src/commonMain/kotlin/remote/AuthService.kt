@@ -6,6 +6,7 @@ package org.pointyware.xyz.feature.login.remote
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.expectSuccess
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
 import org.pointyware.xyz.core.data.dtos.Authorization
@@ -39,25 +40,19 @@ class KtorAuthService(
     private val client: HttpClient
 ): AuthService {
 
-    override suspend fun login(email: String, password: String): Result<Authorization> {
-        try {
-            val response = client.post(Auth.Login) {
-                setBody(mapOf("email" to email, "password" to password))
-            }
-            return Result.success(response.body<Authorization>())
-        } catch (e: Exception) {
-            return Result.failure(e)
+    override suspend fun login(email: String, password: String): Result<Authorization> = runCatching {
+        val response = client.post(Auth.Login()) {
+            setBody(mapOf("email" to email, "password" to password))
+            expectSuccess = true
         }
+        response.body<Authorization>()
     }
 
-    override suspend fun createUser(email: String, password: String): Result<Authorization> {
-        try {
-            val response = client.post(Auth.Create) {
-                setBody(mapOf("email" to email, "password" to password))
-            }
-            return Result.success(response.body<Authorization>())
-        } catch (e: Exception) {
-            return Result.failure(e)
+    override suspend fun createUser(email: String, password: String): Result<Authorization> = runCatching {
+        val response = client.post(Auth.Create()) {
+            setBody(mapOf("email" to email, "password" to password))
+            expectSuccess = true
         }
+        response.body<Authorization>()
     }
 }
