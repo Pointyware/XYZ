@@ -38,6 +38,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.kotlinx.serialization)
+                implementation(libs.kotlinx.serialization)
+                implementation(libs.ktor.serialization.json)
             }
         }
         val commonTest by getting {
