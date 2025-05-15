@@ -9,19 +9,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.geo.LatLong
 import org.pointyware.xyz.core.viewmodels.MapViewModelImpl
 import org.pointyware.xyz.drive.data.ProviderTripRepository
 import org.pointyware.xyz.drive.interactors.WatchRatedRequests
 import org.pointyware.xyz.drive.org.pointyware.xyz.drive.interactors.WatchProviderDistance
 import viewmodels.ProviderDashboardUiState
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * View model for the driver dashboard.
  * Defines events and state for the entire lifecycle of a Trip from the driver's perspective.
  * This includes accepting and rejecting requests, managing the ride, and completing or canceling the trip.
  */
+@OptIn(ExperimentalUuidApi::class)
 class ProviderDashboardViewModel(
     private val repository: ProviderTripRepository,
     private val watchRatedRequests: WatchRatedRequests,

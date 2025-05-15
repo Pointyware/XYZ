@@ -4,18 +4,21 @@
 
 package org.pointyware.xyz.feature.login.local
 
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.profile.Profile
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 interface ProfileCache {
     fun saveProfile(it: Profile)
     fun getProfile(userId: Uuid): Result<Profile?>
     fun dropProfile(userId: Uuid)
 }
 
+@OptIn(ExperimentalUuidApi::class)
 class ProfileCacheImpl(
 
 ): ProfileCache {

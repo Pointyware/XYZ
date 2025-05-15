@@ -6,14 +6,16 @@ package org.pointyware.xyz.core.entities.profile
 
 import kotlinx.serialization.Serializable
 import org.pointyware.xyz.core.entities.Name
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.business.Business
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.ride.Accommodation
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Externally-facing profile data.
  */
+@OptIn(ExperimentalUuidApi::class)
 @Serializable
 sealed interface Profile {
     val id: Uuid
@@ -25,6 +27,7 @@ sealed interface Profile {
 /**
  * Profile data for a driver.
  */
+@OptIn(ExperimentalUuidApi::class)
 @Serializable
 class DriverProfile(
     override val id: Uuid,
@@ -38,6 +41,7 @@ class DriverProfile(
 /**
  * Profile data for a rider.
  */
+@OptIn(ExperimentalUuidApi::class)
 @Serializable
 class RiderProfile(
     override val id: Uuid,

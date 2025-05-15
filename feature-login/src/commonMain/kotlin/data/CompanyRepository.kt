@@ -4,15 +4,18 @@
 
 package org.pointyware.xyz.feature.login.data
 
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.business.Company
 import org.pointyware.xyz.feature.login.local.CompanyCache
 import org.pointyware.xyz.feature.login.remote.CompanyService
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 data class CompanyNotFoundException(val uuid: Uuid): Exception("Company not found with uuid: $uuid")
 
 /**
  */
+@OptIn(ExperimentalUuidApi::class)
 interface CompanyRepository {
     fun getCompany(uuid: Uuid): Result<Company>
 }
@@ -20,6 +23,7 @@ interface CompanyRepository {
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 class CompanyRepositoryImpl(
     private val companyCache: CompanyCache,
     private val companyService: CompanyService,
@@ -33,6 +37,7 @@ class CompanyRepositoryImpl(
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 class TestCompanyRepository(
     // TODO: create file persistence for testing
     private val companies: MutableMap<Uuid, Company> = mutableMapOf()

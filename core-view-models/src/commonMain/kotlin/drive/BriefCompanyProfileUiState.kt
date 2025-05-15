@@ -4,12 +4,14 @@
 
 package org.pointyware.xyz.core.viewmodels.drive
 
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.data.Uri
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Contains just enough information to represent a company in a list.
  */
+@OptIn(ExperimentalUuidApi::class)
 data class BriefCompanyProfileUiState(
     val id: Uuid,
     val logo: Uri,
@@ -17,7 +19,7 @@ data class BriefCompanyProfileUiState(
 ) {
     companion object {
         val independent = BriefCompanyProfileUiState(
-            id = Uuid.nil(),
+            id = Uuid.NIL,
             logo = Uri.nullDevice,
             name = "Independent"
         )

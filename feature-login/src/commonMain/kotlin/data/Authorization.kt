@@ -4,11 +4,13 @@
 
 package org.pointyware.xyz.feature.login.data
 
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Separates authorization information from the profile entity.
  */
+@OptIn(ExperimentalUuidApi::class)
 interface Authorization {
     /**
      * User email.
@@ -20,6 +22,4 @@ interface Authorization {
      */
     val token: String
 
-    class InUseException(val email: String): Exception("Email ($email) is already in use.")
-    class InvalidCredentialsException: Exception("Invalid email or password.")
 }

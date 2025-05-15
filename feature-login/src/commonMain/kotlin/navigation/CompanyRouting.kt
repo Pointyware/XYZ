@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import org.pointyware.xyz.drive.ui.CompanyProfileCreationView
 import org.pointyware.xyz.drive.ui.CompanyProfileView
+import kotlin.uuid.ExperimentalUuidApi
 
 val companyCreationRoute = "company/create"
 val companyViewingRoute = "company/{id}"
@@ -18,6 +19,7 @@ val companyViewingRoute = "company/{id}"
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 fun NavGraphBuilder.companyRouting(
     navController: NavHostController
 ) {

@@ -4,16 +4,18 @@
 
 package org.pointyware.xyz.drive.viewmodels
 
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.business.Currency
 import org.pointyware.xyz.core.entities.business.Rate
 import org.pointyware.xyz.core.entities.geo.Length
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.drive.entities.DriverRates
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Displays information about a new trip request: distance from driver, distance of route, and rider service rate.
  */
+@OptIn(ExperimentalUuidApi::class)
 interface RideRequestUiState {
     val requestId: Uuid
     val riderName: String
@@ -38,6 +40,7 @@ interface RideRequestUiState {
     val grossProfit: Currency
 }
 
+@OptIn(ExperimentalUuidApi::class)
 data class RideRequestUiStateImpl(
     override val requestId: Uuid,
     override val riderName: String,

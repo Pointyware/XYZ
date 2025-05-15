@@ -4,14 +4,16 @@
 
 package org.pointyware.xyz.core.viewmodels.drive
 
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.PhoneNumber
 import org.pointyware.xyz.core.viewmodels.BriefProfileUiState
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 data class CompanyProfileUiState(
     val id: Uuid,
     val banner: Uri,
@@ -24,7 +26,7 @@ data class CompanyProfileUiState(
 ) {
     companion object {
         val empty = CompanyProfileUiState(
-            Uuid.nil(),
+            Uuid.NIL,
             Uri.nullDevice,
             Uri.nullDevice,
             "",

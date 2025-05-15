@@ -12,41 +12,33 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import kotlinx.io.Buffer
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.files.SystemTemporaryDirectory
-import kotlinx.io.readByteArray
 import kotlinx.serialization.json.Json
-import org.pointyware.xyz.core.data.DefaultLifecycleController
-import org.pointyware.xyz.core.data.LifecycleController
 import org.pointyware.xyz.core.data.writeText
-import org.pointyware.xyz.core.entities.Uuid
-import org.pointyware.xyz.core.entities.data.Uri
-import org.pointyware.xyz.core.entities.profile.DriverProfile
-import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.Name
 import org.pointyware.xyz.core.entities.business.Individual
+import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.Disability
-import org.pointyware.xyz.core.entities.profile.Profile
+import org.pointyware.xyz.core.entities.profile.DriverProfile
+import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.profile.RiderProfile
-import org.pointyware.xyz.feature.login.data.Authorization
-import org.pointyware.xyz.feature.login.remote.ProfileService
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  *
  */
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalUuidApi::class)
 class FakeProfileServiceTest {
 
     lateinit var profileFile: Path
-    lateinit var lifecycleController: LifecycleController
 
     lateinit var fakeProfileService: FakeProfileService
 
@@ -57,14 +49,12 @@ class FakeProfileServiceTest {
 
         val testDispatcher = StandardTestDispatcher()
 
-        lifecycleController = DefaultLifecycleController()
         fakeProfileService = FakeProfileService(
             profileFile = profileFile,
             profiles = mutableMapOf(),
 
             json = Json { isLenient = true },
 
-            lifecycleController = lifecycleController,
             dataContext = testDispatcher,
             dataScope = CoroutineScope(testDispatcher + SupervisorJob())
         )
@@ -91,12 +81,12 @@ class FakeProfileServiceTest {
          */
         profileFile.writeText(profilesJsonString)
         fakeProfileService.loadFile(profileFile)
-        val riderId = Uuid(
-            bytes = byteArrayOf(-74, -23, -37, 126, -61, -2, 78, 92,
+        val riderId = Uuid.fromByteArray(
+            byteArrayOf(-74, -23, -37, 126, -61, -2, 78, 92,
                 14, 69, 46, 84, -83, 75, -70, -45)
         )
-        val driverId = Uuid(
-            bytes = byteArrayOf(40, -78, 62, 32, 66, -57, 67, 9, -63,
+        val driverId = Uuid.fromByteArray(
+            byteArrayOf(40, -78, 62, 32, 66, -57, 67, 9, -63,
                 43, 76, -57, -102, -101, -65, 80
             )
         )
@@ -129,7 +119,7 @@ class FakeProfileServiceTest {
         When:
         - we retrieve a user with no profile
          */
-        val randomResult = fakeProfileService.getProfile(Uuid.v4())
+        val randomResult = fakeProfileService.getProfile(Uuid.random())
         /*
         Then:
         - A failure should be returned
@@ -148,7 +138,7 @@ class FakeProfileServiceTest {
         - the FakeProfileService has some users
          */
         val driver1 = DriverProfile(
-            id = Uuid.v4(),
+            id = Uuid.random(),
             name = Name("John", "", "Doe"),
             accommodations = emptySet(),
             gender = Gender.Man,
@@ -156,7 +146,7 @@ class FakeProfileServiceTest {
             business = Individual
         )
         val rider1 = RiderProfile(
-            id = Uuid.v4(),
+            id = Uuid.random(),
             name = Name("Jane", "", "Doe"),
             gender = Gender.Woman,
             picture = Uri("https://example.com/janedoe.jpg"),
@@ -170,7 +160,6 @@ class FakeProfileServiceTest {
         When:
         - the lifecycle controller emits onStop
          */
-        lifecycleController.onStop()
         testScheduler.advanceUntilIdle()
 
         /*

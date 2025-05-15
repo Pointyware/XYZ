@@ -4,12 +4,14 @@
 
 package org.pointyware.xyz.feature.login.local
 
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.business.Company
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 class CompanyCache(
 
 ) {

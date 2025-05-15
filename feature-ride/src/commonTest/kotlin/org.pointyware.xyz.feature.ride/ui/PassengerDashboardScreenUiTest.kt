@@ -19,22 +19,21 @@ import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilDoesNotExist
 import androidx.compose.ui.test.waitUntilExactlyOneExists
+import androidx.navigation.NavHostController
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.entities.Name
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.business.Individual
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.core.entities.ride.Accommodation
-import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
-import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.ride.data.TestTripRepository
 import org.pointyware.xyz.feature.ride.di.featureRideDataTestModule
 import org.pointyware.xyz.feature.ride.entities.ExpirationDate
@@ -48,18 +47,19 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * System/UI Test for Rider Request Ride View
  */
-@OptIn(ExperimentalTestApi::class)
+@OptIn(ExperimentalTestApi::class, ExperimentalUuidApi::class)
 class PassengerDashboardScreenUiTest {
 
     private lateinit var tripRepository: TestTripRepository
     private lateinit var paymentStore: FakePaymentStore
 
     private lateinit var viewModel: TripViewModel
-    private lateinit var navController: XyzNavController
+    private lateinit var navController: NavHostController
 
     private lateinit var driverProfile: DriverProfile
 
@@ -77,7 +77,7 @@ class PassengerDashboardScreenUiTest {
 
         tripRepository = koin.get()
         tripRepository.riderProfile = RiderProfile(
-            id = Uuid.v4(),
+            id = Uuid.random(),
             name = Name("Test", "", "Rider"),
             gender = Gender.Man,
             picture = Uri.nullDevice,
@@ -87,7 +87,7 @@ class PassengerDashboardScreenUiTest {
         paymentStore = koin.get()
         paymentStore.savePaymentMethod(
             PaymentMethod(
-                id = Uuid.v4(),
+                id = Uuid.random(),
                 lastFour = "3456",
                 expiration = ExpirationDate(month = 12, year = 2024),
                 cardholderName = "John Doe",
@@ -99,7 +99,7 @@ class PassengerDashboardScreenUiTest {
         navController = koin.get()
 
         driverProfile = DriverProfile(
-            id = Uuid.v4(),
+            id = Uuid.random(),
             name = Name("Test", "", "Driver"),
             gender = Gender.Woman,
             picture = Uri.nullDevice,
@@ -129,9 +129,7 @@ class PassengerDashboardScreenUiTest {
         - The "New Ride" button is shown
          */
         setContent {
-            XyzTheme(
-                uiDependencies = EmptyTestUiDependencies()
-            ) {
+            XyzTheme {
                 PassengerDashboardScreen(
                     viewModel,
                     navController

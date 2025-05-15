@@ -11,14 +11,16 @@ import io.ktor.client.plugins.resources.get
 import io.ktor.client.plugins.resources.patch
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
+import kotlin.uuid.ExperimentalUuidApi
 import org.pointyware.xyz.core.entities.profile.Profile as ProfileEntity
 
 /**
  * Exposes profile-related actions to be performed by a remote service.
  */
+@OptIn(ExperimentalUuidApi::class)
 interface ProfileService {
     suspend fun createDriverProfile(userId: Uuid, profile: DriverProfile): Result<DriverProfile>
     suspend fun createRiderProfile(userId: Uuid, profile: RiderProfile): Result<RiderProfile>
@@ -27,6 +29,7 @@ interface ProfileService {
     suspend fun deleteProfile(userId: Uuid): Result<Unit>
 }
 
+@OptIn(ExperimentalUuidApi::class)
 class KtorProfileService(
     val client: HttpClient
 ): ProfileService {

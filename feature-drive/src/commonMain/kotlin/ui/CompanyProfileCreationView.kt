@@ -13,14 +13,15 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.entities.data.Uri
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.ui.BriefProfileCollectionItem
 import org.pointyware.xyz.core.viewmodels.drive.CompanyProfileUiState
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  *
  */
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalUuidApi::class)
 @Composable
 fun CompanyProfileCreationView(
     state: CompanyProfileUiState,

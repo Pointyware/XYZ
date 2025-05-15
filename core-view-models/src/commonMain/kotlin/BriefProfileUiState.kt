@@ -4,14 +4,15 @@
 
 package org.pointyware.xyz.core.viewmodels
 
-import org.pointyware.xyz.core.entities.ride.Rating
 import org.pointyware.xyz.core.entities.data.Uri
-import org.pointyware.xyz.core.entities.Uuid
-import org.pointyware.xyz.core.entities.profile.Profile
+import org.pointyware.xyz.core.entities.ride.Rating
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * A brief profile UI state. For more detail see [ProfileUiState].
  */
+@OptIn(ExperimentalUuidApi::class)
 interface BriefProfileUiState {
     val id: Uuid
     val image: Uri

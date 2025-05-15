@@ -13,10 +13,12 @@ import androidx.navigation.NavHostController
 import org.pointyware.xyz.feature.login.navigation.companyCreationRoute
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationView
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Binds a [DriverProfileCreationViewModel] to the [DriverProfileCreationView].
  */
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun DriverProfileCreationScreen(
     viewModel: DriverProfileCreationViewModel,
