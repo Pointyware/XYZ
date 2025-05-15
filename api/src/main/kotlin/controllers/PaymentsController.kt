@@ -26,7 +26,7 @@ class PaymentsControllerImpl(
 ): PaymentsController {
 
     override suspend fun getRideCost(rideId: String): Result<Long> {
-        return rideService.getRideCost(rideId)
+        return rideService.getRideById(rideId).map { it.cost }
     }
 
     override suspend fun createPaymentIntent(rideId: String): Result<String> =
