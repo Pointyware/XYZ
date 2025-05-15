@@ -35,7 +35,9 @@ kotlin {
         implementation(libs.koin.ktor)
 
         implementation(libs.ktor.server.core)
+        implementation(libs.ktor.server.contentNegotiation)
         implementation(libs.ktor.server.netty)
+        implementation(libs.ktor.serialization.json)
 
         implementation(libs.postgresql)
         implementation(libs.bouncyCastle)
