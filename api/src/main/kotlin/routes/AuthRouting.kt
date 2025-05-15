@@ -45,6 +45,6 @@ fun Routing.auth() {
 private suspend inline fun <reified T> ApplicationCall.respondResult(result: Result<T>) {
     result
         .onSuccess { respondNullable(it) }
-        .onFailure { respondText(it.message ?: "Unknown error", status = HttpStatusCode.InternalServerError) }
+        .onFailure { respondText(it.message?.let { msg -> it.toString() + msg } ?: "Unknown error", status = HttpStatusCode.InternalServerError) }
     respondText("Unreachable", status = HttpStatusCode.InternalServerError)
 }
