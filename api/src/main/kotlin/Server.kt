@@ -15,9 +15,9 @@ import org.pointyware.xyz.api.routes.payment
 import org.pointyware.xyz.api.routes.profile
 import org.pointyware.xyz.api.routes.ride
 
-fun main() {
-
-    val port = System.getenv("PORT")?.toInt() ?: 8080
+fun main(vararg args: String) {
+    // TODO: take port from args
+    val port = 80
 
     startKoin {
         modules(
@@ -26,6 +26,7 @@ fun main() {
     }
 
     embeddedServer(Netty, port) {
+
         routing {
             auth()
             profile()
