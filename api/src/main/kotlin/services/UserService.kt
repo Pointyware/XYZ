@@ -2,6 +2,8 @@ package org.pointyware.xyz.api.services
 
 import org.pointyware.xyz.api.databases.AuthDatabase
 import org.pointyware.xyz.core.data.dtos.Authorization
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Service for managing user credentials and authorizations.
@@ -38,6 +40,7 @@ interface UserService {
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 class UserServiceImpl(
     private val encryptionService: EncryptionService,
     private val authDatabase: AuthDatabase
@@ -62,9 +65,10 @@ class UserServiceImpl(
     private suspend fun generateAuthorization(email: String): Result<Authorization> = runCatching {
         val credentials = authDatabase.users.getUserByEmail(email)
         val userPermissions = credentials.resourcePermissions
-        val token = encryptionService.generateToken(email, userPermissions).getOrThrow()
-        val authorization = Authorization(email = email, token = token)
-        authDatabase.users.insertAuthorization(email = email, token = authorization.token)
+        val userId = Uuid.parse(credentials.id)
+        val token = encryptionService.generateToken(userId, userPermissions).getOrThrow()
+        val authorization = Authorization(userId = userId, token = token)
+        authDatabase.users.insertAuthorization(userId = userId, token = authorization.token)
         authorization
     }
 

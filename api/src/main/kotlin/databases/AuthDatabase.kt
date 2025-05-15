@@ -3,6 +3,8 @@ package org.pointyware.xyz.api.databases
 import org.pointyware.xyz.api.model.UserCredentials
 import org.pointyware.xyz.api.services.UserService
 import java.sql.Connection
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * This represents the authentication/authorization server for our users that may
@@ -16,6 +18,7 @@ interface AuthDatabase {
 /**
  * This interface represents the data access object (DAO) for user authentication and authorization.
  */
+@OptIn(ExperimentalUuidApi::class)
 interface AuthDao {
     suspend fun createUser(
         email: String,
@@ -30,7 +33,7 @@ interface AuthDao {
     suspend fun getUserByEmail(email: String): UserDto
     suspend fun updateUser(user: UserDto)
     suspend fun deleteUser(userId: String)
-    suspend fun insertAuthorization(email: String, token: String)
+    suspend fun insertAuthorization(userId: Uuid, token: String)
 }
 
 /**
@@ -44,6 +47,7 @@ data class UserDto(
     val resourcePermissions: List<String>
 )
 
+@OptIn(ExperimentalUuidApi::class)
 class AuthDatabaseImpl(
     private val connectionProvider: () -> Connection
 ) : AuthDatabase {
@@ -136,11 +140,11 @@ class AuthDatabaseImpl(
                 }.executeUpdate()
             }
 
-            override suspend fun insertAuthorization(email: String, token: String) {
+            override suspend fun insertAuthorization(userId: Uuid, token: String) {
                 connection.prepareStatement(
-                    "INSERT INTO authorizations (email, token) VALUES (?, ?)"
+                    "INSERT INTO authorizations (userId, token) VALUES (?, ?)"
                 ).apply {
-                    setString(1, email)
+                    setString(1, userId.toHexString())
                     setString(2, token)
                 }.executeUpdate()
             }
