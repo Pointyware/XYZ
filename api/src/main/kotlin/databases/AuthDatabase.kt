@@ -25,12 +25,13 @@ interface AuthDao {
         passHash: String,
         salt: String,
         resourcePermissions: List<String>
-    )
+    ): Uuid
     suspend fun setUserPermissions(
         userId: String,
         resourcePermissions: List<String>
     )
     suspend fun getUserByEmail(email: String): UserDto
+    suspend fun getUserById(userId: Uuid): UserDto
     suspend fun updateUser(user: UserDto)
     suspend fun deleteUser(userId: String)
     suspend fun insertAuthorization(userId: Uuid, token: String)
@@ -63,14 +64,17 @@ class AuthDatabaseImpl(
                 passHash: String,
                 salt: String,
                 resourcePermissions: List<String>
-            ) {
+            ): Uuid {
+                val userId = Uuid.random()
                 connection.prepareStatement(
-                    "INSERT INTO users (email, pass_hash, salt) VALUES (?, ?, ?)"
+                    "INSERT INTO users (id, email, pass_hash, salt) VALUES (?, ?, ?)"
                 ).apply {
-                    setString(1, email)
-                    setString(2, passHash)
-                    setString(3, salt)
+                    setString(1, userId.toHexString())
+                    setString(2, email)
+                    setString(3, passHash)
+                    setString(4, salt)
                 }.executeUpdate()
+                return userId
             }
 
             override suspend fun setUserPermissions(
@@ -114,6 +118,43 @@ class AuthDatabaseImpl(
                 }
                 return UserDto(
                     id = userCredentials.email,
+                    email = userCredentials.email,
+                    passwordHash = userCredentials.hash,
+                    salt = userCredentials.salt,
+                    resourcePermissions = permissions
+                )
+            }
+
+            override suspend fun getUserById(userId: Uuid): UserDto {
+                val userIdString = userId.toHexString()
+                val userCredentials: UserCredentials = connection.prepareStatement(
+                    "SELECT * FROM users WHERE id = ?"
+                ).apply {
+                    setString(1, userIdString)
+                }.executeQuery().use { resultSet ->
+                    if (resultSet.next()) {
+                        UserCredentials(
+                            email = resultSet.getString("email"),
+                            hash = resultSet.getString("pass_hash"),
+                            salt = resultSet.getString("salt")
+                        )
+                    } else {
+                        throw IllegalArgumentException("User not found")
+                    }
+                }
+                val permissions = connection.prepareStatement(
+                    "SELECT * FROM user_permissions WHERE email = ?"
+                ).apply {
+                    setString(1, userIdString)
+                }.executeQuery().use { resultSet ->
+                    if (resultSet.next()) {
+                        resultSet.getString("permissions").split(",")
+                    } else {
+                        emptyList()
+                    }
+                }
+                return UserDto(
+                    id = userId.toHexString(),
                     email = userCredentials.email,
                     passwordHash = userCredentials.hash,
                     salt = userCredentials.salt,
