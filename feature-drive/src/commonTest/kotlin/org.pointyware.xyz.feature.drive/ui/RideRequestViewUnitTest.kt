@@ -9,7 +9,6 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.runComposeUiTest
-import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.business.Rate.Companion.div
 import org.pointyware.xyz.core.entities.business.dollarCents
 import org.pointyware.xyz.core.entities.geo.LengthUnit
@@ -17,18 +16,18 @@ import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.geo.miles
 import org.pointyware.xyz.core.ui.design.XyzTheme
-import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.drive.entities.DriverRates
 import org.pointyware.xyz.drive.ui.RideRequestView
-import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiStateImpl
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.minutes
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  *
  */
-@OptIn(ExperimentalTestApi::class)
+@OptIn(ExperimentalTestApi::class, ExperimentalUuidApi::class)
 class RideRequestViewUnitTest {
 
 
@@ -49,11 +48,10 @@ class RideRequestViewUnitTest {
         val routeDuration = 5.minutes
         setContent {
             XyzTheme(
-                uiDependencies = EmptyTestUiDependencies()
             ) {
                 RideRequestView(
                     state = RideRequestUiStateImpl(
-                        requestId = Uuid.v4(),
+                        requestId = Uuid.random(),
                         riderName = "John",
                         route = Route(
                             start = missionOfHopeLocation,

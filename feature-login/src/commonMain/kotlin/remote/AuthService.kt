@@ -8,7 +8,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
-import org.pointyware.xyz.feature.login.data.Authorization
+import org.pointyware.xyz.core.data.dtos.Authorization
 
 /**
  * Defines authentication/authorization service functions.
@@ -25,6 +25,10 @@ interface AuthService {
      * If the email is already in use, the result will contain the [Authorization.InUseException].
      */
     suspend fun createUser(email: String, password: String): Result<Authorization>
+
+
+    class InUseException(val email: String): Exception("Email ($email) is already in use.")
+    class InvalidCredentialsException: Exception("Invalid email or password.")
 }
 
 /**
@@ -40,7 +44,7 @@ class KtorAuthService(
             val response = client.post(Auth.Login) {
                 setBody(mapOf("email" to email, "password" to password))
             }
-            return Result.success(response.body<AuthorizationDto>())
+            return Result.success(response.body<Authorization>())
         } catch (e: Exception) {
             return Result.failure(e)
         }
@@ -51,7 +55,7 @@ class KtorAuthService(
             val response = client.post(Auth.Create) {
                 setBody(mapOf("email" to email, "password" to password))
             }
-            return Result.success(response.body<AuthorizationDto>())
+            return Result.success(response.body<Authorization>())
         } catch (e: Exception) {
             return Result.failure(e)
         }

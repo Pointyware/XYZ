@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.pointyware.xyz.core.entities.Uuid
-import org.pointyware.xyz.core.entities.business.Business
 import org.pointyware.xyz.core.entities.business.Individual
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.ride.Accommodation
@@ -23,7 +21,10 @@ import org.pointyware.xyz.core.viewmodels.drive.CompanySelectionUiState
 import org.pointyware.xyz.core.viewmodels.postError
 import org.pointyware.xyz.feature.login.interactors.CreateDriverProfileUseCase
 import org.pointyware.xyz.feature.login.interactors.GetCompanyUseCase
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 interface DriverProfileCreationViewModel {
     val state: StateFlow<DriverProfileCreationUiState>
     val loadingState: StateFlow<LoadingUiState<Unit>>
@@ -37,6 +38,7 @@ interface DriverProfileCreationViewModel {
 /**
  * A view model for the rider profile creation view.
  */
+@OptIn(ExperimentalUuidApi::class)
 class DriverProfileCreationViewModelImpl(
     override val profileCreationViewModel: ProfileCreationViewModel,
     private val createProfileUseCase: CreateDriverProfileUseCase,
@@ -103,7 +105,7 @@ class DriverProfileCreationViewModelImpl(
             val state = state.value
             createProfileUseCase.invoke(
                 DriverProfile(
-                    id = Uuid.v4(), // TODO: pass values to use case and repo; allow server to determine id
+                    id = Uuid.random(), // TODO: pass values to use case and repo; allow server to determine id
                     name = state.profile.fullName,
                     gender = state.profile.gender,
                     picture = state.profile.image,

@@ -10,7 +10,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.xyz.core.data.di.dataQualifier
 import org.pointyware.xyz.core.entities.Name
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.business.Individual
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.geo.meters
@@ -26,6 +26,7 @@ import org.pointyware.xyz.drive.interactors.WatchRatedRequests
 import org.pointyware.xyz.drive.org.pointyware.xyz.drive.interactors.WatchProviderDistance
 import org.pointyware.xyz.drive.viewmodels.DriverSettingsViewModel
 import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  */
@@ -42,10 +43,11 @@ fun featureDriveDataModule() = module {
     singleOf(::DriverSettingsRepositoryImpl) { bind<DriverSettingsRepository>() }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 fun featureDriveDataTestModule() = module {
     single<DriverProfile> {
         DriverProfile( // TODO:
-            id = Uuid.v4(),
+            id = Uuid.random(),
             name = Name("", "", ""),
             gender = Gender.Man,
             business = Individual,

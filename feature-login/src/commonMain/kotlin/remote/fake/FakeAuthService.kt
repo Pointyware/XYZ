@@ -14,17 +14,18 @@ import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readByteArray
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.pointyware.xyz.core.entities.Uuid
-import org.pointyware.xyz.feature.login.data.Authorization
+import org.pointyware.xyz.core.data.dtos.Authorization
 import org.pointyware.xyz.feature.login.remote.AuthService
 import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 class FakeAuthService(
     private val accountsFile: Path,
     private val users: MutableMap<String, UserEntry> = mutableMapOf(),
@@ -75,10 +76,6 @@ class FakeAuthService(
     }
 
     private val entropy = Random
-    data class TestAuthorization(
-        override val userId: Uuid,
-        override val token: String
-    ): Authorization
 
     @Serializable
     data class UserEntry(
@@ -89,17 +86,17 @@ class FakeAuthService(
     override suspend fun login(email: String, password: String): Result<Authorization> {
         delay(defaultDelay)
         return users[email]?.takeIf { it.password == password }?.let {
-            Result.success(TestAuthorization(it.id, Random.nextInt().toString()))
-        } ?: Result.failure(Authorization.InvalidCredentialsException())
+            Result.success(Authorization(it.id, Random.nextInt().toString()))
+        } ?: Result.failure(AuthService.InvalidCredentialsException())
     }
 
     override suspend fun createUser(email: String, password: String): Result<Authorization> {
         delay(defaultDelay)
         if (users.containsKey(email)) {
-            return Result.failure(Authorization.InUseException(email))
+            return Result.failure(AuthService.InUseException(email))
         } else {
-            val newUser = UserEntry(password, Uuid.v4()).also { users[email] = it }
-            return Result.success(TestAuthorization(newUser.id, Random.nextInt().toString()))
+            val newUser = UserEntry(password, Uuid.random()).also { users[email] = it }
+            return Result.success(Authorization(newUser.id, Random.nextInt().toString()))
         }
     }
 }

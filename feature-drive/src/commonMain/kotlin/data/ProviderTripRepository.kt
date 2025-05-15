@@ -12,7 +12,6 @@ package org.pointyware.xyz.drive.data
  import kotlinx.coroutines.flow.update
  import kotlinx.coroutines.launch
  import kotlinx.datetime.Clock
- import org.pointyware.xyz.core.entities.Uuid
  import org.pointyware.xyz.core.entities.profile.DriverProfile
  import org.pointyware.xyz.core.entities.ride.ActiveRide
  import org.pointyware.xyz.core.entities.ride.CompletedRide
@@ -25,12 +24,15 @@ package org.pointyware.xyz.drive.data
  import org.pointyware.xyz.drive.entities.Request
  import org.pointyware.xyz.drive.local.RideCache
  import org.pointyware.xyz.drive.remote.RideService
+ import kotlin.uuid.ExperimentalUuidApi
+ import kotlin.uuid.Uuid
 
 
 /**
  * This repository serves as the access point to ride data from the driver perspective.
  * It mediates between a local cache and a remote service.
  */
+@OptIn(ExperimentalUuidApi::class)
 interface ProviderTripRepository {
     /**
      * Watch for new trip requests that match the given [filter].
@@ -68,6 +70,7 @@ data class Cancellation(
     val reason: String,
 )
 
+@OptIn(ExperimentalUuidApi::class)
 class ProviderTripRepositoryImpl(
     private val locationService: LocationService,
     private val rideService: RideService,
@@ -99,6 +102,7 @@ class ProviderTripRepositoryImpl(
     }
 }
 
+@ExperimentalUuidApi
 class TestProviderTripRepository(
     private val driver: DriverProfile,
     private val locationService: LocationService,

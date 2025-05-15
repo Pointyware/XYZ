@@ -16,6 +16,7 @@ import org.pointyware.xyz.core.viewmodels.LoadingUiState
 import org.pointyware.xyz.core.viewmodels.postError
 import org.pointyware.xyz.feature.login.interactors.CreateRiderProfileUseCase
 import org.pointyware.xyz.feature.login.interactors.GetUserIdUseCase
+import kotlin.uuid.ExperimentalUuidApi
 
 interface RiderProfileCreationViewModel {
     val state: StateFlow<RiderProfileCreationUiState>
@@ -30,6 +31,7 @@ interface RiderProfileCreationViewModel {
 /**
  * A view model for the rider profile creation view.
  */
+@OptIn(ExperimentalUuidApi::class)
 class RiderProfileCreationViewModelImpl(
     override val profileCreationViewModel: ProfileCreationViewModel,
     private val createProfileUseCase: CreateRiderProfileUseCase,

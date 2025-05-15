@@ -5,15 +5,17 @@
 package org.pointyware.xyz.core.entities.ride
 
 import kotlinx.datetime.Instant
-import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import kotlin.time.Duration
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Describes a ride in one of many possible states.
  */
+@OptIn(ExperimentalUuidApi::class)
 sealed interface Ride {
 
     /**
@@ -166,6 +168,7 @@ sealed interface Ride {
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 data class SimpleRide(
     override val id: Uuid,
     override val status: Ride.Status,
@@ -179,6 +182,7 @@ data class SimpleRide(
     override val rider: RiderProfile? = null
 ): Ride
 
+@OptIn(ExperimentalUuidApi::class)
 fun activeRide(
     id: Uuid,
     rider: RiderProfile,
@@ -196,6 +200,7 @@ fun activeRide(
 /**
  * Create a new ride that is waiting for a driver to accept it.
  */
+@OptIn(ExperimentalUuidApi::class)
 fun planRide(
     id: Uuid,
     rider: RiderProfile,
@@ -211,6 +216,7 @@ fun planRide(
 /**
  * A ride that has been planned by a rider and is waiting for a driver to accept it.
  */
+@OptIn(ExperimentalUuidApi::class)
 data class PlannedRide(
     override val id: Uuid,
     override val rider: RiderProfile,
@@ -237,6 +243,7 @@ data class PlannedRide(
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 data class PendingRide(
     override val id: Uuid,
     override val rider: RiderProfile,
@@ -266,6 +273,7 @@ data class PendingRide(
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 data class ActiveRide(
     override val id: Uuid,
     override val rider: RiderProfile,
@@ -315,6 +323,7 @@ data class ActiveRide(
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 data class CompletingRide(
     override val id: Uuid,
     override val rider: RiderProfile,
@@ -345,6 +354,7 @@ data class CompletingRide(
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 data class CompletedRide(
     override val id: Uuid,
     override val rider: RiderProfile,

@@ -15,13 +15,13 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilDoesNotExist
 import androidx.compose.ui.test.waitUntilExactlyOneExists
+import androidx.navigation.NavHostController
 import kotlinx.datetime.Clock
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.entities.Name
-import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.business.Rate.Companion.per
 import org.pointyware.xyz.core.entities.business.dollarCents
 import org.pointyware.xyz.core.entities.data.Uri
@@ -33,10 +33,8 @@ import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.core.local.di.coreLocalTestModule
 import org.pointyware.xyz.core.local.org.pointyware.xyz.core.local.TestLocationService
-import org.pointyware.xyz.core.navigation.XyzNavController
 import org.pointyware.xyz.core.navigation.di.homeQualifier
 import org.pointyware.xyz.core.ui.design.XyzTheme
-import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.drive.data.ProviderTripRepository
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
 import org.pointyware.xyz.drive.data.TestProviderTripRepository
@@ -53,11 +51,13 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.minutes
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Tests for the DriveScreen composable
  */
-@OptIn(ExperimentalTestApi::class)
+@OptIn(ExperimentalTestApi::class, ExperimentalUuidApi::class)
 class ProviderDashboardScreenUiTest {
 
     private lateinit var rideRepository: TestProviderTripRepository
@@ -65,12 +65,12 @@ class ProviderDashboardScreenUiTest {
     private lateinit var locationService: TestLocationService
 
     private lateinit var providerDashboardViewModel: ProviderDashboardViewModel
-    private lateinit var navController: XyzNavController
+    private lateinit var navController: NavHostController
 
     private val testRequest = Request(
-        rideId = Uuid.v4(),
+        rideId = Uuid.random(),
         rider = RiderProfile(
-            id = Uuid.v4(),
+            id = Uuid.random(),
             name = Name("John", "", "Doe"),
             picture = Uri.nullDevice,
             gender = Gender.NotSpecified,
@@ -138,7 +138,6 @@ class ProviderDashboardScreenUiTest {
          */
         setContent {
             XyzTheme(
-                uiDependencies = EmptyTestUiDependencies()
             ) {
                 ProviderDashboardScreen(
                     viewModel = providerDashboardViewModel,
@@ -301,7 +300,6 @@ class ProviderDashboardScreenUiTest {
          */
         setContent {
             XyzTheme(
-                uiDependencies = EmptyTestUiDependencies()
             ) {
                 ProviderDashboardScreen(
                     viewModel = providerDashboardViewModel,

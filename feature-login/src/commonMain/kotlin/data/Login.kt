@@ -5,6 +5,7 @@
 package org.pointyware.xyz.feature.login.data
 
 import org.pointyware.xyz.core.entities.profile.Profile
+import org.pointyware.xyz.core.data.dtos.Authorization
 
 /**
  * Combines the general authorization data with the user profile.

@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.profile.DriverProfile
@@ -28,6 +28,7 @@ import org.pointyware.xyz.core.entities.ride.PlannedRide
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.entities.ride.planRide
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.uuid.ExperimentalUuidApi
 
 sealed interface TripEvent {
     val driverProfile: DriverProfile
@@ -106,6 +107,7 @@ class TripRepositoryImpl(
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 class TestTripRepository(
     val destinations: MutableSet<Location> = mutableSetOf(),
     val dataScope: CoroutineScope,
@@ -187,7 +189,7 @@ class TestTripRepository(
 
     override suspend fun requestRide(route: Route): Result<Ride> {
         val plannedRide = planRide(
-            id = Uuid.v4(),
+            id = Uuid.random(),
             rider = riderProfile,
             plannedRoute = route,
             timePosted = Clock.System.now(),

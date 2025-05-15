@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.navigation.NavHostController
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
 import org.pointyware.xyz.core.ui.MapView
 import org.pointyware.xyz.core.ui.MessageInput
@@ -30,10 +30,12 @@ import org.pointyware.xyz.drive.viewmodels.RideRequestUiState
 import org.pointyware.xyz.ui.ads.AdView
 import org.pointyware.xyz.ui.ads.AdViewState
 import viewmodels.ProviderDashboardUiState
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Displays a map with controls for managing trip requests and ride status.
  */
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun ProviderDashboardScreen(
     viewModel: ProviderDashboardViewModel,
@@ -102,6 +104,7 @@ fun ProviderDashboardScreen(
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun RideRequestList(
     requests: List<RideRequestUiState>,

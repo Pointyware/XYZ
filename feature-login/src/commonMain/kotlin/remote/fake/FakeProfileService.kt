@@ -12,20 +12,20 @@ import kotlinx.io.Buffer
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readByteArray
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.pointyware.xyz.core.entities.Uuid
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.feature.login.remote.ProfileService
-import org.pointyware.xyz.feature.login.remote.fake.FakeAuthService.UserEntry
 import kotlin.coroutines.CoroutineContext
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * A test implementation of the [ProfileService] interface. Instead of relying on a remote service,
  * it will load and store profiles in a given directory between test runs.
  */
+@OptIn(ExperimentalUuidApi::class)
 class FakeProfileService(
     private val profileFile: Path,
     private val profiles: MutableMap<Uuid, Profile> = mutableMapOf(),

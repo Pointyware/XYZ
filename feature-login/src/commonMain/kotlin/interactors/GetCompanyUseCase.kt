@@ -4,13 +4,15 @@
 
 package org.pointyware.xyz.feature.login.interactors
 
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.business.Company
 import org.pointyware.xyz.feature.login.data.CompanyRepository
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Retrieves a [Company] profile by [Uuid]
  */
+@OptIn(ExperimentalUuidApi::class)
 class GetCompanyUseCase(
     private val companyRepository: CompanyRepository
 ) {

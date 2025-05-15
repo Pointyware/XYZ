@@ -5,12 +5,14 @@
 package org.pointyware.xyz.feature.login.interactors
 
 import kotlinx.coroutines.flow.first
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.feature.login.local.AuthCache
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 class GetUserIdUseCase(
     private val authCache: AuthCache
 ) {

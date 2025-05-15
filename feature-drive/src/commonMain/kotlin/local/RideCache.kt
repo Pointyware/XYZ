@@ -4,8 +4,9 @@
 
 package org.pointyware.xyz.drive.local
 
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  *
@@ -15,6 +16,7 @@ interface RideCache {
     suspend fun dropRide(ride: Ride)
 }
 
+@OptIn(ExperimentalUuidApi::class)
 class RideCacheImpl(
 
 ): RideCache {

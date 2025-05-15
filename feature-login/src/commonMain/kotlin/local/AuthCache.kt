@@ -6,7 +6,7 @@ package org.pointyware.xyz.feature.login.local
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.pointyware.xyz.feature.login.data.Authorization
+import org.pointyware.xyz.core.data.dtos.Authorization
 
 /**
  * This cache stores the current authorization state of the user. It should only maintain data relevant to authentication/authorization.

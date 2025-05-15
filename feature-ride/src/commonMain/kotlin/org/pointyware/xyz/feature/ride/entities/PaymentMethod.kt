@@ -4,11 +4,13 @@
 
 package org.pointyware.xyz.feature.ride.entities
 
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 data class PaymentMethod(
     val id: Uuid,
 //    val type: PaymentType,

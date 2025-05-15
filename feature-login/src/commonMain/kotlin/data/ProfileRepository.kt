@@ -4,9 +4,8 @@
 
 package org.pointyware.xyz.feature.login.data
 
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
-import org.pointyware.xyz.core.entities.Uuid
+import org.pointyware.xyz.core.data.dtos.Authorization
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.profile.RiderProfile
@@ -15,6 +14,8 @@ import org.pointyware.xyz.feature.login.local.ProfileCache
 import org.pointyware.xyz.feature.login.remote.AuthService
 import org.pointyware.xyz.feature.login.remote.ProfileService
 import kotlin.coroutines.CoroutineContext
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  *
@@ -29,6 +30,7 @@ interface ProfileRepository {
     suspend fun login(email: String, password: String): Result<Login>
 }
 
+@OptIn(ExperimentalUuidApi::class)
 class ProfileRepositoryImpl(
     private val authCache: AuthCache,
     private val authService: AuthService,
@@ -47,7 +49,7 @@ class ProfileRepositoryImpl(
     }
 
     private suspend fun getCurrentUserId(): Uuid {
-        return authCache.currentAuth.first()?.userId ?: throw IllegalStateException("currentAuth is null")
+        return TODO() // authCache.currentAuth.first()?.userId ?: throw IllegalStateException("currentAuth is null")
     }
 
     override suspend fun createDriverProfile(profile: DriverProfile): Result<DriverProfile> {

@@ -18,13 +18,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.entities.Uuid
+import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.viewmodels.drive.CompanyProfileUiState
 import org.pointyware.xyz.core.viewmodels.drive.CompanySelectionUiState
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * A search bar that allows the user to search for a company that shows up in a list or register a new company.
  */
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun CompanyPicker(
     state: CompanySelectionUiState,
