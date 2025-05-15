@@ -4,9 +4,13 @@
 
 package org.pointyware.xyz.api
 
+import io.ktor.serialization.kotlinx.json.json
+import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.routing.routing
+import kotlinx.serialization.json.Json
 import org.koin.core.context.GlobalContext.startKoin
 import org.pointyware.xyz.api.di.apiModule
 import org.pointyware.xyz.api.routes.auth
@@ -26,7 +30,12 @@ fun main(vararg args: String) {
     }
 
     embeddedServer(Netty, port) {
-
+        install(ContentNegotiation) {
+            json(Json {
+                prettyPrint = true
+                isLenient = true
+            })
+        }
         routing {
             auth()
             profile()

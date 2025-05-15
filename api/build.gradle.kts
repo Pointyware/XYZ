@@ -10,6 +10,7 @@ import org.pointyware.xyz.buildlogic.buildConfig
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
+    alias(libs.plugins.kotlinSerialization)
     `maven-publish`
 //    alias(libs.plugins.artifactRegistry)
     alias(libs.plugins.xyz.buildConfig)
