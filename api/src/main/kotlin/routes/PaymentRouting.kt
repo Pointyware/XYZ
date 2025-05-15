@@ -19,11 +19,14 @@ fun Routing.payment() {
         // Create the Payment Intent for the Completed Ride
         val paymentsController = koin.get<PaymentsController>()
 
-        val clientSecret = paymentsController.createPaymentIntent(customerInfo.id)
+        val clientSecretMap = paymentsController
+            .createPaymentIntent(customerInfo.id)
+            .map {
+                mapOf(
+                    "client_secret" to it,
+                )
+            }
 
-        val map = mapOf(
-            "client_secret" to clientSecret,
-        )
-        call.respondNullable(map)
+        call.respondResult(clientSecretMap)
     }
 }
