@@ -53,7 +53,7 @@ class UserServiceImpl(
         val credentials = authDatabase.users.getUserByEmail(email)
         val hash = encryptionService.saltedHash(password, credentials.salt).getOrThrow()
         return if (credentials.passwordHash == hash) {
-            generateAuthorization(email).getOrThrow()
+            generateAuthorization(Uuid.parseHex(credentials.id)).getOrThrow()
         } else {
             throw Exception("Invalid credentials")
         }
@@ -62,10 +62,9 @@ class UserServiceImpl(
     /**
      * Generates an authorization token for the user with the given email.
      */
-    private suspend fun generateAuthorization(email: String): Result<Authorization> = runCatching {
-        val credentials = authDatabase.users.getUserByEmail(email)
+    private suspend fun generateAuthorization(userId: Uuid): Result<Authorization> = runCatching {
+        val credentials = authDatabase.users.getUserById(userId)
         val userPermissions = credentials.resourcePermissions
-        val userId = Uuid.parse(credentials.id)
         val token = encryptionService.generateToken(userId, userPermissions).getOrThrow()
         val authorization = Authorization(userId = userId, token = token)
         authDatabase.users.insertAuthorization(userId = userId, token = authorization.token)
@@ -76,7 +75,7 @@ class UserServiceImpl(
         val salt = encryptionService.generateSalt().getOrThrow()
         val hash = encryptionService.saltedHash(password, salt).getOrThrow()
 
-        authDatabase.users.createUser(email, hash, salt, listOf())
-        return generateAuthorization(email).getOrThrow()
+        val newId = authDatabase.users.createUser(email, hash, salt, listOf())
+        return generateAuthorization(newId).getOrThrow()
     }
 }
