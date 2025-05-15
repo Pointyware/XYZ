@@ -24,8 +24,6 @@ import navigation.loginRouting
 import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.drive.navigation.driveRouting
 import org.pointyware.xyz.feature.login.navigation.profileRouting
-import org.pointyware.xyz.feature.login.navigation.roleSelectionRoute
-import org.pointyware.xyz.feature.login.navigation.userProfileRoute
 import org.pointyware.xyz.feature.ride.navigation.rideRouting
 import org.pointyware.xyz.shared.navigation.payments
 
@@ -65,7 +63,7 @@ fun XyzApp(
                     },
                     title = {
                         val location = currentEntry.value
-                        Text(text = location?.destination?.displayName ?: "")
+                        Text(text = location?.destination?.route ?: "")
                     },
                     actions = {
                     },
