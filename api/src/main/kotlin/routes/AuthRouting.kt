@@ -4,11 +4,7 @@
 
 package org.pointyware.xyz.api.routes
 
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
-import io.ktor.server.response.respond
-import io.ktor.server.response.respondText
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
@@ -38,4 +34,3 @@ fun Routing.auth() {
         }
     }
 }
-
