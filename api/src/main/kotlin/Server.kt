@@ -11,7 +11,7 @@ import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.routing.routing
 import kotlinx.serialization.json.Json
-import org.koin.core.context.GlobalContext.startKoin
+import org.koin.core.context.startKoin
 import org.pointyware.xyz.api.di.apiModule
 import org.pointyware.xyz.api.routes.auth
 import org.pointyware.xyz.api.routes.drive
