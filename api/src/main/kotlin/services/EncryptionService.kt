@@ -30,7 +30,7 @@ interface EncryptionService {
 
 /**
  * Implements [EncryptionService] using the Java Cryptography Architecture (JCA) and the
- * Java Cryptography Extension (JCE).
+ * Java Cryptography Extension (JCE) as well as the Spring Security library.
  */
 @OptIn(ExperimentalUuidApi::class)
 class EncryptionServiceImpl(
