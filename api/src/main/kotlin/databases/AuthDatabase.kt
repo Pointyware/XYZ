@@ -23,7 +23,6 @@ interface AuthDao {
     suspend fun createUser(
         email: String,
         passHash: String,
-        salt: String,
         resourcePermissions: List<String>
     ): Uuid
     suspend fun setUserPermissions(
@@ -44,7 +43,6 @@ data class UserDto(
     val id: String,
     val email: String,
     val passwordHash: String,
-    val salt: String,
     val resourcePermissions: List<String>
 )
 
@@ -62,17 +60,15 @@ class AuthDatabaseImpl(
             override suspend fun createUser(
                 email: String,
                 passHash: String,
-                salt: String,
                 resourcePermissions: List<String>
             ): Uuid {
                 val userId = Uuid.random()
                 connection.prepareStatement(
-                    "INSERT INTO users (id, email, pass_hash, salt) VALUES (?, ?, ?)"
+                    "INSERT INTO users (id, email, pass_hash) VALUES (?, ?, ?)"
                 ).apply {
                     setString(1, userId.toHexString())
                     setString(2, email)
                     setString(3, passHash)
-                    setString(4, salt)
                 }.executeUpdate()
                 return userId
             }
@@ -99,7 +95,6 @@ class AuthDatabaseImpl(
                         UserCredentials(
                             email = resultSet.getString("email"),
                             hash = resultSet.getString("pass_hash"),
-                            salt = resultSet.getString("salt")
                         )
                     } else {
                         throw UserService.InvalidCredentialsException(email)
@@ -120,7 +115,6 @@ class AuthDatabaseImpl(
                     id = userCredentials.email,
                     email = userCredentials.email,
                     passwordHash = userCredentials.hash,
-                    salt = userCredentials.salt,
                     resourcePermissions = permissions
                 )
             }
@@ -136,7 +130,6 @@ class AuthDatabaseImpl(
                         UserCredentials(
                             email = resultSet.getString("email"),
                             hash = resultSet.getString("pass_hash"),
-                            salt = resultSet.getString("salt")
                         )
                     } else {
                         throw IllegalArgumentException("User not found")
@@ -157,19 +150,17 @@ class AuthDatabaseImpl(
                     id = userId.toHexString(),
                     email = userCredentials.email,
                     passwordHash = userCredentials.hash,
-                    salt = userCredentials.salt,
                     resourcePermissions = permissions
                 )
             }
 
             override suspend fun updateUser(user: UserDto) {
                 connection.prepareStatement(
-                    "UPDATE users SET email = ?, pass_hash = ?, salt = ? WHERE id = ?"
+                    "UPDATE users SET email = ?, pass_hash = ? WHERE id = ?"
                 ).apply {
                     setString(1, user.email)
                     setString(2, user.passwordHash)
-                    setString(3, user.salt)
-                    setString(4, user.id)
+                    setString(3, user.id)
                 }.executeUpdate()
             }
 
