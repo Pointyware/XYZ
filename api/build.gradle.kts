@@ -42,6 +42,7 @@ kotlin {
 
         implementation(libs.postgresql)
         implementation(libs.bouncyCastle)
+        implementation(libs.spring.security)
 
         implementation(libs.stripe.server)
 
