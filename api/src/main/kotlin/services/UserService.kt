@@ -51,8 +51,7 @@ class UserServiceImpl(
         password: String
     ): Authorization {
         val credentials = authDatabase.users.getUserByEmail(email)
-        val hash = encryptionService.saltedHash(password, credentials.salt).getOrThrow()
-        return if (credentials.passwordHash == hash) {
+        return if (encryptionService.matches(password, credentials.passwordHash)) {
             generateAuthorization(Uuid.parseHex(credentials.id)).getOrThrow()
         } else {
             throw Exception("Invalid credentials")
@@ -72,10 +71,9 @@ class UserServiceImpl(
     }
 
     override suspend fun createUser(email: String, password: String): Authorization {
-        val salt = encryptionService.generateSalt().getOrThrow()
-        val hash = encryptionService.saltedHash(password, salt).getOrThrow()
+        val hash = encryptionService.saltedHash(password).getOrThrow()
 
-        val newId = authDatabase.users.createUser(email, hash, salt, listOf())
+        val newId = authDatabase.users.createUser(email, hash, listOf())
         return generateAuthorization(newId).getOrThrow()
     }
 }
