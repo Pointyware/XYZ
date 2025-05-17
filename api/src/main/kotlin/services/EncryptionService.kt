@@ -1,5 +1,6 @@
 package org.pointyware.xyz.api.services
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import javax.crypto.Cipher
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -10,14 +11,14 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 interface EncryptionService {
     /**
-     *  Generates a random salt value.
-     */
-    fun generateSalt(): Result<String>
-
-    /**
      * Generates a salted hash of the given password using the given salt.
      */
-    fun saltedHash(password: String, salt: String): Result<String>
+    fun saltedHash(password: String): Result<String>
+
+    /**
+     *
+     */
+    fun matches(password: String, passwordHash: String): Boolean
 
     /**
      * Generates an authorization token with the given resource permissions list. These are
@@ -42,15 +43,11 @@ class EncryptionServiceImpl(
     TODO: load the server pass-key from a secure location
      */
 
-    override fun generateSalt(): Result<String> = runCatching {
-        val nonce = ByteArray(16)
-        nonce.toHexString()
-    }
+    private val encoder = BCryptPasswordEncoder()
 
-    override fun saltedHash(password: String, salt: String): Result<String> = runCatching {
-        val hashInput = password + salt
-        val hash = symmetricCipher.doFinal(hashInput.toByteArray())
-        hash.toHexString()
+    override fun saltedHash(password: String): Result<String> = runCatching {
+        val hash = encoder.encode(password)
+        hash
     }
 
     override fun generateToken(uuid: Uuid, resourcePermissions: List<String>): Result<String> = runCatching {
@@ -59,6 +56,10 @@ class EncryptionServiceImpl(
         val permissionHash = asymmetricCipher.doFinal(permissionString.toByteArray())
 
         idHash.toHexString() + "." + permissionHash.toHexString()
+    }
+
+    override fun matches(password: String, passwordHash: String): Boolean {
+        return encoder.matches(password, passwordHash)
     }
 
     private fun ByteArray.toHexString() = this.joinToString("") { String.format("%02x", it) }
