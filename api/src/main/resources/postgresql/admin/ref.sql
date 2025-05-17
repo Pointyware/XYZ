@@ -77,13 +77,18 @@ GRANT app_readonly TO reporting_user;
 -- =================================================================
 -- Auth schema tables
 CREATE TABLE auth.users (
-    user_id SERIAL PRIMARY KEY,
+    user_id SERIAL PRIMARY KEY,                        -- Internal primary key for FKs
+    public_id UUID DEFAULT gen_random_uuid() NOT NULL, -- Public-facing ID
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     user_role VARCHAR(50) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    last_login TIMESTAMP WITH TIME ZONE
+    last_login TIMESTAMP WITH TIME ZONE,
+    CONSTRAINT users_public_id_unique UNIQUE (public_id) -- Enforce uniqueness
 );
+
+-- Create an index on public_id for performance
+CREATE INDEX idx_users_public_id ON auth.users(public_id);
 
 CREATE TABLE auth.sessions (
     session_id UUID PRIMARY KEY,
