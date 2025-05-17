@@ -13,6 +13,7 @@ import kotlin.uuid.Uuid
  */
 interface AuthDatabase {
     val users: AuthDao
+    val session: SessionsDao
 }
 
 /**
@@ -44,6 +45,16 @@ data class UserDto(
     val email: String,
     val passwordHash: String,
     val resourcePermissions: List<String>
+)
+
+interface SessionsDao {
+
+}
+
+data class SessionDto(
+    val id: String,
+    val email: String,
+    val hash: String,
 )
 
 @OptIn(ExperimentalUuidApi::class)
@@ -180,5 +191,10 @@ class AuthDatabaseImpl(
                     setString(2, token)
                 }.executeUpdate()
             }
+        }
+
+    override val session: SessionsDao
+        get() = object : SessionsDao {
+
         }
 }
