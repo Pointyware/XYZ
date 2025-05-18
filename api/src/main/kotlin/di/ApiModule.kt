@@ -12,11 +12,11 @@ import org.pointyware.xyz.api.controllers.PaymentsControllerImpl
 import org.pointyware.xyz.api.controllers.OrderControllerImpl
 import org.pointyware.xyz.api.controllers.RideController
 import org.pointyware.xyz.api.controllers.RideControllerImpl
-import org.pointyware.xyz.api.databases.AuthDatabase
-import org.pointyware.xyz.api.databases.AuthDatabaseImpl
+import org.pointyware.xyz.api.databases.AuthRepository
+import org.pointyware.xyz.api.databases.AuthRepositoryImpl
 import org.pointyware.xyz.api.databases.PostgresConnectionFactory
-import org.pointyware.xyz.api.databases.RideDatabase
-import org.pointyware.xyz.api.databases.RideDatabaseImpl
+import org.pointyware.xyz.api.databases.RiderRepository
+import org.pointyware.xyz.api.databases.RiderRepositoryImpl
 import org.pointyware.xyz.api.services.PaymentsService
 import org.pointyware.xyz.api.services.RideServiceImpl
 import org.pointyware.xyz.api.services.UserServiceImpl
@@ -62,8 +62,8 @@ fun servicesModule() = module {
  * dependencies, e.g. [postgresModule] is included.
  */
 fun databasesModule() = module {
-    singleOf(::AuthDatabaseImpl) { bind<AuthDatabase>() }
-    singleOf(::RideDatabaseImpl) { bind<RideDatabase>() }
+    singleOf(::AuthRepositoryImpl) { bind<AuthRepository>() }
+    singleOf(::RiderRepositoryImpl) { bind<RiderRepository>() }
 
     includes(
         postgresModule()

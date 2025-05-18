@@ -1,6 +1,6 @@
 package org.pointyware.xyz.api.services
 
-import org.pointyware.xyz.api.databases.AuthDatabase
+import org.pointyware.xyz.api.databases.AuthRepository
 import org.pointyware.xyz.core.data.dtos.Authorization
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -43,14 +43,14 @@ interface UserService {
 @OptIn(ExperimentalUuidApi::class)
 class UserServiceImpl(
     private val encryptionService: EncryptionService,
-    private val authDatabase: AuthDatabase
+    private val authRepository: AuthRepository
 ) : UserService {
 
     override suspend fun validateCredentials(
         email: String,
         password: String
     ): Authorization {
-        val credentials = authDatabase.users.getUserByEmail(email)
+        val credentials = authRepository.users.getUserByEmail(email)
         return if (encryptionService.matches(password, credentials.passwordHash)) {
             generateAuthorization(Uuid.parseHex(credentials.id)).getOrThrow()
         } else {
@@ -62,18 +62,18 @@ class UserServiceImpl(
      * Generates an authorization token for the user with the given email.
      */
     private suspend fun generateAuthorization(userId: Uuid): Result<Authorization> = runCatching {
-        val credentials = authDatabase.users.getUserById(userId)
+        val credentials = authRepository.users.getUserById(userId)
         val userPermissions = credentials.resourcePermissions
         val token = encryptionService.generateToken(userId, userPermissions).getOrThrow()
         val authorization = Authorization(userId = userId, token = token)
-        authDatabase.users.insertAuthorization(userId = userId, token = authorization.token)
+        authRepository.users.insertAuthorization(userId = userId, token = authorization.token)
         authorization
     }
 
     override suspend fun createUser(email: String, password: String): Authorization {
         val hash = encryptionService.saltedHash(password).getOrThrow()
 
-        val newId = authDatabase.users.createUser(email, hash, listOf())
+        val newId = authRepository.users.createUser(email, hash, listOf())
         return generateAuthorization(newId).getOrThrow()
     }
 }

@@ -1,17 +1,17 @@
 package org.pointyware.xyz.api.databases.test
 
 import org.pointyware.xyz.api.databases.AuthDao
-import org.pointyware.xyz.api.databases.AuthDatabase
+import org.pointyware.xyz.api.databases.AuthRepository
 import org.pointyware.xyz.api.databases.UserDto
 
 /**
- * A drop-in replacement for [org.pointyware.xyz.api.databases.AuthDatabaseImpl] that uses an in-memory store to emulate the
+ * A drop-in replacement for [org.pointyware.xyz.api.databases.AuthRepositoryImpl] that uses an in-memory store to emulate the
  * production PostgreSQL database for the sake of easier local testing. A full end-to-end test
  * would require starting a PostgreSQL server and running the tests against it.
  */
-class TestAuthDatabase(
+class TestAuthRepository(
 
-): AuthDatabase {
+): AuthRepository {
 
     private val userMap = mutableMapOf<String, UserDto>()
     private val authorizations = mutableMapOf<String, String>()

@@ -1,6 +1,5 @@
 package org.pointyware.xyz.api.databases
 
-import io.ktor.network.sockets.connect
 import java.sql.Connection
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -9,10 +8,10 @@ import kotlin.test.Test
 /**
  *
  */
-class RideDatabaseIntegrationTest {
+class RiderRepositoryIntegrationTest {
 
     private lateinit var connection: Connection
-    private lateinit var database: RideDatabase
+    private lateinit var database: RiderRepository
 
     @BeforeTest
     fun setUp() {
@@ -55,7 +54,7 @@ class RideDatabaseIntegrationTest {
             }
         } ?: throw IllegalStateException("Could not find rides_init.sql file")
 
-        database = RideDatabaseImpl(
+        database = RiderRepositoryImpl(
             connectionProvider = { connection },
         )
     }
