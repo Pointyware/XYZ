@@ -2,8 +2,8 @@ package org.pointyware.xyz.api.services
 
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertNotEquals
-import org.pointyware.xyz.api.databases.AuthDatabase
-import org.pointyware.xyz.api.databases.AuthDatabaseImpl
+import org.pointyware.xyz.api.databases.AuthRepository
+import org.pointyware.xyz.api.databases.AuthRepositoryImpl
 import org.pointyware.xyz.api.databases.PostgresConnectionFactory
 import java.sql.Connection
 import kotlin.test.AfterTest
@@ -13,18 +13,18 @@ import kotlin.test.Test
 class AuthServiceUnitTest {
 
     private lateinit var connection: Connection
-    private lateinit var authDatabase: AuthDatabase
+    private lateinit var authRepository: AuthRepository
     private lateinit var encryptionService: EncryptionService
     private lateinit var unitUnderTest: UserService
 
     @BeforeTest
     fun setUp() {
         connection = PostgresConnectionFactory().createConnection()
-        authDatabase = AuthDatabaseImpl(
+        authRepository = AuthRepositoryImpl(
             connectionProvider = { connection },
         )
         encryptionService = EncryptionServiceImpl()
-        unitUnderTest = UserServiceImpl(encryptionService, authDatabase)
+        unitUnderTest = UserServiceImpl(encryptionService, authRepository)
     }
 
     @AfterTest

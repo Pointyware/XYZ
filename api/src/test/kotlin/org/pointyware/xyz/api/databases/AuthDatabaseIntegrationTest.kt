@@ -1,7 +1,7 @@
 package org.pointyware.xyz.api.databases
 
 /**
- *  This test exercises the [AuthDatabaseImpl] against a real PostgreSQL database.
+ *  This test exercises the [AuthRepositoryImpl] against a real PostgreSQL database.
  */
 class AuthDatabaseIntegrationTest {
 

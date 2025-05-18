@@ -11,7 +11,7 @@ import kotlin.uuid.Uuid
  * be using a variety of services. It should be maintained with the consideration
  * that it will eventually be moved out to an external service.
  */
-interface AuthDatabase {
+interface AuthRepository {
     val users: AuthDao
     val session: SessionsDao
 }
@@ -58,9 +58,9 @@ data class SessionDto(
 )
 
 @OptIn(ExperimentalUuidApi::class)
-class AuthDatabaseImpl(
+class AuthRepositoryImpl(
     private val connectionProvider: () -> Connection
-) : AuthDatabase {
+) : AuthRepository {
 
     private val connection by lazy {
         connectionProvider.invoke()

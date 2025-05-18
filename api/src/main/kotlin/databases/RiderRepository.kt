@@ -8,7 +8,7 @@ import java.sql.Connection
  * database.
  *
  */
-interface RideDatabase {
+interface RiderRepository {
     /**
      * Exposes the rides data-access object (DAO) for interacting with the rides table in this
      * database.
@@ -44,9 +44,9 @@ data class RideDto(
 /**
  *  https://jdbc.postgresql.org/
  */
-class RideDatabaseImpl(
+class RiderRepositoryImpl(
     private val connectionProvider: () -> Connection
-) : RideDatabase {
+) : RiderRepository {
 
     private val connection by lazy {
         connectionProvider.invoke()
