@@ -1,4 +1,6 @@
 # Package org.pointyware.xyz.api.databases
-Each database contains a collection of data-access objects (DAOs) that are
-used to interact with the database. The DAOs are responsible for performing
-CRUD operations on the database tables.
+Each repository contains a collection of data-access objects (DAOs) that are
+used to interact with the PostgreSQL database.
+
+A repository corresponds to a schema in postgres, which is a logical 
+grouping of tables. Each DAO corresponds to a table in the database.
