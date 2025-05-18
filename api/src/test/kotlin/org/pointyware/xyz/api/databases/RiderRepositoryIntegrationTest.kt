@@ -40,7 +40,7 @@ class RiderRepositoryIntegrationTest {
         ).use {
             it.execute()
         }
-        val authInitFile = javaClass.classLoader?.getResource("postgres/admin/init.sql")
+        val authInitFile = javaClass.classLoader?.getResource("postgres/init.sql")
         val rideInitFile = javaClass.classLoader?.getResource("postgres/rides_init.sql")
 
         authInitFile?.let {
