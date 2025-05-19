@@ -139,6 +139,10 @@ CREATE TABLE payment.methods (
     is_default BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE payment.methods ENABLE ROW LEVEL SECURITY;
+CREATE POLICY payment_method_isolation ON payment.methods
+    USING (user_id = current_setting('app.current_user_id')::INTEGER OR
+           current_setting('app.user_role') IN ('admin', 'payment_processor'));
 
 CREATE TABLE payment.transactions (
     transaction_id SERIAL PRIMARY KEY,
@@ -149,15 +153,7 @@ CREATE TABLE payment.transactions (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     completed_at TIMESTAMP WITH TIME ZONE
 );
--- Enable row-level security on payments tables
-ALTER TABLE payment.methods ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payment.transactions ENABLE ROW LEVEL SECURITY;
-
--- Create policies for row-level security
-CREATE POLICY payment_method_isolation ON payment.methods
-    USING (user_id = current_setting('app.current_user_id')::INTEGER OR
-           current_setting('app.user_role') IN ('admin', 'payment_processor'));
--- Create policies for row-level security
 CREATE POLICY payment_transaction_isolation ON payment.transactions
     USING (user_id = current_setting('app.current_user_id')::INTEGER OR
            current_setting('app.user_role') IN ('admin', 'payment_processor'));
