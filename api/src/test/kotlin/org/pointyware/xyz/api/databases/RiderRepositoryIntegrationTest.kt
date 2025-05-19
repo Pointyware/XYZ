@@ -41,18 +41,12 @@ class RiderRepositoryIntegrationTest {
             it.execute()
         }
         val authInitFile = javaClass.classLoader?.getResource("postgres/init.sql")
-        val rideInitFile = javaClass.classLoader?.getResource("postgres/rides_init.sql")
 
         authInitFile?.let {
             connection.prepareStatement(it.readText()).use { statement ->
                 statement.execute()
             }
         } ?: throw IllegalStateException("Could not find admin/init.sql file")
-        rideInitFile?.let {
-            connection.prepareStatement(it.readText()).use { statement ->
-                statement.execute()
-            }
-        } ?: throw IllegalStateException("Could not find rides_init.sql file")
 
         database = RiderRepositoryImpl(
             connectionProvider = { connection },

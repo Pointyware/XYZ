@@ -10,6 +10,8 @@
 CREATE DATABASE xyz;
 \c xyz
 
+CREATE EXTENSION postgis;
+
 -- Revoke public schema usage from public role
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON DATABASE xyz FROM PUBLIC;
