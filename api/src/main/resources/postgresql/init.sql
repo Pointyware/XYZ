@@ -27,7 +27,6 @@ CREATE TABLE auth.users (
     last_login TIMESTAMP WITH TIME ZONE,
     CONSTRAINT users_public_id_unique UNIQUE (public_id) -- Enforce uniqueness
 );
-
 -- Create an index on public_id for performance
 CREATE INDEX idx_users_public_id ON auth.users(public_id);
 -- Enable row-level security for the users table
@@ -91,6 +90,39 @@ CREATE TABLE driver.availability (
     status VARCHAR(50) DEFAULT 'OFFLINE',
     current_location POINT,
     last_updated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================
+-- Market
+-- ============================================================
+CREATE SCHEMA market;
+CREATE TABLE market.rider_bids (
+    bid_id SERIAL PRIMARY KEY,
+    rider_id INTEGER REFERENCES auth.users(user_id),
+    bid_amount DECIMAL(10,2) NOT NULL,
+    minimum_driver_rating DECIMAL(3,2),
+    request_id INTEGER REFERENCES rider.ride_requests(request_id),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP WITH TIME ZONE,
+    status VARCHAR(50) DEFAULT 'PENDING' -- status (ACTIVE, MATCHED, EXPIRED, CANCELLED)
+);
+
+CREATE TABLE market.driver_asks (
+    ask_id SERIAL PRIMARY KEY,
+    driver_id INTEGER REFERENCES auth.users(user_id),
+    price_per_mile DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP WITH TIME ZONE,
+    status VARCHAR(50) DEFAULT 'ACTIVE' -- status (ACTIVE, MATCHED, EXPIRED, CANCELLED)
+);
+
+CREATE TABLE market.matches (
+    match_id SERIAL PRIMARY KEY,
+    bid_id INTEGER REFERENCES market.rider_bids(bid_id),
+    ask_id INTEGER REFERENCES market.driver_asks(ask_id),
+    ride_id INTEGER REFERENCES common.rides(ride_id),
+    matched_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    price_per_mile DECIMAL(10,2) NOT NULL
 );
 
 -- ============================================================
