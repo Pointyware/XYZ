@@ -11,12 +11,12 @@ contains placeholder password values. To use proper passwords, use the following
 the placeholders with password environment variables:
 ```shell
 cat postgresql/init.sql | \
-  sed -i "s/auth_password/$XYZ_DB_AUTH_PASSWORD/g" | \
-  sed -i "s/rider_password/$XYZ_DB_RIDER_PASSWORD/g" | \
-  sed -i "s/driver_password/$XYZ_DB_DRIVER_PASSWORD/g" | \
-  sed -i "s/payment_password/$XYZ_DB_PAYMENT_PASSWORD/g" | \
-  sed -i "s/admin_password/$XYZ_DB_ADMIN_PASSWORD/g" | \
-  sed -i "s/reporting_password/$XYZ_DB_REPORTING_PASSWORD/g"
+  sed "s/auth_password/$XYZ_DB_AUTH_PASSWORD/g" | \
+  sed "s/rider_password/$XYZ_DB_RIDER_PASSWORD/g" | \
+  sed "s/driver_password/$XYZ_DB_DRIVER_PASSWORD/g" | \
+  sed "s/payment_password/$XYZ_DB_PAYMENT_PASSWORD/g" | \
+  sed "s/admin_password/$XYZ_DB_ADMIN_PASSWORD/g" | \
+  sed "s/reporting_password/$XYZ_DB_REPORTING_PASSWORD/g"
 ```
 where $PASSWORD is the password you want to use for the database.
 ```
