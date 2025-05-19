@@ -12,11 +12,11 @@ import org.pointyware.xyz.api.controllers.PaymentsControllerImpl
 import org.pointyware.xyz.api.controllers.OrderControllerImpl
 import org.pointyware.xyz.api.controllers.RideController
 import org.pointyware.xyz.api.controllers.RideControllerImpl
-import org.pointyware.xyz.api.databases.AuthRepository
-import org.pointyware.xyz.api.databases.AuthRepositoryImpl
-import org.pointyware.xyz.api.databases.PostgresConnectionFactory
-import org.pointyware.xyz.api.databases.RiderRepository
-import org.pointyware.xyz.api.databases.RiderRepositoryImpl
+import org.pointyware.xyz.api.data.AuthRepository
+import org.pointyware.xyz.api.data.AuthRepositoryImpl
+import org.pointyware.xyz.api.data.PostgresConnectionFactory
+import org.pointyware.xyz.api.data.RiderRepository
+import org.pointyware.xyz.api.data.RiderRepositoryImpl
 import org.pointyware.xyz.api.services.PaymentsService
 import org.pointyware.xyz.api.services.RideServiceImpl
 import org.pointyware.xyz.api.services.UserServiceImpl

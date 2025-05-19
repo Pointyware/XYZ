@@ -2,9 +2,9 @@ package org.pointyware.xyz.api.services
 
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertNotEquals
-import org.pointyware.xyz.api.databases.AuthRepository
-import org.pointyware.xyz.api.databases.AuthRepositoryImpl
-import org.pointyware.xyz.api.databases.PostgresConnectionFactory
+import org.pointyware.xyz.api.data.AuthRepository
+import org.pointyware.xyz.api.data.AuthRepositoryImpl
+import org.pointyware.xyz.api.data.PostgresConnectionFactory
 import java.sql.Connection
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest

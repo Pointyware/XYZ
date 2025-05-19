@@ -1,4 +1,4 @@
-package org.pointyware.xyz.api.databases
+package org.pointyware.xyz.api.data
 
 /**
  *
