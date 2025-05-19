@@ -4,9 +4,6 @@
 --
 -- ============================================================
 
--- ============================================================
--- Create Database
--- ============================================================
 CREATE DATABASE xyz;
 \c xyz
 
@@ -17,18 +14,9 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON DATABASE xyz FROM PUBLIC;
 
 -- ============================================================
--- Create Schema
+-- Authorization
 -- ============================================================
 CREATE SCHEMA auth;
-CREATE SCHEMA rider;
-CREATE SCHEMA driver;
-CREATE SCHEMA payment;
-CREATE SCHEMA common;
-
--- ============================================================
--- Create Tables
--- ============================================================
--- Auth schema tables
 CREATE TABLE auth.users (
     user_id SERIAL PRIMARY KEY,                        -- Internal primary key for FKs
     public_id UUID DEFAULT gen_random_uuid() NOT NULL, -- Public-facing ID
@@ -56,7 +44,10 @@ CREATE TABLE auth.sessions (
     device_info JSONB
 );
 
--- Rider schema tables
+-- ============================================================
+-- Rider
+-- ============================================================
+CREATE SCHEMA rider;
 CREATE TABLE rider.profiles (
     profile_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES auth.users(user_id),
@@ -77,7 +68,10 @@ CREATE TABLE rider.ride_requests (
     estimated_price DECIMAL(10,2)
 );
 
--- Driver schema tables
+-- ============================================================
+-- Driver
+-- ============================================================
+CREATE SCHEMA driver;
 CREATE TABLE driver.profiles (
     profile_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES auth.users(user_id),
@@ -99,6 +93,10 @@ CREATE TABLE driver.availability (
     last_updated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- ============================================================
+-- Payment
+-- ============================================================
+CREATE SCHEMA payment;
 -- Payment schema tables
 CREATE TABLE payment.methods (
     payment_id SERIAL PRIMARY KEY,
@@ -132,6 +130,10 @@ CREATE POLICY payment_transaction_isolation ON payment.transactions
     USING (user_id = current_setting('app.current_user_id')::INTEGER OR
            current_setting('app.user_role') IN ('admin', 'payment_processor'));
 
+-- ============================================================
+-- region Common
+-- ============================================================
+CREATE SCHEMA common;
 -- Common schema tables for shared data
 CREATE TABLE common.rides (
     ride_id SERIAL PRIMARY KEY,
@@ -148,7 +150,6 @@ CREATE TABLE common.rides (
     driver_rating INTEGER,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
-
 
 -- ============================================================
 -- Define Roles
