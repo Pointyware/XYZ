@@ -1,3 +1,6 @@
+-- ============================================================
+-- Accept a Rider's Request
+-- ============================================================
 
 -- Driver accepting a ride request
 BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
