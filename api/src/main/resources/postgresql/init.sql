@@ -232,37 +232,37 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA auth, rider, driver, payment, com
 -- Create Users
 -- ============================================================
 -- App user for authentication operations
-CREATE USER auth_user WITH PASSWORD 'strong_auth_password';
+CREATE USER auth_user WITH PASSWORD 'auth_password';
 GRANT auth_service TO auth_user;
 GRANT app_readonly TO auth_user;
 ALTER ROLE auth_user CONNECTION LIMIT 10;
 
 -- App user for rider operations
-CREATE USER rider_user WITH PASSWORD 'strong_rider_password';
+CREATE USER rider_user WITH PASSWORD 'rider_password';
 GRANT rider_service TO rider_user;
 GRANT app_readonly TO rider_user;
 ALTER ROLE rider_user CONNECTION LIMIT 50;
 
 -- App user for driver operations
-CREATE USER driver_user WITH PASSWORD 'strong_driver_password';
+CREATE USER driver_user WITH PASSWORD 'driver_password';
 GRANT driver_service TO driver_user;
 GRANT app_readonly TO driver_user;
 ALTER ROLE driver_user CONNECTION LIMIT 50;
 
 -- App user for payment operations
-CREATE USER payment_user WITH PASSWORD 'strong_payment_password';
+CREATE USER payment_user WITH PASSWORD 'payment_password';
 GRANT payment_service TO payment_user;
 GRANT app_readonly TO payment_user;
 ALTER ROLE payment_user CONNECTION LIMIT 10;
 
 -- Admin user with expanded privileges
-CREATE USER admin_user WITH PASSWORD 'strong_admin_password';
+CREATE USER admin_user WITH PASSWORD 'admin_password';
 GRANT admin_service TO admin_user;
 GRANT app_readonly TO admin_user;
 ALTER ROLE admin_user CONNECTION LIMIT 5;
 
 -- Read-only user for reporting
-CREATE USER reporting_user WITH PASSWORD 'strong_reporting_password';
+CREATE USER reporting_user WITH PASSWORD 'reporting_password';
 GRANT app_readonly TO reporting_user;
 ALTER ROLE reporting_user CONNECTION LIMIT 3;
 
