@@ -1,4 +1,4 @@
-package org.pointyware.xyz.api.databases
+package org.pointyware.xyz.api.data
 
 /**
  *  This test exercises the [AuthRepositoryImpl] against a real PostgreSQL database.

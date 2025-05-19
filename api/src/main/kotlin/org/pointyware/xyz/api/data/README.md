@@ -1,4 +1,4 @@
-# Package org.pointyware.xyz.api.databases
+# Package org.pointyware.xyz.api.data
 Each repository contains a collection of data-access objects (DAOs) that are
 used to interact with the PostgreSQL database.
 A repository corresponds to a schema in postgres, which is a logical 

@@ -1,6 +1,6 @@
 package org.pointyware.xyz.api.services
 
-import org.pointyware.xyz.api.databases.RiderRepository
+import org.pointyware.xyz.api.data.RiderRepository
 import org.pointyware.xyz.core.data.dtos.RideInfo
 
 interface RideService {

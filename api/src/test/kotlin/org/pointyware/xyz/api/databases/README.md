@@ -1,4 +1,4 @@
-# Package org.pointyware.xyz.api.databases
+# Package org.pointyware.xyz.api.data
 This test package includes database integration tests which must be run against a running
 postgres database. To start the database, 
 

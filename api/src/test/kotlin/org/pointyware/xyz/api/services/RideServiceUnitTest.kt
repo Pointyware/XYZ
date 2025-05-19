@@ -1,8 +1,8 @@
 package org.pointyware.xyz.api.services
 
-import org.pointyware.xyz.api.databases.PostgresConnectionFactory
-import org.pointyware.xyz.api.databases.RiderRepository
-import org.pointyware.xyz.api.databases.RiderRepositoryImpl
+import org.pointyware.xyz.api.data.PostgresConnectionFactory
+import org.pointyware.xyz.api.data.RiderRepository
+import org.pointyware.xyz.api.data.RiderRepositoryImpl
 import java.sql.Connection
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest

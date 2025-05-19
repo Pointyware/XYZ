@@ -1,14 +1,18 @@
-package org.pointyware.xyz.api.databases.test
+package org.pointyware.xyz.api.data.test
 
-import org.pointyware.xyz.api.databases.AuthDao
-import org.pointyware.xyz.api.databases.AuthRepository
-import org.pointyware.xyz.api.databases.UserDto
+import org.pointyware.xyz.api.data.AuthDao
+import org.pointyware.xyz.api.data.AuthRepository
+import org.pointyware.xyz.api.data.SessionsDao
+import org.pointyware.xyz.api.data.UserDto
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
- * A drop-in replacement for [org.pointyware.xyz.api.databases.AuthRepositoryImpl] that uses an in-memory store to emulate the
+ * A drop-in replacement for [org.pointyware.xyz.api.data.AuthRepositoryImpl] that uses an in-memory store to emulate the
  * production PostgreSQL database for the sake of easier local testing. A full end-to-end test
  * would require starting a PostgreSQL server and running the tests against it.
  */
+@OptIn(ExperimentalUuidApi::class)
 class TestAuthRepository(
 
 ): AuthRepository {
@@ -18,15 +22,29 @@ class TestAuthRepository(
 
     override val users: AuthDao
         get() = object : AuthDao {
+
+            override suspend fun getUserById(userId: Uuid): UserDto {
+                val uuidString = userId.toHexString()
+                return userMap[uuidString] ?: throw IllegalArgumentException("User not found")
+            }
+
+            override suspend fun insertAuthorization(userId: Uuid, token: String) {
+                val uuidString = userId.toHexString()
+                val user = userMap.values.firstOrNull { it.id == uuidString }
+                    ?: throw IllegalArgumentException("User not found")
+                authorizations[user.id] = token
+            }
+
             override suspend fun createUser(
                 email: String,
                 passHash: String,
-                salt: String,
                 resourcePermissions: List<String>
-            ) {
-                val userId = email // In a real database, this would be a generated ID
-                val user = UserDto(userId, email, passHash, salt, resourcePermissions)
-                userMap[userId] = user
+            ): Uuid {
+                val userId = Uuid.random() // In a real database, this would be a generated ID
+                val userIdString = userId.toHexString()
+                val user = UserDto(userIdString, email, passHash, resourcePermissions)
+                userMap[userIdString] = user
+                return userId
             }
 
             override suspend fun setUserPermissions(
@@ -50,11 +68,8 @@ class TestAuthRepository(
             override suspend fun deleteUser(userId: String) {
                 userMap.remove(userId)
             }
-
-            override suspend fun insertAuthorization(email: String, token: String) {
-                val user = userMap.values.firstOrNull { it.email == email }
-                    ?: throw IllegalArgumentException("User not found")
-                authorizations[user.id] = token
-            }
         }
+
+    override val session: SessionsDao
+        get() = TODO("Not yet implemented")
 }
