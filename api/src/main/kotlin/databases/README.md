@@ -16,7 +16,5 @@ cat postgresql/init.sql | \
   sed "s/driver_password/$XYZ_DB_DRIVER_PASSWORD/g" | \
   sed "s/payment_password/$XYZ_DB_PAYMENT_PASSWORD/g" | \
   sed "s/admin_password/$XYZ_DB_ADMIN_PASSWORD/g" | \
-  sed "s/reporting_password/$XYZ_DB_REPORTING_PASSWORD/g"
-```
-where $PASSWORD is the password you want to use for the database.
+  sed "s/reporting_password/$XYZ_DB_REPORTING_PASSWORD/g" > temp/init_injected.sql
 ```
