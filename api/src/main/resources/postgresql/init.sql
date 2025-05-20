@@ -201,7 +201,6 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA auth
 ALTER DEFAULT PRIVILEGES IN SCHEMA auth
     GRANT USAGE, SELECT ON SEQUENCES TO auth_service;
 
-
 -- Roles for specific application functions
 CREATE ROLE rider_service;
 ALTER ROLE rider_service SET statement_timeout = '10s';
