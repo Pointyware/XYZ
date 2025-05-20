@@ -185,34 +185,14 @@ CREATE TABLE common.rides (
 -- Base read-only role for the application
 CREATE ROLE app_readonly;
 ALTER ROLE app_readonly SET statement_timeout = '30s';
-
--- Base role for authentication service
-CREATE ROLE auth_service;
-ALTER ROLE auth_service SET statement_timeout = '10s';
-
--- Roles for specific application functions
-CREATE ROLE rider_service;
-ALTER ROLE rider_service SET statement_timeout = '10s';
-
-CREATE ROLE driver_service;
-ALTER ROLE driver_service SET statement_timeout = '10s';
-
-CREATE ROLE payment_service;
-ALTER ROLE payment_service SET statement_timeout = '15s';
-
-CREATE ROLE admin_service;
--- no statement timeout for admin service
-
--- ============================================================
--- Assign Permissions
--- ============================================================
--- Read-only permissions to all app roles
 GRANT USAGE ON SCHEMA auth, rider, driver, payment, common TO app_readonly;
 GRANT SELECT ON ALL TABLES IN SCHEMA auth, rider, driver, payment, common TO app_readonly;
 ALTER DEFAULT PRIVILEGES IN SCHEMA auth, rider, driver, payment, common
     GRANT SELECT ON TABLES TO app_readonly;
 
--- Auth service permissions
+-- Base role for authentication service
+CREATE ROLE auth_service;
+ALTER ROLE auth_service SET statement_timeout = '10s';
 GRANT USAGE ON SCHEMA auth TO auth_service;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA auth TO auth_service;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA auth TO auth_service;
@@ -221,7 +201,10 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA auth
 ALTER DEFAULT PRIVILEGES IN SCHEMA auth
     GRANT USAGE, SELECT ON SEQUENCES TO auth_service;
 
--- Rider service permissions
+
+-- Roles for specific application functions
+CREATE ROLE rider_service;
+ALTER ROLE rider_service SET statement_timeout = '10s';
 GRANT USAGE ON SCHEMA rider, common TO rider_service;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA rider TO rider_service;
 GRANT SELECT, INSERT, UPDATE ON common.rides TO rider_service;
@@ -231,7 +214,8 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA rider
 ALTER DEFAULT PRIVILEGES IN SCHEMA rider
     GRANT USAGE, SELECT ON SEQUENCES TO rider_service;
 
--- Driver service permissions
+CREATE ROLE driver_service;
+ALTER ROLE driver_service SET statement_timeout = '10s';
 GRANT USAGE ON SCHEMA driver, common TO driver_service;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA driver TO driver_service;
 GRANT SELECT, UPDATE ON common.rides TO driver_service;
@@ -241,7 +225,8 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA driver
 ALTER DEFAULT PRIVILEGES IN SCHEMA driver
     GRANT USAGE, SELECT ON SEQUENCES TO driver_service;
 
--- Payment service permissions
+CREATE ROLE payment_service;
+ALTER ROLE payment_service SET statement_timeout = '15s';
 GRANT USAGE ON SCHEMA payment, common TO payment_service;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA payment TO payment_service;
 GRANT SELECT ON common.rides TO payment_service;
@@ -251,7 +236,8 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA payment
 ALTER DEFAULT PRIVILEGES IN SCHEMA payment
     GRANT USAGE, SELECT ON SEQUENCES TO payment_service;
 
--- Admin service permissions
+CREATE ROLE admin_service;
+-- no statement timeout for admin service
 GRANT USAGE ON SCHEMA auth, rider, driver, payment, common TO admin_service;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA auth, rider, driver, payment, common TO admin_service;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA auth, rider, driver, payment, common TO admin_service;
