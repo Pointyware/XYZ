@@ -49,6 +49,7 @@ kotlin {
                 api(compose.materialIconsExtended)
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview) // fleet support
+                implementation(libs.compose.lifecycle)
 
                 implementation(libs.coil.core)
                 implementation(libs.coil.compose)
