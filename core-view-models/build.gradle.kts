@@ -41,6 +41,8 @@ kotlin {
                 implementation(projects.coreEntities)
                 implementation(projects.coreInteractors)
 
+                implementation(libs.compose.viewModels)
+
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.koin.core)
