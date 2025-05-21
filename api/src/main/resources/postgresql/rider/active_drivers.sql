@@ -1,6 +1,6 @@
 
 -- searchNearCoordinate(:longitude, :latitude, :radius)
 SELECT * FROM active_drivers
-    WHERE ST_DWithin( ST_MakePoint(:longitude,:latitude)
+    WHERE ST_DWithin( ST_MakePoint($1,$2)
                      ,location
-                     ,:radius);
+                     ,$3);
