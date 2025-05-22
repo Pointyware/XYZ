@@ -20,9 +20,9 @@ CREATE SCHEMA auth;
 CREATE TABLE auth.users (
     user_id SERIAL PRIMARY KEY,                        -- Internal primary key for FKs
     public_id UUID DEFAULT gen_random_uuid() NOT NULL, -- Public-facing ID
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    user_role VARCHAR(50) NOT NULL,
+    email TEXT UNIQUE NOT NULL CHECK (length(email) <= 255),
+    password_hash TEXT NOT NULL,
+    user_role TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP WITH TIME ZONE,
     CONSTRAINT users_public_id_unique UNIQUE (public_id) -- Enforce uniqueness
@@ -50,9 +50,9 @@ CREATE SCHEMA rider;
 CREATE TABLE rider.profiles (
     profile_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES auth.users(user_id),
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    phone_number VARCHAR(20),
+    first_name TEXT NOT NULL CHECK (length(first_name) <= 100),
+    last_name TEXT NOT NULL CHECK (length(last_name) <= 100),
+    phone_number TEXT CHECK (length(phone_number) <= 20),
     rating DECIMAL(3,2) DEFAULT 5.0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -63,7 +63,7 @@ CREATE TABLE rider.ride_requests (
     pickup_location POINT NOT NULL,
     dropoff_location POINT NOT NULL,
     request_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(50) DEFAULT 'PENDING',
+    status TEXT DEFAULT 'PENDING' CHECK (length(email) <= 50),
     estimated_price DECIMAL(10,2)
 );
 
@@ -74,10 +74,10 @@ CREATE SCHEMA driver;
 CREATE TABLE driver.profiles (
     profile_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES auth.users(user_id),
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    phone_number VARCHAR(20),
-    license_number VARCHAR(50) NOT NULL,
+    first_name TEXT NOT NULL CHECK (length(email) <= 100),
+    last_name TEXT NOT NULL CHECK (length(email) <= 100),
+    phone_number TEXT CHECK (length(email) <= 20),
+    license_number TEXT NOT NULL CHECK (length(email) <= 50),
     vehicle_info JSONB,
     rating DECIMAL(3,2) DEFAULT 5.0,
     is_active BOOLEAN DEFAULT FALSE,
@@ -87,7 +87,7 @@ CREATE TABLE driver.profiles (
 CREATE TABLE driver.availability (
     availability_id SERIAL PRIMARY KEY,
     driver_id INTEGER REFERENCES driver.profiles(profile_id),
-    status VARCHAR(50) DEFAULT 'OFFLINE',
+    status TEXT DEFAULT 'OFFLINE' CHECK (length(email) <= 50),
     current_location POINT,
     last_updated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -104,7 +104,7 @@ CREATE TABLE market.rider_bids (
     request_id INTEGER REFERENCES rider.ride_requests(request_id),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP WITH TIME ZONE,
-    status VARCHAR(50) DEFAULT 'PENDING' -- status (ACTIVE, MATCHED, EXPIRED, CANCELLED)
+    status TEXT DEFAULT 'PENDING'  CHECK (length(email) <= 50) -- status (ACTIVE, MATCHED, EXPIRED, CANCELLED
 );
 
 CREATE TABLE market.driver_asks (
@@ -113,7 +113,7 @@ CREATE TABLE market.driver_asks (
     price_per_mile DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP WITH TIME ZONE,
-    status VARCHAR(50) DEFAULT 'ACTIVE' -- status (ACTIVE, MATCHED, EXPIRED, CANCELLED)
+    status TEXT DEFAULT 'ACTIVE' CHECK (length(email) <= 50) -- status (ACTIVE, MATCHED, EXPIRED, CANCELLED
 );
 
 CREATE TABLE market.matches (
@@ -133,9 +133,9 @@ CREATE SCHEMA payment;
 CREATE TABLE payment.methods (
     payment_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES auth.users(user_id),
-    payment_type VARCHAR(50) NOT NULL,
-    provider VARCHAR(100) NOT NULL,
-    account_reference VARCHAR(255) NOT NULL,
+    payment_type TEXT NOT NULL CHECK (length(email) <= 50),
+    provider TEXT NOT NULL CHECK (length(email) <= 100),
+    account_reference TEXT NOT NULL CHECK (length(email) <= 255),
     is_default BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -149,7 +149,7 @@ CREATE TABLE payment.transactions (
     ride_id INTEGER,
     payment_id INTEGER REFERENCES payment.methods(payment_id),
     amount DECIMAL(10,2) NOT NULL,
-    status VARCHAR(50) DEFAULT 'PENDING',
+    status TEXT DEFAULT 'PENDING' CHECK (length(email) <= 50),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     completed_at TIMESTAMP WITH TIME ZONE
 );
@@ -173,7 +173,7 @@ CREATE TABLE common.rides (
     dropoff_location POINT,
     distance DECIMAL(10,2),
     price DECIMAL(10,2),
-    status VARCHAR(50) DEFAULT 'ASSIGNED',
+    status TEXT DEFAULT 'ASSIGNED' CHECK (length(email) <= 50),
     rider_rating INTEGER,
     driver_rating INTEGER,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
