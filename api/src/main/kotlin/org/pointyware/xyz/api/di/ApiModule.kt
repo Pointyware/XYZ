@@ -3,7 +3,9 @@ package org.pointyware.xyz.api.di
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import org.pointyware.xyz.api.BuildConfig
 import org.pointyware.xyz.api.controllers.AuthController
 import org.pointyware.xyz.api.controllers.AuthControllerImpl
 import org.pointyware.xyz.api.controllers.OrderController
@@ -14,7 +16,9 @@ import org.pointyware.xyz.api.controllers.RideController
 import org.pointyware.xyz.api.controllers.RideControllerImpl
 import org.pointyware.xyz.api.data.AuthRepository
 import org.pointyware.xyz.api.data.AuthRepositoryImpl
+import org.pointyware.xyz.api.data.PooledConnectionFactory
 import org.pointyware.xyz.api.data.PostgresConnectionFactory
+import org.pointyware.xyz.api.data.PostgresPooledConnectionFactory
 import org.pointyware.xyz.api.data.RiderRepository
 import org.pointyware.xyz.api.data.RiderRepositoryImpl
 import org.pointyware.xyz.api.services.PaymentsService
@@ -79,5 +83,13 @@ fun postgresModule() = module {
 
     single<()->Connection> {
         { get<PostgresConnectionFactory>().createConnection() }
+    }
+
+    single<PooledConnectionFactory>(qualifier = named("database_xyz")) {
+        PostgresPooledConnectionFactory(
+            host = BuildConfig.POSTGRES_HOST,
+            port = BuildConfig.POSTGRES_PORT.toInt(),
+            db = BuildConfig.POSTGRES_DB
+        )
     }
 }
