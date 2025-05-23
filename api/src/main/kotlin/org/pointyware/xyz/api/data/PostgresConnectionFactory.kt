@@ -7,6 +7,7 @@ import java.sql.DriverManager
 /**
  * Provides access to a PostgreSQL database.
  */
+@Deprecated("Use PooledConnectionFactory instead", ReplaceWith("PooledConnectionFactory"))
 class PostgresConnectionFactory {
 
     /**
@@ -19,13 +20,6 @@ class PostgresConnectionFactory {
         user: String = BuildConfig.POSTGRES_USER,
         password: String = BuildConfig.POSTGRES_PASSWORD
     ): Connection {
-//        val dataSource = PGConnectionPoolDataSource() // TODO: try pooled connections instead of individual connections
-//
-//        dataSource.serverNames = arrayOf(host)
-//        dataSource.databaseName = db
-//        dataSource.portNumbers = intArrayOf(port)
-//        dataSource.getConnection(user, password)
-
         return DriverManager.getConnection(
             "jdbc:postgresql://$host:$port/$db", user, password
         ).also { connection ->
