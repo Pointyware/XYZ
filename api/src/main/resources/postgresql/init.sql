@@ -51,6 +51,7 @@ CREATE TABLE rider.profiles (
     profile_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES auth.users(user_id),
     first_name TEXT NOT NULL CHECK (length(first_name) <= 100),
+    middle_name TEXT CHECK (length(middle_name) <= 100),
     last_name TEXT NOT NULL CHECK (length(last_name) <= 100),
     phone_number TEXT CHECK (length(phone_number) <= 20),
     rating DECIMAL(3,2) DEFAULT 5.0,
