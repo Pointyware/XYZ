@@ -19,10 +19,8 @@ interface CommonRepository {
  *
  */
 class CommonRepositoryImpl(
-    private val connectionFactory: () -> Connection
+    private val connection: Connection
 ) : CommonRepository {
-
-    private val connection: Connection by lazy { connectionFactory() }
 
     override val rides: RideDao
         get() = object : RideDao {
