@@ -1,6 +1,6 @@
 package org.pointyware.xyz.api.services
 
-import org.pointyware.xyz.api.data.RiderRepository
+import org.pointyware.xyz.api.data.CommonRepository
 import org.pointyware.xyz.core.data.dtos.RideInfo
 
 interface RideService {
@@ -8,10 +8,10 @@ interface RideService {
 }
 
 class RideServiceImpl(
-    private val riderRepository: RiderRepository
+    private val commonRepository: CommonRepository
 ): RideService {
     override suspend fun getRideById(id: String): Result<RideInfo> = runCatching {
-        val ride = riderRepository.rides.getRideById(id)
+        val ride = commonRepository.rides.getRideById(id)
         RideInfo(
             riderId = ride.id,
             cost = ride.cost
