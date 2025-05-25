@@ -59,12 +59,8 @@ data class SessionDto(
 
 @OptIn(ExperimentalUuidApi::class)
 class AuthRepositoryImpl(
-    private val connectionProvider: () -> Connection
+    private val connection: Connection
 ) : AuthRepository {
-
-    private val connection by lazy {
-        connectionProvider.invoke()
-    }
 
     override val users: AuthDao
         get() = object : AuthDao {
