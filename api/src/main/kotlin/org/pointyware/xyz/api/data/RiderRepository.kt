@@ -1,5 +1,6 @@
 package org.pointyware.xyz.api.data
 
+import java.awt.geom.Point2D
 import java.sql.Connection
 
 /**
@@ -10,10 +11,86 @@ import java.sql.Connection
  */
 interface RiderRepository {
     /**
-     * Exposes the rides data-access object (DAO) for interacting with the rides table in this
-     * database.
+     * Exposes the profiles data-access object (DAO) for interacting with the rider profiles
+     * table in this database.
      */
-    val rides: RideDao
+    val profiles: ProfileDao
+
+    /**
+     * Exposes the requests data-access object (DAO) for interacting with the ride requests
+     * table in this database.
+     */
+    val requests: RequestDao
+}
+
+/**
+ * A data-access object (DAO) for rider profiles. This interface defines the CRUD methods
+ * specific to profiles.
+ */
+interface ProfileDao {
+
+    /**
+     * Represents ever column in the rider profile table.
+     * @param profileId The uuid of the profile.
+     * @param userId The uuid of the user.
+     * @param firstName
+     * @param middleName
+     * @param lastName
+     * @param phone
+     * @param rating 0 indicates no rating, 1-5 indicates a rating.
+     * @param createdAt
+     */
+    data class CompleteRow(
+        val profileId: String,
+        val userId: String,
+        val firstName: String,
+        val middleName: String,
+        val lastName: String,
+        val phone: String,
+        val rating: Float,
+        val createdAt: String
+    )
+
+    /**
+     * Creates a new rider profile in the database for the given [userId].
+     */
+    fun createProfile(
+        userId: String,
+        firstName: String,
+        middleName: String,
+        lastName: String,
+        email: String,
+        phone: String,
+        address: String,
+    ): CompleteRow
+}
+
+interface RequestDao {
+    /**
+     * Represents ever column in the ride request table.
+     * @param requestId The uuid of the request.
+     * @param riderId The uuid of the rider.
+     * @param startLocation The starting location of the ride.
+     * @param endLocation The ending location of the ride.
+     * @param status The status of the ride request.
+     */
+    data class CompleteRow(
+        val requestId: String,
+        val riderId: String,
+        val startLocation: String,
+        val endLocation: String,
+        val status: String,
+    )
+
+    /**
+     *
+     */
+    fun requestRide(
+        riderId: String,
+        startLocation: Point2D.Double,
+        endLocation: Point2D.Double,
+        rate: Long,
+    ): CompleteRow
 }
 
 /**
@@ -52,60 +129,29 @@ class RiderRepositoryImpl(
         connectionProvider.invoke()
     }
 
-    override val rides: RideDao
-        get() = object : RideDao {
-            override suspend fun createRide(ride: RideDto) {
-                connection.prepareStatement(
-                    "INSERT INTO rides (id, start_location, end_location, cost, status) VALUES (?, ?, ?, ?, ?)"
-                ).apply {
-                    setString(1, ride.id)
-                    setString(2, ride.startLocation)
-                    setString(3, ride.endLocation)
-                    setLong(4, ride.cost)
-                    setString(5, ride.status)
-                }.executeUpdate()
+    override val profiles: ProfileDao
+        = object : ProfileDao {
+            override fun createProfile(
+                userId: String,
+                firstName: String,
+                middleName: String,
+                lastName: String,
+                email: String,
+                phone: String,
+                address: String
+            ): ProfileDao.CompleteRow {
+                TODO("Not yet implemented")
             }
-
-            override suspend fun getRideById(id: String): RideDto {
-                connection.prepareStatement(
-                    "SELECT id, start_location, end_location, cost, status, rider_id, driver_id FROM rides WHERE id = ?"
-                ).apply {
-                    setString(1, id)
-                }.executeQuery().use { resultSet ->
-                    if (resultSet.next()) {
-                        return RideDto(
-                            id = resultSet.getString("id"),
-                            startLocation = resultSet.getString("start_location"),
-                            endLocation = resultSet.getString("end_location"),
-                            cost = resultSet.getLong("cost"),
-                            status = resultSet.getString("status"),
-                            riderId = resultSet.getString("rider_id"),
-                            driverId = resultSet.getString("driver_id"),
-                        )
-                    } else {
-                        throw NoSuchElementException("No ride found with id: $id")
-                    }
-                }
-            }
-
-            override suspend fun updateRide(ride: RideDto) {
-                connection.prepareStatement(
-                    "UPDATE rides SET start_location = ?, end_location = ?, cost = ?, status = ? WHERE id = ?"
-                ).apply {
-                    setString(1, ride.startLocation)
-                    setString(2, ride.endLocation)
-                    setLong(3, ride.cost)
-                    setString(4, ride.status)
-                    setString(5, ride.id)
-                }.executeUpdate()
-            }
-
-            override suspend fun deleteRide(id: String) {
-                connection.prepareStatement(
-                    "DELETE FROM rides WHERE id = ?"
-                ).apply {
-                    setString(1, id)
-                }.executeUpdate()
+        }
+    override val requests: RequestDao
+        = object : RequestDao {
+            override fun requestRide(
+                riderId: String,
+                startLocation: Point2D.Double,
+                endLocation: Point2D.Double,
+                rate: Long
+            ): RequestDao.CompleteRow {
+                TODO("Not yet implemented")
             }
         }
 }
