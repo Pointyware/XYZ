@@ -1,15 +1,21 @@
 package org.pointyware.xyz.api.data
 
-import org.pointyware.xyz.api.BuildConfig
 import org.postgresql.ds.PGConnectionPoolDataSource
 import java.sql.Connection
 import javax.sql.PooledConnection
 
 /**
- *
+ * Interface for a factory that creates pooled connections to a database.
  */
 interface PooledConnectionFactory {
+    /**
+     * Creates a new connection to the database using the provided [user] and [password].
+     */
     fun createConnection(user: String, password: String): Connection
+
+    /**
+     * Closes the connection pool and all connections in the pool.
+     */
     fun close()
 }
 
@@ -37,19 +43,12 @@ class PostgresPooledConnectionFactory(
 
     private val connections: MutableMap<String, PooledConnection> = mutableMapOf()
 
-    /**
-     * Creates a new connection the configured PostgreSQL database using the given [user] and
-     * [password].
-     */
     override fun createConnection(user: String, password: String): Connection {
         return dataSource.getPooledConnection(user, password).also {
             connections[user] = it
         }.connection
     }
 
-    /**
-     * Closes the pool and all connections in the pool.
-     */
     override fun close() {
         connections.values.forEach { it.close() }
         connections.clear()
