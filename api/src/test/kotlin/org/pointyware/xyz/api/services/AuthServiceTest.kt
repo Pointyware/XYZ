@@ -9,7 +9,10 @@ import java.sql.Connection
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class AuthServiceUnitTest {
 
     private lateinit var connection: Connection
@@ -20,9 +23,7 @@ class AuthServiceUnitTest {
     @BeforeTest
     fun setUp() {
         connection = PostgresConnectionFactory().createConnection()
-        authRepository = AuthRepositoryImpl(
-            connectionProvider = { connection },
-        )
+        authRepository = AuthRepositoryImpl(connection = connection)
         encryptionService = EncryptionServiceImpl()
         unitUnderTest = UserServiceImpl(encryptionService, authRepository)
     }
@@ -48,7 +49,7 @@ class AuthServiceUnitTest {
         /*
         Then the result should be a success
          */
-        assertNotEquals("", result.email)
+        assertNotEquals(Uuid.NIL, result.userId)
         assertNotEquals("", result.token)
     }
 }
