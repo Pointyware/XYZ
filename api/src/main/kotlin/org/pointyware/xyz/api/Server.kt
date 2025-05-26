@@ -96,11 +96,11 @@ private fun Iterator<String>.processArgs(inputs: ProgramInputs): ProgramInputs {
         val arg = next()
         for (it in CommandOption.entries) {
             when {
-                arg == it.shortName -> {
+                arg == "-${it.shortName}" -> {
                     argState = it.onShortMatch(this, argState)
                     continue@argLoop
                 }
-                arg.startsWith(it.longName) -> {
+                arg.startsWith("--${it.longName}") -> {
                     argState = it.onLongMatch(arg, this, argState)
                     continue@argLoop
                 }
