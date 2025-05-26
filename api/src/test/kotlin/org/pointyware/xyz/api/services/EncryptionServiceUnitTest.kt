@@ -26,7 +26,7 @@ class EncryptionServiceUnitTest {
 
     @Test
     fun salted_password() {
-        val hash = serviceUnderTest.saltedHash("password").getOrThrow()
+        val hash = serviceUnderTest.saltedHash("password")
 
         assertNotEquals("", hash)
     }
@@ -34,9 +34,9 @@ class EncryptionServiceUnitTest {
     @Test
     fun previously_hashed_password_matches_given_password() {
         val password = "password"
-        val hash = serviceUnderTest.saltedHash(password).getOrThrow()
+        val hash = serviceUnderTest.saltedHash(password)
 
-        val matches = serviceUnderTest.matches(password, hash).getOrThrow()
+        val matches = serviceUnderTest.matches(password, hash)
 
         assertTrue(matches)
     }
@@ -44,9 +44,9 @@ class EncryptionServiceUnitTest {
     @Test
     fun previously_hashed_password_does_not_match_different_password() {
         val password = "password"
-        val hash = serviceUnderTest.saltedHash(password).getOrThrow()
+        val hash = serviceUnderTest.saltedHash(password)
 
-        val matches = serviceUnderTest.matches("different-password", hash).getOrThrow()
+        val matches = serviceUnderTest.matches("different-password", hash)
 
         assertFalse(matches)
     }
@@ -54,7 +54,7 @@ class EncryptionServiceUnitTest {
     @Test
     fun generate_token_returns_encrypted_message() {
         val uuid = Uuid.random()
-        val token = serviceUnderTest.generateToken(uuid = uuid, resourcePermissions = emptyList()).getOrThrow()
+        val token = serviceUnderTest.generateToken(uuid = uuid, resourcePermissions = emptyList())
 
         assertEquals(2, token.split('.').size)
     }

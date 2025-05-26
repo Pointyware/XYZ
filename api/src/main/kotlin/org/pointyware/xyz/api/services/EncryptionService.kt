@@ -13,7 +13,7 @@ interface EncryptionService {
     /**
      * Generates a salted hash of the given password using the given salt.
      */
-    fun saltedHash(password: String): Result<String>
+    fun saltedHash(password: String): String
 
     /**
      *
@@ -25,7 +25,7 @@ interface EncryptionService {
      * implementation dependent, but usually come in a form like "api_bid:read,write;api_ask:read"
      * or abbreviated forms like "bid:rw;ask:r".
      */
-    fun generateToken(uuid: Uuid, resourcePermissions: List<String>): Result<String>
+    fun generateToken(uuid: Uuid, resourcePermissions: List<String>): String
 }
 
 /**
@@ -45,17 +45,17 @@ class EncryptionServiceImpl(
 
     private val encoder = BCryptPasswordEncoder()
 
-    override fun saltedHash(password: String): Result<String> = runCatching {
+    override fun saltedHash(password: String): String {
         val hash = encoder.encode(password)
-        hash
+        return hash
     }
 
-    override fun generateToken(uuid: Uuid, resourcePermissions: List<String>): Result<String> = runCatching {
+    override fun generateToken(uuid: Uuid, resourcePermissions: List<String>): String {
         val idHash = asymmetricCipher.doFinal(uuid.toByteArray())
         val permissionString = resourcePermissions.joinToString(",")
         val permissionHash = asymmetricCipher.doFinal(permissionString.toByteArray())
 
-        idHash.toHexString() + "." + permissionHash.toHexString()
+        return idHash.toHexString() + "." + permissionHash.toHexString()
     }
 
     override fun matches(password: String, passwordHash: String): Boolean {

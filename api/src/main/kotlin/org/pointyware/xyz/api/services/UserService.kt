@@ -64,14 +64,14 @@ class UserServiceImpl(
     private suspend fun generateAuthorization(userId: Uuid): Result<Authorization> = runCatching {
         val credentials = authRepository.users.getUserById(userId)
         val userPermissions = credentials.resourcePermissions
-        val token = encryptionService.generateToken(userId, userPermissions).getOrThrow()
+        val token = encryptionService.generateToken(userId, userPermissions)
         val authorization = Authorization(userId = userId, token = token)
         authRepository.users.insertAuthorization(userId = userId, token = authorization.token)
         authorization
     }
 
     override suspend fun createUser(email: String, password: String): Authorization {
-        val hash = encryptionService.saltedHash(password).getOrThrow()
+        val hash = encryptionService.saltedHash(password)
 
         val newId = authRepository.users.createUser(email, hash, listOf())
         return generateAuthorization(newId).getOrThrow()
