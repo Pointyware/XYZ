@@ -84,6 +84,20 @@ enum class CommandOption(
     )
 }
 
+private fun printUsage() {
+    println(
+        """
+        Usage: java -jar xyz-api.jar [options]
+        
+        Options:
+          -p <port>, --port=<port>       Port to run the server on (default: 80)
+        
+        Example:
+          java -jar xyz-api.jar --port=8080
+        """.trimIndent()
+    )
+}
+
 data class ProgramInputs(
     val port: Int
 )
@@ -106,7 +120,8 @@ private fun Iterator<String>.processArgs(inputs: ProgramInputs): ProgramInputs {
                 }
             }
         }
-        throw IllegalArgumentException("Unknown argument: $arg. Expected one of: ${CommandOption.entries.joinToString { it.longName }}")
+        printUsage()
+        throw IllegalArgumentException("Unknown argument: $arg.")
     }
 
     return argState
