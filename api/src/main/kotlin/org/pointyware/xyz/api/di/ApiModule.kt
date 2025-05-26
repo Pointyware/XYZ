@@ -16,6 +16,8 @@ import org.pointyware.xyz.api.controllers.RideController
 import org.pointyware.xyz.api.controllers.RideControllerImpl
 import org.pointyware.xyz.api.data.AuthRepository
 import org.pointyware.xyz.api.data.AuthRepositoryImpl
+import org.pointyware.xyz.api.data.CommonRepository
+import org.pointyware.xyz.api.data.CommonRepositoryImpl
 import org.pointyware.xyz.api.data.PooledConnectionFactory
 import org.pointyware.xyz.api.data.PostgresConnectionFactory
 import org.pointyware.xyz.api.data.PostgresPooledConnectionFactory
@@ -69,10 +71,23 @@ fun databasesModule() = module {
     singleOf(::AuthRepositoryImpl) { bind<AuthRepository>() }
     singleOf(::RiderRepositoryImpl) { bind<RiderRepository>() }
 
+    factory<CommonRepository> {
+        // middle component here that takes in argument from client use-site
+        //   that determines user role and that argument is used to determine
+        //   which connection to fetch
+        CommonRepositoryImpl(
+            connection = get<Connection>(qualifier = authUser)
+        )
+    }
+
     includes(
         postgresModule()
     )
 }
+
+val authUser = named("auth_user")
+val riderUser = named("rider_user")
+val driverUser = named("driver_user")
 
 /**
  * This module provides all basic dependencies for any PostgreSQL-dependent implementations.
@@ -85,7 +100,14 @@ fun postgresModule() = module {
         { get<PostgresConnectionFactory>().createConnection() }
     }
 
-    single<PooledConnectionFactory>(qualifier = named("database_xyz")) {
+    factory<Connection>(qualifier = authUser) {
+        get<PooledConnectionFactory>().createConnection(
+            user = BuildConfig.POSTGRES_USER, //
+            password = BuildConfig.POSTGRES_PASSWORD,
+        )
+    }
+
+    single<PooledConnectionFactory> {
         PostgresPooledConnectionFactory(
             host = BuildConfig.POSTGRES_HOST,
             port = BuildConfig.POSTGRES_PORT.toInt(),
