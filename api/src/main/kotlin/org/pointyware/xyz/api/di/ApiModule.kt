@@ -93,18 +93,17 @@ val driverUser = named("driver_user")
  * This module provides all basic dependencies for any PostgreSQL-dependent implementations.
  */
 fun postgresModule() = module {
-    factory<Connection>(qualifier = authUser) {
-        get<PooledConnectionFactory>().createConnection(
-            user = BuildConfig.POSTGRES_USER, //
-            password = BuildConfig.POSTGRES_PASSWORD,
-        )
-    }
-
     single<PooledConnectionFactory> {
         PostgresPooledConnectionFactory(
             host = BuildConfig.POSTGRES_HOST,
             port = BuildConfig.POSTGRES_PORT.toInt(),
             db = BuildConfig.POSTGRES_DB
+        )
+    }
+    factory<Connection>(qualifier = authUser) {
+        get<PooledConnectionFactory>().createConnection(
+            user = BuildConfig.POSTGRES_USER, //
+            password = BuildConfig.POSTGRES_PASSWORD,
         )
     }
 }
