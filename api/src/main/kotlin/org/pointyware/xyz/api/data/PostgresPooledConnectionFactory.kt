@@ -41,16 +41,16 @@ class PostgresPooledConnectionFactory(
         databaseName = db
     }
 
-    private val connections: MutableMap<String, PooledConnection> = mutableMapOf()
+    private val connections: MutableList<PooledConnection> = mutableListOf()
 
     override fun createConnection(user: String, password: String): Connection {
         return dataSource.getPooledConnection(user, password).also {
-            connections[user] = it
+            connections += it
         }.connection
     }
 
     override fun close() {
-        connections.values.forEach { it.close() }
+        connections.forEach { it.close() }
         connections.clear()
     }
 }
