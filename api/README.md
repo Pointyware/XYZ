@@ -3,6 +3,144 @@
 ## Description
 This module contains the API for all client applications, or the dynamic content.
 
+### Architecture Class Diagram
+The API architecture follows the general structure of a typical Express
+web application: the entry point configures the server, including any
+middleware, and configures routing, which controls the flow of requests
+to a mix of controllers, which in turn marshall the request data to the
+appropriate service(s), which handle the majority of application
+business logic, delegating data operations to one or more repositories,
+before returning a result to be mapped by a controller for the client
+response.
+
+```mermaid
+---
+title: XYZ API Architecture
+---
+
+classDiagram
+  class ServerKt {
+      +main(vararg args: String)
+  }
+  ServerKt --> AuthRouting
+  ServerKt --> ProfileRouting
+  ServerKt --> RideRouting
+  ServerKt --> DriveRouting
+  ServerKt --> PaymentRouting
+  
+  class AuthRouting {
+      +postLogin()
+      +postCreate()
+      +postLogout()
+  }
+  AuthRouting --> AuthController
+  class ProfileRouting {
+      +post()
+      +get(id: String)
+  }
+  ProfileRouting --> ProfileController
+  class RideRouting {
+      +get(id: String)
+      +postPayment(rideId: String)
+  }
+  RideRouting --> RideController
+  RideRouting --> OrderController
+  RideRouting --> PaymentsController
+  class DriveRouting {
+      +postStart()
+      +postStatus()
+      +postAccept()
+      +postStop()
+  }
+  DriveRouting --> RideController
+  DriveRouting --> OrderController
+  DriveRouting --> PaymentsController
+  class PaymentRouting {
+      +paymentIntent()
+  }
+  PaymentRouting --> PaymentsController
+
+  class AuthController {
+      
+  }
+  AuthController --> EncryptionService
+  AuthController --> AuthService
+  class OrderController {
+      
+  }
+  OrderController --> RideService
+  OrderController --> PaymentsService
+  class PaymentsController {
+      
+  }
+  PaymentsController --> PaymentsService
+  class RideController {
+      
+  }
+  RideController --> RideService
+  class ProfileController {
+      
+  }
+  ProfileController --> UserService
+  
+  class EncryptionService {
+      +encrypt(data: String): String
+      +decrypt(data: String): String
+  }
+  class PaymentsService {
+      
+  }
+  PaymentsService --> PaymentRepository
+  PaymentsService --> MarketRepository
+  class RideService {
+      
+  }
+  RideService --> CommonRepository
+  class AuthService {
+      
+  }
+  AuthService --> AuthRepository
+  class UserService {
+      
+  }
+  UserService --> RiderRepository
+  UserService --> DriverRepository
+  
+  class AuthRepository {
+      
+  }
+  class CommonRepository {
+      
+  }
+  class DriverRepository {
+      
+  }
+  class MarketRepository {
+      
+  }
+  class PaymentRepository {
+      
+  }
+  class RiderRepository {
+      
+  }
+  
+  namespace Example {
+    class Repository { 
+      +fooDao: Dao
+      +barDao: Dao
+    }
+    class Dao {
+      +create(entity: Any): String
+      +getById(id: String): Any
+      +update(id: String, entity: Any): Boolean
+      +delete(id: String): Boolean
+    }
+  }
+  Repository *--> Dao
+
+```
+
 ## Building
 The API can be built for several environments, including local, staging, and production. Local and
 staging should both use the test stripe environment, while production should use the live stripe.
