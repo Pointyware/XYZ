@@ -1,6 +1,5 @@
-package org.pointyware.xyz.shared.navigation
+package org.pointyware.xyz.navigation
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
