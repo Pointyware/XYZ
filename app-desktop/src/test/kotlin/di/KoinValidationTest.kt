@@ -10,7 +10,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.module
 import org.koin.test.check.checkKoinModules
 import org.koin.test.verify.verify
-import org.pointyware.xyz.shared.di.appModule
+import org.pointyware.xyz.shared.org.pointyware.xyz.ui.di.appModule
 import kotlin.test.Test
 
 /**

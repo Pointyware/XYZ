@@ -11,8 +11,8 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import org.jetbrains.compose.resources.painterResource
 import org.pointyware.xyz.desktop.di.desktopModule
-import org.pointyware.xyz.shared.XyzApp
-import org.pointyware.xyz.shared.di.setupKoin
+import org.pointyware.xyz.shared.org.pointyware.xyz.XyzApp
+import org.pointyware.xyz.shared.org.pointyware.xyz.ui.di.setupKoin
 import org.pointyware.xyz.ui.Res
 import org.pointyware.xyz.ui.tray_icon
 

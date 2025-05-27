@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
-package org.pointyware.xyz.shared
+package org.pointyware.xyz
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -25,7 +25,7 @@ import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.drive.navigation.driveRouting
 import org.pointyware.xyz.feature.login.navigation.profileRouting
 import org.pointyware.xyz.feature.ride.navigation.rideRouting
-import org.pointyware.xyz.shared.navigation.payments
+import org.pointyware.xyz.navigation.payments
 
 /**
  * The main entry point for the XYZ app.

@@ -20,7 +20,7 @@ import org.pointyware.xyz.core.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.login.RiderProfileCreationScreen
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
-import org.pointyware.xyz.shared.di.setupKoin
+import org.pointyware.xyz.shared.org.pointyware.xyz.ui.di.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
