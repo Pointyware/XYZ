@@ -52,10 +52,7 @@ classDiagram
       +postAccept()
       +postStop()
   }
-  DriveRouting --> 
-  DriveRouting --> RiderController
-  DriveRouting --> OrderController
-  DriveRouting --> PaymentsController
+  DriveRouting --> DriverController
   class PaymentRouting {
       +paymentIntent()
   }
