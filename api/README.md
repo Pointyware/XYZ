@@ -22,11 +22,11 @@ classDiagram
   class ServerKt {
       +main(vararg args: String)
   }
-  ServerKt --> AuthRouting
-  ServerKt --> ProfileRouting
-  ServerKt --> RideRouting
-  ServerKt --> DriveRouting
-  ServerKt --> PaymentRouting
+  ServerKt --> AuthRouting : "/auth"
+  ServerKt --> ProfileRouting : "/profile"
+  ServerKt --> RideRouting : "/ride"
+  ServerKt --> DriveRouting : "/drive"
+  ServerKt --> PaymentRouting : "/payment"
   
   class AuthRouting {
       +postLogin()
@@ -52,6 +52,7 @@ classDiagram
       +postAccept()
       +postStop()
   }
+  DriveRouting --> 
   DriveRouting --> RiderController
   DriveRouting --> OrderController
   DriveRouting --> PaymentsController
