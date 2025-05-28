@@ -37,7 +37,7 @@ jobs:
       - name: 'Setup OpenTofu'
         uses: opentofu/setup-opentofu@v1
         with:
-          version: '1.0.5'
+          tofu_version: '1.9.1'
 
       - name: "Setup Secrets"
         uses: ./.github/actions/setup-secrets
