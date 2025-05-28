@@ -59,18 +59,3 @@ output "ssh_command" {
   description = "SSH command to connect to the API server"
   value       = "ssh -i ~/.ssh/your-key-name.pem ec2-user@${aws_eip.api_server.public_ip}"
 }
-
-output "api_url" {
-  description = "URL to access the API"
-  value       = var.domain_name != "" ? "https://api.${var.domain_name}" : "http://${aws_eip.api_server.public_ip}:${var.app_port}"
-}
-
-output "route53_nameservers" {
-  description = "Route 53 nameservers (if Route 53 is enabled)"
-  value       = var.enable_route53 && var.domain_name != "" ? aws_route53_zone.main[0].name_servers : []
-}
-
-output "dns_setup_instructions" {
-  description = "Instructions for manual DNS setup"
-  value = var.domain_name != "" && !var.enable_route53 ? "Add A record: api.${var.domain_name} -> ${aws_eip.api_server.public_ip}" : "Route 53 configured automatically"
-}
