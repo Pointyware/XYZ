@@ -1,7 +1,8 @@
 # Module :api
+This module contains the API for all client applications, or the dynamic content.
 
 ## Description
-This module contains the API for all client applications, or the dynamic content.
+The XYZ API is a RESTful web service that provides endpoints for user authentication
 
 ### Architecture Class Diagram
 The API architecture follows the general structure of a typical Express
