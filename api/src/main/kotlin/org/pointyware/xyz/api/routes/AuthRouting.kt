@@ -34,23 +34,22 @@ fun Routing.auth() {
         authenticate(basicAuthProvider) {
             post("/login") {
                 val userId = call.principal<UserIdPrincipal>()!!.name
-                // TODO: get device info from request headers or session
                 val deviceInfo = call.request.headers["User-Agent"] ?: "unknown-device"
                 val authController = koin.get<AuthController>()
-                val result = authController.createSession(userId, deviceInfo)
+                call.respondResult(authController.createSession(userId, deviceInfo)
                     .onSuccess {
                         call.sessions.set(UserSession(userId = userId, sessionId = it.toHexString()))
-                    }
-
-                call.respondResult(result)
+                    })
             }
         }
-        authenticate(basicAuthProvider) {
-            post<LoginInfo>("/create") { info ->
-                val authController = koin.get<AuthController>()
-
-                call.respondResult(authController.createUser(info.email, info.password))
-            }
+        post<LoginInfo>("/create") { info ->
+            val deviceInfo = call.request.headers["User-Agent"] ?: "unknown-device"
+            val authController = koin.get<AuthController>()
+            val newId = authController.createUser(info.email, info.password).getOrThrow().toHexString()
+            call.respondResult(authController.createSession(uuidString = newId, deviceInfo = deviceInfo)
+                .onSuccess {
+                    call.sessions.set(UserSession(userId = newId, sessionId = it.toHexString()))
+                })
         }
     }
 }

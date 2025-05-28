@@ -11,7 +11,7 @@ import kotlin.uuid.Uuid
 //@AdapterLayer
 @OptIn(ExperimentalUuidApi::class)
 interface AuthController {
-    suspend fun createUser(email: String, password: String): Result<Authorization>
+    suspend fun createUser(email: String, password: String): Result<Uuid>
     suspend fun createSession(uuidString: String, deviceInfo: String): Result<Uuid>
     suspend fun authenticate(email: String, password: String): Result<Authorization>
     suspend fun validateSession(sessionId: String): Result<Unit>
@@ -24,8 +24,8 @@ interface AuthController {
 class AuthControllerImpl(
     private val userService: UserService
 ): AuthController {
-    override suspend fun createUser(email: String, password: String): Result<Authorization> = runCatching {
-        userService.createUser(email, password)
+    override suspend fun createUser(email: String, password: String): Result<Uuid> = runCatching {
+        userService.createUser(email, password).userId
     }
     override suspend fun createSession(uuidString: String, deviceInfo: String): Result<Uuid> {
         TODO("Not yet implemented")
