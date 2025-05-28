@@ -43,7 +43,7 @@ classDiagram
       +get(id: String)
       +postPayment(rideId: String)
   }
-  RideRouting --> RideController
+  RideRouting --> RiderController
   RideRouting --> OrderController
   RideRouting --> PaymentsController
   class DriveRouting {
@@ -52,7 +52,7 @@ classDiagram
       +postAccept()
       +postStop()
   }
-  DriveRouting --> RideController
+  DriveRouting --> RiderController
   DriveRouting --> OrderController
   DriveRouting --> PaymentsController
   class PaymentRouting {
@@ -68,20 +68,24 @@ classDiagram
   class OrderController {
       
   }
-  OrderController --> RideService
+  OrderController --> RiderService
   OrderController --> PaymentsService
   class PaymentsController {
       
   }
   PaymentsController --> PaymentsService
-  class RideController {
-      
-  }
-  RideController --> RideService
-  class ProfileController {
+  class ProfileController { 
       
   }
   ProfileController --> UserService
+  class RiderController {
+      
+  }
+  RiderController --> RiderService
+  class DriverController {
+      
+  }
+  DriverController --> DriverService
   
   class EncryptionService {
       +encrypt(data: String): String
@@ -92,10 +96,10 @@ classDiagram
   }
   PaymentsService --> PaymentRepository
   PaymentsService --> MarketRepository
-  class RideService {
+  class RiderService {
       
   }
-  RideService --> CommonRepository
+  RiderService --> CommonRepository
   class AuthService {
       
   }
@@ -107,21 +111,37 @@ classDiagram
   UserService --> DriverRepository
   
   class AuthRepository {
-      
+      +test: Row~X,Y~
+      +users: UserDao
+      +sessions: SessionDao
   }
-  class CommonRepository {
-      
+  class CommonRepository { 
+      +rides: RideDao
+  }
+  CommonRepository --> RideDto
+  class RideDto {
+      +id: String
+      +driverId: String
+      +riderId: String
+      +status: String
+      +startTime: DateTime
+      +endTime: DateTime
   }
   class DriverRepository {
+      +profiles: DriverProfileDao
       
   }
   class MarketRepository {
-      
+      +bids: BidDao
+      +asks: AskDao
+      +matches: MatchDao
   }
   class PaymentRepository {
-      
+      +methods: PaymentMethodDao
+      +intents: PaymentIntentDao
   }
   class RiderRepository {
+      +profiles: RiderProfileDao
       
   }
 
