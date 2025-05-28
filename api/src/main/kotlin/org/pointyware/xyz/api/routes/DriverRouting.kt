@@ -18,10 +18,10 @@ import org.pointyware.xyz.api.sessionAuthProvider
  * Routes drive endpoint requests to the appropriate controller. Drive endpoints are meant
  * for driver use only.
  */
-fun Routing.drive() {
+fun Routing.driver() {
     val koin = getKoin()
     authenticate(sessionAuthProvider) {
-        route("/drive") {
+        route("/driver") {
             val orderController = koin.get<OrderController>()
             val rideController = koin.get<RideController>()
 

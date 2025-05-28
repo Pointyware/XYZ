@@ -16,9 +16,9 @@ import org.pointyware.xyz.api.sessionAuthProvider
 /**
  *
  */
-fun Routing.ride() {
+fun Routing.rider() {
     authenticate(sessionAuthProvider) {
-        route("/ride") {
+        route("/rider") {
             get {
                 call.respondNullable<String?>("Hi rider!")
             }

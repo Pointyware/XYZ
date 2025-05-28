@@ -26,10 +26,10 @@ import org.koin.ktor.ext.getKoin
 import org.pointyware.xyz.api.controllers.AuthController
 import org.pointyware.xyz.api.di.apiModule
 import org.pointyware.xyz.api.routes.auth
-import org.pointyware.xyz.api.routes.drive
+import org.pointyware.xyz.api.routes.driver
 import org.pointyware.xyz.api.routes.payment
 import org.pointyware.xyz.api.routes.profile
-import org.pointyware.xyz.api.routes.ride
+import org.pointyware.xyz.api.routes.rider
 import org.pointyware.xyz.core.data.dtos.UserSession
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -99,8 +99,8 @@ fun main(vararg args: String) {
             auth()
             profile()
 
-            ride()
-            drive()
+            rider()
+            driver()
 
             payment()
         }
