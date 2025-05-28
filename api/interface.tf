@@ -33,7 +33,6 @@ variable "ssh_cidr" {
 variable "ssh_public_key" {
   description = "SSH public key for EC2 access"
   type        = string
-  # You'll need to provide this via terraform.tfvars or environment variable
 }
 
 # Database Configuration
@@ -53,7 +52,6 @@ variable "db_password" {
   description = "Password for PostgreSQL database"
   type        = string
   sensitive   = true
-  # Provide this via terraform.tfvars or environment variable
 }
 
 variable "postgres_version" {
