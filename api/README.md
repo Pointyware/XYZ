@@ -24,9 +24,8 @@ classDiagram
   }
   ServerKt --> AuthRouting : "/auth"
   ServerKt --> ProfileRouting : "/profile"
-  ServerKt --> RideRouting : "/ride"
-  ServerKt --> DriveRouting : "/drive"
-  ServerKt --> PaymentRouting : "/payment"
+  ServerKt --> RiderRouting : "/ride"
+  ServerKt --> DriverRouting : "/drive"
   
   class AuthRouting {
       +postLogin()
@@ -39,39 +38,24 @@ classDiagram
       +get(id: String)
   }
   ProfileRouting --> ProfileController
-  class RideRouting {
+  class RiderRouting {
       +get(id: String)
       +postPayment(rideId: String)
   }
-  RideRouting --> RiderController
-  RideRouting --> OrderController
-  RideRouting --> PaymentsController
-  class DriveRouting {
+  RiderRouting --> RiderController
+  class DriverRouting {
       +postStart()
       +postStatus()
       +postAccept()
       +postStop()
   }
-  DriveRouting --> DriverController
-  class PaymentRouting {
-      +paymentIntent()
-  }
-  PaymentRouting --> PaymentsController
+  DriverRouting --> DriverController
 
   class AuthController {
       
   }
   AuthController --> AuthService
-  class OrderController {
-      
-  }
-  OrderController --> RiderService
-  OrderController --> PaymentsService
-  class PaymentsController {
-      
-  }
-  PaymentsController --> PaymentsService
-  class ProfileController { 
+  class ProfileController {
       
   }
   ProfileController --> UserService
@@ -101,10 +85,17 @@ classDiagram
   class DriverService {
       
   }
+  DriverService --> DriverRepository
+  DriverService --> CommonRepository
+  DriverService --> PaymentsService
+  DriverService --> MarketRepository
   class RiderService {
       
   }
+  RiderService --> RiderRepository
   RiderService --> CommonRepository
+  RiderService --> PaymentsService
+  RiderService --> MarketRepository
   class PaymentsService {
       
   }
