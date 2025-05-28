@@ -4,18 +4,17 @@
 
 package org.pointyware.xyz.api
 
+import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.install
 import io.ktor.server.auth.Authentication
 import io.ktor.server.auth.UserIdPrincipal
-import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.basic
 import io.ktor.server.auth.session
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.server.request.uri
-import io.ktor.server.response.respondRedirect
+import io.ktor.server.response.respondNullable
 import io.ktor.server.routing.routing
 import io.ktor.server.sessions.SessionStorage
 import io.ktor.server.sessions.SessionStorageMemory
@@ -91,8 +90,8 @@ fun main(vararg args: String) {
                     UserIdPrincipal(session.sessionId)
                 }
                 challenge {
-                    val authHost = BuildConfig.POSTGRES_HOST // "(staging-)account.pointyware.org"
-                    call.respondRedirect("$authHost/login?referrer=${call.request.uri}")
+                    call.respondNullable(HttpStatusCode.Unauthorized)
+//                    call.respondRedirect("/auth/login?referrer=${call.request.uri}")
                 }
             }
         }

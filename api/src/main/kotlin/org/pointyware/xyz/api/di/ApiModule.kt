@@ -30,6 +30,7 @@ import org.pointyware.xyz.api.services.RideService
 import org.pointyware.xyz.api.services.StripePaymentsService
 import org.pointyware.xyz.api.services.UserService
 import java.sql.Connection
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  *  Provides top-down entry point to entire dependency graph.
@@ -46,6 +47,7 @@ fun apiModule() = module {
  * This module provides implementations for all controllers. Controllers depend on services,
  * but those are provided separately by [servicesModule].
  */
+@OptIn(ExperimentalUuidApi::class)
 fun controllersModule() = module {
     singleOf(::AuthControllerImpl) { bind<AuthController>() }
     singleOf(::OrderControllerImpl) { bind<OrderController>() }
