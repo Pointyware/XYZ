@@ -63,7 +63,6 @@ classDiagram
   class AuthController {
       
   }
-  AuthController --> EncryptionService
   AuthController --> AuthService
   class OrderController {
       
