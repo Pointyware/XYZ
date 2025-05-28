@@ -124,20 +124,6 @@ classDiagram
   class RiderRepository {
       
   }
-  
-  namespace Example {
-    class Repository { 
-      +fooDao: Dao
-      +barDao: Dao
-    }
-    class Dao {
-      +create(entity: Any): String
-      +getById(id: String): Any
-      +update(id: String, entity: Any): Boolean
-      +delete(id: String): Boolean
-    }
-  }
-  Repository *--> Dao
 
 ```
 
