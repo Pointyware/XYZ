@@ -33,9 +33,25 @@ jobs:
           java-version: '21'
       - name: "Setup Gradle"
         uses: gradle/actions/setup-gradle@v3
+      - name: 'Setup OpenTofu'
+        uses: opentofu/setup-opentofu@v1
+        with:
+          version: '1.0.5'
 
       - name: "Setup Secrets"
         uses: ./.github/actions/setup-secrets
+
+      - name: 'Tofu Plan'
+        run: |
+          tofu -chdir=api init
+          tofu -chdir=api plan \
+            --output-file tofu-plan.json \
+            --format json
+      - name: 'Upload: Tofu Plan'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tofu-plan.json
+          path: api/tofu-plan.json
 
       - name: "Build: Assemble and Test API"
         run: |
