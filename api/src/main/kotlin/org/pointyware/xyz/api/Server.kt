@@ -6,18 +6,36 @@ package org.pointyware.xyz.api
 
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.install
+import io.ktor.server.auth.Authentication
+import io.ktor.server.auth.UserIdPrincipal
+import io.ktor.server.auth.basic
+import io.ktor.server.auth.session
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.request.uri
+import io.ktor.server.response.respondRedirect
 import io.ktor.server.routing.routing
+import io.ktor.server.sessions.SessionStorage
+import io.ktor.server.sessions.SessionStorageMemory
+import io.ktor.server.sessions.Sessions
+import io.ktor.server.sessions.header
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
+import org.koin.ktor.ext.getKoin
+import org.pointyware.xyz.api.controllers.AuthController
 import org.pointyware.xyz.api.di.apiModule
 import org.pointyware.xyz.api.routes.auth
 import org.pointyware.xyz.api.routes.drive
 import org.pointyware.xyz.api.routes.payment
 import org.pointyware.xyz.api.routes.profile
 import org.pointyware.xyz.api.routes.ride
+import org.pointyware.xyz.core.data.dtos.UserSession
+import kotlin.uuid.ExperimentalUuidApi
+
+const val basicAuthProvider = "basic_auth"
+const val sessionAuthProvider = "session_auth"
+const val sessionAuthHeader = "X-Session-Id"
 
 /**
  * Main entry point for the XYZ API server.
@@ -27,6 +45,7 @@ import org.pointyware.xyz.api.routes.ride
  * java -jar xyz-api.jar --port=<port>
  * ```
  */
+@OptIn(ExperimentalUuidApi::class)
 fun main(vararg args: String) {
     var programInputs = ProgramInputs(port = 80)
 
@@ -44,6 +63,37 @@ fun main(vararg args: String) {
                 prettyPrint = true
                 isLenient = true
             })
+        }
+        install(Sessions) {
+            val storage: SessionStorage = SessionStorageMemory() // swap to redis and/or database in production
+            header<UserSession>(sessionAuthHeader, storage)
+        }
+        install(Authentication) {
+            basic(basicAuthProvider) {
+                realm = "XYZ API"
+                charset = Charsets.UTF_8
+                validate { credentials ->
+                    val koin = getKoin()
+                    val authController = koin.get<AuthController>()
+                    val authorization = authController.authenticate(credentials.name, credentials.password)
+                        .onFailure { return@validate null }
+                        .getOrThrow()
+                    UserIdPrincipal(authorization.userId.toHexString())
+                }
+            }
+            session<UserSession>(sessionAuthProvider) {
+                validate { session ->
+                    val koin = getKoin()
+                    val authController = koin.get<AuthController>()
+                    authController.validateSession(session.sessionId)
+                        .onFailure { return@validate null }
+                    UserIdPrincipal(session.sessionId)
+                }
+                challenge {
+                    val authHost = BuildConfig.POSTGRES_HOST // "(staging-)account.pointyware.org"
+                    call.respondRedirect("$authHost/login?referrer=${call.request.uri}")
+                }
+            }
         }
         routing {
             auth()
