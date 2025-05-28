@@ -10,7 +10,8 @@ on:
       - main
     paths: # Only run checks on changes api to code or api dependencies
       - "api/**/*"
-      - "core/entities/**/*"
+      - "core-entities/**/*"
+      - "core-data-dtos/**/*"
 
 # TODO: Include version input
 
