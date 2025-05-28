@@ -5,24 +5,28 @@
 package org.pointyware.xyz.api.routes
 
 import io.ktor.server.application.call
+import io.ktor.server.auth.authenticate
 import io.ktor.server.response.respondNullable
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
+import org.pointyware.xyz.api.sessionAuthProvider
 
 /**
  *
  */
 fun Routing.ride() {
-    route("/ride") {
-        get {
-            call.respondNullable<String?>("Hi rider!")
-        }
-        post("/{id}/payment") {
-            val id = call.parameters["id"]
+    authenticate(sessionAuthProvider) {
+        route("/ride") {
+            get {
+                call.respondNullable<String?>("Hi rider!")
+            }
+            post("/{id}/payment") {
+                val id = call.parameters["id"]
 
-            call.respondNullable<String?>("Hi rider! $id")
+                call.respondNullable<String?>("Hi rider! $id")
+            }
         }
     }
 }
