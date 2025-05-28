@@ -87,7 +87,6 @@ classDiagram
   }
   DriverController --> DriverService
   
-  namespace ServiceLayer {
   class EncryptionService {
       +encrypt(data: String): String
       +decrypt(data: String): String
@@ -114,7 +113,6 @@ classDiagram
   }
   PaymentsService --> PaymentRepository
   PaymentsService --> MarketRepository
-  }
   
   class AuthRepository {
       +test: Row~X,Y~
