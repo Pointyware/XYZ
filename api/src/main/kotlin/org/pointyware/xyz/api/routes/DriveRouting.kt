@@ -4,6 +4,7 @@
 
 package org.pointyware.xyz.api.routes
 
+import io.ktor.server.auth.authenticate
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
@@ -11,6 +12,7 @@ import io.ktor.server.routing.route
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.controllers.OrderController
 import org.pointyware.xyz.api.controllers.RideController
+import org.pointyware.xyz.api.sessionAuthProvider
 
 /**
  * Routes drive endpoint requests to the appropriate controller. Drive endpoints are meant
@@ -18,21 +20,23 @@ import org.pointyware.xyz.api.controllers.RideController
  */
 fun Routing.drive() {
     val koin = getKoin()
-    route("/drive") {
-        val orderController = koin.get<OrderController>()
-        val rideController = koin.get<RideController>()
+    authenticate(sessionAuthProvider) {
+        route("/drive") {
+            val orderController = koin.get<OrderController>()
+            val rideController = koin.get<RideController>()
 
-        post("/start") {
+            post("/start") {
 
-        }
-        put("/status") {
+            }
+            put("/status") {
 
-        }
-        post("/accept") {
+            }
+            post("/accept") {
 
-        }
-        post("/stop") {
+            }
+            post("/stop") {
 
+            }
         }
     }
 }
