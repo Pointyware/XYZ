@@ -7,7 +7,9 @@ flowchart LR
     top-level-domain["pointyware.org"]
     top-level-domain -.-> pointyware-site["__www__.pointyware.org"]
     
-    pointyware-site --> pointyware-site-cymatics["/cymatics"] 
+    pointyware-site --> pointyware-site-admin["/admin"]
+
+    pointyware-site --> pointyware-site-cymatics["/cymatics"]
     pointyware-site-cymatics --> pointyware-site-cymatics-privacy["/privacy-policy"]
     pointyware-site-cymatics --> pointyware-site-cymatics-terms["/terms-of-service"]
     
@@ -23,6 +25,10 @@ flowchart LR
     top-level-domain -.-> pointyware-api-alt1["__account__.pointyware.org"]
     top-level-domain -.-> pointyware-api-alt2["__auth__.pointyware.org"]
     
+    pointyware-api --> pointyware-api-admin["/admin"]
+    pointyware-api-admin --> pointyware-api-admin-users-id-tokens-delete["/users/{userId}/tokens/ DELETE"]
+    pointyware-api-admin --> pointyware-api-admin-
+
     pointyware-api --> pointyware-api-auth["/auth"]
     pointyware-api-auth --> pointyware-api-auth-create["/create"]
     pointyware-api-auth-create --> pointyware-api-auth-create-post["POST email,password"]
@@ -30,6 +36,7 @@ flowchart LR
     pointyware-api-auth --> pointyware-api-auth-token["/token"] --> pointyware-api-auth-token-post["POST authorization"]
     pointyware-api-auth --> pointyware-api-auth-revoke["/revoke"] --> pointyware-api-auth-revoke-post["POST tokenId"]
     pointyware-api-auth --> pointyware-api-auth-revoke-all["/revoke-all"] --> pointyware-api-auth-revoke-all-post["POST"]
+    pointyware-api-auth --> pointyware-api-auth-revoke-client["/revoke-client"] --> pointyware-api-auth-revoke-client-post["POST tokenId"]
     
     pointyware-api --> pointyware-api-profile["/profile"]
     pointyware-api-profile --> pointyware-api-profile-get["GET profileId"]
