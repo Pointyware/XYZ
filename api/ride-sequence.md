@@ -1,5 +1,6 @@
 # Ride Sequence
 
+
 ```mermaid
 
 sequenceDiagram
@@ -9,17 +10,17 @@ sequenceDiagram
     participant Rider
     participant Map as Maps Service
 
-    Driver-)XYZ: Go available with Rate
+    Driver-)XYZ: Go available with Rate <br>POST /driver/availability <rate>
     activate Driver
     activate XYZ
-    XYZ->>DB: Create Availability and Ask Rate
+    XYZ->>DB: Create Availability and Ask Rate <br>INSERT INTO driver.availability <br> INSERT INTO market.asks
     loop Every configured period
-        Driver--)XYZ: Update Position
-        XYZ-->>DB: Set Position
+        Driver--)XYZ: Update Position <br>PUT /driver/status <position>
+        XYZ-->>DB: Set Position <br>UPDATE driver.availability
     end
 
     loop
-        Rider->>XYZ: Search for Destination
+        Rider->>XYZ: Search for Destination <br>GET /rider/route?destination=<destination name>
         activate Rider
         activate XYZ
         XYZ->>Map: Send Query
@@ -30,22 +31,21 @@ sequenceDiagram
         deactivate Rider
         deactivate XYZ
     end
-    Rider-)XYZ: Request Ride with Rate
+    Rider-)XYZ: Request Ride with Rate <br>POST /rider/request <request, rate>
     activate Rider
     activate XYZ
-    XYZ->>DB: Create Request and Bid Rate
-
+    XYZ->>DB: Create Request and Bid Rate <br>INSERT INTO rider.requests <br> INSERT INTO market.bids
     
     XYZ-)Driver: Send Ride Notification
-    Driver->>XYZ: Accept Ride
+    Driver->>XYZ: Accept Ride <br> POST /driver/accept <rideId>
     activate XYZ
-    XYZ->>DB: Create Match and Update<br>Bid, Ask, Availability, Request
+    XYZ->>DB: Create Match and Update<br>Bid, Ask, Availability, Request <br>INSERT INTO market.match, common.rides <br>UPDATE market.bid, market.ask <br>UPDATE driver.availability, rider.requests
     XYZ-)Rider: Send Driver Info
     XYZ->>Driver: Confirm
     deactivate XYZ
 
-    Rider-)XYZ: Send Message
-    XYZ->>DB: Post Message
+    Rider-)XYZ: Send Message <br> POST /rider/ride/messages <message>
+    XYZ->>DB: Post Message <br>INSERT INTO common.messages
     XYZ->>Driver: Forward Rider Message
 
     Driver->>XYZ: Send Arrival Update
