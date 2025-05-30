@@ -20,6 +20,7 @@ import io.ktor.server.sessions.SessionStorage
 import io.ktor.server.sessions.SessionStorageMemory
 import io.ktor.server.sessions.Sessions
 import io.ktor.server.sessions.header
+import io.ktor.server.sse.SSE
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.ktor.ext.getKoin
@@ -58,6 +59,7 @@ fun main(vararg args: String) {
     }
 
     embeddedServer(Netty, programInputs.port) {
+        install(SSE)
         install(ContentNegotiation) {
             json(Json {
                 prettyPrint = true
