@@ -11,6 +11,7 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
+import io.ktor.server.sse.sse
 import org.pointyware.xyz.api.sessionAuthProvider
 
 /**
@@ -26,6 +27,16 @@ fun Routing.rider() {
                 val id = call.parameters["id"]
 
                 call.respondNullable<String?>("Hi rider! $id")
+            }
+            sse("/request/{id}") {
+                val id = call.parameters["id"]
+                // TODO: Send stream of ride events for the rider
+            }
+            post("/request") {
+                // create a new ride request
+                sse {
+                    // TODO: Send stream of ride events for the rider
+                }
             }
         }
     }

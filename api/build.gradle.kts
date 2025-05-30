@@ -40,6 +40,7 @@ kotlin {
         implementation(libs.ktor.server.contentNegotiation)
         implementation(libs.ktor.server.netty)
         implementation(libs.ktor.server.sessions)
+        implementation(libs.ktor.server.sse)
         implementation(libs.ktor.serialization.json)
 
         implementation(libs.postgresql)

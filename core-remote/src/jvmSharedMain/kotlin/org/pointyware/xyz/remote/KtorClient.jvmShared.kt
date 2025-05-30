@@ -9,6 +9,7 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.resources.Resources
+import io.ktor.client.plugins.sse.SSE
 import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
@@ -19,6 +20,7 @@ import io.ktor.serialization.kotlinx.json.json
  */
 actual fun getClient(): HttpClient {
     return HttpClient(OkHttp) {
+        install(SSE)
         install(Resources)
         install(ContentNegotiation) { json() }
         defaultRequest {
