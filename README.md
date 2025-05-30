@@ -29,11 +29,87 @@ To get started, you'll need to first set up some credentials for the app by ensu
   - STRIPE_PRODUCTION_URL
 - `./stripe-local.defaults.properties` - defines defaults for the above, checked in VC
 - `~/.gradle/gradle.properties` - user global gradle properties
-  - 
-- `./.gradle/gradle.properties` - project gradle properties
-  -
+- `./gradle.properties` - project gradle properties
 
-## Modularization
+## Architecture
+
+### Client and Server Layer Comparison
+The client-side applications are following typical Android MVVM and Repository patterns within a 4-layer Clean Architecture, while the server-side applications are following an Express.js-derived pattern usually considered MVC, though we attempt to remain reactive, mapping any information to a higher abstraction before passing it to a higher layer of abstraction(here lower) and mapping the results back, instead of injecting output ports that would allow the model to directly control the output.
+
+```mermaid
+%%{
+  init: {
+    'theme': 'neutral'
+  }
+}%%
+
+graph TB
+  subgraph Frameworks/Drivers
+    UI
+    Views
+    Cache
+    Service
+  end
+  UI ---> ViewModels
+  Views ---> ViewModels
+  Cache ---> IDataSources
+  Service ---> IDataSources
+
+  subgraph Adapters
+    ViewModels
+    IDataSources
+    Repositories
+  end
+  ViewModels --> Interactors
+  Repositories --> IRepositories
+  Repositories --> IDataSources
+  
+  subgraph Application Business Logic
+    Interactors
+    IRepositories
+  end
+  Interactors --> IRepositories
+  Interactors --> Entities
+  IRepositories --> Entities
+
+  subgraph Enterprise Business Logic
+    Entities
+  end
+
+  subgraph Api Frameworks/Drivers
+    main
+    ServerKt
+    Routing
+    Database
+    ConnectionPool
+  end
+  main --> ServerKt
+  ServerKt --> Routing
+  Routing --> Controllers
+  Database --> ConnectionPool
+  Database --> IDatabase
+
+  subgraph Api Adapters
+    Controllers
+  end
+  Controllers --> Services
+  Controllers --> IDatabase
+  
+  subgraph Api Application Business Logic
+    Services
+    IDatabase
+  end
+  Services --> ApiEntities
+  Services --> IDatabase
+  IDatabase --> ApiEntities
+
+  subgraph Api Enterprise Business Logic
+    ApiEntities
+  end
+
+```
+
+### Modularization
 
 ```mermaid
 %%{
@@ -43,61 +119,87 @@ To get started, you'll need to first set up some credentials for the app by ensu
 }%%
 
 graph LR
+
+  classDef program fill:#f9f,stroke:#333,stroke-width:4px;
+  classDef default,library fill:#fff,stroke:#333,stroke-width:4px;
+
+  subgraph Programs
+    :api:::program
+    :app-android:::program
+    :app-desktop:::program
+    :app-ios:::program
+  end
+  :api --> :core-data-dtos
   :app-android --> :app-shared
   :app-desktop --> :app-shared
+
+  subgraph app-library
+    :app-shared
+  end
   
-  :app-shared --> :feature:drive
-  :app-shared --> :feature:ride
-  :app-shared --> :feature:manage
-  :app-shared --> :feature:login
+  :app-shared --> :feature-drive
+  :app-shared --> :feature-ride
+  :app-shared --> :feature-manage
+  :app-shared --> :feature-login
   
-  :feature:drive --> :core-all
-  :feature:ride --> :core-all
-  :feature:manage --> :core-all
-  :feature:login --> :core-all
+  subgraph features
+    :feature-drive
+    :feature-ride
+    :feature-manage
+    :feature-login
+  end
+
+  :feature-drive --> :core-all
+  :feature-ride --> :core-all
+  :feature-manage --> :core-all
+  :feature-login --> :core-all
   
-  :feature:manage --> :feature:drive
+  :feature-manage --> :feature-drive
   
-  :feature:login --> :feature:drive
-  :feature:login --> :feature:ride
+  :feature-login --> :feature-drive
+  :feature-login --> :feature-ride
   
-  :core-all --> :core:common
-  :core-all --> :core:entities
-  :core-all --> :core:interactors
-  :core-all --> :core:data
-  :core-all --> :core:remote
-  :core-all --> :core:local
-  :core-all --> :core:view-models
-  :core-all --> :core:ui
-  :core-all --> :core:navigation
-  
-  :core:ui --> :core:entities
-  :core:ui --> :core:common
-  
-  :core:data --> :core:common
-  :core:data --> :core:entities
-  :core:data --> :core:local
-  :core:data --> :core:remote
-  
-  :core:entities --> :core:common
-  
-  :core:interactors --> :core:common
-  :core:interactors --> :core:data
-  
-  :core:local --> :core:common
-  :core:local --> :core:entities
-  
-  :core:navigation --> :core:common
-  :core:navigation --> :core:entities
-  
-  :core:remote --> :core:common
-  :core:remote --> :core:entities
-  
-  :core:ui --> :core:common
-  :core:ui --> :core:entities
-  :core:ui --> :core:view-models
-  
-  :core:view-models --> :core:common
-  :core:view-models --> :core:entities
-  :core:view-models --> :core:interactors
+  subgraph core
+    :core-all --> :core-common
+    :core-all --> :core-entities
+    :core-all --> :core-interactors
+    :core-all --> :core-data
+    :core-all --> :core-data-dtos
+    :core-all --> :core-remote
+    :core-all --> :core-local
+    :core-all --> :core-view-models
+    :core-all --> :core-ui
+    :core-all --> :core-navigation
+    
+    :core-ui --> :core-entities
+    :core-ui --> :core-common
+    
+    :core-data --> :core-common
+    :core-data --> :core-data-dtos
+    :core-data --> :core-entities
+    :core-data --> :core-local
+    :core-data --> :core-remote
+    
+    :core-entities --> :core-common
+    
+    :core-interactors --> :core-common
+    :core-interactors --> :core-data
+    
+    :core-local --> :core-common
+    :core-local --> :core-entities
+    
+    :core-navigation --> :core-common
+    :core-navigation --> :core-entities
+    
+    :core-remote --> :core-common
+    :core-remote --> :core-entities
+    
+    :core-ui --> :core-common
+    :core-ui --> :core-entities
+    :core-ui --> :core-view-models
+    
+    :core-view-models --> :core-common
+    :core-view-models --> :core-entities
+    :core-view-models --> :core-interactors
+  end
 ```
