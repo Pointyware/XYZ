@@ -52,4 +52,15 @@ fun Routing.auth() {
                 })
         }
     }
+    route("/oauth") {
+        post("/authorize") {
+
+        }
+        post("/token") {
+
+        }
+        post("/revoke") {
+
+        }
+    }
 }
