@@ -11,16 +11,28 @@ sequenceDiagram
 
     Driver-)XYZ: Go available with Rate
     activate Driver
+    activate XYZ
     XYZ->>DB: Create Availability and Ask Rate
-    Driver--)XYZ: Update Position
-    XYZ-->>DB: Set Position
+    loop Every configured period
+        Driver--)XYZ: Update Position
+        XYZ-->>DB: Set Position
+    end
 
-    Rider->>XYZ: Search for Destination
-    XYZ->>Map: Send Query
-    Map->>XYZ: Return Routes
-    XYZ->>Rider: Return Routes
+    loop
+        Rider->>XYZ: Search for Destination
+        activate Rider
+        activate XYZ
+        XYZ->>Map: Send Query
+        activate Map
+        Map->>XYZ: Return Routes
+        deactivate Map
+        XYZ->>Rider: Return Routes
+        deactivate Rider
+        deactivate XYZ
+    end
     Rider-)XYZ: Request Ride with Rate
     activate Rider
+    activate XYZ
     XYZ->>DB: Create Request and Bid Rate
 
     
@@ -32,7 +44,9 @@ sequenceDiagram
     XYZ->>Driver: Confirm
     deactivate XYZ
 
-    Rider->>XYZ: Send Message
+    Rider-)XYZ: Send Message
+    XYZ->>DB: Post Message
+    XYZ->>Driver: Forward Rider Message
 
     Driver->>XYZ: Send Arrival Update
     XYZ->>Rider: Notify of Driver Arrival
@@ -41,10 +55,12 @@ sequenceDiagram
     Driver->>XYZ: Send End Ride Update
     XYZ->>Rider: Notify of Ride End
     deactivate Rider
+    deactivate XYZ
 
     Rider->>XYZ: Ride Rating
 
     Driver->>XYZ: End Connection
     deactivate Driver
+    deactivate XYZ
 
 ```
