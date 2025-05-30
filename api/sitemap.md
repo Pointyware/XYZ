@@ -24,12 +24,12 @@ flowchart LR
     top-level-domain -.-> pointyware-api-alt2["__auth__.pointyware.org"]
     
     pointyware-api --> pointyware-api-auth["/auth"]
-    pointyware-api-auth --> pointyware-api-auth-login["/login"]
-    pointyware-api-auth-login --> pointyware-api-auth-login-post["POST credentials"]
-    pointyware-api-auth --> pointyware-api-auth-logout["/logout"]
-    pointyware-api-auth-logout --> pointyware-api-auth-logout-post["POST"]
     pointyware-api-auth --> pointyware-api-auth-create["/create"]
-    pointyware-api-auth-create --> pointyware-api-auth-create-post["POST credentials"]
+    pointyware-api-auth-create --> pointyware-api-auth-create-post["POST email,password"]
+    pointyware-api-auth --> pointyware-api-auth-authorize["/authorize"] --> pointyware-api-auth-authorize-post["POST email,password"]
+    pointyware-api-auth --> pointyware-api-auth-token["/token"] --> pointyware-api-auth-token-post["POST authorization"]
+    pointyware-api-auth --> pointyware-api-auth-revoke["/revoke"] --> pointyware-api-auth-revoke-post["POST tokenId"]
+    pointyware-api-auth --> pointyware-api-auth-revoke-all["/revoke-all"] --> pointyware-api-auth-revoke-all-post["POST"]
     
     pointyware-api --> pointyware-api-profile["/profile"]
     pointyware-api-profile --> pointyware-api-profile-get["GET profileId"]
@@ -47,6 +47,9 @@ flowchart LR
     xyz-api-rider --> xyz-api-rider-ride["/ride"]
     xyz-api-rider-ride --> xyz-api-rider-ride-get["GET rideId"]
     xyz-api-rider-ride --> xyz-api-rider-ride-cancel["/cancel"] --> xyz-api-rider-ride-cancle-post["POST"]
+    xyz-api-rider-ride --> xyz-api-rider-ride-messages["messages"]
+    xyz-api-rider-ride-messages --> xyz-api-rider-ride-messages-post["POST message"]
+    xyz-api-rider-ride-messages --> xyz-api-rider-ride-messages-get["GET"]
     
     xyz-api --> xyz-api-driver["/driver"]
     xyz-api-driver --> xyz-api-driver-availability["/availability"]
@@ -63,4 +66,7 @@ flowchart LR
     xyz-api-driver --> xyz-api-driver-status["/status"]
     xyz-api-driver --> xyz-api-driver-accept["/accept"]
     xyz-api-driver --> xyz-api-driver-stop["/stop"]
+    xyz-api-driver-ride --> xyz-api-driver-ride-messages["/messages"]
+    xyz-api-driver-ride-messages --> xyz-api-driver-ride-messages-post["POST message"]
+    xyz-api-driver-ride-messages --> xyz-api-driver-ride-messages-get["GET"]
 ```
