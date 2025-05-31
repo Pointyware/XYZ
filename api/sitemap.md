@@ -43,8 +43,14 @@ flowchart LR
     pointyware-api-profile --> pointyware-api-profile-put["PUT profile"]
 
     top-level-domain -.-> xyz-site["__xyz__.pointyware.org"]
+    xyz-site --> xyz-site-admin["/admin"]
+
     xyz-site -.-> xyz-api["__api__.xyz.pointyware.org"]
     xyz-site -.-> xyz-api-staging["__api-staging__.xyz.pointyware.org"]
+
+
+    xyz-api --> xyz-api-admin["/admin"]
+    %%xyz-api-admin --> xyz-api-admin[""]
 
     xyz-api --> xyz-api-rider["/rider"]
     xyz-api-rider --> xyz-api-rider-request["/request"]
