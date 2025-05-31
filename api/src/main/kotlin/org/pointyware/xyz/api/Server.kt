@@ -6,6 +6,7 @@ package org.pointyware.xyz.api
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
+import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.auth.Authentication
 import io.ktor.server.auth.UserIdPrincipal
@@ -46,7 +47,6 @@ const val sessionAuthHeader = "X-Session-Id"
  * java -jar xyz-api.jar --port=<port>
  * ```
  */
-@OptIn(ExperimentalUuidApi::class)
 fun main(vararg args: String) {
     var programInputs = ProgramInputs(port = 80)
 
@@ -59,54 +59,59 @@ fun main(vararg args: String) {
     }
 
     embeddedServer(Netty, programInputs.port) {
-        install(SSE)
-        install(ContentNegotiation) {
-            json(Json {
-                prettyPrint = true
-                isLenient = true
-            })
-        }
-        install(Sessions) {
-            val storage: SessionStorage = SessionStorageMemory() // swap to redis and/or database in production
-            header<UserSession>(sessionAuthHeader, storage)
-        }
-        install(Authentication) {
-            basic(basicAuthProvider) {
-                realm = "XYZ API"
-                charset = Charsets.UTF_8
-                validate { credentials ->
-                    val koin = getKoin()
-                    val authController = koin.get<AuthController>()
-                    val authorization = authController.authenticate(credentials.name, credentials.password)
-                        .onFailure { return@validate null }
-                        .getOrThrow()
-                    UserIdPrincipal(authorization.userId.toHexString())
-                }
-            }
-            session<UserSession>(sessionAuthProvider) {
-                validate { session ->
-                    val koin = getKoin()
-                    val authController = koin.get<AuthController>()
-                    authController.validateSession(session.sessionId)
-                        .onFailure { return@validate null }
-                    UserIdPrincipal(session.sessionId)
-                }
-                challenge {
-                    call.respondNullable(HttpStatusCode.Unauthorized)
-//                    call.respondRedirect("/auth/login?referrer=${call.request.uri}")
-                }
-            }
-        }
-        routing {
-            auth()
-            profile()
-
-            rider()
-            driver()
-
-            payment()
-        }
+        module()
     }.start(wait = true)
+}
+
+@OptIn(ExperimentalUuidApi::class)
+fun Application.module() {
+    install(SSE)
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+        })
+    }
+    install(Sessions) {
+        val storage: SessionStorage = SessionStorageMemory() // swap to redis and/or database in production
+        header<UserSession>(sessionAuthHeader, storage)
+    }
+    install(Authentication) {
+        basic(basicAuthProvider) {
+            realm = "XYZ API"
+            charset = Charsets.UTF_8
+            validate { credentials ->
+                val koin = getKoin()
+                val authController = koin.get<AuthController>()
+                val authorization = authController.authenticate(credentials.name, credentials.password)
+                    .onFailure { return@validate null }
+                    .getOrThrow()
+                UserIdPrincipal(authorization.userId.toHexString())
+            }
+        }
+        session<UserSession>(sessionAuthProvider) {
+            validate { session ->
+                val koin = getKoin()
+                val authController = koin.get<AuthController>()
+                authController.validateSession(session.sessionId)
+                    .onFailure { return@validate null }
+                UserIdPrincipal(session.sessionId)
+            }
+            challenge {
+                call.respondNullable(HttpStatusCode.Unauthorized)
+//                    call.respondRedirect("/auth/login?referrer=${call.request.uri}")
+            }
+        }
+    }
+    routing {
+        auth()
+        profile()
+
+        rider()
+        driver()
+
+        payment()
+    }
 }
 
 enum class CommandOption(
