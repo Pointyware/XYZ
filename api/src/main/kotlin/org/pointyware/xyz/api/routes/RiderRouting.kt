@@ -16,7 +16,7 @@ import org.pointyware.xyz.api.controllers.PaymentsController
 import org.pointyware.xyz.api.sessionAuthProvider
 
 /**
- *
+ * Defines Rider endpoints and routes requests to the appropriate controller.
  */
 fun Routing.rider() {
     val koin = getKoin()

@@ -51,8 +51,6 @@ fun Routing.auth() {
                     call.sessions.set(UserSession(userId = newId, sessionId = it.toHexString()))
                 })
         }
-    }
-    route("/oauth") {
         post("/authorize") {
 
         }
