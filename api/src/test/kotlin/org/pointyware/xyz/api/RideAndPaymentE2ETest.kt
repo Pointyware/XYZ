@@ -1,5 +1,15 @@
 package org.pointyware.xyz.api
 
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.sse.SSE
+import io.ktor.client.plugins.sse.sse
+import io.ktor.server.testing.ApplicationTestBuilder
+import io.ktor.server.testing.testApplication
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runTest
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.pointyware.xyz.api.di.apiModule
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -8,16 +18,53 @@ class RideAndPaymentE2ETest {
 
     @BeforeTest
     fun setUp() {
-
+        startKoin {
+            modules(apiModule())
+        }
     }
 
     @AfterTest
     fun tearDown() {
+        stopKoin()
+    }
 
+    private fun ApplicationTestBuilder.createTestClient(): HttpClient {
+        return createClient {
+            install(SSE)
+        }
     }
 
     @Test
-    fun happy_path() {
+    fun happy_path() = testApplication {
+        application {
+            module()
+        }
+
+        val driverClient = createTestClient()
+        val riderClient = createTestClient()
+
+        runTest {
+            launch {
+                // driverClient actions
+                driverClient.sse("foobar") {
+                    incoming.collect { event ->
+                        when (event.event) {
+
+                        }
+                    }
+                }
+            }
+            launch {
+                // riderClient actions
+                riderClient.sse("driverPositions") {
+                    incoming.collect { event ->
+                        when (event.event) {
+
+                        }
+                    }
+                }
+            }
+        }
         /*
         Given a driver and rider
         When the driver goes live with their asking rate
