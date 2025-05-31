@@ -4,29 +4,42 @@
 
 package org.pointyware.xyz.api.routes
 
-import io.ktor.server.application.call
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.auth.authenticate
-import io.ktor.server.response.respondNullable
+import io.ktor.server.response.respond
 import io.ktor.server.routing.Routing
-import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.server.sse.sse
+import org.koin.ktor.ext.getKoin
+import org.pointyware.xyz.api.controllers.PaymentsController
 import org.pointyware.xyz.api.sessionAuthProvider
 
 /**
  *
  */
 fun Routing.rider() {
+    val koin = getKoin()
     authenticate(sessionAuthProvider) {
         route("/rider") {
-            get {
-                call.respondNullable<String?>("Hi rider!")
-            }
-            post("/{id}/payment") {
-                val id = call.parameters["id"]
+            // Implemented per: https://docs.stripe.com/connect/direct-charges?platform=android#add-server-endpoint
+            post("/{id}/payment-intent") {
+                val customerId = call.parameters["id"] ?: run {
+                    call.respond(HttpStatusCode.BadRequest, "Customer ID is required")
+                    return@post
+                }
+                // Collect Call Information
+                // Create the Payment Intent for the Completed Ride
 
-                call.respondNullable<String?>("Hi rider! $id")
+                val paymentsController = koin.get<PaymentsController>()
+                val clientSecretMap = paymentsController
+                    .createPaymentIntent(customerId)
+                    .map {
+                        mapOf(
+                            "client_secret" to it,
+                        )
+                    }
+                call.respondResult(clientSecretMap)
             }
             sse("/request/{id}") {
                 val id = call.parameters["id"]

@@ -59,7 +59,7 @@ fun main(vararg args: String) {
     }
 
     embeddedServer(Netty, programInputs.port) {
-        module()
+        module() // TODO: split into auth and resource modules
     }.start(wait = true)
 }
 
@@ -73,7 +73,7 @@ fun Application.module() {
         })
     }
     install(Sessions) {
-        val storage: SessionStorage = SessionStorageMemory() // swap to redis and/or database in production
+        val storage: SessionStorage = SessionStorageMemory() // TODO: swap to redis and/or database in production
         header<UserSession>(sessionAuthHeader, storage)
     }
     install(Authentication) {
@@ -109,8 +109,6 @@ fun Application.module() {
 
         rider()
         driver()
-
-        payment()
     }
 }
 
