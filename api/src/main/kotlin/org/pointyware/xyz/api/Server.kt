@@ -29,7 +29,6 @@ import org.pointyware.xyz.api.controllers.AuthController
 import org.pointyware.xyz.api.di.apiModule
 import org.pointyware.xyz.api.routes.auth
 import org.pointyware.xyz.api.routes.driver
-import org.pointyware.xyz.api.routes.payment
 import org.pointyware.xyz.api.routes.profile
 import org.pointyware.xyz.api.routes.rider
 import org.pointyware.xyz.core.data.dtos.UserSession
@@ -50,7 +49,12 @@ const val sessionAuthHeader = "X-Session-Id"
 fun main(vararg args: String) {
     var programInputs = ProgramInputs(port = 80)
 
-    programInputs = args.iterator().processArgs(programInputs)
+    programInputs = args.iterator().processArgs(
+        programInputs,
+        listOf(
+            PortOption
+        )
+    )
 
     startKoin {
         modules(
@@ -112,32 +116,36 @@ fun Application.module() {
     }
 }
 
-enum class CommandOption(
+data class CommandOption(
     val shortName: String,
     val longName: String,
     val onShortMatch: (Iterator<String>, ProgramInputs) -> ProgramInputs,
     val onLongMatch: (String, Iterator<String>, ProgramInputs) -> ProgramInputs
-) {
-    Port(
-        "p",
-        "port",
-        onShortMatch = { args, inputs ->
-            inputs.copy(port = args.next().toInt())
-        },
-        onLongMatch = { arg, args, inputs ->
-            val longPrefix = "--${Port.longName}="
-            when {
-                arg == Port.longName -> {
-                    inputs.copy(port = args.next().toInt())
-                }
-                arg.startsWith(longPrefix) -> {
-                    inputs.copy(port = arg.substringAfter(longPrefix).toInt())
-                }
-                else -> throw IllegalArgumentException("Expected `--port <port>` or `--port=<port>`, but got `$arg`")
+)
+
+private const val PortOptionShort = "p"
+private const val PortOptionLong = "port"
+val PortOption = CommandOption(
+    PortOptionShort,
+    PortOptionLong,
+    onShortMatch = { args, inputs ->
+        inputs.copy(port = args.next().toInt())
+    },
+    onLongMatch = { arg, args, inputs ->
+        val longPrefix = "--$PortOptionLong="
+        when {
+            arg == PortOptionLong -> {
+                inputs.copy(port = args.next().toInt())
             }
+            arg.startsWith(longPrefix) -> {
+                inputs.copy(port = arg.substringAfter(longPrefix).toInt())
+            }
+            else -> throw IllegalArgumentException(
+                "Expected `--$PortOptionLong <port>` or `--$PortOptionLong=<port>`, but got `$arg`"
+            )
         }
-    )
-}
+    }
+)
 
 private fun printUsage() {
     println(
@@ -157,13 +165,24 @@ data class ProgramInputs(
     val port: Int
 )
 
-private fun Iterator<String>.processArgs(inputs: ProgramInputs): ProgramInputs {
+/**
+ * Processes command line arguments and returns the updated [ProgramInputs].
+ *
+ * @param inputs The initial program inputs.
+ * @param commands The list of command options to process against.
+ * @return The updated program inputs after processing the arguments.
+ * @throws IllegalArgumentException if an unknown argument is encountered.
+ */
+private fun Iterator<String>.processArgs(
+    inputs: ProgramInputs,
+    commands: List<CommandOption>
+): ProgramInputs {
     var argState = inputs
 
     argLoop@
     while (hasNext()) {
         val arg = next()
-        for (it in CommandOption.entries) {
+        for (it in commands) {
             when {
                 arg == "-${it.shortName}" -> {
                     argState = it.onShortMatch(this, argState)
