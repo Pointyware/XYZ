@@ -28,6 +28,7 @@ import org.koin.core.context.startKoin
 import org.koin.ktor.ext.getKoin
 import org.pointyware.xyz.api.controllers.AuthController
 import org.pointyware.xyz.api.di.apiModule
+import org.pointyware.xyz.api.routes.admin
 import org.pointyware.xyz.api.routes.auth
 import org.pointyware.xyz.api.routes.driver
 import org.pointyware.xyz.api.routes.profile
@@ -157,6 +158,7 @@ fun Application.resourceModule() {
         }
     }
     routing {
+        admin()
         rider()
         driver()
     }
