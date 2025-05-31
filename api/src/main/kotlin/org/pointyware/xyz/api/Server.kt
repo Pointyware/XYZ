@@ -11,6 +11,7 @@ import io.ktor.server.application.install
 import io.ktor.server.auth.Authentication
 import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.basic
+import io.ktor.server.auth.bearer
 import io.ktor.server.auth.session
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -63,13 +64,19 @@ fun main(vararg args: String) {
     }
 
     embeddedServer(Netty, programInputs.port) {
-        module() // TODO: split into auth and resource modules
+        commonModule()
+        authModule()
+        resourceModule()
     }.start(wait = true)
 }
 
-@OptIn(ExperimentalUuidApi::class)
-fun Application.module() {
-    install(SSE)
+/**
+ * Installs common plugins and configurations for the application.
+ * - ContentNegotiation: for JSON serialization
+ * - Sessions: for user session management
+ * - Authentication: for session-based authentication
+ */
+fun Application.commonModule() {
     install(ContentNegotiation) {
         json(Json {
             prettyPrint = true
@@ -80,6 +87,29 @@ fun Application.module() {
         val storage: SessionStorage = SessionStorageMemory() // TODO: swap to redis and/or database in production
         header<UserSession>(sessionAuthHeader, storage)
     }
+    install(Authentication) {
+        session<UserSession>(sessionAuthProvider) { // requires the `Sessions` plugin to be installed
+            validate { session ->
+                val koin = getKoin()
+                val authController = koin.get<AuthController>()
+                authController.validateSession(session.sessionId)
+                    .onFailure { return@validate null }
+                UserIdPrincipal(session.sessionId)
+            }
+            challenge {
+                call.respondNullable(HttpStatusCode.Unauthorized)
+//                    call.respondRedirect("/auth/login?referrer=${call.request.uri}")
+            }
+        }
+    }
+}
+
+/**
+ * Installs authentication routes and handlers for the application.
+ * - Basic Authentication: for user login and session creation
+ */
+@OptIn(ExperimentalUuidApi::class)
+fun Application.authModule() {
     install(Authentication) {
         basic(basicAuthProvider) {
             realm = "XYZ API"
@@ -92,6 +122,25 @@ fun Application.module() {
                     .getOrThrow()
                 UserIdPrincipal(authorization.userId.toHexString())
             }
+        }
+    }
+    routing {
+        auth()
+        profile()
+    }
+}
+
+/**
+ * Installs resource routes for the application.
+ * - SSE: for server-sent events
+ * - Authentication: for session-based authentication
+ */
+fun Application.resourceModule() {
+    install(SSE)
+    install(Authentication) {
+        bearer {
+            realm = "XYZ API"
+            // TODO: replace session auth with bearer token auth
         }
         session<UserSession>(sessionAuthProvider) {
             validate { session ->
@@ -108,9 +157,6 @@ fun Application.module() {
         }
     }
     routing {
-        auth()
-        profile()
-
         rider()
         driver()
     }
