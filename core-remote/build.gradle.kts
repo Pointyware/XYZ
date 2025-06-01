@@ -40,9 +40,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(projects.apiDtos)
                 implementation(projects.coreCommon)
                 implementation(projects.coreEntities)
-                implementation(projects.coreDataDtos)
+                implementation(projects.coreDataDtos) // TODO: remove
 
                 implementation(libs.koin.core)
 
