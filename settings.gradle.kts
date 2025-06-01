@@ -23,6 +23,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "XYZ"
 include(
+    ":api-dtos",
     ":core-common",
     ":core-data",
     ":core-data-dtos",
