@@ -36,7 +36,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.ktor.serialization.json)
+                implementation(libs.kotlinx.serialization)
             }
         }
     }
