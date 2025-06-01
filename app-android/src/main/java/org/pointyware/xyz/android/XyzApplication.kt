@@ -12,7 +12,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.getKoin
 import org.pointyware.xyz.android.di.androidModule
 import org.pointyware.xyz.core.data.di.dataQualifier
-import org.pointyware.xyz.shared.org.pointyware.xyz.ui.di.setupKoin
+import org.pointyware.xyz.di.setupKoin
 import org.pointyware.xyz.ui.BuildConfig
 import org.pointyware.xyz.ui.ads.AdsController
 
