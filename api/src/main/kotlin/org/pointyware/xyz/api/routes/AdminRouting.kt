@@ -9,7 +9,7 @@ import io.ktor.server.routing.route
 import org.pointyware.xyz.api.sessionAuthProvider
 
 /**
- * Defines admin routes for the XYZ API.
+ * Defines admin routes for the Pointyware Social Platform API.
  */
 fun Routing.admin() {
     authenticate(sessionAuthProvider) {
