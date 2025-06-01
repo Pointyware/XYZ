@@ -11,7 +11,7 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.server.sse.sse
-import org.koin.ktor.ext.getKoin
+import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.controllers.PaymentsController
 import org.pointyware.xyz.api.sessionAuthProvider
 
