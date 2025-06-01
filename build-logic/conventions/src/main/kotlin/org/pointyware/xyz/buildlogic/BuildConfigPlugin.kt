@@ -39,7 +39,7 @@ class BuildConfigPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         val buildConfigFile = File(
             target.layout.buildDirectory.asFile.get(),
-            "generated/source/buildconfig/${target.name}/BuildConfig.kt"
+            "generated/source/buildconfig/BuildConfig.kt"
         )
         val extension = target.extensions.create("buildConfig", BuildConfigPluginExtension::class.java)
         extension.packageName.convention("${target.group}")
