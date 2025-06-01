@@ -102,6 +102,10 @@ fun Application.commonModule() {
 //                    call.respondRedirect("/auth/login?referrer=${call.request.uri}")
             }
         }
+        bearer {
+            realm = "XYZ API"
+            // TODO: replace session auth with bearer token auth
+        }
     }
 }
 
@@ -139,25 +143,6 @@ fun Application.authModule() {
  */
 fun Application.resourceModule() {
     install(SSE)
-    install(Authentication) {
-        bearer {
-            realm = "XYZ API"
-            // TODO: replace session auth with bearer token auth
-        }
-        session<UserSession>(sessionAuthProvider) {
-            validate { session ->
-                val koin = getKoin()
-                val authController = koin.get<AuthController>()
-                authController.validateSession(session.sessionId)
-                    .onFailure { return@validate null }
-                UserIdPrincipal(session.sessionId)
-            }
-            challenge {
-                call.respondNullable(HttpStatusCode.Unauthorized)
-//                    call.respondRedirect("/auth/login?referrer=${call.request.uri}")
-            }
-        }
-    }
     routing {
         rider()
         driver()
