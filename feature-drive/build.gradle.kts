@@ -153,6 +153,5 @@ android {
 
 buildConfig {
     packageName = "org.pointyware.xyz.drive"
-    defaultPropertiesFileName = "local.defaults.properties"
-    overridingPropertiesFileName = "secrets.properties"
+
 }
