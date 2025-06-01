@@ -126,6 +126,7 @@ fun Application.authModule() {
         }
     }
     routing {
+        admin()
         auth()
         profile()
     }
@@ -158,7 +159,6 @@ fun Application.resourceModule() {
         }
     }
     routing {
-        admin()
         rider()
         driver()
     }
