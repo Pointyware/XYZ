@@ -30,7 +30,7 @@ status = ServerEnvironment.Staging
 kotlin {
     jvmToolchain(21)
     dependencies {
-        implementation(projects.coreDataDtos)
+        implementation(projects.apiDtos)
         implementation(projects.coreEntities)
 
         implementation(libs.koin.ktor)
