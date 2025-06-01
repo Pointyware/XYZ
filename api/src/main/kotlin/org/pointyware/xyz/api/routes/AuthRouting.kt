@@ -20,8 +20,8 @@ import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.basicAuthProvider
 import org.pointyware.xyz.api.controllers.AuthController
 import org.pointyware.xyz.api.oauthProvider
-import org.pointyware.xyz.core.data.dtos.LoginInfo
-import org.pointyware.xyz.core.data.dtos.UserSession
+import org.pointyware.xyz.api.dtos.LoginInfo
+import org.pointyware.xyz.api.dtos.UserSession
 import kotlin.uuid.ExperimentalUuidApi
 
 /**

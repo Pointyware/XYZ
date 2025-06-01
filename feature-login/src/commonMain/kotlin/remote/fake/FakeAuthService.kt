@@ -15,7 +15,7 @@ import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readByteArray
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import org.pointyware.xyz.core.data.dtos.Authorization
+import org.pointyware.xyz.api.dtos.Authorization
 import org.pointyware.xyz.feature.login.remote.AuthService
 import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random

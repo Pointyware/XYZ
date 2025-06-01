@@ -5,7 +5,7 @@
 package org.pointyware.xyz.feature.login.data
 
 import kotlinx.coroutines.withContext
-import org.pointyware.xyz.core.data.dtos.Authorization
+import org.pointyware.xyz.api.dtos.Authorization
 import org.pointyware.xyz.core.entities.profile.DriverProfile
 import org.pointyware.xyz.core.entities.profile.Profile
 import org.pointyware.xyz.core.entities.profile.RiderProfile

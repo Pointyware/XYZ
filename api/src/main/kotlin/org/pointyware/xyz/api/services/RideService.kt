@@ -1,7 +1,7 @@
 package org.pointyware.xyz.api.services
 
 import org.pointyware.xyz.api.data.CommonRepository
-import org.pointyware.xyz.core.data.dtos.RideInfo
+import org.pointyware.xyz.api.dtos.RideInfo
 
 interface RideService {
     suspend fun getRideById(id: String): Result<RideInfo>
