@@ -26,7 +26,6 @@ include(
     ":api-dtos",
     ":core-common",
     ":core-data",
-    ":core-data-dtos",
     ":core-entities",
     ":core-interactors",
     ":core-local",
