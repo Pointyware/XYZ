@@ -6,7 +6,6 @@ package org.pointyware.xyz.remote
 
 import io.ktor.client.HttpClient
 import io.ktor.http.URLProtocol
-import org.pointyware.xyz.remote.BuildConfig
 
 internal const val HOST_URI = BuildConfig.API_HOST_URI
 internal val HOST_PROTOCOL = if (BuildConfig.API_HOST_SECURE.toBoolean()) { URLProtocol.HTTPS } else { URLProtocol.HTTP }
