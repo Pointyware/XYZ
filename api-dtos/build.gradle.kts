@@ -1,16 +1,51 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+
 /*
  * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
  */
 
 
 plugins {
-    alias(libs.plugins.kotlinJvm)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
     jvmToolchain(21)
-    dependencies {
-        implementation(libs.ktor.serialization.json)
+    jvm {
+
+    }
+    androidTarget {
+
+    }
+    val framework = XCFramework()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach {
+        it.binaries.framework {
+            baseName = "api_dtos"
+            isStatic = true
+            framework.add(this)
+        }
+    }
+
+    applyDefaultHierarchyTemplate()
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.ktor.serialization.json)
+            }
+        }
+    }
+}
+
+android {
+    namespace = "org.pointyware.xyz.api.dtos"
+    compileSdk = 35
+    defaultConfig {
+        minSdk = 24
     }
 }
