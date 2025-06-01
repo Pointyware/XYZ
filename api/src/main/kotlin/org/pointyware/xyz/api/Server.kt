@@ -77,6 +77,7 @@ fun main(vararg args: String) {
  * - Sessions: for user session management
  * - Authentication: for session-based authentication
  */
+@OptIn(ExperimentalUuidApi::class)
 fun Application.commonModule() {
     install(ContentNegotiation) {
         json(Json {
@@ -89,6 +90,18 @@ fun Application.commonModule() {
         header<UserSession>(sessionAuthHeader, storage)
     }
     install(Authentication) {
+        basic(basicAuthProvider) {
+            realm = "XYZ API"
+            charset = Charsets.UTF_8
+            validate { credentials ->
+                val koin = getKoin()
+                val authController = koin.get<AuthController>()
+                val authorization = authController.authenticate(credentials.name, credentials.password)
+                    .onFailure { return@validate null }
+                    .getOrThrow()
+                UserIdPrincipal(authorization.userId.toHexString())
+            }
+        }
         session<UserSession>(sessionAuthProvider) { // requires the `Sessions` plugin to be installed
             validate { session ->
                 val koin = getKoin()
@@ -113,22 +126,7 @@ fun Application.commonModule() {
  * Installs authentication routes and handlers for the application.
  * - Basic Authentication: for user login and session creation
  */
-@OptIn(ExperimentalUuidApi::class)
 fun Application.authModule() {
-    install(Authentication) {
-        basic(basicAuthProvider) {
-            realm = "XYZ API"
-            charset = Charsets.UTF_8
-            validate { credentials ->
-                val koin = getKoin()
-                val authController = koin.get<AuthController>()
-                val authorization = authController.authenticate(credentials.name, credentials.password)
-                    .onFailure { return@validate null }
-                    .getOrThrow()
-                UserIdPrincipal(authorization.userId.toHexString())
-            }
-        }
-    }
     routing {
         admin()
         auth()
