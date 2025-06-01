@@ -23,6 +23,19 @@ import java.util.Properties
  */
 class BuildConfigPlugin: Plugin<Project> {
 
+    private fun loadFileIntoProperties(file: File, properties: Properties, required: Boolean = false) {
+        if (file.exists()) {
+            file.inputStream().use {
+                properties.load(it)
+            }
+        } else {
+            logger.log(
+                if (required) LogLevel.ERROR else LogLevel.WARN,
+                "Properties file ${file.name} does not exist."
+            )
+        }
+    }
+
     override fun apply(target: Project) {
         val buildConfigFile = File(
             target.layout.buildDirectory.asFile.get(),
@@ -30,8 +43,8 @@ class BuildConfigPlugin: Plugin<Project> {
         )
         val extension = target.extensions.create("buildConfig", BuildConfigPluginExtension::class.java)
         extension.packageName.convention("${target.group}")
-        extension.defaultPropertiesFileName.convention(null as String?)
-        extension.overridingPropertiesFileName.convention(null as String?)
+        extension.defaultPropertiesFileName.convention("")
+        extension.overridingPropertiesFileName.convention("")
         extension.properties.convention(mapOf())
 
         target.tasks.register("generateBuildConfig") {
@@ -39,21 +52,11 @@ class BuildConfigPlugin: Plugin<Project> {
             description = "Generates a BuildConfig file with the configured properties."
 
             val properties = Properties()
-            val defaultPropertiesFile = target.file(extension.defaultPropertiesFileName.get())
-            if (defaultPropertiesFile.exists()) {
-                defaultPropertiesFile.inputStream().use {
-                    properties.load(it)
-                }
-            } else {
-                logger.log(LogLevel.ERROR, "Default properties file ${defaultPropertiesFile.name} does not exist.")
+            extension.defaultPropertiesFileName.get().takeIf { it.isNotBlank() }?.let { default ->
+                loadFileIntoProperties(target.file(default), properties, required = true)
             }
-            val overridePropertiesFile = target.file(extension.overridingPropertiesFileName.get())
-            if (overridePropertiesFile.exists()) {
-                overridePropertiesFile.inputStream().use {
-                    properties.load(it)
-                }
-            } else {
-                logger.log(LogLevel.WARN, "Overriding properties file ${overridePropertiesFile.name} does not exist.")
+            extension.overridingPropertiesFileName.get().takeIf { it.isNotBlank() }?.let { override ->
+                loadFileIntoProperties(target.file(override), properties)
             }
             extension.properties.get().forEach {
                 properties.setProperty(it.key, it.value)
@@ -173,7 +176,7 @@ abstract class BuildConfigPluginExtension {
      * local development purposes.
      */
     @get:Input
-    abstract val defaultPropertiesFileName: Property<String?>
+    abstract val defaultPropertiesFileName: Property<String>
 
     /**
      * The name of the file to load with overriding properties. This file is
@@ -182,7 +185,7 @@ abstract class BuildConfigPluginExtension {
      * developers to override the default properties defined in [defaultPropertiesFileName].
      */
     @get:Input
-    abstract val overridingPropertiesFileName: Property<String?>
+    abstract val overridingPropertiesFileName: Property<String>
 
     @get:Input
     abstract val properties: MapProperty<String, String>
