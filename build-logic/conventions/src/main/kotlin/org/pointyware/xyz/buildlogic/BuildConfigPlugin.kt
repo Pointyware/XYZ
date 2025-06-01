@@ -30,24 +30,30 @@ class BuildConfigPlugin: Plugin<Project> {
         )
         val extension = target.extensions.create("buildConfig", BuildConfigPluginExtension::class.java)
         extension.packageName.convention("${target.group}")
-        extension.defaultSecretsFileName.convention("local.defaults.properties")
-        extension.secretsFileName.convention("secrets.properties")
+        extension.defaultPropertiesFileName.convention(null as String?)
+        extension.overridingPropertiesFileName.convention(null as String?)
         extension.properties.convention(mapOf())
 
         target.tasks.register("generateBuildConfig") {
             group = "build"
             description = "Generates a BuildConfig file with the configured properties."
 
-            val defaultSecretsName = extension.defaultSecretsFileName.get()
-            val secretsFileName = extension.secretsFileName.get()
-            val defaultSecretsFile = target.file(defaultSecretsName)
-            val secretsFile = target.file(secretsFileName)
             val properties = Properties()
-            defaultSecretsFile.inputStream().use {
-                properties.load(it)
+            val defaultPropertiesFile = target.file(extension.defaultPropertiesFileName.get())
+            if (defaultPropertiesFile.exists()) {
+                defaultPropertiesFile.inputStream().use {
+                    properties.load(it)
+                }
+            } else {
+                logger.log(LogLevel.ERROR, "Default properties file ${defaultPropertiesFile.name} does not exist.")
             }
-            secretsFile.inputStream().use {
-                properties.load(it)
+            val overridePropertiesFile = target.file(extension.overridingPropertiesFileName.get())
+            if (overridePropertiesFile.exists()) {
+                overridePropertiesFile.inputStream().use {
+                    properties.load(it)
+                }
+            } else {
+                logger.log(LogLevel.WARN, "Overriding properties file ${overridePropertiesFile.name} does not exist.")
             }
             extension.properties.get().forEach {
                 properties.setProperty(it.key, it.value)
@@ -104,6 +110,44 @@ $propertiesString
 
 /**
  * Must be called in the build script where the plugin is applied.
+ *
+ * Based on Android's BuildConfig setup.
+ * ```kotlin
+ * buildConfig {
+ *     packageName = "org.pointyware.xyz"
+ *     defaultPropertiesFileName = "local.defaults.properties"
+ *     overridingPropertiesFileName = "secrets.properties"
+ *
+ *     addString("API_PORT", System.getenv("API_PORT") ?: "8080")
+ * }
+ * ```
+ *
+ * To load properties selectively from a file, use the [BuildConfigPluginExtension.fromProperties]
+ * method
+ *
+ * ```kotlin
+ * buildConfig {
+ *     fromProperties(file("secrets.properties")) {
+ *         addString("API_KEY")
+ *     }
+ * }
+ * ```
+ *
+ * The default and overriding properties files will be loaded first (if defined),
+ * and then any
+ *
+ * ```kotlin
+ * buildConfig {
+ *     defaultPropertiesFileName = "local.defaults.properties"
+ *     fromProperties(file("secrets.properties")) {
+ *         if (project.hasProperty("release")) {
+ *             addStringNamed("API_KEY", "API_KEY_RELEASE")
+ *         } else {
+ *             addStringNamed("API_KEY", "API_KEY_DEBUG")
+ *         }
+ *     }
+ * }
+ * ```
  */
 fun Project.buildConfig(
     action: Action<BuildConfigPluginExtension>
@@ -116,12 +160,29 @@ fun Project.buildConfig(
  */
 abstract class BuildConfigPluginExtension {
 
+    /**
+     * The package name for the generated BuildConfig file.
+     */
     @get:Input
     abstract val packageName: Property<String>
+
+    /**
+     * The name of the file to load with default properties. This file is meant
+     * to be checked into version control and contains default values to allow
+     * the project to build without any additional configuration, usually for
+     * local development purposes.
+     */
     @get:Input
-    abstract val defaultSecretsFileName: Property<String>
+    abstract val defaultPropertiesFileName: Property<String?>
+
+    /**
+     * The name of the file to load with overriding properties. This file is
+     * meant to be used for sensitive information that should not be checked
+     * into version control, such as API keys or secrets. It allows
+     * developers to override the default properties defined in [defaultPropertiesFileName].
+     */
     @get:Input
-    abstract val secretsFileName: Property<String>
+    abstract val overridingPropertiesFileName: Property<String?>
 
     @get:Input
     abstract val properties: MapProperty<String, String>
@@ -143,21 +204,23 @@ abstract class BuildConfigPluginExtension {
         }
 
         /**
-         * Retrieves the property associated with [alias] and retains it under the given [key] for
+         * Retrieves the property associated with [propertyName]
+         * and retains it under the given [key] for
          * writing to the output BuildConfig.
          */
-        fun addStringAlias(key: String, alias: String) {
-            val value = properties.getProperty(alias)
+        fun addStringNamed(key: String, propertyName: String) {
+            val value = properties.getProperty(propertyName)
             if (value != null) {
                 addString(key, value)
             } else {
-                throw IllegalArgumentException("Key $alias not found in properties file.")
+                throw IllegalArgumentException("Key $propertyName not found in properties file.")
             }
         }
     }
 
     /**
-     * Loads properties from the given [file] and executes the provided [block] in the context of
+     * Loads properties from the given [file] and
+     * executes the provided [block] in the context of
      * a [FromPropertiesScope] with the loaded properties.
      */
     fun fromProperties(file: File, block: FromPropertiesScope.() -> Unit) {

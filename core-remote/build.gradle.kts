@@ -111,17 +111,19 @@ android {
 status = ServerEnvironment.Local
 buildConfig {
     packageName = "org.pointyware.xyz.remote"
+    defaultPropertiesFileName = "local.defaults.properties"
+    overridingPropertiesFileName = "secrets.properties"
     fromProperties(project.file("secrets.properties")) {
         local {
-            addStringAlias("API_HOST_URI", "API_HOST_LOCAL")
+            addStringNamed("API_HOST_URI", "API_HOST_LOCAL")
             addString("API_HOST_SECURE", "false")
         }
         staging {
-            addStringAlias("API_HOST_URI", "API_HOST_STAGING")
+            addStringNamed("API_HOST_URI", "API_HOST_STAGING")
             addString("API_HOST_SECURE", "true")
         }
         release {
-            addStringAlias("API_HOST_URI", "API_HOST_RELEASE")
+            addStringNamed("API_HOST_URI", "API_HOST_RELEASE")
             addString("API_HOST_SECURE", "true")
         }
     }
