@@ -15,7 +15,6 @@ import io.ktor.server.auth.Authentication
 import io.ktor.server.auth.OAuthServerSettings
 import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.basic
-import io.ktor.server.auth.bearer
 import io.ktor.server.auth.oauth
 import io.ktor.server.auth.session
 import io.ktor.server.engine.embeddedServer
@@ -23,11 +22,9 @@ import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.response.respondNullable
 import io.ktor.server.routing.routing
-import io.ktor.server.sessions.CacheStorage
 import io.ktor.server.sessions.SessionStorage
 import io.ktor.server.sessions.SessionStorageMemory
 import io.ktor.server.sessions.Sessions
-import io.ktor.server.sessions.directorySessionStorage
 import io.ktor.server.sessions.header
 import io.ktor.server.sse.SSE
 import kotlinx.serialization.json.Json
@@ -41,11 +38,11 @@ import org.pointyware.xyz.api.routes.driver
 import org.pointyware.xyz.api.routes.profile
 import org.pointyware.xyz.api.routes.rider
 import org.pointyware.xyz.core.data.dtos.UserSession
-import java.io.File
 import kotlin.uuid.ExperimentalUuidApi
 
 const val basicAuthProvider = "basic_auth"
 const val sessionAuthProvider = "session_auth"
+const val oauthProvider = "oauth_auth"
 const val sessionAuthHeader = "X-Session-Id"
 
 private val serverClient = HttpClient(CIO) {
@@ -136,14 +133,14 @@ fun Application.commonModule() {
 //                    call.respondRedirect("/auth/login?referrer=${call.request.uri}")
             }
         }
-        oauth {
-            // provides a url that will redirect to the OAuth provider for authentication
-            urlProvider = { settings -> "http://localhost:80/auth/authorize" }
+        oauth(oauthProvider) {
+            // provides a url that will be used to redirect the user after successful authentication
+            urlProvider = { _ -> "${BuildConfig.PROTOCOL}://${BuildConfig.XYZ_HOST}/auth/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "pointyware_oauth",
-                    authorizeUrl = "http://localhost:80/auth/authorize", // "https://api.pointyware.org/auth/authorize"
-                    accessTokenUrl = "http://localhost:80/auth/token", // "https://api.pointyware.org/auth/token"
+                    authorizeUrl = "${BuildConfig.PROTOCOL}://${BuildConfig.POINTYWARE_HOST}/auth/authorize",
+                    accessTokenUrl = "${BuildConfig.PROTOCOL}://${BuildConfig.POINTYWARE_HOST}/auth/token",
                     requestMethod = HttpMethod.Post,
                     clientId = "XYZ_CLIENT_ID", // TODO: replace with actual client ID
                     clientSecret = "XYZ_CLIENT_SECRET", // TODO: replace with actual client secret
