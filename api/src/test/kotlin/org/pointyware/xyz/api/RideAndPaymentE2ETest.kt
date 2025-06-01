@@ -37,7 +37,9 @@ class RideAndPaymentE2ETest {
     @Test
     fun happy_path() = testApplication {
         application {
-            module()
+            commonModule()
+            authModule()
+            resourceModule()
         }
 
         val driverClient = createTestClient()
