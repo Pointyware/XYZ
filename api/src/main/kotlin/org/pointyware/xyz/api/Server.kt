@@ -136,18 +136,14 @@ fun Application.commonModule() {
 //                    call.respondRedirect("/auth/login?referrer=${call.request.uri}")
             }
         }
-        bearer {
-            realm = "XYZ API"
-            // TODO: replace session auth with bearer token auth
-        }
         oauth {
             // provides a url that will redirect to the OAuth provider for authentication
-            urlProvider = { settings -> "http://${settings.name}/auth/authorize" }
+            urlProvider = { settings -> "http://localhost:80/auth/authorize" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "pointyware_oauth",
-                    authorizeUrl = "http://api.pointyware.org/auth/authorize",
-                    accessTokenUrl = "http://api.pointyware.org/auth/token",
+                    authorizeUrl = "http://localhost:80/auth/authorize", // "https://api.pointyware.org/auth/authorize"
+                    accessTokenUrl = "http://localhost:80/auth/token", // "https://api.pointyware.org/auth/token"
                     requestMethod = HttpMethod.Post,
                     clientId = "XYZ_CLIENT_ID", // TODO: replace with actual client ID
                     clientSecret = "XYZ_CLIENT_SECRET", // TODO: replace with actual client secret
