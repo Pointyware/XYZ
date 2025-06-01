@@ -105,7 +105,3 @@ buildConfig {
         }
     }
 }
-
-release {
-
-}
