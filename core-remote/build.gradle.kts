@@ -43,7 +43,6 @@ kotlin {
                 implementation(projects.apiDtos)
                 implementation(projects.coreCommon)
                 implementation(projects.coreEntities)
-                implementation(projects.coreDataDtos) // TODO: remove
 
                 implementation(libs.koin.core)
 
