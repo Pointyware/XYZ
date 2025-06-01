@@ -95,11 +95,13 @@ publishing {
 
 buildConfig {
     packageName = "org.pointyware.xyz.api"
+    defaultPropertiesFileName = "local.defaults.properties"
+    overridingPropertiesFileName = "secrets.properties"
 
     fromProperties(project.file("secrets.properties")) {
-        addStringAlias("STRIPE_API_KEY", "STRIPE_API_KEY_TEST")
+        addStringNamed("STRIPE_API_KEY", "STRIPE_API_KEY_TEST")
         release {
-            addStringAlias("STRIPE_API_KEY", "STRIPE_API_KEY_LIVE")
+            addStringNamed("STRIPE_API_KEY", "STRIPE_API_KEY_LIVE")
         }
     }
 }
