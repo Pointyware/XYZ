@@ -18,7 +18,7 @@ import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.controllers.OrderController
 import org.pointyware.xyz.api.controllers.RideController
 import org.pointyware.xyz.api.sessionAuthProvider
-import org.pointyware.xyz.core.data.dtos.UserSession
+import org.pointyware.xyz.api.dtos.UserSession
 
 /**
  * Routes drive endpoint requests to the appropriate controller. Drive endpoints are meant

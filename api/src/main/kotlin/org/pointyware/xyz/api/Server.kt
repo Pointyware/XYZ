@@ -37,7 +37,7 @@ import org.pointyware.xyz.api.routes.auth
 import org.pointyware.xyz.api.routes.driver
 import org.pointyware.xyz.api.routes.profile
 import org.pointyware.xyz.api.routes.rider
-import org.pointyware.xyz.core.data.dtos.UserSession
+import org.pointyware.xyz.api.dtos.UserSession
 import kotlin.uuid.ExperimentalUuidApi
 
 const val basicAuthProvider = "basic_auth"

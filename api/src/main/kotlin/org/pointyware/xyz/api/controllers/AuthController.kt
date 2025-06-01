@@ -1,7 +1,7 @@
 package org.pointyware.xyz.api.controllers
 
 import org.pointyware.xyz.api.services.UserService
-import org.pointyware.xyz.core.data.dtos.Authorization
+import org.pointyware.xyz.api.dtos.Authorization
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

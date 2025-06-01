@@ -9,7 +9,7 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.expectSuccess
 import io.ktor.client.plugins.resources.post
 import io.ktor.client.request.setBody
-import org.pointyware.xyz.core.data.dtos.Authorization
+import org.pointyware.xyz.api.dtos.Authorization
 
 /**
  * Defines authentication/authorization service functions.
