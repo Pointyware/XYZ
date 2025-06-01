@@ -4,23 +4,30 @@
 
 package org.pointyware.xyz.api
 
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.auth.Authentication
+import io.ktor.server.auth.OAuthServerSettings
 import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.basic
 import io.ktor.server.auth.bearer
+import io.ktor.server.auth.oauth
 import io.ktor.server.auth.session
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.response.respondNullable
 import io.ktor.server.routing.routing
+import io.ktor.server.sessions.CacheStorage
 import io.ktor.server.sessions.SessionStorage
 import io.ktor.server.sessions.SessionStorageMemory
 import io.ktor.server.sessions.Sessions
+import io.ktor.server.sessions.directorySessionStorage
 import io.ktor.server.sessions.header
 import io.ktor.server.sse.SSE
 import kotlinx.serialization.json.Json
@@ -34,11 +41,21 @@ import org.pointyware.xyz.api.routes.driver
 import org.pointyware.xyz.api.routes.profile
 import org.pointyware.xyz.api.routes.rider
 import org.pointyware.xyz.core.data.dtos.UserSession
+import java.io.File
 import kotlin.uuid.ExperimentalUuidApi
 
 const val basicAuthProvider = "basic_auth"
 const val sessionAuthProvider = "session_auth"
 const val sessionAuthHeader = "X-Session-Id"
+
+private val serverClient = HttpClient(CIO) {
+    install(io.ktor.client.plugins.contentnegotiation.ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+        })
+    }
+}
 
 /**
  * Main entry point for the XYZ API server.
@@ -86,7 +103,11 @@ fun Application.commonModule() {
         })
     }
     install(Sessions) {
-        val storage: SessionStorage = SessionStorageMemory() // TODO: swap to redis and/or database in production
+//        val fileStorage = CacheStorage(
+//            directorySessionStorage(File(".")), 60 * 60 * 1000L // 1 hour cache
+//        )
+//        val redisStorage = RedisSessionStorage
+        val storage: SessionStorage = SessionStorageMemory()
         header<UserSession>(sessionAuthHeader, storage)
     }
     install(Authentication) {
@@ -118,6 +139,28 @@ fun Application.commonModule() {
         bearer {
             realm = "XYZ API"
             // TODO: replace session auth with bearer token auth
+        }
+        oauth {
+            // provides a url that will redirect to the OAuth provider for authentication
+            urlProvider = { settings -> "http://${settings.name}/auth/authorize" }
+            providerLookup = {
+                OAuthServerSettings.OAuth2ServerSettings(
+                    name = "pointyware_oauth",
+                    authorizeUrl = "http://api.pointyware.org/auth/authorize",
+                    accessTokenUrl = "http://api.pointyware.org/auth/token",
+                    requestMethod = HttpMethod.Post,
+                    clientId = "XYZ_CLIENT_ID", // TODO: replace with actual client ID
+                    clientSecret = "XYZ_CLIENT_SECRET", // TODO: replace with actual client secret
+                    defaultScopes = listOf("https://api.pointyware.org/auth/user.profile"), // TODO: define all scopes needed
+                    onStateCreated = { call, state ->
+                        // save state in redirect url for PKCE (Proof Key for Code Exchange)
+                        call.request.queryParameters["redirectUrl"]?.let { redirectUrl ->
+                            // TODO: add (state to redirectUrl) to a persistent store; koin.get<...>().saveRedirectUrl(state, redirectUrl)
+                        }
+                    }
+                )
+            }
+            client = serverClient
         }
     }
 }

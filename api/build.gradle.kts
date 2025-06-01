@@ -35,6 +35,8 @@ kotlin {
 
         implementation(libs.koin.ktor)
 
+        implementation(libs.ktor.client.cio)
+        implementation(libs.ktor.client.contentNegotiation)
         implementation(libs.ktor.server.auth)
         implementation(libs.ktor.server.core)
         implementation(libs.ktor.server.contentNegotiation)
