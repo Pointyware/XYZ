@@ -4,11 +4,14 @@
 
 package org.pointyware.xyz.api.routes
 
-import io.ktor.server.application.call
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.auth.OAuthAccessTokenResponse
 import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.principal
+import io.ktor.server.response.respond
 import io.ktor.server.routing.Routing
+import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.server.sessions.sessions
@@ -16,6 +19,7 @@ import io.ktor.server.sessions.set
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.basicAuthProvider
 import org.pointyware.xyz.api.controllers.AuthController
+import org.pointyware.xyz.api.oauthProvider
 import org.pointyware.xyz.core.data.dtos.LoginInfo
 import org.pointyware.xyz.core.data.dtos.UserSession
 import kotlin.uuid.ExperimentalUuidApi
@@ -59,6 +63,22 @@ fun Routing.auth() {
         }
         post("/revoke") {
 
+        }
+        authenticate(oauthProvider) {
+            get ("/callback") {
+                val principal = call.principal<OAuthAccessTokenResponse.OAuth2>()
+                principal?.let {
+                    principal.state?.let { state ->
+                        call.sessions.set(UserSession(state, principal.accessToken)) // TODO: readjust UserSession from SessionId implementation for OAuth
+                        // TODO: get redirect URL from a persistent store
+//                        redirects[state]?.let { redirect ->
+//                            call.respondRedirect(redirect)
+//                            return@get
+//                        }
+                    }
+                    call.respond(HttpStatusCode.Unauthorized)
+                }
+            }
         }
     }
 }
