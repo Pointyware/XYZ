@@ -17,8 +17,8 @@ import kotlinx.serialization.serializer
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.controllers.OrderController
 import org.pointyware.xyz.api.controllers.RideController
-import org.pointyware.xyz.api.sessionAuthProvider
 import org.pointyware.xyz.api.dtos.UserSession
+import org.pointyware.xyz.api.oauthProvider
 
 /**
  * Routes drive endpoint requests to the appropriate controller. Drive endpoints are meant
@@ -26,7 +26,7 @@ import org.pointyware.xyz.api.dtos.UserSession
  */
 fun Routing.driver() {
     val koin = getKoin()
-    authenticate(sessionAuthProvider) {
+    authenticate(oauthProvider) {
         route("/driver") {
             val orderController = koin.get<OrderController>()
             val rideController = koin.get<RideController>()
