@@ -8,7 +8,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.expectSuccess
 import io.ktor.client.plugins.resources.post
+import io.ktor.client.request.header
 import io.ktor.client.request.setBody
+import io.ktor.util.encodeBase64
 import org.pointyware.xyz.api.dtos.Authorization
 
 /**
@@ -42,7 +44,7 @@ class KtorAuthService(
 
     override suspend fun login(email: String, password: String): Result<Authorization> = runCatching {
         val response = client.post(Auth.Login()) {
-            setBody(mapOf("email" to email, "password" to password))
+            header("Authentication", "Basic ${"$email:$password".encodeToByteArray().encodeBase64()}")
             expectSuccess = true
         }
         response.body<Authorization>()
