@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2025 Pointyware. Use of this software is governed by the GPL-3.0 license.
+ */
+
 import org.pointyware.xyz.build.ServerEnvironment
 import org.pointyware.xyz.build.release
 import org.pointyware.xyz.buildlogic.buildConfig
