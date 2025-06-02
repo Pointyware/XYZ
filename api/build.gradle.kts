@@ -44,8 +44,6 @@ kotlin {
         implementation(libs.ktor.server.sessions)
         implementation(libs.ktor.server.sse)
         implementation(libs.ktor.serialization.json)
-        implementation(libs.log4j.core)
-        implementation(libs.log4j.slf4j)
 
         implementation(libs.postgresql)
         implementation(libs.bouncyCastle)
