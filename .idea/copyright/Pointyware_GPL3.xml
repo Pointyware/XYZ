@@ -1,0 +1,6 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="Copyright (c) &amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;, &quot;&amp;#36;today.year&quot;)&amp;#36;today.year Pointyware. Use of this software is governed by the GPL-3.0 license." />
+    <option name="myName" value="Pointyware GPL3" />
+  </copyright>
+</component>

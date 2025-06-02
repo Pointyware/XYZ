@@ -1,17 +1,4 @@
-# Default ignored files
-/artifacts/
-/caches/
-/modules/
-/shelf/
-/AndroidProjectSystem.xml
-/compiler.xml
-/dbnavigator.xml
-/deploymentTargetSelector.xml
-/gradle.xml
-/kotlinc.xml
-/migrations.xml
-/misc.xml
-/modules.xml
-/runConfigurations.xml
-/vcs.xml
-/workspace.xml
+# Ignore all .idea directories and files by default
+/*
+# Selectively enable
+!/copyright/
