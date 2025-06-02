@@ -13,14 +13,14 @@ import io.ktor.server.routing.route
 import io.ktor.server.sse.sse
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.api.controllers.PaymentsController
-import org.pointyware.xyz.api.sessionAuthProvider
+import org.pointyware.xyz.api.oauthProvider
 
 /**
  * Defines Rider endpoints and routes requests to the appropriate controller.
  */
 fun Routing.rider() {
     val koin = getKoin()
-    authenticate(sessionAuthProvider) {
+    authenticate(oauthProvider) {
         route("/rider") {
             // Implemented per: https://docs.stripe.com/connect/direct-charges?platform=android#add-server-endpoint
             post("/{id}/payment-intent") {

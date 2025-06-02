@@ -16,7 +16,6 @@ import io.ktor.server.auth.OAuthServerSettings
 import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.basic
 import io.ktor.server.auth.oauth
-import io.ktor.server.auth.session
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
@@ -32,16 +31,16 @@ import org.koin.core.context.startKoin
 import org.koin.ktor.ext.getKoin
 import org.pointyware.xyz.api.controllers.AuthController
 import org.pointyware.xyz.api.di.apiModule
+import org.pointyware.xyz.api.dtos.UserSession
+import org.pointyware.xyz.api.dtos.auth.AuthorizationError
 import org.pointyware.xyz.api.routes.admin
 import org.pointyware.xyz.api.routes.auth
 import org.pointyware.xyz.api.routes.driver
 import org.pointyware.xyz.api.routes.profile
 import org.pointyware.xyz.api.routes.rider
-import org.pointyware.xyz.api.dtos.UserSession
 import kotlin.uuid.ExperimentalUuidApi
 
 const val basicAuthProvider = "basic_auth"
-const val sessionAuthProvider = "session_auth"
 const val oauthProvider = "oauth_auth"
 const val sessionAuthHeader = "X-Session-Id"
 
@@ -115,24 +114,35 @@ fun Application.commonModule() {
                 val koin = getKoin()
                 val authController = koin.get<AuthController>()
                 val authorization = authController.authenticate(credentials.name, credentials.password)
-                    .onFailure { return@validate null }
+                    .onFailure { error ->
+                        when (error) {
+                            is AuthController.InvalidCredentialsException -> {
+                                application.environment.log.error("Authentication error: ${error.message}", error)
+                                respondNullable(HttpStatusCode.Unauthorized, AuthorizationError())
+                            }
+                            else -> {
+                                respondNullable(HttpStatusCode.InternalServerError)
+                                return@validate null
+                            }
+                        }
+                        return@validate null
+                    }
                     .getOrThrow()
                 UserIdPrincipal(authorization.userId.toHexString())
             }
         }
-        session<UserSession>(sessionAuthProvider) { // requires the `Sessions` plugin to be installed
-            validate { session ->
-                val koin = getKoin()
-                val authController = koin.get<AuthController>()
-                authController.validateSession(session.sessionId)
-                    .onFailure { return@validate null }
-                UserIdPrincipal(session.sessionId)
-            }
-            challenge {
-                call.respondNullable(HttpStatusCode.Unauthorized)
-//                    call.respondRedirect("/auth/login?referrer=${call.request.uri}")
-            }
-        }
+//        session<UserSession>(sessionAuthProvider) { // requires the `Sessions` plugin to be installed
+//            validate { session ->
+//                val koin = getKoin()
+//                val authController = koin.get<AuthController>()
+//                authController.validateSession(session.sessionId)
+//                    .onFailure { return@validate null }
+//                UserIdPrincipal(session.sessionId)
+//            }
+//            challenge {
+//                call.respond(HttpStatusCode.Unauthorized, AuthorizationError())
+//            }
+//        }
         oauth(oauthProvider) {
             // provides a url that will be used to redirect the user after successful authentication
             urlProvider = { _ -> "${BuildConfig.PROTOCOL}://${BuildConfig.XYZ_HOST}/auth/callback" }

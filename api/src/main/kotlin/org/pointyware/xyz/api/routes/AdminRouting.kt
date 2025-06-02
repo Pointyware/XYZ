@@ -6,13 +6,13 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
-import org.pointyware.xyz.api.sessionAuthProvider
+import org.pointyware.xyz.api.oauthProvider
 
 /**
  * Defines admin routes for the Pointyware Social Platform API.
  */
 fun Routing.admin() {
-    authenticate(sessionAuthProvider) {
+    authenticate(oauthProvider) {
         route("/admin") {
             get {
                 // Placeholder for admin dashboard or info

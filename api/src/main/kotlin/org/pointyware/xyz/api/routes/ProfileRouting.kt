@@ -9,13 +9,13 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.put
 import io.ktor.server.routing.route
-import org.pointyware.xyz.api.sessionAuthProvider
+import org.pointyware.xyz.api.oauthProvider
 
 /**
  * Directs profile requests to the appropriate controller.
  */
 fun Routing.profile() {
-    authenticate(sessionAuthProvider) {
+    authenticate(oauthProvider) {
         route("/profile") {
             put {
                 TODO("Update profile with arguments")
