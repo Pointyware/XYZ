@@ -6,6 +6,12 @@ import org.gradle.api.Project
  *  Defines all known interpretations of server environments and offers a final disambiguation.
  *  The defined enumerations are the canonical interpretations and document the common names
  *  used for each canonical concept.
+ *
+ *  ```
+ *  ./gradlew :api:run :app-android:installDebug
+ *      -Porg.pointyware.xyz.build.server=local
+ *      -Porg.pointyware.xyz.build.client=debug
+ *  ```
  */
 enum class ServerEnvironment {
     /**
