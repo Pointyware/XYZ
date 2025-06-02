@@ -15,6 +15,10 @@ interface AuthController {
     suspend fun createSession(uuidString: String, deviceInfo: String): Result<Uuid>
     suspend fun authenticate(email: String, password: String): Result<Authorization>
     suspend fun validateSession(sessionId: String): Result<Unit>
+
+    class InvalidCredentialsException: IllegalArgumentException("Invalid credentials provided.")
+    class ExistingEmailException: IllegalArgumentException("Email already exists.")
+    class SessionNotFoundException: IllegalArgumentException("Session not found.")
 }
 
 /**
