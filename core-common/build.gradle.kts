@@ -20,18 +20,10 @@ kotlin {
     androidTarget {
 
     }
-    val framework = XCFramework()
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64(),
-    ).forEach {
-        it.binaries.framework {
-            baseName = "core_common"
-            isStatic = true
-            framework.add(this)
-        }
-    }
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     applyDefaultHierarchyTemplate()
     sourceSets {
