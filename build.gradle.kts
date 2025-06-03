@@ -37,9 +37,9 @@ tasks.dokkaHtmlMultiModule {
 
 dependencies {
     dokkaPlugin(projects.api)
-    dokkaPlugin(projects.appAndroid)
+//    dokkaPlugin(projects.appAndroid)
     dokkaPlugin(projects.appDesktop)
-    dokkaPlugin(projects.appWeb)
+//    dokkaPlugin(projects.appWeb)
     dokkaPlugin(projects.appShared)
 
     dokkaPlugin(projects.apiDtos)
