@@ -35,6 +35,6 @@ jobs:
         uses: ./.github/actions/setup-secrets
 
       - name: "Generate Documentation"
-        run: ./gradlew :dokkaGenerate
+        run: ./gradlew :dokkaHtmlMultiModule
 
 #      - run: upload documentation to GitHub pages site
