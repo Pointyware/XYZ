@@ -36,6 +36,7 @@ To get started, you'll need to first set up some credentials for the app by ensu
 ### Client and Server Layer Comparison
 The client-side applications are following typical Android MVVM and Repository patterns within a 4-layer Clean Architecture, while the server-side applications are following an Express.js-derived pattern usually considered MVC, though we attempt to remain reactive, mapping any information to a higher abstraction before passing it to a higher layer of abstraction(here lower) and mapping the results back, instead of injecting output ports that would allow the model to directly control the output.
 
+
 ```mermaid
 %%{
   init: {
@@ -43,69 +44,66 @@ The client-side applications are following typical Android MVVM and Repository p
   }
 }%%
 
-graph TB
-  subgraph Frameworks/Drivers
-    UI
-    Views
-    Cache
-    Service
-  end
-  UI ---> ViewModels
-  Views ---> ViewModels
-  Cache ---> IDataSources
-  Service ---> IDataSources
+classDiagram
 
-  subgraph Adapters
-    ViewModels
-    IDataSources
-    Repositories
-  end
-  ViewModels --> Interactors
-  Repositories --> IRepositories
-  Repositories --> IDataSources
-  
-  subgraph Application Business Logic
-    Interactors
-    IRepositories
-  end
-  Interactors --> IRepositories
-  Interactors --> Entities
-  IRepositories --> Entities
+namespace Api-Frameworks-Drivers {
 
-  subgraph Enterprise Business Logic
-    Entities
-  end
+  class ServerKt {
+    fun main(vararg args: String)
+  }
+  class Routing
+  class ConnectionPool
+  class Database
+}
+ServerKt --> Routing
+Database --> ConnectionPool
 
-  subgraph Api Frameworks/Drivers
-    main
-    ServerKt
-    Routing
-    Database
-    ConnectionPool
-  end
-  main --> ServerKt
-  ServerKt --> Routing
-  Routing --> Controllers
-  Database --> ConnectionPool
-  Database --> IDatabase
+namespace Frameworks-Drivers {
+  class UI
+  class Views
+  class Cache
+  class Service
+}
 
-  subgraph Api Adapters
-    Controllers
-  end
-  Controllers --> Services
-  Controllers --> IDatabase
-  
-  subgraph Api Application Business Logic
-    Services
-    IDatabase
-  end
-  Services --> ApiEntities
-  Services --> IDatabase
-  IDatabase --> ApiEntities
+namespace Api-Adapters {
+  class Controllers
+}
+Routing --> Controllers
 
-  subgraph Api Enterprise Business Logic
-    ApiEntities
-  end
+namespace Adapters {
+  class Repositories
+  class ViewModels
+  class IDataSources
+}
+Cache --|> IDataSources
+Service --|> IDataSources
+Repositories --> IDataSources
+UI --> ViewModels
+Views --> ViewModels
+
+namespace Api-Application-Business-Logic {
+  class Services
+  class IDatabase
+}
+Database --|> IDatabase
+Services --> IDatabase
+Controllers --> Services
+
+namespace Application-Business-Logic {
+  class Interactors
+  class IRepositories
+}
+Repositories --|> IRepositories
+Interactors --> IRepositories
+ViewModels --> Interactors
+ViewModels --> IRepositories
+
+namespace Enterprise-Business-Logic {
+  class Entities
+}
+Interactors --> Entities
+IRepositories --> Entities
+Services --> Entities
 
 ```
 
