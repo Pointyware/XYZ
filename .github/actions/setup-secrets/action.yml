@@ -1,5 +1,5 @@
-name: ""
-description: ""
+name: "Setup Project Secrets"
+description: "Creates required secrets files for production deployment."
 inputs:
   stripe-secrets:
     description: "Stripe secrets"
