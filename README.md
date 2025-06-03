@@ -120,8 +120,12 @@ graph TB
 
 graph LR
 
-  classDef program fill:#f9f,stroke:#333,stroke-width:4px;
   classDef default,library fill:#fff,stroke:#333,stroke-width:4px;
+  classDef program fill:#9f9,stroke:#333,stroke-width:4px;
+  classDef testModule fill:#f99,stroke:#333,stroke-width:4px;
+  
+  :api-client-tests:::testModule --> :api
+  :api-client-tests --> :app-android
 
   subgraph Programs
     :api:::program
@@ -129,7 +133,7 @@ graph LR
     :app-desktop:::program
     :app-ios:::program
   end
-  :api --> :core-data-dtos
+  :api --> :api-dtos
   :app-android --> :app-shared
   :app-desktop --> :app-shared
 
@@ -158,13 +162,24 @@ graph LR
   
   :feature-login --> :feature-drive
   :feature-login --> :feature-ride
+
+  subgraph server
+    :api-dtos
+  end
   
+  subgraph client
+    :client-data --> :core-entities
+
+    :client-data --> :client-common
+    :client-data --> :client-local
+    :client-data --> :client-remote
+  end
+
   subgraph core
     :core-all --> :core-common
     :core-all --> :core-entities
     :core-all --> :core-interactors
     :core-all --> :core-data
-    :core-all --> :core-data-dtos
     :core-all --> :core-remote
     :core-all --> :core-local
     :core-all --> :core-view-models
@@ -175,7 +190,6 @@ graph LR
     :core-ui --> :core-common
     
     :core-data --> :core-common
-    :core-data --> :core-data-dtos
     :core-data --> :core-entities
     :core-data --> :core-local
     :core-data --> :core-remote
@@ -193,6 +207,7 @@ graph LR
     
     :core-remote --> :core-common
     :core-remote --> :core-entities
+    :core-remote --> :api-dtos
     
     :core-ui --> :core-common
     :core-ui --> :core-entities
