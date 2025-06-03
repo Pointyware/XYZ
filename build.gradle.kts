@@ -35,6 +35,31 @@ tasks.dokkaHtmlMultiModule {
     moduleName.set("XYZ")
 }
 
+dependencies {
+    dokkaPlugin(projects.api)
+    dokkaPlugin(projects.appAndroid)
+    dokkaPlugin(projects.appDesktop)
+    dokkaPlugin(projects.appWeb)
+    dokkaPlugin(projects.appShared)
+
+    dokkaPlugin(projects.apiDtos)
+
+    dokkaPlugin(projects.featureRide)
+    dokkaPlugin(projects.featureDrive)
+    dokkaPlugin(projects.featureLogin)
+    dokkaPlugin(projects.featureManage)
+
+    dokkaPlugin(projects.coreCommon)
+    dokkaPlugin(projects.coreEntities)
+    dokkaPlugin(projects.coreData)
+    dokkaPlugin(projects.coreLocal)
+    dokkaPlugin(projects.coreRemote)
+    dokkaPlugin(projects.coreInteractors)
+    dokkaPlugin(projects.coreViewModels)
+    dokkaPlugin(projects.coreNavigation)
+    dokkaPlugin(projects.coreUi)
+}
+
 subprojects {
     apply(plugin = "org.jetbrains.dokka")
 
