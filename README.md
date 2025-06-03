@@ -153,68 +153,62 @@ graph LR
     :feature-login
   end
 
-  :feature-drive --> :core-all
-  :feature-ride --> :core-all
-  :feature-manage --> :core-all
-  :feature-login --> :core-all
+  :feature-drive --> :client-all
+  :feature-ride --> :client-all
+  :feature-manage --> :client-all
+  :feature-login --> :client-all
   
   :feature-manage --> :feature-drive
   
   :feature-login --> :feature-drive
   :feature-login --> :feature-ride
 
+  subgraph shared
+    :shared-entities
+  end
+
   subgraph server
     :api-dtos
   end
   
   subgraph client
-    :client-data --> :core-entities
+    :client-all --> :shared-entities
+    :client-all --> :client-common
+    :client-all --> :client-interactors
+    :client-all --> :client-data
+    :client-all --> :client-remote
+    :client-all --> :client-local
+    :client-all --> :client-view-models
+    :client-all --> :client-ui
+    :client-all --> :client-navigation
 
+    :client-data --> :shared-entities
     :client-data --> :client-common
     :client-data --> :client-local
     :client-data --> :client-remote
-  end
 
-  subgraph core
-    :core-all --> :core-common
-    :core-all --> :core-entities
-    :core-all --> :core-interactors
-    :core-all --> :core-data
-    :core-all --> :core-remote
-    :core-all --> :core-local
-    :core-all --> :core-view-models
-    :core-all --> :core-ui
-    :core-all --> :core-navigation
+    :client-ui --> :shared-entities
+    :client-ui --> :client-common
     
-    :core-ui --> :core-entities
-    :core-ui --> :core-common
+    :client-interactors --> :client-common
+    :client-interactors --> :client-data
     
-    :core-data --> :core-common
-    :core-data --> :core-entities
-    :core-data --> :core-local
-    :core-data --> :core-remote
+    :client-local --> :client-common
+    :client-local --> :shared-entities
     
-    :core-entities --> :core-common
+    :client-navigation --> :client-common
+    :client-navigation --> :shared-entities
     
-    :core-interactors --> :core-common
-    :core-interactors --> :core-data
+    :client-remote --> :client-common
+    :client-remote --> :shared-entities
+    :client-remote --> :api-dtos
     
-    :core-local --> :core-common
-    :core-local --> :core-entities
+    :client-ui --> :client-common
+    :client-ui --> :shared-entities
+    :client-ui --> :client-view-models
     
-    :core-navigation --> :core-common
-    :core-navigation --> :core-entities
-    
-    :core-remote --> :core-common
-    :core-remote --> :core-entities
-    :core-remote --> :api-dtos
-    
-    :core-ui --> :core-common
-    :core-ui --> :core-entities
-    :core-ui --> :core-view-models
-    
-    :core-view-models --> :core-common
-    :core-view-models --> :core-entities
-    :core-view-models --> :core-interactors
+    :client-view-models --> :client-common
+    :client-view-models --> :shared-entities
+    :client-view-models --> :client-interactors
   end
 ```
