@@ -12,7 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import org.pointyware.xyz.core.ui.LoadingResultView
+import org.pointyware.xyz.ui.LoadingResultView
 import org.pointyware.xyz.feature.login.ride.ui.RiderProfileCreationView
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationViewModel
 

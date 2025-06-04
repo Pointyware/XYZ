@@ -14,7 +14,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import org.pointyware.xyz.core.entities.profile.Role
-import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import kotlin.test.BeforeTest
 import kotlin.test.Test

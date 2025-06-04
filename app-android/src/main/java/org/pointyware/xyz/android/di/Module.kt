@@ -9,8 +9,6 @@ import org.pointyware.xyz.android.ads.AdMobController
 import org.pointyware.xyz.android.local.AndroidLocationService
 import org.pointyware.xyz.core.local.org.pointyware.xyz.core.local.LocationService
 import org.pointyware.xyz.ui.ads.AdsController
-import org.pointyware.xyz.core.ui.components.LoadingViewResources
-import org.pointyware.xyz.core.ui.design.Resources
 
 /**
  *

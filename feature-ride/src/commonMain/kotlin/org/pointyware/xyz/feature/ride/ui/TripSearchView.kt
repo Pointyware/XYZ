@@ -29,7 +29,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.pointyware.xyz.core.entities.geo.Location
-import org.pointyware.xyz.core.ui.MessageInput
+import org.pointyware.xyz.ui.MessageInput
 import org.pointyware.xyz.feature.ride.entities.PaymentMethod
 import org.pointyware.xyz.feature.ride.viewmodels.PassengerDashboardUiState
 

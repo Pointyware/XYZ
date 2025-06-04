@@ -22,7 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import org.pointyware.xyz.core.entities.profile.Role
-import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.ui.design.XyzTheme
 
 /**
  * Determines if the user intends to use the app as a rider or driver,

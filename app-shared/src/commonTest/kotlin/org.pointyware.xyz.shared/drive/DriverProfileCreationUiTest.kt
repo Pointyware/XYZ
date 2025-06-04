@@ -12,15 +12,13 @@ import androidx.compose.ui.test.onSibling
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
-import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.xyz.core.navigation.StackNavigationController
-import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.feature.login.DriverProfileCreationScreen
 import org.pointyware.xyz.feature.login.viewmodels.DriverProfileCreationViewModel
-import org.pointyware.xyz.shared.org.pointyware.xyz.ui.di.appModule
 import org.pointyware.xyz.shared.org.pointyware.xyz.ui.di.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest

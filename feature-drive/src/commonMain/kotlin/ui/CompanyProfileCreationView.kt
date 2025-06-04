@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.pointyware.xyz.core.entities.data.Uri
 import kotlin.uuid.Uuid
-import org.pointyware.xyz.core.ui.BriefProfileCollectionItem
+import org.pointyware.xyz.ui.BriefProfileCollectionItem
 import org.pointyware.xyz.core.viewmodels.drive.CompanyProfileUiState
 import kotlin.uuid.ExperimentalUuidApi
 

@@ -22,8 +22,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.navigation.NavHostController
 import kotlin.uuid.Uuid
 import org.pointyware.xyz.core.entities.ride.Ride
-import org.pointyware.xyz.core.ui.MapView
-import org.pointyware.xyz.core.ui.MessageInput
+import org.pointyware.xyz.ui.MapView
+import org.pointyware.xyz.ui.MessageInput
 import org.pointyware.xyz.core.viewmodels.MapUiState
 import org.pointyware.xyz.drive.viewmodels.ProviderDashboardViewModel
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiState

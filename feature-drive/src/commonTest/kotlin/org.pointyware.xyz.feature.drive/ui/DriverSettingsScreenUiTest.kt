@@ -20,7 +20,7 @@ import org.pointyware.xyz.core.entities.business.Rate.Companion.div
 import org.pointyware.xyz.core.entities.business.dollarCents
 import org.pointyware.xyz.core.entities.geo.LengthUnit
 import org.pointyware.xyz.core.navigation.di.homeQualifier
-import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.ui.design.XyzTheme
 import org.pointyware.xyz.core.ui.di.EmptyTestUiDependencies
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
 import org.pointyware.xyz.drive.di.featureDriveDataTestModule

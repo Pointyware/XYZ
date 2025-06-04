@@ -10,7 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.pointyware.xyz.core.ui.ProfileView
+import org.pointyware.xyz.ui.ProfileView
 import org.pointyware.xyz.core.viewmodels.drive.DriverProfileUiState
 
 /**

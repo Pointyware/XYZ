@@ -18,7 +18,7 @@ import org.pointyware.xyz.core.entities.di.coreEntitiesModule
 import org.pointyware.xyz.core.interactors.di.coreInteractorsModule
 import org.pointyware.xyz.core.local.di.coreLocalModule
 import org.pointyware.xyz.core.navigation.di.coreNavigationModule
-import org.pointyware.xyz.core.ui.di.coreUiModule
+import org.pointyware.xyz.ui.di.coreUiModule
 import org.pointyware.xyz.core.viewmodels.di.coreViewModelsModule
 import org.pointyware.xyz.drive.di.featureDriveModule
 import org.pointyware.xyz.feature.login.di.featureLoginModule

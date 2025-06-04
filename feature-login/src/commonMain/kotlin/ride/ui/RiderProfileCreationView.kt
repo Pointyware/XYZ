@@ -15,8 +15,8 @@ import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.Disability
 import org.pointyware.xyz.core.entities.profile.Gender
-import org.pointyware.xyz.core.ui.DisabilityPicker
-import org.pointyware.xyz.core.ui.DisabilityPickerState
+import org.pointyware.xyz.ui.DisabilityPicker
+import org.pointyware.xyz.ui.DisabilityPickerState
 import org.pointyware.xyz.feature.login.ProfileCreationView
 import org.pointyware.xyz.feature.login.viewmodels.RiderProfileCreationUiState
 

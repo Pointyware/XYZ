@@ -33,7 +33,7 @@ import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.core.entities.ride.Accommodation
 import org.pointyware.xyz.core.navigation.di.homeQualifier
-import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.ui.design.XyzTheme
 import org.pointyware.xyz.feature.ride.data.TestTripRepository
 import org.pointyware.xyz.feature.ride.di.featureRideDataTestModule
 import org.pointyware.xyz.feature.ride.entities.ExpirationDate
