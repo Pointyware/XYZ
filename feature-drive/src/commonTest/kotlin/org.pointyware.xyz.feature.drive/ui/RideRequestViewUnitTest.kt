@@ -15,7 +15,7 @@ import org.pointyware.xyz.core.entities.geo.LengthUnit
 import org.pointyware.xyz.core.entities.geo.Location
 import org.pointyware.xyz.core.entities.geo.Route
 import org.pointyware.xyz.core.entities.geo.miles
-import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.ui.design.XyzTheme
 import org.pointyware.xyz.drive.entities.DriverRates
 import org.pointyware.xyz.drive.ui.RideRequestView
 import org.pointyware.xyz.drive.viewmodels.RideRequestUiStateImpl

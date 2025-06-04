@@ -15,8 +15,8 @@ import kotlinx.datetime.Instant
 import org.pointyware.xyz.core.entities.data.Uri
 import org.pointyware.xyz.core.entities.profile.Gender
 import org.pointyware.xyz.core.entities.ride.Accommodation
-import org.pointyware.xyz.core.ui.AccommodationPicker
-import org.pointyware.xyz.core.ui.CompanyPicker
+import org.pointyware.xyz.ui.AccommodationPicker
+import org.pointyware.xyz.ui.CompanyPicker
 import org.pointyware.xyz.feature.login.ProfileCreationView
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid

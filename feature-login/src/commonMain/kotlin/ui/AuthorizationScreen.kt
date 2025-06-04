@@ -11,9 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
-import org.pointyware.xyz.core.ui.LoadingResultView
+import org.pointyware.xyz.ui.LoadingResultView
 import org.pointyware.xyz.drive.navigation.driverHomeRoute
 import org.pointyware.xyz.feature.login.navigation.roleSelectionRoute
 import org.pointyware.xyz.feature.login.viewmodels.AuthorizationEvent

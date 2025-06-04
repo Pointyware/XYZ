@@ -21,7 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import navigation.loginRoute
 import navigation.loginRouting
-import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.ui.design.XyzTheme
 import org.pointyware.xyz.drive.navigation.driveRouting
 import org.pointyware.xyz.feature.login.navigation.profileRouting
 import org.pointyware.xyz.feature.ride.navigation.rideRouting

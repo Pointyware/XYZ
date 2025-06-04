@@ -34,7 +34,7 @@ import org.pointyware.xyz.core.entities.profile.RiderProfile
 import org.pointyware.xyz.core.local.di.coreLocalTestModule
 import org.pointyware.xyz.core.local.org.pointyware.xyz.core.local.TestLocationService
 import org.pointyware.xyz.core.navigation.di.homeQualifier
-import org.pointyware.xyz.core.ui.design.XyzTheme
+import org.pointyware.xyz.ui.design.XyzTheme
 import org.pointyware.xyz.drive.data.ProviderTripRepository
 import org.pointyware.xyz.drive.data.TestDriverSettingsRepository
 import org.pointyware.xyz.drive.data.TestProviderTripRepository
